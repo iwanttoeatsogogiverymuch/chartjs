@@ -66,8 +66,10 @@ window.addEventListener('load', function() {
   //     });
 
   //grouped bar chart
+  var width = 300;
+  var height = 300;
 
-  var svg2 = d3.select("#groupedbar").append("svg").attr("width",700).attr("height",500);
+  var svg2 = d3.select("#groupedbar").append("svg").attr("width",width).attr("height",height);
   var  margin2 = { top: 20, right: 20, bottom: 30, left: 40 };
   var  width2 = +svg2.attr("width") - margin2.left - margin2.right;
   var  height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
@@ -98,8 +100,6 @@ window.addEventListener('load', function() {
     "#b2c5ff",
   ];
 
-  var wooriColorTheme = ["#03045E", "#00B4D8", "#90E0EF", "#CAF0F8"];
-  var wooriColorThemeSecondary = ["#b2ebf2", "#e5ffff", "#edffff"];
 
   var z2 = d3
     .scaleOrdinal()
