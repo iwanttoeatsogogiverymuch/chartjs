@@ -1,0 +1,116 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 960px;
+    height: 500px;
+    position: relative;
+    padding:0;
+    margin:0;
+
+  }
+  path.slice{
+      stroke-width:2px;
+  }
+  polyline{
+      opacity: .3;
+      stroke: black;
+      stroke-width: 2px;
+      fill: none;
+  } 
+  svg text.percent{
+      fill:white;
+      text-anchor:middle;
+      font-size:12px;
+  }
+
+  .groupedbar {
+
+    float: right;
+
+  }
+
+  
+.tab-container {
+ 
+    grid-column: 1 / 4;
+    grid-row: 1 / 2;
+    font-size: 0px;
+  
+    z-index: 99999999;
+  }
+  .tab-container input[type="radio"] {
+    display: none;
+    z-index: 99999999;
+  }
+  .tab-container label {
+    display: inline-block;
+    padding-left: 2em;
+    padding-right: 2em;
+    height: 40px;
+    line-height: 40px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid #eee;
+    font-weight: 700;
+  
+    
+  }
+  .tab-container label + input {
+    border-left: none;
+  
+  }
+  .tab-container input:checked + label {
+    color: #fff;
+    background: #0067ac;
+    font-weight: 700;
+  }
+  .tab-container input:checked + label:first-child {
+    border-left: 1px solid #eee;
+  }
+  .tab-container .tab-content {
+    display: none;
+    width: 100%;
+    height: 200px;
+    font-size: 15px;
+    margin-top: 15px;
+  }
+  #tab1:checked ~ #tab-content1 {
+    display: block;
+    background-color: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  #tab2:checked ~ #tab-content2 {
+    display: block;
+    background-color: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  #tab3:checked ~ #tab-content3 {
+    display: block;
+    background-color: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  #tab4:checked ~ #tab-content4 {
+    display: block;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  #tab5:checked ~ #tab-content5 {
+    display: block;
+    background-color: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  .axis .domain {
+    display: none;
+  }
+  
+  

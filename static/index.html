@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>charttest</title>
+
+    <script src="/static/js/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link rel="stylesheet" href="/static/css/common.css" />
+    <link
+      href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
+      rel="stylesheet"
+    />
+  </head>
+
+
+
+  <body>
+
+
+
+
+
+
+    <div class="grid-container">
+      <div class="tab-container">
+        <input id="tab1" name="tab-menu" type="radio"  > 
+        <label for="tab1">여신현황</label> 
+        <input id="tab2" name="tab-menu" type="radio"  >
+        <label for="tab2">수신현황</label>
+        <input id="tab3" name="tab-menu" type="radio" >
+        <label for="tab3">우리 WON저축은행 앱</label>
+        <input id="tab4" name="tab-menu" type="radio"  >
+        <label for="tab4">계좌개설/해지현황</label>
+        <input id="tab5" name="tab-menu" type="radio"  >
+        <label for="tab5">이체현황</label>
+        <input id="tab6" name="tab-menu" type="radio"  >
+        <label for="tab6">오픈뱅킹사용현황</label>
+        
+  </div>
+
+
+      <div class="piechart">
+        <canvas id="pieChart"></canvas>
+      </div>
+
+      <div class="piechart2">
+        <canvas id="piechart2"></canvas>
+      </div>
+
+      <div class="mychart1">
+        <canvas id="myChart"></canvas>
+      </div>
+
+      <div class="mychart2">
+        <canvas id="myChart2"></canvas>
+      </div>
+
+      <!-- <div class="mychart3">
+
+        <canvas id="stackedBar"   ></canvas>
+       </div>
+         -->
+    </div>
+
+    <script>
+      //global chartjs options to adjust all the charts below
+      //Chart.defaults.font.size = 11;
+      Chart.register(ChartDataLabels);
+
+      const width = 500;
+      const height = 500;
+
+      //font size
+      const titlefontsize = 20;
+      const legendfontsize = 24;
+      const subtitlefontsize = 18;
+
+      //font familly
+      const NanumBold = "NanumSquareExtraBold";
+      const boldfont = "";
+      const lightfont = "";
+      const mideuimfont = "";
+
+      //maincolor
+
+      const maincolor = '';
+      //change color to rgba
+       function hexToRgb(hex, alpha) {
+        hex = hex.replace("#", "");
+        var r = parseInt(
+          hex.length == 3 ? hex.slice(0, 1).repeat(2) : hex.slice(0, 2),
+          16
+        );
+        var g = parseInt(
+          hex.length == 3 ? hex.slice(1, 2).repeat(2) : hex.slice(2, 4),
+          16
+        );
+        var b = parseInt(
+          hex.length == 3 ? hex.slice(2, 3).repeat(2) : hex.slice(4, 6),
+          16
+        );
+        if (alpha) {
+          return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+        } else {
+          return "rgb(" + r + ", " + g + ", " + b + ")";
+        }
+      }
+
+      const barthick = 0.4;
+
+      //this option is true by default, by disableing this ,1:1 size matching not apply
+      const mantainAspectRatioOptions = false;
+      const responsiveOptions = true;
+
+      //legendOptions
+      const legendVisible = true;
+      const legendFontSize = 19;
+      const legendColor = "red";
+      const legendPostion = "center";
+
+      //ajax call
+      function getData() {}
+
+      function veiwmodel() {}
+
+      function chart(ctx, data, config) {
+        if (data != null && config != null) {
+          const newChart = new Chart(ctx, config);
+        } else {
+          console.log("chart data or config is empty....");
+
+          return;
+        }
+      }
+
+      //canvas
+      const ctx = document.getElementById("myChart").getContext("2d");
+      const ctx2 = document.getElementById("myChart2").getContext("2d");
+
+      // const stackedBarCtx = document
+      //   .getElementById("stackedBar")
+      //   .getContext("2d");
+
+      const pieCtx = document.getElementById("pieChart").getContext("2d");
+      const pieCtx2 = document.getElementById("piechart2").getContext("2d");
+
+      const datasets = [
+        {
+          label: "# of Votes",
+          data: [1100, 1000, 3470, 5460],
+          backgroundColor: ["rgba(255, 99, 132, 1)"],
+          barPercentage: barthick,
+        },
+        {
+          label: "another",
+          data: [7000, 8000, 3678, 896],
+          backgroundColor: ["rgba(54, 162, 235,1)"],
+
+          barPercentage: barthick,
+        },
+        {
+          label: "another2",
+          data: [7677, 8666, 3888, 5678],
+          backgroundColor: ["rgba(75, 192, 192,1)"],
+
+          barPercentage: barthick,
+        },
+        {
+          label: "another3",
+          data: [7867, 8766, 3888, 5678],
+          backgroundColor: ["rgba(75, 192, 192,1)"],
+
+          barPercentage: barthick,
+        },
+        {
+          label: "another4",
+          data: [7867, 8266, 1888, 2678],
+          backgroundColor: ["rgba(75, 192, 192,1)"],
+
+          barPercentage: barthick,
+        },
+        {
+          label: "another5",
+          data: [7867, 8666, 3888, 5678],
+          backgroundColor: ["rgba(75, 192, 192,1)"],
+
+          barPercentage: barthick,
+        },
+      ];
+
+      const config = {
+        type: "bar",
+        data: {
+          labels: ["강남금융센터", "삼성지점", "수유지점", "영업점"],
+          datasets: datasets,
+        },
+        options: {
+          maintainAspectRatio: false,
+
+          plugins: {
+            datalabels: {
+              align: "end",
+              anchor: "end",
+              color: "rgba(75, 192, 192,1)",
+              font: {
+                size: 11,
+                family: NanumBold,
+              },
+            },
+
+            title: {
+              display: true,
+              font: {
+                size: titlefontsize,
+                family: NanumBold,
+              },
+              text: "비대면실적(단위:백만원)",
+              padding: 10,
+            },
+            legend: {
+              display: true,
+              position: "bottom",
+              align: "end",
+            },
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              grid: {
+                display: false,
+              },
+            },
+          },
+        },
+      };
+
+      const config2 = {
+        type: "bar",
+        data: {
+          labels: [
+            "강남금융센터",
+            "삼성지점",
+            "수유지점",
+            "영업점",
+            "",
+            "",
+            "",
+          ],
+          datasets: datasets,
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: {
+            datalabels: {
+              align: "end",
+              anchor: "end",
+              color: "rgba(75, 192, 192,1)",
+              font: 1,
+            },
+
+            title: {
+              display: true,
+              text: "대면실적(단위:백만원)",
+              font: {
+                size: titlefontsize,
+                family: NanumBold,
+              },
+              padding: {
+                top: 10,
+                bottom: 30,
+              },
+            },
+            legend: {
+              display: true,
+              position: "bottom",
+              align: "end",
+            },
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              grid: {
+                display: false,
+              },
+            },
+          },
+        },
+      };
+
+      // const stackedBar = new Chart(stackedBarCtx, {
+      //   type: "bar",
+      //   data: {
+      //     labels: ["강남금융센터", "삼성지점", "수유지점", "영업점"],
+      //     datasets: datasets,
+      //   },
+      //   options: {
+      //     plugins: {
+      //       title: {
+      //         display: true,
+      //         text: "스택바",
+      //       },
+      //     },
+      //     scales: {
+      //       x: {
+      //         stacked: true,
+      //       },
+
+      //     },
+
+      //   },
+
+      // });
+
+      //pie charts
+      // <block:setup:1>
+      const data = {
+        labels: ["Red", "Blue", "Yellow"],
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [300, 50, 100],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+              "rgb(255, 205, 86)",
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      };
+      // </block:setup>
+
+      // <block:config:0>
+      const config4 = {
+        type: "pie",
+        data: data,
+        options: {
+          maintainAspectRatio: false,
+
+          plugins: {
+            title: {
+              display: true,
+              text: "비대면총합계",
+              align: "center",
+              font: {
+                size: titlefontsize,
+                weight: "bold",
+              },
+
+              padding: {
+                top: 50,
+                bottom: 13,
+              },
+            },
+
+            legend: {
+              position: "right",
+              align: "center",
+            },
+          },
+        },
+      };
+
+      const myChart = new Chart(ctx2, config2);
+      const myChart2 = new Chart(ctx, config);
+
+      const piechart_test = new Chart(pieCtx, config4);
+      const piechart2_test = new Chart(pieCtx2, config4);
+    </script>
+  </body>
+</html>

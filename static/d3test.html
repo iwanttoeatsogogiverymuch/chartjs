@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" src="/static/css/d3.css"/>
+
+    <title>d3</title>
+
+    <style>
+
+    </style>
+
+
+</head>
+<body>
+    
+
+
+
+
+    <div class="tab-container">
+
+        <input id="tab1" name="tab-menu" type="radio"  > 
+        <label for="tab1">여신현황</label> 
+        <input id="tab2" name="tab-menu" type="radio"  >
+        <label for="tab2">수신현황</label>
+        <input id="tab3" name="tab-menu" type="radio" >
+        <label for="tab3">우리 WON저축은행 앱</label>
+        <input id="tab4" name="tab-menu" type="radio"  >
+        <label for="tab4">계좌개설/해지현황</label>
+        <input id="tab5" name="tab-menu" type="radio"  >
+        <label for="tab5">이체현황</label>
+        <input id="tab6" name="tab-menu" type="radio"  >
+        <label for="tab6">오픈뱅킹사용현황</label>
+    </div>
+
+        <div id="stackedbar">
+
+        </div>
+        
+        <div id="groupedbar">
+            
+        </div>
+
+        <div id="pie"></div>
+
+
+    <button onClick="changeData()">Change Data</button>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <!-- <script src="/static/js/Donut3d.js"></script> -->
+    <script src="/static//js/barchart.js"></script>
+    <script src="/static/js/stackedbarchart.js"></script>
+    <script>
+
+
+
+    
+    var salesData=[
+        {label:"Basic", color:"#3366CC"},
+        {label:"Plus", color:"#DC3912"},
+        {label:"Lite", color:"#FF9900"},
+        {label:"Elite", color:"#109618"},
+        {label:"Delux", color:"#990099"}
+    ];
+
+    
+    
+
+    
+    // svg.append("g").attr("id","salesDonut");
+    // svg.append("g").attr("id","quotesDonut");
+
+
+
+    //draw 3d pie chart
+    
+    // Donut3d.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
+    // Donut3d.draw("quotesDonut", randomData(), 450, 150, 130, 100, 30, 0);
+
+
+        
+    // //transition event
+    // function changeData(){
+    //     Donut3d.transition("salesDonut", randomData(), 130, 100, 30, 0.4);
+    //     Donut3d.transition("quotesDonut", randomData(), 130, 100, 30, 0);
+    // }
+    
+    // //dummy data random genartaion
+    // function randomData(){
+    //     return salesData.map(function(d){ 
+    //         return {label:d.label, value:1000*Math.random(), color:d.color};});
+    // }
+    </script>
+
+</body>
+</html>
