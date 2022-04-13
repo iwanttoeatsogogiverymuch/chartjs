@@ -4,20 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=9">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" src="/static/css/d3.css"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/d3.css"/>
 
     <title>d3</title>
-
-    <style>
-
-    </style>
 
 
 </head>
 <body>
-    
-
-
 
 
     <div class="tab-container">
@@ -36,27 +32,46 @@
         <label for="tab6">오픈뱅킹사용현황</label>
     </div>
 
-        <div id="stackedbar">
-
-        </div>
-        
-        <div id="groupedbar">
-            
-        </div>
-
-        <div id="pie"></div>
 
 
-    <button onClick="changeData()">Change Data</button>
+
+    <div class="container jumbotron">
+         <div class="row"> 
+             <div class="col-md-3 col-sm-4">        <div id="stackedbar"></div></div> 
+             <div class="col-md-3 col-sm-4"> <div id="groupedbar"></div></div>
+              <div class="col-md-3 col-sm-4">.col-md-3 .col-sm-4</div> 
+              <div class="col-md-3 visible-md">.col-md-3 .visible-md</div>
+             </div> 
+            </div>
+
+
+
+
+    <div class="chart-container">
+        <h1>test</h1>
+
+               
+
+       
+        <div id="piechart"></div>
+      
+
+    </div>
+
+
+
+   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <!-- <script src="/static/js/Donut3d.js"></script> -->
-    <script src="/static//js/barchart.js"></script>
+    <script src="/static/js/barchart.js"></script>
     <script src="/static/js/stackedbarchart.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+  
     <script>
 
-
-
-    
+//3d pie chart test
     var salesData=[
         {label:"Basic", color:"#3366CC"},
         {label:"Plus", color:"#DC3912"},
@@ -64,22 +79,14 @@
         {label:"Elite", color:"#109618"},
         {label:"Delux", color:"#990099"}
     ];
-
-    
-    
-
     
     // svg.append("g").attr("id","salesDonut");
     // svg.append("g").attr("id","quotesDonut");
-
-
 
     //draw 3d pie chart
     
     // Donut3d.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
     // Donut3d.draw("quotesDonut", randomData(), 450, 150, 130, 100, 30, 0);
-
-
         
     // //transition event
     // function changeData(){
@@ -92,6 +99,8 @@
     //     return salesData.map(function(d){ 
     //         return {label:d.label, value:1000*Math.random(), color:d.color};});
     // }
+
+
     </script>
 
 </body>

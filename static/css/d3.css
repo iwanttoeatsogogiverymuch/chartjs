@@ -1,11 +1,5 @@
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    width: 960px;
-    height: 500px;
-    position: relative;
-    padding:0;
-    margin:0;
-
+    font-family: 'Noto Sans KR', sans-serif;
   }
   path.slice{
       stroke-width:2px;
@@ -22,19 +16,33 @@ body {
       font-size:12px;
   }
 
-  .groupedbar {
+  svg{
 
-    float: right;
-
+    width: 100%;
+    height: 100%;
+  }
+  div#stackedbar{
+    display:inline-block;
+    margin-left: 100px;
+    width: 50%;
+    height: 50%;
   }
 
   
+
+
+  div#groupedbar{
+    display:inline-block;
+    margin-left: 100px;
+    width: 50%;
+    height: 50%;
+  }
+
+  
+
 .tab-container {
  
-    grid-column: 1 / 4;
-    grid-row: 1 / 2;
-    font-size: 0px;
-  
+    font-size: 0px; 
     z-index: 99999999;
   }
   .tab-container input[type="radio"] {
@@ -110,7 +118,7 @@ body {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   }
   .axis .domain {
-    display: none;
+    display:block;
   }
   
   

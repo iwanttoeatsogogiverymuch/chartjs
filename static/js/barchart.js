@@ -67,10 +67,20 @@ window.addEventListener('load', function() {
 
   //grouped bar chart
 
-  var svg2 = d3.select("#groupedbar").append("svg").attr("width",700).attr("height",500);
+  
+// using svg and g and path ,make the chart size and margin padding
+// this is the last modification 
+
+  var svg2 = d3.select("#groupedbar").append("svg").attr("width",400).attr("height",400).attr("viewBox", "0 0 400 400");
+
   var  margin2 = { top: 20, right: 20, bottom: 30, left: 40 };
+
   var  width2 = +svg2.attr("width") - margin2.left - margin2.right;
   var  height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
+
+
+
+//positioning the svg g
   var  g2 = svg2
       .append("g")
       .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
@@ -98,8 +108,6 @@ window.addEventListener('load', function() {
     "#b2c5ff",
   ];
 
-  var wooriColorTheme = ["#03045E", "#00B4D8", "#90E0EF", "#CAF0F8"];
-  var wooriColorThemeSecondary = ["#b2ebf2", "#e5ffff", "#edffff"];
 
   var z2 = d3
     .scaleOrdinal()
@@ -123,6 +131,7 @@ window.addEventListener('load', function() {
         })
       );
       x1.domain(keys).rangeRound([0, x0.bandwidth()]);
+
       y.domain([
         0,
         d3.max(data, function (d) {
@@ -171,7 +180,7 @@ window.addEventListener('load', function() {
         .attr("class", "axis")
         .call(d3.axisLeft(y).ticks(null, "s"))
         .append("text")
-        .attr("x", 2)
+        .attr("x", width2 / 2)
         .attr("y", y(y.ticks().pop()) + 0.5)
         .attr("dy", "0.32em")
         .attr("fill", "#000")
@@ -179,34 +188,34 @@ window.addEventListener('load', function() {
         .attr("text-anchor", "start")
         .text("Population");
 
-      var legend2 = g2
-        .append("g")
-        .attr("font-family", "sans-serif")
-        .attr("font-size", 10)
-        .attr("text-anchor", "end")
-        .selectAll("g")
-        .data(keys.slice().reverse())
-        .enter()
-        .append("g")
-        .attr("transform", function (d, i) {
-          return "translate(0," + i * 20 + ")";
-        });
+      // var legend2 = g2
+      //   .append("g")
+      //   .attr("font-family", "sans-serif")
+      //   .attr("font-size", 10)
+      //   .attr("text-anchor", "end")
+      //   .selectAll("g")
+      //   .data(keys.slice().reverse())
+      //   .enter()
+      //   .append("g")
+      //   .attr("transform", function (d, i) {
+      //     return "translate(0," + i * 20 + ")";
+      //   });
 
-      legend2
-        .append("rect")
-        .attr("x", width2 - 19)
-        .attr("width", 19)
-        .attr("height", 19)
-        .attr("fill", z2);
+      // legend2
+      //   .append("rect")
+      //   .attr("x", width2 - 19)
+      //   .attr("width", 19)
+      //   .attr("height", 19)
+      //   .attr("fill", z2);
 
-      legend2
-        .append("text")
-        .attr("x", width2 - 24)
-        .attr("y", 9.5)
-        .attr("dy", "0.32em")
-        .text(function (d) {
-          return d;
-        });
+      // legend2
+      //   .append("text")
+      //   .attr("x", width2 - 24)
+      //   .attr("y", 9.5)
+      //   .attr("dy", "0.32em")
+      //   .text(function (d) {
+      //     return d;
+      //   });
     }
   );
 });
