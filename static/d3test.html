@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=9">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
@@ -41,7 +41,7 @@
 
              <div class="row "id="topchartContainor"> 
                 <div class="card" >
-                   <div class="bg-gray col-md-12 col-sm-12 col-lg-4" style="height: 400px;" >
+                   <div class="col-md-12 col-sm-12 col-lg-4" style="height: 400px;" >
                     <div id="donutpie"></div>
                    </div> 
                    <div class="col-md-2 col-sm-2 col-lg-1" style="height: 400px;">
@@ -118,11 +118,11 @@ window.addEventListener('load', function() {
 
 
     var salesData=[
-	{label:"Basic", color:"#3366CC"},
-	{label:"Plus", color:"#DC3912"},
-	{label:"Lite", color:"#FF9900"},
-	{label:"Elite", color:"#109618"},
-	{label:"Delux", color:"#990099"}
+	{label:"Basic", color:"#edf2fd"},
+	{label:"Plus", color:"#d1dffb"},
+	{label:"Lite", color:"#5d8df0"},
+	{label:"Elite", color:"#b2caf9"},
+	{label:"Delux", color:"#3767e8"}
 ];
 
 var svgr = d3.select("#donutpie").append("svg").attr("width","300").attr("height","300").attr("viewBox","0 0 300 300").attr("preserveAspectRatio","none");
