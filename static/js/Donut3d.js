@@ -1,5 +1,6 @@
 !function(){
-	var Donut3d={};
+	
+	var Donut3D={};
 	
 	function pieTop(d, rx, ry, ir ){
 		if(d.endAngle - d.startAngle == 0 ) return "M 0 0";
@@ -47,7 +48,7 @@
 				Math.round(1000*(d.endAngle-d.startAngle)/(Math.PI*2))/10+'%' : '');
 	}	
 	
-	Donut3d.transition = function(id, data, rx, ry, h, ir){
+	Donut3D.transition = function(id, data, rx, ry, h, ir){
 		function arcTweenInner(a) {
 		  var i = d3.interpolate(this._current, a);
 		  this._current = i(0);
@@ -74,7 +75,7 @@
 		  return function(t) { return 0.6*rx*Math.sin(0.5*(i(t).startAngle+i(t).endAngle));  };
 		}
 		
-		var _data = d3.layout.pie().sort(null).value(function(d) {return d.value;})(data);
+		var _data = d3.pie().sort(null).value(function(d) {return d.value;})(data);
 		
 		d3.select("#"+id).selectAll(".innerSlice").data(_data)
 			.transition().duration(750).attrTween("d", arcTweenInner); 
@@ -89,16 +90,16 @@
 			.attrTween("x",textTweenX).attrTween("y",textTweenY).text(getPercent); 	
 	}
 	
-	Donut3d.draw=function(id, data, x /*center x*/, y/*center y*/, 
+	Donut3D.draw=function(id, data, x /*center x*/, y/*center y*/, 
 			rx/*radius x*/, ry/*radius y*/, h/*height*/, ir/*inner radius*/){
 	
-		var _data = d3.layout.pie().sort(null).value(function(d) {return d.value;})(data);
+		var _data = d3.pie().sort(null).value(function(d) {return d.value;})(data);
 		
 		var slices = d3.select("#"+id).append("g").attr("transform", "translate(" + x + "," + y + ")")
 			.attr("class", "slices");
 			
 		slices.selectAll(".innerSlice").data(_data).enter().append("path").attr("class", "innerSlice")
-			.style("fill", function(d) { return d3.hsl(d.data.color).darker(0.7); })
+			.style("fill", "#3366CC")
 			.attr("d",function(d){ return pieInner(d, rx+0.5,ry+0.5, h, ir);})
 			.each(function(d){this._current=d;});
 		
@@ -109,7 +110,7 @@
 			.each(function(d){this._current=d;});
 		
 		slices.selectAll(".outerSlice").data(_data).enter().append("path").attr("class", "outerSlice")
-			.style("fill", function(d) { return d3.hsl(d.data.color).darker(0.7); })
+		    .style("fill", "#3366CC")
 			.attr("d",function(d){ return pieOuter(d, rx-.5,ry-.5, h);})
 			.each(function(d){this._current=d;});
 
@@ -119,5 +120,5 @@
 			.text(getPercent).each(function(d){this._current=d;});				
 	}
 	
-	this.Donut3d = Donut3d;
+	this.Donut3D = Donut3D;
 }();
