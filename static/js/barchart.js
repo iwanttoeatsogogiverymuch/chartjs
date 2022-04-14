@@ -69,9 +69,9 @@ window.addEventListener('load', function() {
 
   
 // using svg and g and path ,make the chart size and margin padding
-// this is the last modification 
+// parent div and bootstrap div width and height will be applied prior to this size.
 
-  var svg2 = d3.select("#groupedbar").append("svg").attr("width",400).attr("height",400).attr("viewBox", "0 0 400 400");
+  var svg2 = d3.select("#groupedbar").append("svg").attr("width",700).attr("height",700).attr("viewBox", "0 0 700 700").attr("preserveAspectRatio","none");
 
   var  margin2 = { top: 20, right: 20, bottom: 30, left: 40 };
 

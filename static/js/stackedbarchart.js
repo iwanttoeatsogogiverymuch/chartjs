@@ -21,7 +21,8 @@ window.onload = function () {
     .append("svg")
     .attr("width", "400")
     .attr("height", "400")
-    .attr("viewBox", "0 0 400 400");
+    .attr("viewBox", "0 0 400 400")
+    .attr("preserveAspectRatio","none");
 
 
 
