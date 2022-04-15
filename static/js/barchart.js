@@ -184,9 +184,11 @@ window.addEventListener('load', function() {
         .attr("y", y(y.ticks().pop()) + 0.5)
         .attr("dy", "0.32em")
         .attr("fill", "#000")
-        .attr("font-weight", "bold")
-        .attr("text-anchor", "start")
-        .text("Population");
+        .attr("font-weight", "Regular")
+        .attr("font-family", "Noto Sans KR")
+        .attr("font-size", "40px")
+        .attr("text-anchor", "middle")
+        .text("비대면 실적");
 
       // var legend2 = g2
       //   .append("g")
