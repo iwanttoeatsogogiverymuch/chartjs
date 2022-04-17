@@ -11,5 +11,8 @@
   "devDependencies": {
     "chart.js": "^3.7.1",
     "express": "^4.17.3"
+  },
+  "dependencies": {
+    "bower": "^1.8.14"
   }
 }

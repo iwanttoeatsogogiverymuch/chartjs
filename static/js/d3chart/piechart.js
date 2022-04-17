@@ -5,6 +5,7 @@ window.addEventListener('load', function() {
 
     var pieg = piesvg.pie().value(function(d){
 
+
         return d.percent;
     });
 

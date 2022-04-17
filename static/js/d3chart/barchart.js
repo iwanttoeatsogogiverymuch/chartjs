@@ -114,7 +114,7 @@ window.addEventListener('load', function() {
     .range(mcgpalette0);
 
   d3.csv(
-    "data.csv",
+    "/resource/data.csv",
     function (d, i, columns) {
       for (var i = 1, n = columns.length; i < n; ++i)
         d[columns[i]] = +d[columns[i]];
@@ -187,8 +187,7 @@ window.addEventListener('load', function() {
         .attr("font-weight", "Regular")
         .attr("font-family", "Noto Sans KR")
         .attr("font-size", "40px")
-        .attr("text-anchor", "middle")
-        .text("비대면 실적");
+        .attr("text-anchor", "middle");
 
       // var legend2 = g2
       //   .append("g")

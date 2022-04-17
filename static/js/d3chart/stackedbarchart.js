@@ -63,7 +63,7 @@ window.onload = function () {
 
   //read data from csv file,then get the data and index -> callback
   d3.csv(
-    "data.csv",
+    "/resource/data.csv",
     function (d, i, columns) {
       for (i = 1, t = 0; i < columns.length; ++i)
         t += d[columns[i]] = +d[columns[i]];
@@ -107,11 +107,11 @@ window.onload = function () {
         })
         .enter()
         .append("rect")
-        .transition()
-        .duration(700)
         .attr("x", function (d) {
           return x(d.data.State);
         })
+        .transition()
+        .duration(700)
         .attr("y", function (d) {
           return y(d[1]);
         })
@@ -124,7 +124,7 @@ window.onload = function () {
       g.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x).tickFormat(''));
 
       g.append("g")
         .attr("class", "axis")
@@ -139,7 +139,7 @@ window.onload = function () {
         .text("Population");
 
         var test = 3
-        console.log("`${test}`");
+        // console.log("`${test}`");
 
       // var legend = g
       //   .append("g")

@@ -1,10 +1,10 @@
 body {
 
     font-family: 'Noto Sans KR', sans-serif;
-    background: #f5f8ff;
+    background: #c2d4ff;
     width: 100%;
     height: 100%;
-    padding: 40px 30px 25px 30px;
+    padding: 0px 30px 25px 30px;
 
   }
   path.slice{
@@ -32,6 +32,7 @@ body {
  
     font-size: 0px; 
     z-index: 99999999;
+    
   }
   .tab-container input[type="radio"] {
 
@@ -51,17 +52,19 @@ body {
     text-align: center;
     border: 1px solid #eee;
     font-weight: 700;
+    background:white;
   
     
   }
   .tab-container label + input {
     border-left: none;
+    background:white;
   
   }
   .tab-container input:checked + label {
 
     color: #fff;
-    background: #0067ac;
+    background: #5b8fff;
     font-weight: 700;
 
   }
@@ -147,20 +150,20 @@ body {
   #groupedbar{
 
     width: 100%;
-    height: 100%;
-    margin-bottom: 20px;
+    height: 80%;
+    align :bottom;
 
   }
   #stackedbar{
 
     width: 100%;
-    height: 100%;
+    height: 80%;
 
   }
   #donutpie{
-
-    width: 300px;
-    height: 300px;
+    
+    width: 90%;
+    height: 90%;
 
   }
 
@@ -193,3 +196,7 @@ body {
     border-radius: 8px;
   }
 
+[class*="col-"] {
+    background-clip: padding-box;
+    border: 10px solid transparent;
+}
