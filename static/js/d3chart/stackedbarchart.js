@@ -110,6 +110,7 @@ window.onload = function () {
         .attr("x", function (d) {
           return x(d.data.State);
         })
+        .attr("y",y(0))
         .transition()
         .duration(700)
         .attr("y", function (d) {

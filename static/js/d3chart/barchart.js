@@ -71,7 +71,7 @@ window.addEventListener('load', function() {
 // using svg and g and path ,make the chart size and margin padding
 // parent div and bootstrap div width and height will be applied prior to this size.
 
-  var svg2 = d3.select("#groupedbar").append("svg").attr("width",700).attr("height",700).attr("viewBox", "0 0 700 700").attr("preserveAspectRatio","none");
+  var svg2 = d3.select("#groupedbar").append("svg").attr("width",400).attr("height",400).attr("viewBox", "0 0 400 400").attr("preserveAspectRatio","none");
 
   var  margin2 = { top: 20, right: 20, bottom: 30, left: 40 };
 
@@ -160,12 +160,16 @@ window.addEventListener('load', function() {
         .attr("x", function (d) {
           return x1(d.key);
         })
+        .attr("width", x1.bandwidth())
+        
+        .attr("y", y(0))
+        .transition().duration(500)
+        .attr("height", function (d) {
+          return  height2 - y(d.value);
+        })
+        
         .attr("y", function (d) {
           return y(d.value);
-        })
-        .attr("width", x1.bandwidth())
-        .attr("height", function (d) {
-          return height2 - y(d.value);
         })
         .attr("fill", function (d) {
           return z2(d.key);
