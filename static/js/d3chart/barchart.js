@@ -107,6 +107,18 @@ window.addEventListener('load', function() {
     "#cbd8ff",
     "#b2c5ff",
   ];
+var easing = [
+    "easeElastic",
+    "easeBounce",
+    "easeLinear",
+    "easeSin",
+    "easeQuad",
+    "easeCubic",
+    "easePoly",
+    "easeCircle",
+    "easeExp",
+    "easeBack"
+    ];
 
 
   var z2 = d3
@@ -163,7 +175,9 @@ window.addEventListener('load', function() {
         .attr("width", x1.bandwidth())
         
         .attr("y", y(0))
-        .transition().duration(500)
+        .transition().duration(1000).delay(function(d, i) {
+            return i * 100;
+        }).ease(d3.easeSin)
         .attr("height", function (d) {
           return  height2 - y(d.value);
         })
@@ -193,34 +207,35 @@ window.addEventListener('load', function() {
         .attr("font-size", "40px")
         .attr("text-anchor", "middle");
 
-      // var legend2 = g2
-      //   .append("g")
-      //   .attr("font-family", "sans-serif")
-      //   .attr("font-size", 10)
-      //   .attr("text-anchor", "end")
-      //   .selectAll("g")
-      //   .data(keys.slice().reverse())
-      //   .enter()
-      //   .append("g")
-      //   .attr("transform", function (d, i) {
-      //     return "translate(0," + i * 20 + ")";
-      //   });
+        var legenddiv = document.createElement("div");
+      var legend2 = g2
+        .append("g")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", 10)
+        .attr("text-anchor", "end")
+        .selectAll("g")
+        .data(keys.slice().reverse())
+        .enter()
+        .append("g")
+        .attr("transform", function (d, i) {
+          return "translate(0," + i * 20 + ")";
+        });
 
-      // legend2
-      //   .append("rect")
-      //   .attr("x", width2 - 19)
-      //   .attr("width", 19)
-      //   .attr("height", 19)
-      //   .attr("fill", z2);
+      legend2
+        .append("rect")
+        .attr("x", width2 - 19)
+        .attr("width", 19)
+        .attr("height", 19)
+        .attr("fill", z2);
 
-      // legend2
-      //   .append("text")
-      //   .attr("x", width2 - 24)
-      //   .attr("y", 9.5)
-      //   .attr("dy", "0.32em")
-      //   .text(function (d) {
-      //     return d;
-      //   });
+      legend2
+        .append("text")
+        .attr("x", width2 - 24)
+        .attr("y", 9.5)
+        .attr("dy", "0.32em")
+        .text(function (d) {
+          return d;
+        });
     }
   );
 });

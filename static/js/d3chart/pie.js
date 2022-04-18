@@ -56,13 +56,7 @@ window.addEventListener("load",function(){
     
       g4.append("path")
            .style("fill", function(d) { return color(d.data); })
-          .transition().duration(500).attrTween("d", 
-              function(d) { 
-
-                var datas = undefined;
-                  return datas;
-        
-        })
+          .transition().duration(500)
           .attr("d", arc);
 ;
     

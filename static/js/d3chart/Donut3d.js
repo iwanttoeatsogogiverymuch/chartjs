@@ -78,10 +78,10 @@
 		var _data = d3.pie().sort(null).value(function(d) {return d.value;})(data);
 		
 		d3.select("#"+id).selectAll(".innerSlice").data(_data)
-			.transition().duration(750).attr("x", arcTweenInner); 
+			.transition().duration(750).attrTween("d", arcTweenInner); 
 			
 		d3.select("#"+id).selectAll(".topSlice").data(_data)
-			.transition().duration(750).attr("x", arcTweenTop); 
+			.transition().duration(750).attrTween("d", arcTweenTop); 
 			
 		d3.select("#"+id).selectAll(".outerSlice").data(_data)
 			.transition().duration(750).attrTween("d", arcTweenOuter); 	

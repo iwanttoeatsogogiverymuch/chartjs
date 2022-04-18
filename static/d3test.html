@@ -60,7 +60,7 @@
       <label for="tab4">계좌개설/해지현황</label>
       <input id="tab5" name="tab-menu" type="radio" />
       <label for="tab5">이체현황</label>
-      <input id="tab6" name="tab-menu" type="radio" />
+      <input id="tab6" name="tab-menu" type="radio" onclick="randomData()"/>
       <label for="tab6">오픈뱅킹사용현황</label>
     </div>
 
@@ -68,8 +68,10 @@
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2 m-3">
           <div class="form-group">
+            <button onClick="randomData">dd</button>
             <div class="input-group date" id="datetimepicker2">
               <input type="text" class="form-control" />
+              <button onClick="changeData()">Change Data</button>
               <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
               </span>
@@ -129,7 +131,33 @@
     </div>
 
     <script>
+              var salesData = [
+          { label: "Basic", color: "#edf2fd" },
+          { label: "Plus", color: "#d1dffb" },
+          { label: "Lite", color: "#5d8df0" },
+          { label: "Elite", color: "#b2caf9" },
+          { label: "Delux", color: "#3767e8" },
+        ];
 
+
+        function changeData() {
+          Donut3D.transition("salesDonut", randomData(), 130, 100, 30, 0.4);
+          Donut3D.transition("quotesDonut", randomData(), 130, 100, 30, 0);
+        }
+        function changeData() {
+          Donut3D.transition("salesDonut", randomData(), 130, 100, 30, 0.4);
+          Donut3D.transition("quotesDonut", randomData(), 130, 100, 30, 0);
+        }
+
+        function randomData() {
+          return salesData.map(function (d) {
+            return {
+              label: d.label,
+              value: 1000 * Math.random(),
+              color: d.color,
+            };
+          });
+        }
 
       $(function () {
         $("#datetimepicker2").datetimepicker({
@@ -188,6 +216,7 @@
 
         Donut3D.draw("quotesDonut", randomData(), 150, 150, 130, 100, 30, 0);
         Donut3D.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
+          Donut3D.transition("quotesDonut", randomData(),130, 100, 30, 0);
         //Donut3D.draw("quotesDonut", randomData(), 450, 150, 130, 100, 30, 0);
 
         function changeData() {

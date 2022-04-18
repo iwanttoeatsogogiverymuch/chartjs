@@ -44,6 +44,7 @@ body {
  
     font-size: 0px; 
     z-index: 99999999;
+    border-radius: 30px;
     
   }
   .tab-container input[type="radio"] {
@@ -53,7 +54,6 @@ body {
 
   }
   .tab-container label {
-
     display: inline-block;
     padding-left: 2em;
     padding-right: 2em;
@@ -79,6 +79,12 @@ body {
     background: #5b8fff;
     font-weight: 700;
 
+  }
+    
+  .tab-container input:hover + label:hover {
+    border-left: 1px solid #eee;
+    background-color:#5b8fff;
+    color:white;
   }
   .tab-container input:checked + label:first-child {
     border-left: 1px solid #eee;
@@ -243,7 +249,7 @@ body {
 #my_dataviz{
 
   width: 80%;
-  height: 80%;
+  height: 70%;
 
 }
 

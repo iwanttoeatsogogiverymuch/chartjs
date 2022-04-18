@@ -3,9 +3,9 @@ window.addEventListener("load", function () {
 
 
     // set the dimensions and margins of the graph
-    var margin5 = { top: 30, right: 30, bottom: 30, left: 30 },
-        width5 = 450 - margin5.left - margin5.right,
-        height5 = 450 - margin5.top - margin5.bottom;
+    var margin5 = { top: 20, right: 20, bottom: 20, left: 20 },
+        width5 = 400 - margin5.left - margin5.right,
+        height5 = 400 - margin5.top - margin5.bottom;
 
     // append the svg object to the body of the page
     var svg6 = d3.select("#my_dataviz")
@@ -28,8 +28,8 @@ window.addEventListener("load", function () {
         .domain(myGroups)
         .padding(0.01);
     svg6.append("g")
-        .attr("transform", "translate(0," + height5 + ")")
-        .call(d3.axisBottom(x5))
+        .attr("transform", "translate(0," +0 + ")")
+        .call(d3.axisTop(x5))
 
     // Build X scales and axis:
     var y5 = d3.scaleBand()
@@ -59,42 +59,41 @@ window.addEventListener("load", function () {
 
 
         };
-        $.ajax({
-            url: 'http://127.0.0.1:5500/resource/heatmap_data.csv',
-            contentType:"text/csv; charset=utf-8",
-            success: function(dt) {
+        // $.ajax({
+        //     url: 'http://127.0.0.1:5500/resource/heatmap_data.csv',
+        //     contentType:"text/csv; charset=utf-8",
+        //     success: function(dt) {
 
-                console.log(dt);
-                alert('success');
-                svg6.selectAll()
-                .data(dt, function (dt) { return dt.group + ':' + dt.variable; })
-                .enter()
-                .append("rect")
-                .attr("x", function (dt) { return x5(dt.group) })
-                .attr("y", function (dt) { return y5(dt.variable) })
-                .attr("width", x5.bandwidth())
-                .attr("height", y5.bandwidth())
-                .style("fill", function (dt) { return myColor(dt.value) })
-            },
-            error: function(d){
-                alert('error');
-            }
-         });
+        //         console.log(dt);
+        //     svg6.selectAll()
+        //         .data(dt, function (dt) { return dt.group + ':' + dt.variable; })
+        //         .enter()
+        //         .append("rect")
+        //         .attr("x", function (dt) { return x5(dt.group) })
+        //         .attr("y", function (dt) { return y5(dt.variable) })
+        //         .attr("width", x5.bandwidth())
+        //         .attr("height", y5.bandwidth())
+        //         .style("fill", function (dt) { return myColor(dt.value) })
+        //     },
+        //     error: function(d){
+        //         alert('error');
+        //     }
+        //  });
 
-    //Read the data
-    // d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function (data) {
+    // Read the data
+    d3.csv("/resource/heatmap_data.csv", function (data) {
 
-    //     svg6.selectAll()
-    //         .data(data, function (d) { return d.group + ':' + d.variable; })
-    //         .enter()
-    //         .append("rect")
-    //         .attr("x", function (d) { return x5(d.group) })
-    //         .attr("y", function (d) { return y5(d.variable) })
-    //         .attr("width", x5.bandwidth())
-    //         .attr("height", y5.bandwidth())
-    //         .style("fill", function (d) { return myColor(d.value) })
+        svg6.selectAll()
+            .data(data, function (d) { return d.group + ':' + d.variable; })
+            .enter()
+            .append("rect")
+            .attr("x", function (d) { return x5(d.group) })
+            .attr("y", function (d) { return y5(d.variable) })
+            .attr("width", x5.bandwidth())
+            .attr("height", y5.bandwidth())
+            .style("fill", function (d) { return myColor(d.value) })
 
-    // });
+    });
 
 
 
