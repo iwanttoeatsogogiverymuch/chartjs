@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="KR">
   <head>
+    <script>
+
+  
+    </script>
     <meta charset="UTF-8" />
     <meta name="Description" content="우리금융저축은행" />
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
@@ -14,7 +18,9 @@
     <!-- add polyfill and babel to use the es6 syntax -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/static/js/util/cors.js"></script>
     <!-- Bootstrap -->
     <script src="/static/js/lib/bootstrap/bootstrap.min.js"></script>
     <!-- D3js svg chart lib -->
@@ -123,12 +129,18 @@
     </div>
 
     <script>
+
+
       $(function () {
         $("#datetimepicker2").datetimepicker({
           locale: "ko",
         });
       });
       window.addEventListener("load", function () {
+
+        $.support.cors = true;
+
+
         var mcgpalette0 = [
           "#edf2fd",
           "#d1dffb",
