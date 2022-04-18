@@ -44,10 +44,10 @@ window.addEventListener("load", function () {
         .range(["white", "#69b3a2"])
         .domain([1, 100])
        
-    //Read the data
-    d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function (data) {
 
-        svg6.selectAll()
+        var jquerycallback = function(data) {
+
+            svg6.selectAll()
             .data(data, function (d) { return d.group + ':' + d.variable; })
             .enter()
             .append("rect")
@@ -57,7 +57,44 @@ window.addEventListener("load", function () {
             .attr("height", y5.bandwidth())
             .style("fill", function (d) { return myColor(d.value) })
 
-    })
+
+        };
+        $.ajax({
+            url: 'http://127.0.0.1:5500/resource/heatmap_data.csv',
+            contentType:"text/csv; charset=utf-8",
+            success: function(dt) {
+
+                console.log(dt);
+                alert('success');
+                svg6.selectAll()
+                .data(dt, function (dt) { return dt.group + ':' + dt.variable; })
+                .enter()
+                .append("rect")
+                .attr("x", function (dt) { return x5(dt.group) })
+                .attr("y", function (dt) { return y5(dt.variable) })
+                .attr("width", x5.bandwidth())
+                .attr("height", y5.bandwidth())
+                .style("fill", function (dt) { return myColor(dt.value) })
+            },
+            error: function(d){
+                alert('error');
+            }
+         });
+
+    //Read the data
+    // d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function (data) {
+
+    //     svg6.selectAll()
+    //         .data(data, function (d) { return d.group + ':' + d.variable; })
+    //         .enter()
+    //         .append("rect")
+    //         .attr("x", function (d) { return x5(d.group) })
+    //         .attr("y", function (d) { return y5(d.variable) })
+    //         .attr("width", x5.bandwidth())
+    //         .attr("height", y5.bandwidth())
+    //         .style("fill", function (d) { return myColor(d.value) })
+
+    // });
 
 
 
