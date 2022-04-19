@@ -1,17 +1,27 @@
 window.onload = function () {
 
-  var BarChart = function(width,height,margin,data,options){
 
-  
+  var duration = 1300;
+	var delayfunc = function(d, i){return i*100;};
+	var easetype = d3.easeSin;
 
-    var svg = d3.select("#stackedbar")
-    .append("svg")
-    .attr("viewbox", "0 0 400 400"); 
-
-
-    return svg;
-
-  };
+    //bar colors
+    var mcgpalette0 = [
+      "#edf2fd",
+      "#d1dffb",
+      "#b2caf9",
+      "#93b5f6",
+      "#7ca5f4",
+      "#6595f2",
+      "#5d8df0",
+      "#5382ee",
+      "#4978ec",
+      "#3767e8",
+      "#ffffff",
+      "#fefeff",
+      "#cbd8ff",
+      "#b2c5ff",
+    ];
 
 
 
@@ -26,9 +36,9 @@ window.onload = function () {
 
 
 
-  margin = { top: 20, right: 20, bottom: 30, left: 40 };
-  width = +svg.attr("width") - margin.left - margin.right;
-  height = +svg.attr("height") - margin.top - margin.bottom;
+  var margin = { top: 20, right: 20, bottom: 30, left: 40 };
+  var width = + svg.attr("width") - margin.left - margin.right;
+  var height = + svg.attr("height") - margin.top - margin.bottom;
 
   g = svg
     .append("g")
@@ -39,27 +49,13 @@ window.onload = function () {
   //y axis scale
   var y = d3.scaleLinear().rangeRound([height, 0]);
 
-  //bar colors
-  var mcgpalette0 = [
-    "#edf2fd",
-    "#d1dffb",
-    "#b2caf9",
-    "#93b5f6",
-    "#7ca5f4",
-    "#6595f2",
-    "#5d8df0",
-    "#5382ee",
-    "#4978ec",
-    "#3767e8",
-    "#ffffff",
-    "#fefeff",
-    "#cbd8ff",
-    "#b2c5ff",
-  ];
+
 
   //bar
 
   var z = d3.scaleOrdinal().range(mcgpalette0);
+
+
 
   //read data from csv file,then get the data and index -> callback
   d3.csv(
@@ -112,7 +108,9 @@ window.onload = function () {
         })
         .attr("y",y(0))
         .transition()
-        .duration(700)
+        .duration(duration)
+        .delay(delayfunc)
+        .ease(easetype)
         .attr("y", function (d) {
           return y(d[1]);
         })

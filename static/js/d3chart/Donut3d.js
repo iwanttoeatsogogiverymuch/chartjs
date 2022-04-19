@@ -1,7 +1,11 @@
 !function(){
 	
 	var Donut3D={};
-	
+	var duration = 1300;
+	var delayfunc = function(d, i){return i*100;};
+	var easetype = d3.easeSin;
+
+
 	function pieTop(d, rx, ry, ir ){
 		if(d.endAngle - d.startAngle == 0 ) return "M 0 0";
 		var sx = rx*Math.cos(d.startAngle),
@@ -78,15 +82,15 @@
 		var _data = d3.pie().sort(null).value(function(d) {return d.value;})(data);
 		
 		d3.select("#"+id).selectAll(".innerSlice").data(_data)
-			.transition().duration(750).attrTween("d", arcTweenInner); 
+			.transition().duration(duration).delay(delayfunc).ease(easetype).attrTween("d", arcTweenInner); 
 			
 		d3.select("#"+id).selectAll(".topSlice").data(_data)
-			.transition().duration(750).attrTween("d", arcTweenTop); 
+			.transition().duration(duration).delay(delayfunc).ease(easetype).attrTween("d", arcTweenTop); 
 			
 		d3.select("#"+id).selectAll(".outerSlice").data(_data)
-			.transition().duration(750).attrTween("d", arcTweenOuter); 	
+			.transition().duration(duration).ease(easetype).attrTween("d", arcTweenOuter); 	
 			
-		d3.select("#"+id).selectAll(".percent").data(_data).transition().duration(750)
+		d3.select("#"+id).selectAll(".percent").data(_data).transition().duration(duration)
 			.attrTween("x",textTweenX).attrTween("y",textTweenY).text(getPercent); 	
 	}
 	
