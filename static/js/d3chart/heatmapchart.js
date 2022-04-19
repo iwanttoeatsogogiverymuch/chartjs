@@ -1,6 +1,7 @@
 
 window.addEventListener("load", function () {
 
+    var local = d3.local();
 
     // set the dimensions and margins of the graph
     var margin5 = { top: 20, right: 20, bottom: 20, left: 20 },
@@ -12,7 +13,7 @@ window.addEventListener("load", function () {
         .append("svg")
         .attr("width", width5 + margin5.left + margin5.right)
         .attr("height", height5 + margin5.top + margin5.bottom)
-        .attr("viewBox","0 0 400 400")
+        .attr("viewBox","0 0 800 800")
         .attr("preserveAspectRatio","none")
         .append("g")
         .attr("transform",
@@ -91,7 +92,34 @@ window.addEventListener("load", function () {
             .attr("y", function (d) { return y5(d.variable) })
             .attr("width", x5.bandwidth())
             .attr("height", y5.bandwidth())
-            .style("fill", function (d) { return myColor(d.value) })
+            .style("fill", function (d) { return myColor(d.value) });
+
+            svg6.append("g")
+            .selectAll("g")
+            .data(data)
+            .enter()
+            .append("g")
+            .selectAll("text")
+            .data(data)
+            .enter()
+            .append("text")
+            .text(function (d){
+                return d.value.toString();
+            })
+            .attr("x", function(d, i, j) {
+                // return (i * 20) + 40;
+                return x5(d.group);
+            })
+            .attr("y", function(d) {
+                return y5(d.variable);
+                //return (local.get(this) * 20) + 40;
+            })
+            .attr("dx", x5.bandwidth()/2)
+            .attr("dy", y5.bandwidth()/2)
+            .attr("dominant-baseline", "text-before-edge")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "12px")
+
 
     });
 
