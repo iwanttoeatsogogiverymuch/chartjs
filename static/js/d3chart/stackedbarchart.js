@@ -1,6 +1,8 @@
 window.onload = function () {
 
-
+ var tooltip = d3.select("body").append("div")
+        .attr("class", "toolTip")
+        .style("display", "none");
   var duration = 1300;
 	var delayfunc = function(d, i){return i*100;};
 	var easetype = d3.easeSin;
@@ -88,7 +90,13 @@ window.onload = function () {
         .attr("x", function (d) {
           return x(d.data.State);
         })
-        .attr("y",y(0))
+        .attr("y",y(0))           .on("mouseover", function() { tooltip.style("display", null); })
+            .on("mouseout",  function() { tooltip.style("display", "none"); })
+            .on("mousemove", function(d,i) {
+                tooltip.style("left", (d3.event.pageX + 10) + "px");
+                tooltip.style("top", (d3.event.pageY - 10) + "px");
+                tooltip.text( y(d[i]).toString()); 
+            })
         .transition()
         .duration(duration)
         .delay(delayfunc)
