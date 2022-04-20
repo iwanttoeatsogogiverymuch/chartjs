@@ -6,25 +6,7 @@ window.onload = function () {
 	var easetype = d3.easeSin;
 
     //bar colors
-    var mcgpalette0 = [
-      "#edf2fd",
-      "#d1dffb",
-      "#b2caf9",
-      "#93b5f6",
-      "#7ca5f4",
-      "#6595f2",
-      "#5d8df0",
-      "#5382ee",
-      "#4978ec",
-      "#3767e8",
-      "#ffffff",
-      "#fefeff",
-      "#cbd8ff",
-      "#b2c5ff",
-    ];
-
-
-
+  var mcgpalette0 =["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D", "#78BB37", "#BE653E", "#6CC4A0", "#EF9DB5"]; 
 
   var svg = d3
     .select("#stackedbar")

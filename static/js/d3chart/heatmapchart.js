@@ -94,7 +94,7 @@ window.addEventListener("load", function () {
     
         // Build color scale
         var myColor = d3.scaleLinear()
-            .range(["white", "#69b3a2"])
+            .range(["blue", "red"])
             .domain([1, 100])
 
 
