@@ -1,23 +1,6 @@
 
 window.addEventListener("load", function () {
 
-
-       
-
-        var jquerycallback = function(data) {
-
-            svg6.selectAll()
-            .data(data, function (d) { return d.group + ':' + d.variable; })
-            .enter()
-            .append("rect")
-            .attr("x", function (d) { return x5(d.group) })
-            .attr("y", function (d) { return y5(d.variable) })
-            .attr("width", x5.bandwidth())
-            .attr("height", y5.bandwidth())
-            .style("fill", function (d) { return myColor(d.value) })
-
-
-        };
         // $.ajax({
         //     url: 'http://127.0.0.1:5500/resource/heatmap_data.csv',
         //     contentType:"text/csv; charset=utf-8",
@@ -39,17 +22,12 @@ window.addEventListener("load", function () {
         //     }
         //  });
 
-
-    //with json test data in redmine excel
-
-    // readFile(path.join(__dirname))
-
-
     // Read the data
     d3.json("/resource/tableConvert.json", function (err,data) {
 
         if(err) {
             console.error("error in heatmap json load");
+            return;
         }
         console.log(data);
 
@@ -72,19 +50,20 @@ window.addEventListener("load", function () {
                 "translate(" + margin5.left + "," + margin5.top + ")");
     
         // Labels of row and columns
-        var myGroups = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10","11","12"]
-        var myVars = ["v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", "v10"]
+        var myGroups = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10","11","12","13","14","15"];
+        var heatmapKeys = Object.keys(data); 
+        var myVars = ["v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", "v10"];
     
         // Build X scales and axis:
         var x5 = d3.scaleBand()
-            .range([0, width5])
+            .range([0,width5])
             .domain(myGroups)
             .padding(0.01);
         svg6.append("g")
             .attr("transform", "translate(0," +0 + ")")
             .call(d3.axisTop(x5))
     
-        // Build X scales and axis:
+        // Build Y scales and axis:
         var y5 = d3.scaleBand()
             .range([height5, 0])
             .domain(myVars)
@@ -103,12 +82,20 @@ window.addEventListener("load", function () {
             .data(data, function (d, i) { return d; })
             .enter()
             .append("rect")
-            .attr("x",function (d, i) {console.log(d) 
-                return d[i];})
-            .attr("y", function (d,i) { return d[i]; })
-            .attr("width", x5.bandwidth())
-            .attr("height", y5.bandwidth())
-            .style("fill", function (d) { return myColor(d.value) });
+            .attr("x",function ( d, i,j) 
+            { 
+                if(i >14 || i == 0){return i*10;}
+                console.log(parseInt(d[i]));
+                console.log(x5(parseInt(d[i])));
+                return x5(i);
+            })
+            .attr("y", function ( d, i) 
+            { 
+                return 30;
+            })
+            .attr("width", 30)
+            .attr("height", 30)
+            .style("fill", "red");
 
             svg6.append("g")
             .selectAll("g")
