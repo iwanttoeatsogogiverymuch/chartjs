@@ -57,13 +57,13 @@ window.addEventListener('load', function () {
       for (var i = 1, n = columns.length; i < n; ++i)
 
         d[columns[i]] = +d[columns[i]];
-      console.log(d);
+     // console.log(d);
       return d;
     },
     function (error, data) {
       if (error) throw error;
 
-      console.log(data);
+    //  console.log(data);
       var keys = data.columns.slice(1);
 
       x0.domain(

@@ -1,14 +1,14 @@
 window.onload = function () {
 
- var tooltip = d3.select("body").append("div")
-        .attr("class", "toolTip")
-        .style("display", "none");
+  var tooltip = d3.select("body").append("div")
+    .attr("class", "toolTip")
+    .style("display", "none");
   var duration = 1300;
-	var delayfunc = function(d, i){return i*100;};
-	var easetype = d3.easeSin;
+  var delayfunc = function (d, i) { return i * 100; };
+  var easetype = d3.easeSin;
 
-    //bar colors
-  var mcgpalette0 =["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D", "#78BB37", "#BE653E", "#6CC4A0", "#EF9DB5"]; 
+  //bar colors
+  var mcgpalette0 = ["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D", "#78BB37", "#BE653E", "#6CC4A0", "#EF9DB5"];
 
   var svg = d3
     .select("#stackedbar")
@@ -16,7 +16,7 @@ window.onload = function () {
     .attr("width", "400")
     .attr("height", "400")
     .attr("viewBox", "0 0 400 400")
-    .attr("preserveAspectRatio","none");
+    .attr("preserveAspectRatio", "none");
 
 
 
@@ -90,13 +90,14 @@ window.onload = function () {
         .attr("x", function (d) {
           return x(d.data.State);
         })
-        .attr("y",y(0))           .on("mouseover", function() { tooltip.style("display", null); })
-            .on("mouseout",  function() { tooltip.style("display", "none"); })
-            .on("mousemove", function(d,i) {
-                tooltip.style("left", (d3.event.pageX + 10) + "px");
-                tooltip.style("top", (d3.event.pageY - 10) + "px");
-                tooltip.text( y(d[i]).toString()); 
-            })
+        .attr("y", y(0)).on("mouseover", function () { tooltip.style("display", null); })
+        .on("mouseout", function () { tooltip.style("display", "none"); })
+        .on("mousemove", function (d, i,j) {
+          tooltip.style("left", (d3.event.pageX + 10) + "px");
+          tooltip.style("top", (d3.event.pageY - 10) + "px");
+          tooltip.text( d[1] - d[0] );
+          
+        })
         .transition()
         .duration(duration)
         .delay(delayfunc)
@@ -126,9 +127,6 @@ window.onload = function () {
         .attr("font-weight", "bold")
         .attr("text-anchor", "start")
         .text("Population");
-
-        var test = 3
-        // console.log("`${test}`");
 
       // var legend = g
       //   .append("g")
