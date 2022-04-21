@@ -93,9 +93,13 @@ window.onload = function () {
         .attr("y", y(0)).on("mouseover", function () { tooltip.style("display", null); })
         .on("mouseout", function () { tooltip.style("display", "none"); })
         .on("mousemove", function (d, i,j) {
+
+          var subgroupName = d3.select(this.parentNode).datum().key;
+          var subgroupValue = d.data[subgroupName];
+
           tooltip.style("left", (d3.event.pageX + 10) + "px");
           tooltip.style("top", (d3.event.pageY - 10) + "px");
-          tooltip.text( d[1] - d[0] );
+          tooltip.html( subgroupName.toString() + "<br>" + subgroupValue.toString() );
           
         })
         .transition()
@@ -126,7 +130,7 @@ window.onload = function () {
         .attr("fill", "#000")
         .attr("font-weight", "bold")
         .attr("text-anchor", "start")
-        .text("Population");
+        .text("");
 
       // var legend = g
       //   .append("g")

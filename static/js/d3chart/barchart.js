@@ -5,13 +5,9 @@ window.addEventListener('load', function () {
   // parent div and bootstrap div width and height will be applied prior to this size.
   // preserveAspectRatio:none option is needed when you want the chart to look like fit in parent div width and height
   var svg2 = d3.select("#groupedbar").append("svg").attr("width", 400).attr("height", 400).attr("viewBox", "0 0 400 400").attr("preserveAspectRatio", "none");
-
   var margin2 = { top: 20, right: 20, bottom: 30, left: 40 };
-
   var width2 = +svg2.attr("width") - margin2.left - margin2.right;
   var height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
-
-
 
   //positioning the svg g
   var g2 = svg2
@@ -19,17 +15,16 @@ window.addEventListener('load', function () {
     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
   var x0 = d3.scaleBand().rangeRound([0, width2]).paddingInner(0.1);
-
   var x1 = d3.scaleBand().padding(0.05);
-
   var y = d3.scaleLinear().rangeRound([height2, 0]);
-
-  var mcgpalette0 = ["#0075CC",
-
-    "#EF9DB5",
-    "#9A9ADC",
-    "#DEBD8E",
-    "#E78F5F"];
+  var mcgpalette0 = [
+    "#8664cb",
+    "#0075CC",
+    "#48A0CE",
+    "#44C4BE",
+    "#36C35D",
+    "#6079D6",
+  ];
   var easing = [
     "easeElastic",
     "easeBounce",
@@ -51,21 +46,14 @@ window.addEventListener('load', function () {
 
   d3.csv(
     "/resource/data.csv",
-    //data preprocessing
     function (d, i, columns) {
-      // console.log(d);
       for (var i = 1, n = columns.length; i < n; ++i)
-
         d[columns[i]] = +d[columns[i]];
-     // console.log(d);
       return d;
     },
     function (error, data) {
       if (error) throw error;
-
-    //  console.log(data);
       var keys = data.columns.slice(1);
-
       x0.domain(
         data.map(function (d) {
           return d.State;
@@ -149,14 +137,12 @@ window.addEventListener('load', function () {
         .attr("transform", function (d, i) {
           return "translate(0," + i * 20 + ")";
         });
-
       legend2
         .append("rect")
         .attr("x", width2 - 19)
         .attr("width", 19)
         .attr("height", 19)
         .attr("fill", z2);
-
       legend2
         .append("text")
         .attr("x", width2 - 24)
