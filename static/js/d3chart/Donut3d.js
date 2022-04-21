@@ -5,6 +5,7 @@
 		return i * 100;
 	};
 	var easetype = d3.easeSin;
+	var d3floatFormatter = d3.format("0.1f");
 
 	function pieTop(d, rx, ry, ir) {
 		if (d.endAngle - d.startAngle == 0) return "M 0 0";
@@ -195,6 +196,18 @@
 			.attrTween("x", textTweenX)
 			.attrTween("y", textTweenY)
 			.text(getPercent);
+
+	    d3.select("#fullpielegend").selectAll("text")
+		   .data(_data)
+		   .transition()
+		   .duration(duration)
+		   .text(
+              function (d) {
+				return d.data.label + "  [" + d.data.value +"  ]";
+			}
+		   );
+
+
 	};
 
 	Donut3D.draw = function (
@@ -328,7 +341,7 @@
 			.attr("y", 41)
 
 			.text(function (d) {
-				return d.data.label;
+				return d.data.label + "  [" +  d3floatFormatter(d.data.value)+"  ]";
 			});
 	};
 

@@ -1,6 +1,28 @@
 
 window.addEventListener('load', function () {
 
+function setComma(num){
+    var len, point, str;  
+       
+    num = num + "";  
+    point = num.length % 3 ;
+    len = num.length;  
+   
+    str = num.substring(0, point);  
+    while (point < len) {  
+        if (str != "") str += ",";  
+        str += num.substring(point, point + 3);  
+        point += 3;  
+    }  
+     
+    return str;
+ 
+};
+
+  var tooltip = d3.select("body").append("div")
+    .attr("class", "toolTip")
+    .style("display", "none");
+
   // using svg and g and path ,make the chart size and margin padding
   // parent div and bootstrap div width and height will be applied prior to this size.
   // preserveAspectRatio:none option is needed when you want the chart to look like fit in parent div width and height
@@ -17,6 +39,8 @@ window.addEventListener('load', function () {
   var x0 = d3.scaleBand().rangeRound([0, width2]).paddingInner(0.1);
   var x1 = d3.scaleBand().padding(0.05);
   var y = d3.scaleLinear().rangeRound([height2, 0]);
+
+
   var mcgpalette0 = [
     "#8664cb",
     "#0075CC",
@@ -25,6 +49,7 @@ window.addEventListener('load', function () {
     "#36C35D",
     "#6079D6",
   ];
+
   var easing = [
     "easeElastic",
     "easeBounce",
@@ -91,7 +116,18 @@ window.addEventListener('load', function () {
         })
         .attr("width", x1.bandwidth())
 
-        .attr("y", y(0))
+        .attr("y", y(0)).on("mouseover", function () { tooltip.style("display", null); })
+        .on("mouseout", function () { tooltip.style("display", "none"); })
+        .on("mousemove", function (d) {
+
+         // var subgroupName = d3.select(this.parentNode).datum().key;
+         // var subgroupValue = d.data[subgroupName];
+
+          tooltip.style("left", (d3.event.pageX + 10) + "px");
+          tooltip.style("top", (d3.event.pageY - 10) + "px");
+          tooltip.html( d.key.toString() + "<br>" + setComma(d.value) );
+          
+        })
         .transition().duration(1000).delay(function (d, i) {
           return i * 100;
         }).ease(d3.easeSin)
@@ -106,6 +142,60 @@ window.addEventListener('load', function () {
           return z2(d.key);
         });
 
+
+        //tooltip text top
+      g2.append("g")
+        .selectAll("g")
+        .data(data)
+        .enter()
+        .append("g")
+        .attr("transform", function (d) {
+          return "translate(" + x0(d.State) + ",0)";
+        })
+        .selectAll("text")
+        .data(function (d) {
+          return keys.map(function (key) {
+            return { key: key, value: d[key] };
+          });
+        })
+        .enter()
+        .append("text")
+        .attr("dy", "1em")
+        .attr("fill", "#000")
+        .attr("font-weight", "Light")
+        .attr("font-family", "Noto Sans KR")
+        .attr("font-size", "0.7em")
+        .attr("text-anchor", "start")
+        .attr("x", function (d) {
+          return x1(d.key);
+        })
+        .attr("width", x1.bandwidth())
+        .attr("height", function (d) {
+          return height2 - y(d.value);
+        })
+        .attr("y", function (d) {
+          return y(d.value)- 13;
+        })
+        .text(function(d) {
+        
+          if(d.key == "전체"){
+           return setComma(d.value);
+          }
+          else{
+           
+
+          }
+          
+        
+        });
+       
+        
+
+
+
+
+
+        
       g2.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + height2 + ")")
@@ -124,7 +214,7 @@ window.addEventListener('load', function () {
         .attr("font-size", "0.2em")
         .attr("text-anchor", "middle");
 
-      var legenddiv = document.createElement("div");
+ 
       var legend2 = g2
         .append("g")
         .attr("font-family", "Noto Sans KR")
@@ -151,6 +241,13 @@ window.addEventListener('load', function () {
         .text(function (d) {
           return d;
         });
+
+
+
+
+
+
+        
     }
   );
 });

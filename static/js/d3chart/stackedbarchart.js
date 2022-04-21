@@ -1,4 +1,23 @@
 window.onload = function () {
+function setComma(num){
+    var len, point, str;  
+       
+    num = num + "";  
+    point = num.length % 3 ;
+    len = num.length;  
+   
+    str = num.substring(0, point);  
+    while (point < len) {  
+        if (str != "") str += ",";  
+        str += num.substring(point, point + 3);  
+        point += 3;  
+    }  
+     
+    return str;
+ 
+};
+
+
 
   var tooltip = d3.select("body").append("div")
     .attr("class", "toolTip")
@@ -90,8 +109,20 @@ window.onload = function () {
         .attr("x", function (d) {
           return x(d.data.State);
         })
-        .attr("y", y(0)).on("mouseover", function () { tooltip.style("display", null); })
-        .on("mouseout", function () { tooltip.style("display", "none"); })
+        .attr("y", y(0)).on("mouseover", function () {
+          
+            d3.select(this).style("fill", function() {
+        return d3.hsl( d3.select(this).style("fill") ).darker(1).toString();
+    });
+          
+          tooltip.style("display", null); })
+        .on("mouseout", function () { 
+          
+            d3.select(this).style("fill", function() {
+        return d3.hsl( d3.select(this).style("fill") ).brighter(1).toString();
+    });
+          
+          tooltip.style("display", "none"); })
         .on("mousemove", function (d, i,j) {
 
           var subgroupName = d3.select(this.parentNode).datum().key;
@@ -99,7 +130,7 @@ window.onload = function () {
 
           tooltip.style("left", (d3.event.pageX + 10) + "px");
           tooltip.style("top", (d3.event.pageY - 10) + "px");
-          tooltip.html( subgroupName.toString() + "<br>" + subgroupValue.toString() );
+          tooltip.html( subgroupName.toString() + "<br>" + setComma(subgroupValue));
           
         })
         .transition()
@@ -131,6 +162,13 @@ window.onload = function () {
         .attr("font-weight", "bold")
         .attr("text-anchor", "start")
         .text("");
+
+
+      // g.append("g")
+      //   .attr("class","textinstack")
+      //   .attr("transform","translate(0," + height + ")")
+      //   .attr("x", 10)
+      //   .attr("y", 10)
 
       // var legend = g
       //   .append("g")
