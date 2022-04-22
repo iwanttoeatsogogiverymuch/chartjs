@@ -6,6 +6,23 @@
 	};
 	var easetype = d3.easeSin;
 	var d3floatFormatter = d3.format("0.1f");
+	function setComma(num){
+    var len, point, str;  
+       
+    num = num + "";  
+    point = num.length % 3 ;
+    len = num.length;  
+   
+    str = num.substring(0, point);  
+    while (point < len) {  
+        if (str != "") str += ",";  
+        str += num.substring(point, point + 3);  
+        point += 3;  
+    }  
+     
+    return str;
+ 
+};
 
 	function pieTop(d, rx, ry, ir) {
 		if (d.endAngle - d.startAngle == 0) return "M 0 0";
@@ -203,7 +220,7 @@
 		   .duration(duration)
 		   .text(
               function (d) {
-				return d.data.label + "  [" + d.data.value +"  ]";
+				return d.data.label + "  [" + setComma(Math.round(d.data.value)) +"원"+"  ]";
 			}
 		   );
 

@@ -41,7 +41,7 @@ window.addEventListener("load",function(){
         .sort(null)
         .value(function(d) { return d; });
     
-    var svg5 = d3.select("#donutpie2").append("svg")
+    var svg5 = d3.select("#my_dataviz").append("svg")
         .attr("width", width3)
         .attr("height", height3)
         .attr("viewBox","0 0 400 400")

@@ -26,7 +26,7 @@ function setComma(num){
   // using svg and g and path ,make the chart size and margin padding
   // parent div and bootstrap div width and height will be applied prior to this size.
   // preserveAspectRatio:none option is needed when you want the chart to look like fit in parent div width and height
-  var svg2 = d3.select("#groupedbar").append("svg").attr("width", 400).attr("height", 400).attr("viewBox", "0 0 400 400").attr("preserveAspectRatio", "none");
+  var svg2 = d3.select("#groupedbar").append("svg").attr("width", 700).attr("height", 400).attr("viewBox", "0 0 700 400").attr("preserveAspectRatio", "none");
   var margin2 = { top: 20, right: 20, bottom: 30, left: 40 };
   var width2 = +svg2.attr("width") - margin2.left - margin2.right;
   var height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
@@ -162,9 +162,9 @@ function setComma(num){
         .append("text")
         .attr("dy", "1em")
         .attr("fill", "#000")
-        .attr("font-weight", "Light")
+        .attr("font-weight", "Regular")
         .attr("font-family", "Noto Sans KR")
-        .attr("font-size", "0.7em")
+        .attr("font-size", "1em")
         .attr("text-anchor", "start")
         .attr("x", function (d) {
           return x1(d.key);
@@ -174,7 +174,7 @@ function setComma(num){
           return height2 - y(d.value);
         })
         .attr("y", function (d) {
-          return y(d.value)- 13;
+          return y(d.value)- 22;
         })
         .text(function(d) {
         
@@ -218,7 +218,7 @@ function setComma(num){
       var legend2 = g2
         .append("g")
         .attr("font-family", "Noto Sans KR")
-        .attr("font-size","0.7em")
+        .attr("font-size","1em")
         .attr("text-anchor", "end")
         .selectAll("g")
         .data(keys.slice().reverse())
@@ -236,8 +236,7 @@ function setComma(num){
       legend2
         .append("text")
         .attr("x", width2 - 24)
-        .attr("y", 9.5)
-        .attr("dy", "0.32em")
+        .attr("y", 13)
         .text(function (d) {
           return d;
         });

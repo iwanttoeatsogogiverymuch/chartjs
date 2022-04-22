@@ -32,9 +32,9 @@ function setComma(num){
   var svg = d3
     .select("#stackedbar")
     .append("svg")
-    .attr("width", "400")
+    .attr("width", "700")
     .attr("height", "400")
-    .attr("viewBox", "0 0 400 400")
+    .attr("viewBox", "0 0 700 400")
     .attr("preserveAspectRatio", "none");
 
 
@@ -157,7 +157,7 @@ function setComma(num){
         .append("text")
         .attr("x", 2)
         .attr("y", y(y.ticks().pop()) + 0.5)
-        .attr("dy", "0.32em")
+        .attr("dy", "2em")
         .attr("fill", "#000")
         .attr("font-weight", "bold")
         .attr("text-anchor", "start")
