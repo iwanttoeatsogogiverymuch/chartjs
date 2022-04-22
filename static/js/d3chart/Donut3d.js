@@ -405,7 +405,7 @@
                 .append("text")
                 .attr("dy", ".24em")
                 .text(function(d) {
-                    return d.data.label;
+                    return setComma(Math.round(d.data.value));
                 });
 
             text

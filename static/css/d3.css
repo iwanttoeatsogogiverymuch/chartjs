@@ -255,7 +255,7 @@ body {
     font-size: 11px;
 }
 .lines{
-          opacity: .3;
+          opacity: .2;
           stroke: black;
           stroke-width: 2px;
           fill: none;
