@@ -182,24 +182,24 @@ function setComma(num){
         // .attr("y", function(d) { return y((d[1] +d[0])/2) ; })
         .attr("text-anchor", "middle")
         .attr("font-family","Noto Sans KR")
-        .attr("font-weight","bold")
+        .attr("font-weight","Regular")
         .attr("alighnment-baseline", "middle") 
         .attr("dx", function (d,i) {
           return x(d.data.State) + x.bandwidth()/2;
         })
         .attr("dy", function(d) { return y((d[1] +d[0])/2) ; })
-        .attr("font-size","0.8em")
+        .attr("font-size","0.66em")
         .attr("fill",function(d, i)  {
           return "white";
           // return d3.hsl(z(d3.select(this.parentNode).key)).darker(3).toString();
          })
-        .text(function (d) { return  d[1] - d[0]; });
+        .text(function (d) { return  setComma(d[1] - d[0]); });
 
 
 
       var legend = g
         .append("g")
-        .attr("font-family", "Noto Sans KR")
+        .attr("font-family", "Sans serif")
         .attr("font-size", 10)
         .attr("text-anchor", "end")
         .selectAll("g")

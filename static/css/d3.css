@@ -254,3 +254,9 @@ body {
     text-align: center;
     font-size: 11px;
 }
+.lines{
+          opacity: .3;
+          stroke: black;
+          stroke-width: 2px;
+          fill: none;
+      }

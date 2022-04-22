@@ -121,13 +121,13 @@
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 chartboard card-1">
 
-          <div class="col-xs-6 col-md-6 col-sm-6 col-lg-5" style="height: 370px;">
+          <div class="col-xs-6 col-md-6 col-sm-6 col-lg-10" style="height: 370px;">
             <div class="h4 text-center font-weight-bold m-3">비대면<small> 단위(백 만원)</small></div>
             <div id="fullpie"></div>
 
           </div>
 
-          <div class="col-xs-6 col-md-6 col-sm-6 col-lg-5">
+          <div class="col-xs-6 col-md-6 col-sm-6 col-lg-2">
 
             <div id="fullpielegend"></div>
 
@@ -233,7 +233,7 @@
         .attr("width", "300")
         .attr("height", "300")
         .attr("viewBox", "0 0 300 300")
-        .attr("preserveAspectRatio", "none");
+       // .attr("preserveAspectRatio", "none");
 
       svgr.append("g").attr("id", "salesDonut");
       svgfullpie.append("g").attr("id", "quotesDonut");

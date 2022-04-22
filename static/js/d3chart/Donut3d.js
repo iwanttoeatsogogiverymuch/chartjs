@@ -136,6 +136,22 @@
 			"%"
 			: "";
 	}
+    function midAngle(d) {
+        return d.oldEndAngle ? d.oldSartAngle + (d.oldEndAngle - d.oldSartAngle) / 2 : d.startAngle + (d.endAngle - d.startAngle) / 2;
+    }
+
+    function labelPath(d, rx, ry, h) {
+        var x1 = rx * Math.cos(midAngle(d));
+        var y1 = ry * Math.sin(midAngle(d));
+        var labelPathLength = 1 + h / rx / 2;
+        var path = [];
+
+        path.push('M', x1, y1, 'L', x1 * labelPathLength, y1 * labelPathLength);
+        path.push('L', (rx + 14) * (midAngle(d) > 3 / 2 * Math.PI || midAngle(d) < Math.PI / 2 ? 1 : -1), y1 * labelPathLength);
+        path.push('L', x1 * labelPathLength, y1 * labelPathLength, 'z');
+
+        return path.join(' ');
+    }
 
 	Donut3D.transition = function (id, data, rx, ry, h, ir) {
 		function arcTweenInner(a) {
@@ -360,6 +376,79 @@
 			.text(function (d) {
 				return d.data.label + "  [" +  d3floatFormatter(d.data.value)+"  ]";
 			});
+			
+        slices.append("g")
+            .attr("class", "labels");
+        slices.append("g")
+            .attr("class", "lines");
+
+        var pie = d3.pie()
+            .sort(null)
+            .value(function(d) {
+                return d.value;
+            });
+
+        var key = function(d){ return d.data.label; };
+
+        change(data);
+
+        setTimeout(function() {
+            change(data);
+        }, 10);
+
+        function change(data){
+
+            var text = slices.select(".labels").selectAll("text")
+                .data(pie(data), key);
+
+            text.enter()
+                .append("text")
+                .attr("dy", ".24em")
+                .text(function(d) {
+                    return d.data.label;
+                });
+
+            text
+                .transition()
+                .duration(1000)
+                .attrTween('transform', function (d) {
+                    var i = d3.interpolate(this.current, d);
+                    return function(t) {
+                        i(t).endAngle = d.startAngle + (d.endAngle - d.startAngle) * t;
+                        var labelPathLength = 1 + h / rx / 2;
+                        var xxx=(rx + 13) * (midAngle(i(t)) >
+                            3 / 2 * Math.PI || midAngle(i(t)) < Math.PI / 2 ? 1 : -1);
+                        var yyy=ry * Math.sin(midAngle(i(t))) * labelPathLength + 3;
+                        return "translate("+xxx+","+yyy+")";
+                    };
+                })
+                .styleTween('text-anchor', function (d) {
+                    var i = d3.interpolate(this.current, d);
+                    return function(t) {
+                        i(t).endAngle = d.startAngle + (d.endAngle - d.startAngle) * t;
+                        return midAngle(i(t)) > 3 / 2 * Math.PI || midAngle(i(t)) < Math.PI / 2 ? 'start' : 'end';
+                    };
+                });
+
+            text.exit()
+                .remove();
+            /* ------- SLICE TO TEXT POLYLINES -------*/
+
+            var polyline = slices.select(".lines").selectAll("path")
+                .data(pie(data), key);
+
+            polyline.enter()
+                .append("path");
+
+            polyline.transition().duration(1000)
+                .attrTween("d", function(d){
+                    return function() {
+                        return labelPath(d, rx-.5,ry-.5, h);
+                    };
+                });
+
+            polyline.exit()
+                .remove();}
 	};
 
 	this.Donut3D = Donut3D;
