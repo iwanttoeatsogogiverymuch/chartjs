@@ -27,7 +27,7 @@ function setComma(num){
   var easetype = d3.easeSin;
 
   //bar colors
-  var mcgpalette0 = ["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D", "#78BB37", "#BE653E", "#6CC4A0", "#EF9DB5"];
+  var mcgpalette0 = ["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D"];
 
   var svg = d3
     .select("#stackedbar")
@@ -164,40 +164,64 @@ function setComma(num){
         .text("");
 
 
-      // g.append("g")
-      //   .attr("class","textinstack")
-      //   .attr("transform","translate(0," + height + ")")
-      //   .attr("x", 10)
-      //   .attr("y", 10)
+    g.append("g")
+        .selectAll("g")
+        .data(d3.stack().keys(keys)(data))
+        .enter()
+        .append("g").attr("transform", "translate(0," +0+ ")")
+        .selectAll("text")
+        .data(function (d) {
+          return d;
+       
+        })
+        .enter()
+        .append("text")
+        // .attr("x", function (d,i) {
+        //   return x(d.data.State) + x.bandwidth()/2;
+        // })
+        // .attr("y", function(d) { return y((d[1] +d[0])/2) ; })
+        .attr("text-anchor", "middle")
+        .attr("font-family","Noto Sans KR")
+        .attr("font-weight","bold")
+        .attr("alighnment-baseline", "middle") 
+        .attr("dx", function (d,i) {
+          return x(d.data.State) + x.bandwidth()/2;
+        })
+        .attr("dy", function(d) { return y((d[1] +d[0])/2) ; })
+        .attr("font-size","0.8em")
+        .attr("fill",function(d, i)  { return d3.hsl(z(d3.select(this.parentNode).key)).darker(3).toString(); })
+        .text(function (d) { return  d[1] - d[0]; });
 
-      // var legend = g
-      //   .append("g")
-      //   .attr("font-family", "Noto Sans KR")
-      //   .attr("font-size", 10)
-      //   .attr("text-anchor", "end")
-      //   .selectAll("g")
-      //   .data(keys.slice().reverse())
-      //   .enter()
-      //   .append("g")
-      //   .attr("transform", function (d, i) {
-      //     return "translate(0," + i * 20 + ")";
-      //   });
 
-      // legend
-      //   .append("rect")
-      //   .attr("x", width - 19)
-      //   .attr("width", 19)
-      //   .attr("height", 19)
-      //   .attr("fill", z);
 
-      // legend
-      //   .append("text")
-      //   .attr("x", width - 24)
-      //   .attr("y", 9.5)
-      //   .attr("dy", "0.32em")
-      //   .text(function (d) {
-      //     return d;
-      //   });
+      var legend = g
+        .append("g")
+        .attr("font-family", "Noto Sans KR")
+        .attr("font-size", 10)
+        .attr("text-anchor", "end")
+        .selectAll("g")
+        .data(keys.slice().reverse())
+        .enter()
+        .append("g")
+        .attr("transform", function (d, i) {
+          return "translate(0," + i * 20 + ")";
+        });
+
+      legend
+        .append("rect")
+        .attr("x", width - 19)
+        .attr("width", 19)
+        .attr("height", 19)
+        .attr("fill", z);
+
+      legend
+        .append("text")
+        .attr("x", width - 24)
+        .attr("y", 9.5)
+        .attr("dy", "0.32em")
+        .text(function (d) {
+          return d;
+        });
     }
   );
 };
