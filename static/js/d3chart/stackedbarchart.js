@@ -189,7 +189,10 @@ function setComma(num){
         })
         .attr("dy", function(d) { return y((d[1] +d[0])/2) ; })
         .attr("font-size","0.8em")
-        .attr("fill",function(d, i)  { return d3.hsl(z(d3.select(this.parentNode).key)).darker(3).toString(); })
+        .attr("fill",function(d, i)  {
+          return "white";
+          // return d3.hsl(z(d3.select(this.parentNode).key)).darker(3).toString();
+         })
         .text(function (d) { return  d[1] - d[0]; });
 
 
