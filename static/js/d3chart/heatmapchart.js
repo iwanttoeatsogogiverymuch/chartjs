@@ -1,26 +1,7 @@
 
 window.addEventListener("load", function () {
 
-        // $.ajax({
-        //     url: 'http://127.0.0.1:5500/resource/heatmap_data.csv',
-        //     contentType:"text/csv; charset=utf-8",
-        //     success: function(dt) {
 
-        //         console.log(dt);
-        //     svg6.selectAll()
-        //         .data(dt, function (dt) { return dt.group + ':' + dt.variable; })
-        //         .enter()
-        //         .append("rect")
-        //         .attr("x", function (dt) { return x5(dt.group) })
-        //         .attr("y", function (dt) { return y5(dt.variable) })
-        //         .attr("width", x5.bandwidth())
-        //         .attr("height", y5.bandwidth())
-        //         .style("fill", function (dt) { return myColor(dt.value) })
-        //     },
-        //     error: function(d){
-        //         alert('error');
-        //     }
-        //  });
 
     // Read the data
     d3.json("/resource/tableConvert.json", function (err,data) {

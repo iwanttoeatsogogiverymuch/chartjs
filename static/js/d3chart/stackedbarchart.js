@@ -17,11 +17,9 @@ function setComma(num){
  
 };
 
-
-
   var tooltip = d3.select("body").append("div")
     .attr("class", "toolTip")
-    .style("display", "none");
+    .style("opacity", "0");
   var duration = 1300;
   var delayfunc = function (d, i) { return i * 100; };
   var easetype = d3.easeSin;
@@ -35,9 +33,7 @@ function setComma(num){
     .attr("width", "700")
     .attr("height", "400")
     .attr("viewBox", "0 0 700 400")
-    .attr("preserveAspectRatio", "none");
-
-
+    .attr("preserveAspectRatio", "true");
 
   var margin = { top: 20, right: 20, bottom: 30, left: 40 };
   var width = + svg.attr("width") - margin.left - margin.right;
@@ -52,13 +48,9 @@ function setComma(num){
   //y axis scale
   var y = d3.scaleLinear().rangeRound([height, 0]);
 
-
-
   //bar
 
   var z = d3.scaleOrdinal().range(mcgpalette0);
-
-
 
   //read data from csv file,then get the data and index -> callback
   d3.csv(
@@ -115,14 +107,12 @@ function setComma(num){
         return d3.hsl( d3.select(this).style("fill") ).darker(1).toString();
     });
           
-          tooltip.style("display", null); })
-        .on("mouseout", function () { 
-          
+          tooltip.style("opacity", "100"); })
+        .on("mouseout", function () {      
             d3.select(this).style("fill", function() {
         return d3.hsl( d3.select(this).style("fill") ).brighter(1).toString();
     });
-          
-          tooltip.style("display", "none"); })
+          tooltip.style("opacity", "0"); })
         .on("mousemove", function (d, i,j) {
 
           var subgroupName = d3.select(this.parentNode).datum().key;
@@ -143,7 +133,6 @@ function setComma(num){
         .attr("height", function (d) {
           return y(d[0]) - y(d[1]);
         })
-
         .attr("width", x.bandwidth());
 
       g.append("g")
@@ -163,7 +152,6 @@ function setComma(num){
         .attr("text-anchor", "start")
         .text("");
 
-
     g.append("g")
         .selectAll("g")
         .data(d3.stack().keys(keys)(data))
@@ -172,7 +160,6 @@ function setComma(num){
         .selectAll("text")
         .data(function (d) {
           return d;
-       
         })
         .enter()
         .append("text")
@@ -182,7 +169,7 @@ function setComma(num){
         // .attr("y", function(d) { return y((d[1] +d[0])/2) ; })
         .attr("text-anchor", "middle")
         .attr("font-family","Noto Sans KR")
-        .attr("font-weight","Regular")
+        .attr("font-weight","Light")
         .attr("alighnment-baseline", "middle") 
         .attr("dx", function (d,i) {
           return x(d.data.State) + x.bandwidth()/2;
@@ -218,7 +205,9 @@ function setComma(num){
         .attr("fill", z);
 
       legend
-        .append("text")
+        .append("text")     
+        .attr("font-family","Noto Sans KR")
+        .attr("font-weight","Light")
         .attr("x", width - 24)
         .attr("y", 9.5)
         .attr("dy", "0.32em")

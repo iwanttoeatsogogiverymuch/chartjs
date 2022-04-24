@@ -1,67 +1,82 @@
+window.addEventListener("load", function () {
+  var salesData3 = [
+    { label: "강남금융센터", color: "#be653e", value: "300" },
+    { label: "삼성지점", color: "#78bb37", value: "400" },
+    { label: "수유지점", color: "#e0b63d", value: "200" },
+    { label: "영업본부(개인)", color: "#ef9db5", value: "200" },
+    { label: "영업부", color: "#d46b8e", value: "300" },
+    { label: "채권2팀", color: "#9a9adc", value: "30" },
+    { label: "투자금융팀", color: "#6cc4a0", value: "120" },
+  ];
 
-window.addEventListener("load",function(){
+  var pieData = salesData3.map(function (d) {
+    return d.value;
+  });
+  var colors = salesData3.map(function (d) {
+    return d.color;
+  });
+  var labels = salesData3.map(function (d) {
 
+    return d.label;
+  });
 
-    var mcgpalette0 = [
-        "#edf2fd",
-        "#d1dffb",
-        "#b2caf9",
-        "#93b5f6",
-        "#7ca5f4",
-        "#6595f2",
-        "#5d8df0",
-        "#5382ee",
-        "#4978ec",
-        "#3767e8",
-        "#ffffff",
-        "#fefeff",
-        "#cbd8ff",
-        "#b2c5ff",
-      ];
+  var width3 = 400,
+    height3 = 400,
+    radius3 = Math.min(width3, height3) / 2;
 
+  var piecolor = d3.scaleOrdinal().range(colors).domain(labels);
 
-    var data3 = [10, 20, 100];
+  var arc = d3
+    .arc()
+    .outerRadius(radius3 - 10)
+    .innerRadius(0);
 
-    var width3 = 400,
-        height3 = 400,
-        radius3 = Math.min(width3, height3) / 2;
-    
-    var color = d3.scaleOrdinal()
-        .range([mcgpalette0[2], mcgpalette0[6],mcgpalette0[7]]);
-    
-    var arc = d3.arc()
-        .outerRadius(radius3 - 10)
-        .innerRadius(0);
-    
-    var labelArc = d3.arc()
-        .outerRadius(radius3 - 40)
-        .innerRadius(radius3 - 40);
-    
-    var pie = d3.pie()
-        .sort(null)
-        .value(function(d) { return d; });
-    
-    var svg5 = d3.select("#my_dataviz").append("svg")
-        .attr("width", width3)
-        .attr("height", height3)
-        .attr("viewBox","0 0 400 400")
-        .attr("preserveAspectRatio","none")
-        .append("g")
-        .attr("transform", "translate(" + width3 / 2 + "," + height3 / 2 + ")");
-    
-      var g4 = svg5.selectAll(".arc")
-          .data(pie(data3))
-        .enter().append("g")
-          .attr("class", "arc");
-    
-      g4.append("path")
-           .style("fill", function(d) { return color(d.data); })
-          .transition().duration(500)
-          .attr("d", arc);
-;
-    
-      g4.append("text")
-          .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-          .attr("dy", ".35em")
-          .text(function(d) { return d.data; });
+  var labelArc = d3
+    .arc()
+    .outerRadius(radius3 - 40)
+    .innerRadius(radius3 - 40);
+
+  var pie = d3
+    .pie()
+    .sort(null)
+    .value(function (d) {
+      return d;
+    });
+
+  var svg5 = d3
+    .select("#my_dataviz")
+    .append("svg")
+    .attr("width", width3)
+    .attr("height", height3)
+    .attr("viewBox", "0 0 400 400")
+    .attr("preserveAspectRatio", "none")
+    .append("g")
+    .attr("transform", "translate(" + width3 / 2 + "," + height3 / 2 + ")");
+
+  var g4 = svg5
+    .selectAll(".arc")
+    .data(pie(pieData))
+    .enter()
+    .append("g")
+    .attr("class", "arc");
+
+  g4.append("path")
+    .style("fill", function (d,i) {
+      return piecolor(salesData3[i].label);
+    })
+    .transition()
+    .duration(500)
+    .attr("d", arc);
+  g4.append("text")
+    .attr("transform", function (d) {
+      return "translate(" + arc.centroid(d) + ")";
+    })
+    .attr("font-family", "Noto Sans KR")
+    .attr("font-size", "25px")
+    .attr("font-weight", "Regular")
+    .attr("fill","white")
+    .attr("text-anchor","start")
+    .text(function (d) {
+      return d.data;
+    });
 });
