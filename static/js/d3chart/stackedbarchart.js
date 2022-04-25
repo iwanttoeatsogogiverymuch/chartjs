@@ -103,12 +103,14 @@ function setComma(num){
         })
         .attr("y", y(0)).on("mouseover", function () {
           
+            g.selectAll("rect").attr("opacity",".2");
             d3.select(this).style("fill", function() {
         return d3.hsl( d3.select(this).style("fill") ).darker(1).toString();
-    });
+    }).attr("opacity","1");
           
           tooltip.style("opacity", "100"); })
         .on("mouseout", function () {      
+            g.selectAll("rect").attr("opacity","1");
             d3.select(this).style("fill", function() {
         return d3.hsl( d3.select(this).style("fill") ).brighter(1).toString();
     });
@@ -167,14 +169,17 @@ function setComma(num){
         //   return x(d.data.State) + x.bandwidth()/2;
         // })
         // .attr("y", function(d) { return y((d[1] +d[0])/2) ; })
+        .attr("y", function (d) {
+          return y(d[1]);
+        })
         .attr("text-anchor", "middle")
         .attr("font-family","Noto Sans KR")
         .attr("font-weight","Light")
-        .attr("alighnment-baseline", "middle") 
+        .attr("alignment-baseline", "middle") 
         .attr("dx", function (d,i) {
           return x(d.data.State) + x.bandwidth()/2;
         })
-        .attr("dy", function(d) { return y((d[1] +d[0])/2) ; })
+        .attr("dy", function(d) { return    (y(d[0]) - y(d[1]))/2;})
         .attr("font-size","0.66em")
         .attr("fill",function(d, i)  {
           return "white";

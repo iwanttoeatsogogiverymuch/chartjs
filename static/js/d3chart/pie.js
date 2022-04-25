@@ -48,7 +48,7 @@ window.addEventListener("load", function () {
     .append("svg")
     .attr("width", width3)
     .attr("height", height3)
-    .attr("viewBox", "0 0 400 400")
+    .attr("viewBox", "0 0 800 400")
     .attr("preserveAspectRatio", "none")
     .append("g")
     .attr("transform", "translate(" + width3 / 2 + "," + height3 / 2 + ")");
@@ -79,4 +79,35 @@ window.addEventListener("load", function () {
     .text(function (d) {
       return d.data;
     });
+
+      var legend = svg5
+        .append("g")
+        .attr("font-family", "Sans serif")
+        .attr("font-size", 10)
+        .attr("text-anchor", "start")
+        .selectAll("g")
+        .data(labels)
+        .enter()
+        .append("g")
+        .attr("transform", function (d, i) {
+          return "translate(0," + i * 25 + ")";
+        });
+
+      legend
+        .append("rect")
+        .attr("x", width3 -45)
+        .attr("width", 19)
+        .attr("height", 19)
+        .attr("fill", piecolor);
+
+      legend
+        .append("text")     
+        .attr("font-family","Noto Sans KR")
+        .attr("font-weight","Light")
+        .attr("x", width3 - 24)
+        .attr("y", 9.5)
+        .attr("dy", "0.32em")
+        .text(function (d) {
+          return d;
+        });
 });

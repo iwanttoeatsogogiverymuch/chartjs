@@ -23,9 +23,7 @@ function setComma(num){
     .attr("class", "toolTip")
     .style("display", "none");
 
-  // using svg and g and path ,make the chart size and margin padding
-  // parent div and bootstrap div width and height will be applied prior to this size.
-  // preserveAspectRatio:none option is needed when you want the chart to look like fit in parent div width and height
+
   var svg2 = d3.select("#groupedbar").append("svg").attr("width", 700).attr("height", 400).attr("viewBox", "0 0 700 400").attr("preserveAspectRatio", "true");
   var margin2 = { top: 20, right: 20, bottom: 30, left: 40 };
   var width2 = +svg2.attr("width") - margin2.left - margin2.right;
@@ -205,7 +203,7 @@ function setComma(num){
         .attr("class", "axis")
         .call(d3.axisLeft(y).ticks(null, "s"))
         .append("text")
-        .attr("x", width2 / 2)
+        .attr("x", width3 / 2)
         .attr("y", y(y.ticks().pop()) + 0.5)
         .attr("dy", "0.32em")
         .attr("fill", "#000")

@@ -63,10 +63,9 @@ window.addEventListener("load", function () {
             .data(data, function (d, i) { return d; })
             .enter()
             .append("rect")
-            .attr("x",function ( d, i,j) 
+            .attr("x",function ( d, i) 
             { 
-                if(i >14 || i == 0){return i*10;}
-                console.log(parseInt(d[i]));
+                console.log(d[i]);
                 console.log(x5(parseInt(d[i])));
                 return x5(i);
             })

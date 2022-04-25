@@ -405,8 +405,12 @@
     change(data);
 
     setTimeout(function () {
-      change(data);
-    }, 10);
+      change(randomData());
+    }, 2000);
+
+    setTimeout(function () {
+      change(randomData());
+    }, 1000);
 
     function change(data) {
       var text = slices
