@@ -231,8 +231,16 @@ body {
 #my_dataviz{
 
   margin-top:25px;
+  width: 1200px;
+  height: 800px;
+  padding:10px;
+
+}
+#my_dataviz2{
+
+  margin-top:25px;
   width: 100%;
-  height: 80%;
+  height: 100%;
   padding:10px;
 
 }
