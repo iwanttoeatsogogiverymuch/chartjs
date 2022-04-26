@@ -5,9 +5,7 @@ window.addEventListener("load", function () {
     //   console.error("error in heatmap json load");
       return;
     }
-    // console.log(data);
 
-    var local = d3.local();
 
     // set the dimensions and margins of the graph
     var margin5 = { top: 20, right: 20, bottom: 20, left: 70 },
@@ -25,10 +23,6 @@ window.addEventListener("load", function () {
 
       .append("g")
       .attr("transform", "translate(" + margin5.left + "," + margin5.top + ")");
-
-    // Labels of row and columns
-    var datesettings = moment().format("YYYY-MM-DD");
-
 
     var signdates = data.map(function (d, i) {
       return d.signdate;
@@ -68,8 +62,8 @@ window.addEventListener("load", function () {
 
     var threshold = d3
       .scaleThreshold()
-      .domain([0,4,10,15,20,25,30,35,40,45,50,55,60,65,70,75,95,97,100])
-      .range(["#418af3","#4b90f4", "#5998f5", "#68a3f7", "#78adf8","#86b6f9","#96bffb","#a5c9fd","#bcd8ff","#fbd1d1","#fbc7c8","#fbbbbb","#fbadac","#fd9c9d","#fd8e8e","#fe7f7f","#fe7172","#ff6565","#ff5d5c"]);
+      .domain([0,15,20,25,30,40,45,50,55,70,75,80,85,88,90,95,100])
+      .range(["#418af3","#4b90f4", "#5998f5", "#68a3f7", "#78adf8","#86b6f9","#96bffb","#a5c9fd","#bcd8ff","#fbd1d1","#fbc7c8","#fbbbbb","#fbadac","#fd9c9d","#fd8e8e","#fe7f7f","#fe7172","#ff6565","#ff5d5c"].reverse());
      //#418af3 #4b90f4 #5998f5 #68a3f7 #78adf8 #86b6f9 #96bffb #a5c9fd #bcd8ff red #fbd1d1 #fbc7c8 #fbbbbb #fbadac
      //#fd9c9d #fd8e8e #fe7f7f #fe7172 #ff6565 #ff5d5c
     svg6
@@ -128,6 +122,16 @@ window.addEventListener("load", function () {
       .attr("dominant-baseline", "text-before-edge")
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", "middle")
-      .attr("fill", "white");
+      .attr("fill",function (d){
+
+        var textcolor;
+        if( d.retentionvalue>=30 && d.retentionvalue<44 )
+        { textcolor = "black"; }
+        else{
+            textcolor = "white";
+        }
+        return textcolor;
+
+      });
   });
 });
