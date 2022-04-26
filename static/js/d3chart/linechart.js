@@ -18,6 +18,7 @@ window.addEventListener("load", function () {
     //Read the data
     d3.json("/resource/retentionline.json",
 
+
         function (data) {
 
             var pnum = data.map(function (d, i) {
@@ -31,23 +32,24 @@ window.addEventListener("load", function () {
 
             console.log(data);
             // Add X axis --> it is a date format
-            var linex = d3.scaleBand()
+            var linex = d3.scalePoint()
                 .domain(pnum.sort(d3.ascending))
                 .range([0, linechartwidth]);
             svg9.append("g")
                 .attr("transform", "translate(0," + linechartheight + ")")
-                .call(d3.axisBottom(linex));
+                .call(d3.axisBottom(linex))
+                .call(function (g) { g.selectAll(".domain, .tick line").remove()})
 
             // Add Y axis
             var liney = d3.scaleLinear()
                 .domain([0, d3.max(data, function (d) { return d.retentionvalue; })])
-                .range([linechartheight, 0]).nice();
+                .range([linechartheight, 0]);
             svg9.append("g")    
                 .attr("transform", "translate(0," + 0 + ")")
                 .call(d3.axisLeft(liney));
 
             // Add the line
-            svg9.append("path")
+            svg9.append("path").attr("transform", "translate(0," + 0 + ")")
                 .datum(data)
                 .attr("fill", "none")
                 .attr("stroke", "steelblue")
@@ -71,7 +73,7 @@ window.addEventListener("load", function () {
                 })
                 .style("fill", "#418af3");
 
-
+            sva9.selectAll("path").data(data).enter().append("path")
 
         })
 }
