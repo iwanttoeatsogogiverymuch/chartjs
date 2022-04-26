@@ -53,8 +53,8 @@ window.addEventListener("load", function () {
                 .attr("stroke", "steelblue")
                 .attr("stroke-width", 1)
                 .attr("d", d3.line()
-                    .x(function (d) { return linex(d.preiod_num) })
-                    .y(function (d) { return liney(d.retentionvalue) })
+                    .x(function (d) { return linex(d.preiod_num); })
+                    .y(function (d) { return liney(d.retentionvalue); })
                 )
             // add the dots with tooltips
             svg9.selectAll(".circle")
