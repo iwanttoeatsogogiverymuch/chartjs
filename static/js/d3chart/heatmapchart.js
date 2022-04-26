@@ -116,7 +116,7 @@ window.addEventListener("load", function () {
     var data = JSON.parse(JSON.stringify(cohortdata));
 
     // set the dimensions and margins of the graph
-    var margin5 = { top: 20, right: 50, bottom: 20, left: 50 },
+    var margin5 = { top: 20, right: 50, bottom: 20, left: 80 },
         width5 = 600 - margin5.left - margin5.right,
         height5 = 200 - margin5.top - margin5.bottom;
 
@@ -126,7 +126,7 @@ window.addEventListener("load", function () {
         .append("svg")
         .attr("width", width5 + margin5.left + margin5.right)
         .attr("height", height5 + margin5.top + margin5.bottom)
-        .attr("viewBox", "0 0 600 600")
+        .attr("viewBox", "0 0 700 200")
         .attr("prserveAspectRatio", "none")
 
         .append("g")
