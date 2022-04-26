@@ -283,3 +283,8 @@ body {
            stroke-linecap: round;
 
       }
+  #linechart {
+
+    width: 100%;
+    height: 100%;
+  }
