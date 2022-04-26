@@ -2,10 +2,10 @@ window.addEventListener("load", function () {
   // Read the data
   d3.json("/resource/retention.json", function (err, data) {
     if (err) {
-      console.error("error in heatmap json load");
+    //   console.error("error in heatmap json load");
       return;
     }
-    console.log(data);
+    // console.log(data);
 
     var local = d3.local();
 
@@ -103,7 +103,7 @@ window.addEventListener("load", function () {
 
       .attr("font-family", "Noto Sans KR")
       .attr("font-weight", "Bold")
-      .attr("font-size", "1rem")
+      .attr("font-size", "0.6rem")
 
       .append("g")
       .selectAll("text")
