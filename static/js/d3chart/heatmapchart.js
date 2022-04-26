@@ -145,7 +145,7 @@ window.addEventListener("load", function () {
     });
 
     // Build X scales and axis:
-    var x5 = d3.scaleBand().range([0, width5]).domain(preioddates.sort(d3.ascending)).padding(0.05);
+    var x5 = d3.scaleBand().range([0, width5]).domain(preioddates.sort(d3.ascending)).padding(0.1);
     // .padding(0.01);
     svg6
         .append("g")
@@ -158,7 +158,7 @@ window.addEventListener("load", function () {
     var y5 = d3.scaleBand()
         .range([height5, 0])
         .domain(signdates.sort(d3.descending))
-        .padding(0.05);
+        .padding(0.1);
 
     // .padding(0.01);
     svg6.append("g")
@@ -191,8 +191,8 @@ window.addEventListener("load", function () {
         .attr("y", function (d, i) {
             return y5(d.signdate);
         })
-        .attr("rx", 2)
-        .attr("ry", 2)
+        .attr("rx", 10)
+        .attr("ry", 10)
         .attr("width", function (d) {
             return x5.bandwidth();
         })
@@ -212,8 +212,8 @@ window.addEventListener("load", function () {
         .append("g")
 
         .attr("font-family", "Noto Sans KR")
-        .attr("font-weight", "Bold")
-        .attr("font-size", "0.4rem")
+        .attr("font-weight", "Light")
+        .attr("font-size", "0.3rem")
 
         .append("g")
         .selectAll("text")

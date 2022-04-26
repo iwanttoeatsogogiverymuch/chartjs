@@ -34,9 +34,12 @@ function setComma(num){
     .append("g")
     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-  var x0 = d3.scaleBand().rangeRound([0, width2]).paddingInner(0.1);
-  var x1 = d3.scaleBand().padding(0.05);
-  var y = d3.scaleLinear().rangeRound([height2, 0]);
+  var x0 = d3.scaleBand()
+  .rangeRound([0, width2]).paddingInner(0.1);
+  var x1 = d3.scaleBand()
+  .padding(0.05);
+  var y = d3.scaleLinear()
+  .rangeRound([height2, 0]);
 
 
   var mcgpalette0 = [
@@ -83,7 +86,8 @@ function setComma(num){
           return d.State;
         })
       );
-      x1.domain(keys).rangeRound([0, x0.bandwidth()]);
+      x1.domain(keys)
+      .rangeRound([0, x0.bandwidth()]);
 
       y.domain([
         0,
@@ -127,7 +131,9 @@ function setComma(num){
           tooltip.html( d.key.toString() + "<br>" + setComma(d.value) );
           
         })
-        .transition().duration(1000).delay(function (d, i) {
+        .transition()
+        .duration(1000)
+        .delay(function (d, i) {
           return i * 100;
         }).ease(d3.easeSin)
         .attr("height", function (d) {
