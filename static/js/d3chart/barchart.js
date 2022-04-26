@@ -73,6 +73,7 @@ function setComma(num){
       for (var i = 1, n = columns.length; i < n; ++i)
         d[columns[i]] = +d[columns[i]];
       return d;
+  
     },
     function (error, data) {
       if (error) throw error;
