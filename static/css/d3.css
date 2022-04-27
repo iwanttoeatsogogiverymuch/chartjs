@@ -301,4 +301,8 @@ body {
 }
 .grid path {
       stroke-width: 0;
+
+    }
+svg text {
+  pointer-events:none;
 }
