@@ -1,9 +1,13 @@
 window.addEventListener("load", function () {
 
     // set the dimensions and margins of the graph
-    var margin = { top: 10, right: 30, bottom: 30, left: 60 },
+    var margin = { top: 10, right: 30, bottom: 30, left: 40 },
         linechartwidth = 600 - margin.left - margin.right,
         linechartheight = 200 - margin.top - margin.bottom;
+
+    var tooltip = d3.select("body").append("div")
+        .attr("class", "toolTip")
+        .style("opacity", "0").attr("font-size", "3rem");
 
     // append the svg object to the body of the page
     var svg9 = d3.select("#linechart")
@@ -18,9 +22,10 @@ window.addEventListener("load", function () {
     //Read the data
     d3.json("/resource/retentionline.json",
 
-
-        function (data) {
-
+        function (err, data) {
+            if (err) {
+                // document.write("error in json load");
+            }
             var pnum = data.map(function (d, i) {
                 //  return moment - new Date(d.retentiondate.toString()) ;
                 var a = moment(d.retentiondate.toString());
@@ -29,31 +34,56 @@ window.addEventListener("load", function () {
                 return a.diff(b, "days");
             });
 
-
-            console.log(data);
+            //   console.log(data);
             // Add X axis --> it is a date format
             var linex = d3.scalePoint()
                 .domain(pnum.sort(d3.ascending))
                 .range([0, linechartwidth]);
+
+
             svg9.append("g")
                 .attr("transform", "translate(0," + linechartheight + ")")
                 .call(d3.axisBottom(linex))
-                .call(function (g) { g.selectAll(".domain, .tick line").remove()})
+                .call(function (g) { g.selectAll(".domain, .tick line").remove() })
+                .call(function (g) {
+                    g.selectAll("text")
+                        .attr("font-family", "Noto Sans KR")
+                        .attr("fill", "grey")
+                });
 
             // Add Y axis
             var liney = d3.scaleLinear()
                 .domain([0, d3.max(data, function (d) { return d.retentionvalue; })])
-                .range([linechartheight, 0]);
-            svg9.append("g")    
+                .range([linechartheight, 0]).nice();
+
+            svg9.append("g")
                 .attr("transform", "translate(0," + 0 + ")")
-                .call(d3.axisLeft(liney));
+                .call(d3.axisLeft(liney).tickFormat(function (d) {
+                    return d + "%"
+                }).tickValues([0,20,40,60,80,100])).
+                call(function (g) { g.selectAll(".domain, .tick line").remove() })
+                .call(function (g) {
+                    g.selectAll("text")
+                        .attr("font-family", "Noto Sans KR")
+                        .attr("fill", "grey")
+                });
+            // Build color scale
+            var mylineColorblue = d3
+                .scaleSequential()
+                .domain([100, 50])
+                .interpolator(d3.interpolate("#418af3", "white"));
+            var mylineColorred = d3.scaleSequential()
+                .domain([50, 0])
+                .interpolator(d3.interpolate("white", "#ff5d5c"));
+
+
 
             // Add the line
-            svg9.append("path").attr("transform", "translate(0," + 0 + ")")
+            svg9.append("path")
                 .datum(data)
                 .attr("fill", "none")
-                .attr("stroke", "steelblue")
-                .attr("stroke-width", 1)
+                .attr("stroke", "#94B3FD")
+                .attr("stroke-width", 2.5)
                 .attr("d", d3.line()
                     .x(function (d) { return linex(d.preiod_num); })
                     .y(function (d) { return liney(d.retentionvalue); })
@@ -63,17 +93,52 @@ window.addEventListener("load", function () {
                 .data(data)
                 .enter().append("circle")
                 .attr("class", "circle")
-                .attr("r", 1.5)
+                .attr("border", "1px solid")
+                .attr("r", 3.5)
+                .attr("pointer-event", "none")
                 .attr("cx", function (d) {
-                    console.log(d);
                     return linex(d.preiod_num);
                 })
                 .attr("cy", function (d) {
                     return liney(d.retentionvalue);
                 })
-                .style("fill", "#418af3");
+                .style("fill", "#2FA4FF")
+                .on("mouseover", function () {
 
-            sva9.selectAll("path").data(data).enter().append("path")
+                    svg9.selectAll("circle").attr("opacity", ".4");
+                    d3.select(this).style("fill", function () {
+                        return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
+                    }).attr("opacity", "1");
+
+                    tooltip.style("opacity", "100");
+                })
+                .on("mouseout", function () {
+                    svg9.selectAll("circle").attr("opacity", "1");
+                    d3.select(this).style("fill", function () {
+                        return d3.hsl(d3.select(this).style("fill")).brighter(1).toString();
+                    });
+                    tooltip.style("opacity", "0");
+                })
+                .on("mousemove", function (d, i, j) {
+
+                    // var subgroupName = d3.select(this.parentNode).datum().key;
+                    // var subgroupValue = d.data[subgroupName];
+
+                    tooltip.style("left", (d3.event.pageX + 10) + "px");
+                    tooltip.style("top", (d3.event.pageY - 10) + "px");
+                    tooltip.html(d.retentionvalue);
+
+                })
+
+            var gridlines = d3.axisLeft()
+                .tickFormat("")
+                .tickSize(-linechartwidth)
+                .scale(liney);
+
+            svg9.append("g")
+                .attr("class", "grid")
+                .call(gridlines.tickValues([0,20,40,60,80,100]));
+
 
         })
 }

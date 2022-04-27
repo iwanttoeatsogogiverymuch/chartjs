@@ -2,7 +2,7 @@ window.addEventListener("load", function () {
 
     var cohortdata = [
 
-        { "signdate": "2022-04-01", "retentiondate": "2022-04-02", "retentionvalue": "100" },
+        { "signdate": "2022-04-01", "retentiondate": "2022-04-02", "retentionvalue": "100", "userCount" : "1320" },
         { "signdate": "2022-04-01", "retentiondate": "2022-04-03", "retentionvalue": "99" },
         { "signdate": "2022-04-01", "retentiondate": "2022-04-04", "retentionvalue": "98" },
         { "signdate": "2022-04-01", "retentiondate": "2022-04-05", "retentionvalue": "97" },
@@ -116,7 +116,7 @@ window.addEventListener("load", function () {
     var data = JSON.parse(JSON.stringify(cohortdata));
 
     // set the dimensions and margins of the graph
-    var margin5 = { top: 20, right: 50, bottom: 20, left: 80 },
+    var margin5 = { top: 10, right: 30, bottom: 30, left: 80 },
         width5 = 600 - margin5.left - margin5.right,
         height5 = 200 - margin5.top - margin5.bottom;
 
@@ -145,7 +145,7 @@ window.addEventListener("load", function () {
     });
 
     // Build X scales and axis:
-    var x5 = d3.scaleBand().range([0, width5]).domain(preioddates.sort(d3.ascending)).padding(0.1);
+    var x5 = d3.scaleBand().range([0, width5 + 100]).domain(preioddates.sort(d3.ascending)).padding(0.1);
     // .padding(0.01);
     svg6
         .append("g")
@@ -248,5 +248,17 @@ window.addEventListener("load", function () {
             return textcolor;
 
         });
+
+        var userCountScale = d3.scaleBand().domain(d).range([0,height5]);
+
+    //table gird with user count
+    var userCount = svg6.append("g")
+        .selectAll("rect")
+        .data(data)
+        .enter()
+        .append("rect");
+
+
+
 
 });
