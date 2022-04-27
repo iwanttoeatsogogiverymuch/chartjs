@@ -58,7 +58,7 @@ window.addEventListener("load", function () {
                 .call(d3.axisLeft(liney).tickFormat(function (d) {
                     return d + "%"
                 })).
-                call(function (g) { g.selectAll(".domain, .tick line").remove() })
+                call(function (g) { g.selectAll(" .tick line").remove() })
                 .call(function (g) {
                     g.selectAll("text")
                         .attr("font-family", "Noto Sans KR")
