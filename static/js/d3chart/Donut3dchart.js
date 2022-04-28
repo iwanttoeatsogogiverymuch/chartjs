@@ -1,11 +1,16 @@
 !(function () {
   var Donut3D = {};
   var duration = 1300;
+
+
   var delayfunc = function (d, i) {
     return i * 100;
   };
   var easetype = d3.easeSin;
   var d3floatFormatter = d3.format("0.1f");
+
+
+
   function setComma(num) {
     var len, point, str;
 
@@ -24,6 +29,7 @@
   }
 
 
+  
  
 
 
