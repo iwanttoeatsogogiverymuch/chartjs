@@ -2,6 +2,16 @@ window.addEventListener("load", function () {
 
     var XMLNS_SVG_2000 = "xmlns=http://www.w3.org/2000/svg";
 
+
+    var mcgpalette0 = [
+        "#8664cb",
+        "#0075CC",
+        "#48A0CE",
+        "#44C4BE",
+        "#36C35D",
+        "#6079D6",
+    ];
+
     // set the dimensions and margins of the graph
     var margin = { top: 10, right: 30, bottom: 30, left: 40 },
         linechartwidth = 600 - margin.left - margin.right,
@@ -18,7 +28,7 @@ window.addEventListener("load", function () {
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
     //Read the data
-    d3.json("/resource/retentionline.json",
+    d3.json("/resource/retention.json",
 
         function (err, data) {
             if (err) {
@@ -43,16 +53,18 @@ window.addEventListener("load", function () {
                 .attr("transform", "translate(0," + linechartheight + ")")
                 .call(d3.axisBottom(linex))
                 .call(function (g) { g.selectAll(".tick line").remove() })
+                .call(function (g) { g.selectAll(".domain").attr("stroke-width", "2.5").attr("stroke-opacity", "0.5") })
                 .call(function (g) {
                     g.selectAll("text")
-                    .attr("font-family", "Noto Sans KR")
-                    .attr("fill", "grey")
+                        .attr("font-family", "Noto Sans KR")
+                        .attr("fill", "grey")
                 });
 
             // Add Y axis
             var liney = d3.scaleLinear()
                 .domain([0, d3.max(data, function (d) { return d.retentionvalue; })])
                 .range([linechartheight, 0]).nice();
+
             svg9.append("g")
                 .attr("transform", "translate(0," + 0 + ")")
                 .call(d3.axisLeft(liney).tickFormat(function (d) {
@@ -64,22 +76,72 @@ window.addEventListener("load", function () {
                         .attr("font-family", "Noto Sans KR")
                         .attr("fill", "grey")
                 });
+            console.log(data);
+            var sumstat = d3.nest()
+                .key(d => d.signdate)
+                .entries(data);
+            var signdatekey = sumstat.map(function (d) { return d.key; });
+
+            //color scale
+            var lineColors = d3.scaleOrdinal().domain(signdatekey).range(mcgpalette0);
+
+            console.log(sumstat);
 
             // Add the line
-            svg9.append("path")
-                .datum(data)
+            svg9.selectAll("svg").append("g")
+                .data(sumstat)
+                .enter()
+                .append("path")
                 .attr("fill", "none")
-                .attr("stroke", "#6cc4a0")
-                .attr("stroke-width", 2.5)
-                .attr("d", d3.line()
-                    .x(function (d) { return linex(d.preiod_num); })
-                    .y(function (d) { return liney(d.retentionvalue); })
+                .attr("stroke", function (d) {
+
+                    return lineColors(d.key);
+                })
+            .attr("stroke-width", 3.5).attr("ry", "3")
+                .attr("d", function (d, i) {
+                    return d3.line()
+                        .x(function (d) { return linex(d.preiod_num); })
+                        .y(function (d) { return liney(d.retentionvalue); })(d.values)
+                }
                 )
-     
 
-                //Add custom X axis
+            var gridlines = d3.axisLeft()
+                .tickFormat("")
+                .tickSize(-linechartwidth)
+                .scale(liney);
 
-                //Add custom Y axis
+            svg9.append("g")
+                .attr("class", "grid")
+                .call(gridlines.tickValues([0, 20, 40, 60, 80, 100]));
+
+
+
+            // Add the text label for the x axis
+            // svg.append("text")
+            //     .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.bottom) + ")")
+            //     .style("text-anchor", "middle")
+            //     .text("Date");
+
+
+            // // Add the text label for the Y axis
+            // svg.append("text")
+            //     .attr("transform", "rotate(-90)")
+            //     .attr("y", 0 - margin.left)
+            //     .attr("x", 0 - (height / 2))
+            //     .attr("dy", "1em")
+            //     .style("text-anchor", "middle")
+            //     .text("Value");
+            //append circle 
+           
+              svg9.selectAll("svg").append("g")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("r", 3.5)
+                .attr("cx", function(d) {return linex(d.preiod_num)}) 
+                .attr("cy", function(d) { return liney(d.retentionvalue);  })
+                .style("fill", function(d) {return lineColors(d.signdate) } )
+
 
         })
 }

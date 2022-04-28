@@ -26,9 +26,9 @@ window.addEventListener('load', function () {
 
   var svg2 = d3.select("#groupedbar")
     .append("svg")
-    .attr("width", 700)
+    .attr("width", 1920)
     .attr("height", 400)
-    .attr("viewBox", "0 0 700 400")
+    .attr("viewBox", "0 0 1920 400")
     .attr("preserveAspectRatio", "none");
 
   var margin2 = { top: 10, right: 30, bottom: 30, left: 40 };

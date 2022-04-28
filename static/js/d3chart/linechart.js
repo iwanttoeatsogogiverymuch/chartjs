@@ -60,7 +60,7 @@ window.addEventListener("load", function () {
                 .attr("transform", "translate(0," + 0 + ")")
                 .call(d3.axisLeft(liney).tickFormat(function (d) {
                     return d + "%"
-                }).tickValues([0,20,40,60,80,100])).
+                }).tickValues([0, 20, 40, 60, 80, 100])).
                 call(function (g) { g.selectAll(".domain, .tick line").remove() })
                 .call(function (g) {
                     g.selectAll("text")
@@ -121,12 +121,9 @@ window.addEventListener("load", function () {
                 })
                 .on("mousemove", function (d, i, j) {
 
-                    // var subgroupName = d3.select(this.parentNode).datum().key;
-                    // var subgroupValue = d.data[subgroupName];
-
                     tooltip.style("left", (d3.event.pageX + 10) + "px");
                     tooltip.style("top", (d3.event.pageY - 10) + "px");
-                    tooltip.html(d.retentionvalue+ "%");
+                    tooltip.html(d.retentionvalue + "%");
 
                 })
 
@@ -137,7 +134,25 @@ window.addEventListener("load", function () {
 
             svg9.append("g")
                 .attr("class", "grid")
-                .call(gridlines.tickValues([0,20,40,60,80,100]));
+                .call(gridlines.tickValues([0, 20, 40, 60, 80, 100]));
+
+
+
+            // Add the text label for the x axis
+            svg.append("text")
+                .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.bottom) + ")")
+                .style("text-anchor", "middle")
+                .text("Date");
+
+
+            // Add the text label for the Y axis
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0 - margin.left)
+                .attr("x", 0 - (height / 2))
+                .attr("dy", "1em")
+                .style("text-anchor", "middle")
+                .text("Value");
 
 
         })
