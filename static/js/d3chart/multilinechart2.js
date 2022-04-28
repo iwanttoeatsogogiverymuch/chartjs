@@ -46,7 +46,7 @@ window.addEventListener("load", function () {
             // Add X axis --> it is a date format
             var linex = d3.scalePoint()
                 .domain(pnum.sort(d3.ascending))
-                .range([0, linechartwidth]);
+                .range([0, linechartwidth]).padding(3);
 
 
             svg9.append("g")
@@ -76,7 +76,7 @@ window.addEventListener("load", function () {
                         .attr("font-family", "Noto Sans KR")
                         .attr("fill", "grey")
                 });
-         
+
 
             //nest json data
             var sumstat = d3.nest()
@@ -102,7 +102,7 @@ window.addEventListener("load", function () {
 
                     return lineColors(d.key);
                 })
-            .attr("stroke-width", 3.5).attr("ry", "3")
+                .attr("stroke-width", 3.5).attr("ry", "3")
                 .attr("d", function (d, i) {
                     return d3.line()
                         .x(function (d) { return linex(d.preiod_num); })
@@ -116,38 +116,41 @@ window.addEventListener("load", function () {
                 .scale(linex);
 
             svg9.append("g")
-                .attr("class", "grid")
-                .call(gridlines2.tickValues([2,4,6,8,10,12]));
+                .attr("class", "gridvertical")
+                .call(gridlines2.tickValues([2, 4, 6, 8, 10, 12,14])) 
+                .call(function (g) { g.selectAll(".domain").remove() })
 
 
 
-           // Add the text label for the x axis
+            // Add the text label for the x axis
             svg9.append("text")
-                .attr("transform", "translate(" + (linechartwidth / 2) + " ," + (linechartheight + margin.bottom-3) + ")")
+                .attr("transform", "translate(" + linechartwidth + " ," + (linechartheight + margin.bottom - 3) + ")")
                 .style("text-anchor", "middle")
-                .style("font-size","0.5rem")
-                .style("font-weight","Bold")
+                .style("font-size", "0.5rem")
+                .style("font-weight", "Bold")
                 .text("재방문일");
 
 
             // Add the text label for the Y axis
             svg9.append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 0 - margin.left)
-                .attr("x", -30)
+   
+                .attr("y", -10 )
+                .attr("x", -20)
                 .attr("dy", "1em")
+                .style("font-size", "0.5rem")
+                .style("font-weight", "Bold")
                 .style("text-anchor", "middle")
-                .text("Value");
-          //  append circle 
-           
-              svg9.selectAll("svg").append("g")
+                .text("리텐션비율");
+            //  append circle 
+
+            svg9.selectAll("svg").append("g")
                 .data(data)
                 .enter()
                 .append("circle")
                 .attr("r", 3.5)
-                .attr("cx", function(d) {return linex(d.preiod_num)}) 
-                .attr("cy", function(d) { return liney(d.retentionvalue);  })
-                .style("fill", function(d) {return lineColors(d.signdate) } )
+                .attr("cx", function (d) { return linex(d.preiod_num) })
+                .attr("cy", function (d) { return liney(d.retentionvalue); })
+                .style("fill", function (d) { return lineColors(d.signdate) })
 
 
         })

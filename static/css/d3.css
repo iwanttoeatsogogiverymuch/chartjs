@@ -305,4 +305,14 @@ body {
     }
 svg text {
   pointer-events:none;
+}  
+.gridvertical .tick {
+    stroke-width: 2;
+    stroke: lightgrey;
+    opacity: 0.3;           stroke-dasharray: 6 5;
+           stroke-linecap: round;
 }
+.grid2vertical path {
+      stroke-width: 0;
+
+    }

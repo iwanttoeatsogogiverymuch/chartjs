@@ -112,7 +112,7 @@ window.addEventListener('load', function () {
         .enter()
         .append("g")
         .attr("transform", function (d) {
-          return "translate(" + x0(d.State) + ",0)";
+          return "translate(" + "0," +  x0(d.State);
         })
         .selectAll("rect")
         .data(function (d) {
