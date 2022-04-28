@@ -18,7 +18,7 @@ window.addEventListener("load", function () {
         linechartheight = 200 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
-    var svg9 = d3.select("#multilinechart")
+    var svg9 = d3.select("#multilinechart2")
         .append("svg")
         .attr("width", linechartwidth + margin.left + margin.right)
         .attr("height", linechartheight + margin.top + margin.bottom)
@@ -110,14 +110,14 @@ window.addEventListener("load", function () {
                 }
                 )
 
-            var gridlines = d3.axisLeft()
+            var gridlines2 = d3.axisTop()
                 .tickFormat("")
-                .tickSize(-linechartwidth)
-                .scale(liney);
+                .tickSize(-linechartheight)
+                .scale(linex);
 
             svg9.append("g")
                 .attr("class", "grid")
-                .call(gridlines.tickValues([0, 20, 40, 60, 80, 100]));
+                .call(gridlines2.tickValues([2,4,6,8,10,12]));
 
 
 
