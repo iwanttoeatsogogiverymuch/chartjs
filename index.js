@@ -1,10 +1,19 @@
-var express = require('express');
-var app = express();
-var port = 8080;
+const express = require('express');
+const app = express();
+const path = require('path')
+const port = 8080;
 
-app.use(express.static('/static'));
+app.use('/static',express.static(__dirname + '/static'));
+
+
+app.get('/', function(req,res){
+  res.sendFile(path.join(__dirname, 'static/d3test.html')) })
+
+
 
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`example app listening on port ${port}`)
   })
+
+  

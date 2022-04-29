@@ -1,4 +1,43 @@
 window.onload = function () {
+
+
+  var widtth = null;
+  var height = null;
+  var margin = null;
+  var perserveAspect = null;
+
+  var xdomain;
+  var ydomain;
+
+  var xrange;
+  var yrange;
+
+
+  var xPadding = null;
+  var yPadding = null;
+
+
+  var axisStrokewidth = null;
+  var axisStrokeColor = null;
+  var isAxisTickVisible = null;
+  var isAxisTickTextVisible = null;
+  var isXAxisVisible = null;
+  var isYAxisVisible = null;
+  var isYAxisTitleVisible = null;
+  var isXAxisTItleVisible = null;
+
+
+  var isLegendVisible = null;
+  var legendTop =null;
+  var legendBottom = null;
+  var legendLeft = null;
+  var legnedType = null;
+
+
+  var isYGridLine = null;
+  var isXGridLine = null;
+
+
 function setComma(num){
     var len, point, str;  
        
