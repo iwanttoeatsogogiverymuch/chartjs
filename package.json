@@ -11,7 +11,8 @@
   "devDependencies": {
     "chart.js": "^3.7.1",
     "cohort-graph": "^0.8.5",
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "webpack": "^5.72.0"
   },
   "dependencies": {
     "bower": "^1.8.14",
