@@ -1,5 +1,6 @@
 
-
+//userbarchart
+//same bar chart but with all tooltip in top of the rect
 window.addEventListener('load', function () {
 
   function setComma(num) {
@@ -87,13 +88,27 @@ window.addEventListener('load', function () {
 
     },
     function (error, data) {
+
+      function stateDomain(data) {
+            var xdomainmap = null;
+            if(data == null){
+              console.error("state is null...")
+            }
+            else{
+            
+              xdomainmap = data.map(function(d){
+                return d.State;
+              });
+
+              return xdomainmap;
+            }
+      }
       if (error) throw error;
+
+
       var keys = data.columns.slice(1);
-      x0.domain(
-        data.map(function (d) {
-          return d.State;
-        })
-      );
+
+      x0.domain(stateDomain(data));
       x1.domain(keys)
         .rangeRound([0, x0.bandwidth()]);
 
@@ -131,12 +146,11 @@ window.addEventListener('load', function () {
         .on("mouseout", function () { tooltip.style("display", "none"); })
         .on("mousemove", function (d) {
 
-          // var subgroupName = d3.select(this.parentNode).datum().key;
-          // var subgroupValue = d.data[subgroupName];
 
           tooltip.style("left", (d3.event.pageX + 10) + "px");
           tooltip.style("top", (d3.event.pageY - 10) + "px");
           tooltip.html(d.key.toString() + "<br>" + setComma(d.value));
+          
 
         })
         .transition()
@@ -191,16 +205,7 @@ window.addEventListener('load', function () {
           return y(d.value) - 22;
         })
         .text(function (d) {
-
-          if (d.key == "전체") {
             return setComma(d.value);
-          }
-          else {
-
-
-          }
-
-
         });
 
 
@@ -243,7 +248,7 @@ window.addEventListener('load', function () {
 
 
       legend2
-        .append("rect")
+        .append("r")
         .attr("x", width2 - 19)
         .attr("width", 19)
         .attr("height", 19)

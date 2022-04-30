@@ -141,6 +141,8 @@ window.addEventListener("load", function () {
                 .style("font-weight", "Bold")
                 .style("text-anchor", "middle")
                 .text("리텐션비율");
+
+                
             //  append circle 
 
             svg9.selectAll("svg").append("g")
