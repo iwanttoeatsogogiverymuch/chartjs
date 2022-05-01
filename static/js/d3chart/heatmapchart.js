@@ -267,15 +267,8 @@
                     svg6.selectAll("rect")
                         .filter(function (d) {return d.signdate == mouseoverdata.signdate})
                         .style("fill",function (d) {
-                            return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
-                        })
-                    d3.select(this).attr("width",function (d) {
-                        return x5.bandwidth()+5;
-                    }).attr("height",function () {
-                        return y5.bandwidth()+5;
-                    });
-
-
+                            return d3.hsl(d3.select(this).style("fill")).darker(0.5).toString();
+                        });
 
 
                 })
@@ -286,7 +279,7 @@
                     svg6.selectAll("rect")
                         .filter(function (d) {return d.signdate == mouseoverdata.signdate})
                         .style("fill",function (d) {
-                            return d3.hsl(d3.select(this).style("fill")).brighter(1).toString();
+                            return d3.hsl(d3.select(this).style("fill")).brighter(0.5).toString();
                         });
                     d3.select(this).attr("width",function (d) {
                         return x5.bandwidth();
