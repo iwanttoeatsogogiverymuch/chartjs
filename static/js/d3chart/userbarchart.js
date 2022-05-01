@@ -1,16 +1,16 @@
-
 //userbarchart
 //same bar chart but with all tooltip in top of the rect
 window.addEventListener('load', function () {
 
   function setComma(num) {
+
     var len, point, str;
 
     num = num + "";
     point = num.length % 3;
     len = num.length;
-
     str = num.substring(0, point);
+
     while (point < len) {
       if (str != "") str += ",";
       str += num.substring(point, point + 3);
@@ -18,7 +18,6 @@ window.addEventListener('load', function () {
     }
 
     return str;
-
   };
 
   var tooltip = d3.select("body").append("div")
@@ -141,7 +140,6 @@ window.addEventListener('load', function () {
           return x1(d.key);
         })
         .attr("width", x1.bandwidth())
-
         .attr("y", y(0)).on("mouseover", function () { tooltip.style("display", null); })
         .on("mouseout", function () { tooltip.style("display", "none"); })
         .on("mousemove", function (d) {
@@ -170,7 +168,6 @@ window.addEventListener('load', function () {
           return z2(d.key);
         });
 
-
       //tooltip text top
       g2.append("g")
         .selectAll("g")
@@ -186,6 +183,7 @@ window.addEventListener('load', function () {
             return { key: key, value: d[key] };
           });
         })
+
         .enter()
         .append("text")
         .attr("dy", "1em")
@@ -207,9 +205,6 @@ window.addEventListener('load', function () {
         .text(function (d) {
             return setComma(d.value);
         });
-
-
-
 
       g2.append("g")
         .attr("class", "axis")

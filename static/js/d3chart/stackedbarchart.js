@@ -1,6 +1,5 @@
 window.onload = function () {
 
-
   var widtth = null;
   var height = null;
   var margin = null;
@@ -82,7 +81,10 @@ function setComma(num){
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  var x = d3.scaleBand().rangeRound([0, width]).paddingInner(0.08).align(0.1);
+  var x = d3.scaleBand()
+      .rangeRound([0, width])
+      .paddingInner(0.08)
+      .align(0.1);
 
   //y axis scale
   var y = d3.scaleLinear().rangeRound([height, 0]);

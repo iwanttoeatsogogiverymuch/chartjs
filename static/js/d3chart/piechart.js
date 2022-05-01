@@ -78,7 +78,16 @@ window.addEventListener("load", function () {
     .attr("text-anchor","start")
     .text(function (d) {
       return d.data;
-    });
+    })
+      .on("mouseover",function (d) {
+
+      })
+      .on("mousemove",function (d) {
+
+      })
+      .on("mouseout",function (d) {
+
+      });
 
       var legend = svg5
         .append("g")
@@ -90,7 +99,7 @@ window.addEventListener("load", function () {
         .enter()
         .append("g")
         .attr("transform", function (d, i) {
-          return "translate(0," + i * 25 + ")";
+          return "translate(0," + 100 + (i * 25 )+ ")";
         });
 
       legend

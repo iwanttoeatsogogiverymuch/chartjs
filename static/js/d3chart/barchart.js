@@ -1,9 +1,9 @@
-
 window.addEventListener('load', function () {
+
+  var isDauchart  = null;
 
   function setComma(num) {
     var len, point, str;
-
     num = num + "";
     point = num.length % 3;
     len = num.length;
@@ -14,7 +14,6 @@ window.addEventListener('load', function () {
       str += num.substring(point, point + 3);
       point += 3;
     }
-
     return str;
 
   };
@@ -31,7 +30,12 @@ window.addEventListener('load', function () {
     .attr("viewBox", "0 0 1920 400")
     .attr("preserveAspectRatio", "none");
 
-  var margin2 = { top: 10, right: 30, bottom: 30, left: 40 };
+  var margin2 = {
+    top: 10,
+    right: 30,
+    bottom: 30,
+    left: 40
+  };
   var width2 = +svg2.attr("width") - margin2.left - margin2.right;
   var height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
 
@@ -75,6 +79,16 @@ window.addEventListener('load', function () {
   var z2 = d3
     .scaleOrdinal()
     .range(mcgpalette0);
+  //daumau color scale
+  var daucolorpallete = [
+      "#8ea7e0",
+      "#8ccbd2",
+      "#fba597"
+  ];
+  var daucolor = d3
+      .scaleOrdinal()
+      .range(daucolorpallete);
+
 
   d3.csv(
     "/resource/data.csv",
@@ -255,10 +269,6 @@ window.addEventListener('load', function () {
         .text(function (d) {
           return d;
         });
-
-
-
-
 
 
 
