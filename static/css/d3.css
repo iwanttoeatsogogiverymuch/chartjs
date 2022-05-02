@@ -279,7 +279,7 @@ body {
 
 }
 .lines{
-          opacity: .4;
+          opacity: .5;
           stroke: black;
           stroke-width: 2px;
           fill: none;
@@ -315,3 +315,9 @@ svg text {
       stroke-width: 0;
 
     }
+
+polyline {
+opacity: 1;
+stroke-dasharray: 3 10;
+stroke-width:4               px;                          
+}

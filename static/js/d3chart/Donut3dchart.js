@@ -1,37 +1,29 @@
 !(function () {
+
   var Donut3D = {};
   var duration = 1300;
-
-
   var delayfunc = function (d, i) {
     return i * 100;
   };
   var easetype = d3.easeSin;
   var d3floatFormatter = d3.format("0.1f");
-
-
-
   function setComma(num) {
-    var len, point, str;
 
+    var len, point, str;
     num = num + "";
     point = num.length % 3;
     len = num.length;
-
     str = num.substring(0, point);
     while (point < len) {
       if (str != "") str += ",";
       str += num.substring(point, point + 3);
       point += 3;
     }
-
     return str;
   }
 
-
-
   function pieTop(d, rx, ry, ir) {
-    if (d.endAngle - d.startAngle == 0) return "M 0 0";
+    if (d.endAngle - d.startAngle === 0) return "M 0 0";
     var sx = rx * Math.cos(d.startAngle),
       sy = ry * Math.sin(d.startAngle),
       ex = rx * Math.cos(d.endAngle),
@@ -79,25 +71,25 @@
 
     var ret = [];
     ret.push(
-      "M",
-      sx,
-      h + sy,
-      "A",
-      rx,
-      ry,
-      "0 0 1",
-      ex,
-      h + ey,
-      "L",
-      ex,
-      ey,
-      "A",
-      rx,
-      ry,
-      "0 0 0",
-      sx,
-      sy,
-      "z"
+        "M",
+        sx,
+        h + sy,
+        "A",
+        rx,
+        ry,
+        "0 0 1",
+        ex,
+        h + ey,
+        "L",
+        ex,
+        ey,
+        "A",
+        rx,
+        ry,
+        "0 0 0",
+        sx,
+        sy,
+        "z"
     );
     return ret.join(" ");
   }
@@ -217,6 +209,7 @@
         return d.value;
       })(data);
 
+
     d3.select("#" + id)
       .selectAll(".innerSlice")
       .data(_data)
@@ -224,6 +217,7 @@
       .duration(duration)
       .ease(easetype)
       .attrTween("d", arcTweenInner);
+
 
     d3.select("#" + id)
       .selectAll(".topSlice")
@@ -233,6 +227,7 @@
       .ease(easetype)
       .attrTween("d", arcTweenTop);
 
+
     d3.select("#" + id)
       .selectAll(".outerSlice")
       .data(_data)
@@ -240,6 +235,7 @@
       .duration(duration)
       .ease(easetype)
       .attrTween("d", arcTweenOuter);
+
 
     d3.select("#" + id)
       .selectAll(".percent")
@@ -249,6 +245,7 @@
       .attrTween("x", textTweenX)
       .attrTween("y", textTweenY)
       .text(getPercent);
+
 
     d3.select("#fullpielegend")
       .selectAll("text")
@@ -265,10 +262,12 @@
         );
       });
 
+
     d3.select("#"+id ).append("g")
         .attr("class", "labels");
     d3.select("#"+id ).append("g")
         .attr("class", "lines");
+
 
     var pie = d3.pie()
         .sort(null)
@@ -276,39 +275,35 @@
           return d.value;
         });
 
+
     var key = function(d){ return d.data.label; };
-
-
-
-
-
 
       newFunction();
 
     function newFunction() {
-      var text = d3
+
+      var text = d3.select("#"+id)
         .select(".labels")
         .selectAll("text")
         .data(_data, key);
 
+      console.log(text);
+
       text
         .enter()
         .append("text")
-        .attr("dy", ".24em")
-        .text(function (d) {
-          console.log(d.data.value);
-          return setComma(Math.round(d.data.value));
-
-        });
+        .attr("dy", ".24em");
 
       text
         .transition()
-        .duration(1000)
+        .duration(1000).text(function (d) {
+            console.log(d.data.value);
+            return setComma(Math.round(d.data.value));
+          })
         .attrTween("transform", function (d) {
-
-          console.log("dd");
           this.current = this.current || d;
           var i = d3.interpolate(this.current, d);
+
           return function (t) {
             i(t).endAngle = d.startAngle + (d.endAngle - d.startAngle) * t;
             var labelPathLength = 1 + h / rx / 2;
@@ -333,16 +328,13 @@
           };
         });
 
-
-
-      /* ------- SLICE TO TEXT POLYLINES -------*/
-      var polyline = d3
+  /* ------- SLICE TO TEXT POLYLINES -------*/
+      var polyline = d3.select("#" + id)
         .select(".lines")
         .selectAll("path")
         .data(_data, key);
 
       polyline.enter().append("path");
-
       polyline
         .transition()
         .duration(1000)
@@ -353,11 +345,6 @@
         });
     }
     //  polyline.remove().exit();
-
-
-
-
-
 
 
   };
@@ -531,13 +518,6 @@
     change(data);
     change(data);
 
-    // setTimeout(function () {
-    //   change(randomData());
-    // }, 2000);
-    //
-    // setTimeout(function () {
-    //   change(randomData());
-    // }, 1000);
 
     function change(newData) {
       var text = slices
@@ -608,7 +588,6 @@
 
       polyline.exit().remove();
     }
-
 
   };
 
