@@ -107,16 +107,19 @@
 
 
 
-        //color scale
+        //컬러 매핑
         var z2 = d3
             .scaleOrdinal()
             .range(mcgpalette0);
-        //daumau color scale
+
+        //유저통계차트용 컬러스키마
         var daucolorpallete = [
             "#8ea7e0",
             "#8ccbd2",
             "#fba597"
         ];
+
+        //유저통계차트용 컬러매핑
         var daucolor = d3
             .scaleOrdinal()
             .range(daucolorpallete);
@@ -128,7 +131,7 @@
                 return d.date;
             })
         );
-        x1.domain(keys)
+        x1.domain(keys.reverse())
             .rangeRound([0, x0.bandwidth()]);
 
         y.domain([
