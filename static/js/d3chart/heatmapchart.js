@@ -14,7 +14,33 @@
             {"signdate": "2022-04-01", "retentiondate": "2022-04-07", "retentionvalue": "88"},
             {"signdate": "2022-04-01", "retentiondate": "2022-04-08", "retentionvalue": "77"},
             {"signdate": "2022-04-01", "retentiondate": "2022-04-09", "retentionvalue": "66"},
-            {"signdate": "2022-04-01", "retentiondate": "2022-04-10", "retentionvalue": "45"}
+            {"signdate": "2022-04-01", "retentiondate": "2022-04-10", "retentionvalue": "45"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-03", "retentionvalue": "97"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-04", "retentionvalue": "96"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-05", "retentionvalue": "95"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-06", "retentionvalue": "93"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-07", "retentionvalue": "92"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-08", "retentionvalue": "88"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-09", "retentionvalue": "79"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-10", "retentionvalue": "77"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-11", "retentionvalue": "65"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-12", "retentionvalue": "50"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-13", "retentionvalue": "42"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-14", "retentionvalue": "33"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-15", "retentionvalue": "32"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-16", "retentionvalue": "30"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-17", "retentionvalue": "29"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-18", "retentionvalue": "28"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-19", "retentionvalue": "25"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-20", "retentionvalue": "20"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-21", "retentionvalue": "18"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-22", "retentionvalue": "15"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-23", "retentionvalue": "13"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-24", "retentionvalue": "12"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-25", "retentionvalue": "11"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-26", "retentionvalue": "10"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-27", "retentionvalue": "9"},
+            {"signdate": "2022-04-02", "retentiondate": "2022-04-28", "retentionvalue": "8"}
         ];
 
             // 코호트 사용자 분석 테스트 데이터 (임의가공분)
@@ -120,6 +146,64 @@
                 {"signdate": "2022-04-06", "retentiondate": "2022-04-19", "retentionvalue": "11"},
                 {"signdate": "2022-04-06", "retentiondate": "2022-04-20", "retentionvalue": "10"},
             ];
+
+            function onMouseOutRect() {
+                return function (d) {
+                    var mouseoverdata = d;
+                    tooltip.style("opacity", "0");
+
+                    svg6.selectAll("rect")
+                        .filter(function (d) {
+                            return d.signdate == mouseoverdata.signdate
+                        })
+                        .style("fill", function (d) {
+                            return d3.hsl(d3.select(this).style("fill")).brighter(0.5).toString();
+                        });
+                    d3.select(this).attr("width", function (d) {
+                        return x5.bandwidth();
+                    }).attr("height", function () {
+                        return y5.bandwidth();
+                    });
+
+                };
+            }
+
+            function onMouseMoveRect() {
+                return function (d) {
+
+                    // var subgroupName = d3.select(this.parentNode).datum().key;
+                    //  var subgroupValue = d.data.signdate;
+
+
+                    tooltip.style("left", (d3.event.pageX + 10) + "px");
+                    tooltip.style("top", (d3.event.pageY - 10) + "px");
+                    tooltip.html(d.retentionvalue.toString() + "<br>" + d.signdate);
+
+                };
+            }
+
+            function onMouseOverRect() {
+                return function (d) {
+                    var mouseoverdata = d;
+                    tooltip.style("opacity", "1");
+                    svg6.selectAll("rect")
+                        .filter(function (d) {
+                            return d.signdate == mouseoverdata.signdate
+                        })
+                        .style("fill", function (d) {
+                            return d3.hsl(d3.select(this).style("fill")).darker(0.5).toString();
+                        })
+                    d3.select(this).attr("width", function (d) {
+                        return x5.bandwidth() + 5;
+                    }).attr("height", function () {
+                        return y5.bandwidth() + 5;
+                    });
+
+
+                };
+            }
+
+
 
             function setComma(num) {
                 var len, point, str;
@@ -232,6 +316,7 @@
 
             svg6
                 .selectAll()
+                .append("g")
                 .data(data, function (d) {
                     return d;
                 })
@@ -340,13 +425,18 @@
                 })
                 .attr("pointer-events","none");
 
+
+
             function update(newData){
 
-                var signdates = newData.map(function (d) {
+                svg6.selectAll("g").remove().exit();
+                svg6.selectAll("rect").remove().exit();
+
+               signdates = newData.map(function (d) {
                     return d.signdate;
                 });
 
-                var preioddates = newData.map(function (d, i) {
+               preioddates = newData.map(function (d, i) {
                     //  return moment - new Date(d.retentiondate.toString()) ;
 
                     if ( d.signdate.toString() === "전체") {
@@ -356,19 +446,20 @@
 
                     var a = moment(d.retentiondate.toString());
                     var b = moment(d.signdate.toString());
-                    data[i].preiod_num = a.diff(b, "days");
+                   newData[i].preiod_num = a.diff(b, "days");
                     return a.diff(b, "days");
                 });
 
                 // Build X scales and axis:
-                var x5 = d3.scaleBand()
+                 x5 = d3.scaleBand()
                     .range([0, width5 + 100])
                     .domain(preioddates.sort(d3.ascending))
                     .padding(0.1);
-                // .padding(0.01);
+
+
                 svg6
                     .append("g")
-                    .attr("transform", "translate(0," + 0 + ")")
+                    .attr("transform", "translate(0,"  + 0 + ")")
                     .call(d3.axisTop(x5).tickFormat(d3.timeFormat).tickSize(0))
                     .call(function (g) {
                         g.selectAll(".domain, .tick line").remove()
@@ -379,8 +470,24 @@
                             .attr("fill", "grey")
                     });
 
+                // svg6
+                //     .append("g")
+                //     .attr("transform", "translate(0," + 0 + ")")
+                //     .call(d3.axisTop(x5).tickFormat(d3.timeFormat).tickSize(0))
+                //     .call(function (g) {
+                //         g.selectAll(".domain, .tick line").remove()
+                //     })
+                //     .call(function (g) {
+                //         g.selectAll("text")
+                //             .attr("font-family", "Noto Sans KR")
+                //             .attr("fill", "grey")
+                //     });
+
+
+
+
                 // Build Y scales and axis:
-                var y5 = d3.scaleBand()
+                y5 = d3.scaleBand()
                     .range([height5, 0])
                     .domain(signdates.sort(d3.ascending))
                     .padding(0.1);
@@ -398,29 +505,33 @@
                             .attr("fill", "grey")
                     });
 
-                // Build color scale
-                var myColor = d3
-                    .scaleSequential()
-                    .domain([100, 50])
-                    .interpolator(d3.interpolate("#418af3", "white"));
-
-                var myColorred = d3.scaleSequential()
-                    .domain([50, 0])
-                    .interpolator(d3.interpolate("white", "#ff5d5c"));
 
                 svg6
-                    .selectAll()
-                    .data(data, function (d) {
+
+                    .selectAll().append("g")
+                    .data(newData, function (d) {
                         return d;
                     })
                     .enter()
                     .append("rect")
-                    // .style("stroke", "grey")
-                    // .style("stroke-opacity", "0.2")
+                    // .attr("x", "0")
+                    // .attr("y", "0")
                     .attr("x", function (d) {
-                        d;
+
                         return x5(d.preiod_num);
                     })
+                    .style("fill", function (d) {
+                        if (d.retentionvalue > 50) {
+                            return myColor(d.retentionvalue);
+                        } else {
+                            return myColorred(d.retentionvalue);
+                        }
+                    })
+                    .on("mouseover", onMouseOverRect())
+                    .on("mouseout", onMouseOutRect())
+                    .on("mousemove", onMouseMoveRect())
+                    .transition().delay(function (d,i) {return  i*15;}).ease(d3.easeSin)
+
                     .attr("y", function (d) {
                         return y5(d.signdate);
                     })
@@ -431,59 +542,8 @@
                     })
                     .attr("height", function () {
                         return y5.bandwidth();
-                    })
-                    .style("fill", function (d) {
-                        if (d.retentionvalue > 50) {
-                            return myColor(d.retentionvalue);
-                        } else {
-                            return myColorred(d.retentionvalue);
-                        }
-                    })
-                    .on("mouseover", function (d) {
-                        var mouseoverdata = d;
-                        tooltip.style("opacity", "1");
-                        svg6.selectAll("rect")
-                            .filter(function (d) {return d.signdate == mouseoverdata.signdate})
-                            .style("fill",function (d) {
-                                return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
-                            })
-                        d3.select(this).attr("width",function (d) {
-                            return x5.bandwidth()+5;
-                        }).attr("height",function () {
-                            return y5.bandwidth()+5;
-                        });
+                    });
 
-
-
-
-                    })
-                    .on("mouseout", function (d) {
-                        var mouseoverdata = d;
-                        tooltip.style("opacity", "0");
-
-                        svg6.selectAll("rect")
-                            .filter(function (d) {return d.signdate == mouseoverdata.signdate})
-                            .style("fill",function (d) {
-                                return d3.hsl(d3.select(this).style("fill")).brighter(1).toString();
-                            });
-                        d3.select(this).attr("width",function (d) {
-                            return x5.bandwidth();
-                        }).attr("height",function () {
-                            return y5.bandwidth();
-                        });
-
-                    })
-                    .on("mousemove", function (d) {
-
-                        // var subgroupName = d3.select(this.parentNode).datum().key;
-                        //  var subgroupValue = d.data.signdate;
-
-
-                        tooltip.style("left", (d3.event.pageX + 10) + "px");
-                        tooltip.style("top", (d3.event.pageY - 10) + "px");
-                        tooltip.html(d.retentionvalue.toString() +"<br>"+d.signdate);
-
-                    })
 
                 svg6
                     .append("g")
@@ -492,7 +552,7 @@
                     .attr("font-size", "0.3rem")
                     .append("g")
                     .selectAll("text")
-                    .data(data)
+                    .data(newData)
                     .enter()
                     .append("text")
                     .text(function (d) {
@@ -529,6 +589,8 @@
 
             }
 
+           var cohortdata2test =  JSON.parse(JSON.stringify(cohortdata2));
+            setTimeout(update,3000,cohortdata2test);
 
         });
 })();

@@ -49,7 +49,7 @@
     <label for="tab4">계좌개설/해지현황</label>
     <input id="tab5" name="tab-menu" type="radio" />
     <label for="tab5">이체현황</label>
-    <input id="tab6" name="tab-menu" type="radio" onclick="randomData()" />
+    <input id="tab6" name="tab-menu" type="radio"  />
     <label for="tab6">오픈뱅킹사용현황</label>
   </div>
 
@@ -90,14 +90,14 @@
     </div>
     <div class="row">
       <div class="card">
-        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-5 chartboard card-1">
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-12" style="height: 370px;">
+        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-5 chartboard card-1"style="height: 370px;">
+
 
             <div class="h4 text-center font-weight-bold m-3">비대면<small> 단위(백 만원)</small></div>
 
 
             <div id="my_dataviz"></div>
-          </div>
+
 
           </div>
 
@@ -211,6 +211,8 @@
         .attr("height", "300")
         .attr("viewBox", "0 0 300 300")
         .attr("preserveAspectRatio", "none");
+
+
       var svgfullpie = d3
         .select("#fullpie")
         .append("svg")

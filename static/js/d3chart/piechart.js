@@ -99,7 +99,7 @@ window.addEventListener("load", function () {
         .enter()
         .append("g")
         .attr("transform", function (d, i) {
-          return "translate(0," + 100 + (i * 25 )+ ")";
+          return "translate(0," + 25*i+ ")";
         });
 
       legend

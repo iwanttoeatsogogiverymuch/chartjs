@@ -125,12 +125,19 @@
             .range(daucolorpallete);
 
 
+        //json 키값(가장처음칼럼제외)
         var keys = Object.keys(parseddata[0]).slice(1);
+
+        //x축 키값 설정
         x0.domain(
             parseddata.map(function (d) {
+                //날짜
                 return d.date;
             })
         );
+
+        //grouped bar 키값 설정
+
         x1.domain(keys.reverse())
             .rangeRound([0, x0.bandwidth()]);
 

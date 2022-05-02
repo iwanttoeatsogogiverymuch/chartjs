@@ -29,9 +29,6 @@
   }
 
 
-  
- 
-
 
   function pieTop(d, rx, ry, ir) {
     if (d.endAngle - d.startAngle == 0) return "M 0 0";
@@ -170,6 +167,7 @@
   }
 
   Donut3D.transition = function (id, data, rx, ry, h, ir) {
+
     function arcTweenInner(a) {
       var i = d3.interpolate(this._current, a);
       this._current = i(0);
@@ -177,6 +175,7 @@
         return pieInner(i(t), rx + 0.5, ry + 0.5, h, ir);
       };
     }
+
     function arcTweenTop(a) {
       var i = d3.interpolate(this._current, a);
       this._current = i(0);
@@ -184,6 +183,7 @@
         return pieTop(i(t), rx, ry, ir);
       };
     }
+
     function arcTweenOuter(a) {
       var i = d3.interpolate(this._current, a);
       this._current = i(0);
@@ -191,6 +191,7 @@
         return pieOuter(i(t), rx - 0.5, ry - 0.5, h);
       };
     }
+
     function textTweenX(a) {
       var i = d3.interpolate(this._current, a);
       this._current = i(0);
@@ -198,6 +199,7 @@
         return 0.6 * rx * Math.cos(0.5 * (i(t).startAngle + i(t).endAngle));
       };
     }
+
     function textTweenY(a) {
       var i = d3.interpolate(this._current, a);
       this._current = i(0);
@@ -205,6 +207,8 @@
         return 0.6 * rx * Math.sin(0.5 * (i(t).startAngle + i(t).endAngle));
       };
     }
+
+
 
     var _data = d3
       .pie()
@@ -260,6 +264,102 @@
           "  ]"
         );
       });
+
+    d3.select("#"+id ).append("g")
+        .attr("class", "labels");
+    d3.select("#"+id ).append("g")
+        .attr("class", "lines");
+
+    var pie = d3.pie()
+        .sort(null)
+        .value(function(d) {
+          return d.value;
+        });
+
+    var key = function(d){ return d.data.label; };
+
+
+
+
+
+
+      newFunction();
+
+    function newFunction() {
+      var text = d3
+        .select(".labels")
+        .selectAll("text")
+        .data(_data, key);
+
+      text
+        .enter()
+        .append("text")
+        .attr("dy", ".24em")
+        .text(function (d) {
+          console.log(d.data.value);
+          return setComma(Math.round(d.data.value));
+
+        });
+
+      text
+        .transition()
+        .duration(1000)
+        .attrTween("transform", function (d) {
+
+          console.log("dd");
+          this.current = this.current || d;
+          var i = d3.interpolate(this.current, d);
+          return function (t) {
+            i(t).endAngle = d.startAngle + (d.endAngle - d.startAngle) * t;
+            var labelPathLength = 1 + h / rx / 2;
+            var xxx = (rx + 13) *
+              (midAngle(i(t)) > (3 / 2) * Math.PI ||
+                midAngle(i(t)) < Math.PI / 2
+                ? 1
+                : -1);
+            var yyy = ry * Math.sin(midAngle(i(t))) * labelPathLength + 3;
+            return "translate(" + xxx + "," + yyy + ")";
+          };
+        })
+        .styleTween("text-anchor", function (d) {
+          this.current = this.current || d;
+          var i = d3.interpolate(this.current, d);
+          return function (t) {
+            i(t).endAngle = d.startAngle + (d.endAngle - d.startAngle) * t;
+            return midAngle(i(t)) > (3 / 2) * Math.PI ||
+              midAngle(i(t)) < Math.PI / 2
+              ? "start"
+              : "end";
+          };
+        });
+
+
+
+      /* ------- SLICE TO TEXT POLYLINES -------*/
+      var polyline = d3
+        .select(".lines")
+        .selectAll("path")
+        .data(_data, key);
+
+      polyline.enter().append("path");
+
+      polyline
+        .transition()
+        .duration(1000)
+        .attrTween("d", function (d) {
+          return function () {
+            return labelPath(d, rx + -0.5, ry + -0.5, h);
+          };
+        });
+    }
+    //  polyline.remove().exit();
+
+
+
+
+
+
+
   };
 
   Donut3D.draw = function (
@@ -272,6 +372,22 @@
     h /*height*/,
     ir /*inner radius*/
   ) {
+
+    // 강남금융센터 #be653e
+    // 삼성지점 #78bb37
+    // 수유지점 #e0b63d
+    // 영업본부(개인) #ef9db5
+    // 영업부 #d46b8e
+    // 채권2팀 #9a9adc
+    // 투자금융팀 #6cc4a0
+
+
+    var colorscale = d3.scaleOrdinal()
+        .domain(["강남금융센터","삼성지점","수유지점","영업본부(개인)","영업부","채권2팀","투자금융팀"])
+        .range(["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
+
+
+
     var _data = d3
       .pie()
       .sort(null)
@@ -292,7 +408,7 @@
       .append("path")
       .attr("class", "innerSlice")
       .style("fill", function (d) {
-        return d3.hsl(d.data.color).darker(0.7).toString();
+        return d3.hsl(colorscale(d.data.label)).darker(0.7).toString();
       })
       .attr("d", function (d) {
         return pieInner(d, rx + 0.5, ry + 0.5, h, ir);
@@ -308,10 +424,10 @@
       .append("path")
       .attr("class", "topSlice")
       .style("fill", function (d) {
-        return d.data.color;
+        return colorscale(d.data.label);
       })
       .style("stroke", function (d) {
-        return d.data.color;
+        return colorscale(d.data.label);
       })
       .attr("d", function (d) {
         return pieTop(d, rx, ry, ir);
@@ -327,7 +443,7 @@
       .append("path")
       .attr("class", "outerSlice")
       .style("fill", function (d) {
-        return d3.hsl(d.data.color).darker(0.7).toString();
+        return d3.hsl(colorscale(d.data.label)).darker(0.7).toString();
       })
       .attr("d", function (d) {
         return pieOuter(d, rx - 0.5, ry - 0.5, h);
@@ -384,7 +500,7 @@
       .attr("width", 35)
       .attr("height", 35)
       .attr("fill", function (d) {
-        return d.data.color.toString();
+        return colorscale(d.data.label);
       });
 
     pielegend
@@ -413,24 +529,26 @@
     };
 
     change(data);
+    change(data);
 
-    setTimeout(function () {
-      change(randomData());
-    }, 2000);
+    // setTimeout(function () {
+    //   change(randomData());
+    // }, 2000);
+    //
+    // setTimeout(function () {
+    //   change(randomData());
+    // }, 1000);
 
-    setTimeout(function () {
-      change(randomData());
-    }, 1000);
-
-    function change(data) {
+    function change(newData) {
       var text = slices
         .select(".labels")
         .selectAll("text")
-        .data(pie(data), key);
+        .data(pie(newData), key);
+
       var pathcircle = slices
         .select(".labels")
         .selectAll("text")
-        .data(pie(data), key);
+        .data(pie(newData), key);
 
       text
         .enter()
@@ -475,7 +593,7 @@
       var polyline = slices
         .select(".lines")
         .selectAll("path")
-        .data(pie(data), key);
+        .data(pie(newData), key);
 
       polyline.enter().append("path");
 
@@ -484,13 +602,16 @@
         .duration(1000)
         .attrTween("d", function (d) {
           return function () {
-            return labelPath(d, rx - 0.5, ry - 0.5, h);
+            return labelPath(d, rx + -0.5, ry + -0.5, h);
           };
         });
 
       polyline.exit().remove();
     }
+
+
   };
+
 
   this.Donut3D = Donut3D;
 })();
