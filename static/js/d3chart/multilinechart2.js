@@ -12,7 +12,9 @@ window.addEventListener("load", function () {
         "#6079D6",
     ];
 
+
     // set the dimensions and margins of the graph
+
     var margin = { top: 10, right: 30, bottom: 30, left: 40 },
         linechartwidth = 600 - margin.left - margin.right,
         linechartheight = 200 - margin.top - margin.bottom;

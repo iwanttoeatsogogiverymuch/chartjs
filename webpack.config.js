@@ -5,6 +5,7 @@
 import path from 'path'
 import dotenv from 'dotenv'
 
+
 module.exports = {
     entry: './static/index.js',
     output:{

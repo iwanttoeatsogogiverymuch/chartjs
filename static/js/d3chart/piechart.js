@@ -50,6 +50,8 @@ var piechart = (function extracted() {
 
   var salesData3;
   var salesData4;
+
+
   salesData3 = [
     {label: "강남금융센터", color: "#be653e", value: "300"},
     {label: "삼성지점", color: "#78bb37", value: "400"},
@@ -66,13 +68,6 @@ var piechart = (function extracted() {
     {label: "수유지점", color: "#e0b63d", value: "200"},
     {label: "영업본부(개인)", color: "#ef9db5", value: "200"},
   ];
-
-  tooltip = d3
-      .select("body")
-      .append("div")
-      .attr("class", "toolTip")
-      .style("opacity", "0")
-      .attr("font-size", "3rem");
 
 
   function getPercent(d) {
@@ -99,7 +94,7 @@ var piechart = (function extracted() {
 
       tooltip.style("left", d3.event.pageX + 10 + "px");
       tooltip.style("top", d3.event.pageY - 10 + "px");
-      tooltip.html(d.value);
+      tooltip.html("dd");
     };
   }
 
@@ -128,10 +123,27 @@ var piechart = (function extracted() {
   }
 
 
-  function draw(){
+    function builTooltip() {
+
+      if(tooltip === undefined)
+      {
+
+          tooltip = d3
+              .select("body")
+              .append("div")
+              .attr("class", "toolTip")
+              .style("opacity", "0")
+              .attr("font-size", "3rem");
+      }
+
+    }
+
+    function draw(){
+
+        builTooltip();
 
 
-      initPie2Calc();
+        initPie2Calc();
     pieData = salesData3.map(function (d) {
       return d.value;
     });
@@ -308,28 +320,39 @@ var piechart = (function extracted() {
       polyline = svg5
           .select(".lines")
           .selectAll("polyline")
-          .data(pie2(salesData3), key);
+          .data(d3.entries(pie2(salesData3)));
 
       polyline.enter().append("polyline");
-
+        console.log(pie2(salesData3));
       polyline
-          .transition()
-          .duration(1000)
-          .attrTween("points", function (d) {
-              this._current = this._current || d;
-              var interpolate = d3.interpolate(this._current, d);
-              this._current = interpolate(0);
-              return function (t) {
-                  var d2 = interpolate(t);
-                  var pos = outerArc.centroid(d2);
-                  pos[0] = radius3 * 0.9 * (midAngle(d2) < Math.PI ? 1 : -1);
-                  return [tooltipArc.centroid(d2), outerArc.centroid(d2), pos];
-              };
-          });
-
-      polyline.exit().remove();
+          // .transition()
+          // .duration(1)
+          .attr("stroke", "black")
+          .style("fill", "none")
+          .attr("stroke-width", 2)
+          .attr('points', function(d) {
 
 
+              var posA = arc.centroid(d); // line insertion in the slice
+              var posB = outerArc.centroid(d); // line break: we use the other arc generator that has been built only for that
+              var posC = outerArc.centroid(d); // Label position = almost the same as posB
+              var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
+              posC[0] = radius3 * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+              return [posA, posB, posC];
+          })
+          // .attr("points", function (d) {
+          //     this._current = this._current || d;
+          //     var interpolate = d3.interpolate(this._current, d);
+          //     this._current = interpolate(0);
+          //     return function (t) {
+          //         var d2 = interpolate(t);
+          //         var pos = outerArc.centroid(d2);
+          //         pos[0] = radius3 * 1.2 * (midAngle(d2) < Math.PI ? 1 : -1);
+          //         return [tooltipArc.centroid(d2), outerArc.centroid(d2), pos];
+          //     };
+          // });
+
+      //polyline.exit().remove();
 
 
   }
@@ -344,7 +367,7 @@ var piechart = (function extracted() {
          initPie2Calc();
       console.log(data);
       
-      values = data.map(function (d) {
+     var values = data.map(function (d) {
         return d.value;
       });
       
@@ -373,7 +396,7 @@ var piechart = (function extracted() {
          if(g4 != null){
 
 
-             initPie2Calc();
+
 
              g4.remove().exit();
 
@@ -404,7 +427,7 @@ var piechart = (function extracted() {
                      return "translate(" + arc.centroid(d) + ")";
                  })
                  .attr("font-family", "Noto Sans KR")
-                 .attr("font-size", "1.5rem")
+                 .attr("font-size", "0.7rem")
                  .attr("font-weight", "Regular")
                  .attr("fill", "white")
                  .attr("text-anchor", "start")
@@ -486,8 +509,8 @@ var piechart = (function extracted() {
 
     }
 
-    update(salesData3);
-    update(salesData3);
+    //update(salesData3);
+    //update(salesData3);
 
     // setTimeout(function () {
     //   update(salesData3);

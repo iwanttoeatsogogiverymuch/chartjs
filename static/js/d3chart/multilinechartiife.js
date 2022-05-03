@@ -1,5 +1,4 @@
 var multilinechart = (function extracted() {
-    window.addEventListener("load", function () {
 
         var XMLNS_SVG_2000 = "xmlns=http://www.w3.org/2000/svg";
 
@@ -372,7 +371,8 @@ var multilinechart = (function extracted() {
 
             }//d3.json callback
         );
-    });
+
+
 
 
 
