@@ -7,6 +7,10 @@ var heatmapchart = (function heatmap(){
     //차트를 그릴 div id
     var divid;
 
+    //svg 가로값
+    var width = 600;
+    //svg 세로값
+    var height = 300;
     //컬러스케일값 빨간색 부분 지정
     var myColorred;
 
@@ -22,7 +26,7 @@ var heatmapchart = (function heatmap(){
     //차트 마진(빈공간)
     var margin5;
 
-    //가로값,세로값
+    //차트의 가로값,세로값 (svg값이랑 다름)
     var width5, height5;
 
     //svg와 그안의 g값을 참조 ( 경우에따라 다를 수 있음, svg값만 참조하는것이아님)
@@ -244,6 +248,7 @@ var heatmapchart = (function heatmap(){
 
 
     function buildTooltip() {
+
         tooltip = d3.select("body").append("div")
             .attr("class", "toolTip")
             .style("opcaity", "0").attr("font-size", "3rem");
@@ -252,26 +257,22 @@ var heatmapchart = (function heatmap(){
     function setSize() {
 
         margin5 = {top: 10, right: 30, bottom: 30, left: 80};
-        width5 = 600 - margin5.left - margin5.right;
-        height5 = 200 - margin5.top - margin5.bottom;
+        width5 = width - margin5.left - margin5.right;
+        height5 = height - margin5.top - margin5.bottom;
     }
 
 
+    function getData(jsondata) {
+        return JSON.parse(JSON.stringify(jsondata));
+    }
 
-    function draw(id,jsondata) {
+    function buildSvg() {
 
-        divid = id;
-        buildTooltip();
-
-        data = JSON.parse(JSON.stringify(jsondata));
-
-        // set the dimensions and margins of the graph
-        setSize();
 
         // div를 선택하여 svg요소를 붙여넣는다
         // view box, preserveAsepectRatio 를통해 반응형 차트로 제작
         svg6 = d3
-            .select("#"+ divid)
+            .select("#" + divid)
             .append("svg")
             .attr("width", width5 + margin5.left + margin5.right)
             .attr("height", height5 + margin5.top + margin5.bottom)
@@ -279,6 +280,23 @@ var heatmapchart = (function heatmap(){
             .attr("prserveAspectRatio", "none")
             .append("g")
             .attr("transform", "translate(" + margin5.left + "," + margin5.top + ")");
+    }
+
+    function initChart (jsondata){
+
+        buildTooltip();
+        data = getData(jsondata);
+        setSize();
+        buildSvg();
+
+    }
+
+    //public function
+    function draw(id,jsondata) {
+
+        divid = id;
+
+        initChart(jsondata);
 
         signdates = data.map(function (d) {
             return d.signdate;
@@ -303,7 +321,8 @@ var heatmapchart = (function heatmap(){
             .range([0, width5 + 100])
             .domain(preioddates.sort(d3.ascending))
             .padding(0.1);
-        // .padding(0.01);
+
+
         svg6
             .append("g")
             .attr("transform", "translate(0," + 0 + ")")
@@ -317,13 +336,13 @@ var heatmapchart = (function heatmap(){
                     .attr("fill", "grey")
             });
 
-        // Build Y scales and axis:
+
         y5 = d3.scaleBand()
             .range([height5, 0])
             .domain(signdates.sort(d3.ascending))
             .padding(0.1);
 
-        // .padding(0.01);
+
         svg6.append("g")
             .call(d3.axisLeft(y5).tickSize(0))
             .call(function (g) {
@@ -622,7 +641,7 @@ var heatmapchart = (function heatmap(){
            var cohortdata2test =  JSON.parse(JSON.stringify(cohortdata2));
 
 
-    //init private function
+    //init inside test
 
     // setTimeout(function(){
     //
