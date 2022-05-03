@@ -2,19 +2,42 @@
 
 var heatmapchart = (function heatmap(){
 
+    //지역변수
 
-
-
+    //차트를 그릴 div id
     var divid;
+
+    //컬러스케일값 빨간색 부분 지정
     var myColorred;
+
+    //컬러스케일값 파란색 부분 지정
     var myColor;
+
+    //툴팁
     var tooltip;
+
+    //데이터
     var data;
+
+    //차트 마진(빈공간)
     var margin5;
+
+    //가로값,세로값
     var width5, height5;
+
+    //svg와 그안의 g값을 참조 ( 경우에따라 다를 수 있음, svg값만 참조하는것이아님)
     var svg6;
+
+    //가입일? , retention 측정 기간
+    // ex) 4월 20일 가입자 : signdate:2022-04-20  preioddate: 2022-04-23
     var signdates, preioddates;
+
+    //x축 y축 스케일 매핑 (단순값x)
     var x5, y5;
+
+
+    // 코호트 사용자 분석 테스트 데이터 (임의가공분)
+    // 차트상 표시되는 x좌표인 period_num은 차트내부에서 계산됨
 
     var cohortdata2 = [
 
@@ -55,8 +78,7 @@ var heatmapchart = (function heatmap(){
         {"signdate": "2022-04-02", "retentiondate": "2022-04-28", "retentionvalue": "8"}
     ];
 
-    // 코호트 사용자 분석 테스트 데이터 (임의가공분)
-    // 차트상 표시되는 x좌표인 period_num은 차트내부에서 계산됨
+
     var cohortdata = [
 
         {"signdate": "전체", "retentiondate": "1", "retentionvalue": "100"},
@@ -221,24 +243,33 @@ var heatmapchart = (function heatmap(){
     }
 
 
-    function draw(id,jsondata) {
-
-        divid = id;
+    function buildTooltip() {
         tooltip = d3.select("body").append("div")
             .attr("class", "toolTip")
             .style("opcaity", "0").attr("font-size", "3rem");
+    }
+
+    function setSize() {
+
+        margin5 = {top: 10, right: 30, bottom: 30, left: 80};
+        width5 = 600 - margin5.left - margin5.right;
+        height5 = 200 - margin5.top - margin5.bottom;
+    }
+
+
+
+    function draw(id,jsondata) {
+
+        divid = id;
+        buildTooltip();
 
         data = JSON.parse(JSON.stringify(jsondata));
 
         // set the dimensions and margins of the graph
-        margin5 = {top: 10, right: 30, bottom: 30, left: 80},
-            width5 = 600 - margin5.left - margin5.right;
-            height5 = 200 - margin5.top - margin5.bottom;
+        setSize();
 
         // div를 선택하여 svg요소를 붙여넣는다
         // view box, preserveAsepectRatio 를통해 반응형 차트로 제작
-
-
         svg6 = d3
             .select("#"+ divid)
             .append("svg")
