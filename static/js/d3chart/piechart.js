@@ -51,7 +51,7 @@
 
         tooltip.style("left", d3.event.pageX + 10 + "px");
         tooltip.style("top", d3.event.pageY - 10 + "px");
-        tooltip.html("dd");
+        tooltip.html(d.value);
       };
     }
 
@@ -75,7 +75,7 @@
       return d.label;
     });
 
-    var width3 = 400,
+    var width3 = 800,
       height3 = 400,
       radius3 = Math.min(width3, height3) / 3;
 
@@ -116,7 +116,7 @@
       .attr("viewBox", "0 0 800 400")
       .attr("preserveAspectRatio", "none")
       .append("g")
-      .attr("transform", "translate(" + width3 / 2 + "," + height3 / 2 + ")");
+      .attr("transform", "translate(" + width3 / 3 + "," + height3 / 2 + ")");
 
     var g4 = svg5
       .selectAll(".arc")
@@ -146,7 +146,7 @@
         return "translate(" + arc.centroid(d) + ")";
       })
       .attr("font-family", "Noto Sans KR")
-      .attr("font-size", "25px")
+      .attr("font-size", "0.5rem")
       .attr("font-weight", "Regular")
       .attr("fill", "white")
       .attr("text-anchor", "start")
@@ -178,7 +178,7 @@
        var legendmargin =  30 * i;
        var legendtrans = initY + legendmargin;
 
-        return "translate(90," + legendtrans + ")";
+        return "translate(-200," + legendtrans + ")";
       });
 
     legend
@@ -254,7 +254,7 @@
           return "translate(" + arc.centroid(d) + ")";
         })
         .attr("font-family", "Noto Sans KR")
-        .attr("font-size", "25px")
+        .attr("font-size", "1.5rem")
         .attr("font-weight", "Regular")
         .attr("fill", "white")
         .attr("text-anchor", "start")

@@ -1,9 +1,11 @@
 (function extracted() {
-    'use strict'
+   
     //div가 로드된 이후 불러옴
     window.addEventListener("load",
         function () {
 
+        var heatmapchart = {};
+        
         var cohortdata2 = [
 
             {"signdate": "2022-04-01", "retentiondate": "2022-04-02", "retentionvalue": "99"},
@@ -432,11 +434,11 @@
                 svg6.selectAll("g").remove().exit();
                 svg6.selectAll("rect").remove().exit();
 
-               signdates = newData.map(function (d) {
+             var  signdates = newData.map(function (d) {
                     return d.signdate;
                 });
 
-               preioddates = newData.map(function (d, i) {
+             var  preioddates = newData.map(function (d, i) {
                     //  return moment - new Date(d.retentiondate.toString()) ;
 
                     if ( d.signdate.toString() === "전체") {
@@ -492,6 +494,8 @@
                     .domain(signdates.sort(d3.ascending))
                     .padding(0.1);
 
+
+
                 // .padding(0.01);
                 svg6.append("g")
                     .call(d3.axisLeft(y5).tickSize(0))
@@ -507,7 +511,6 @@
 
 
                 svg6
-
                     .selectAll().append("g")
                     .data(newData, function (d) {
                         return d;
@@ -590,8 +593,14 @@
             }
 
            var cohortdata2test =  JSON.parse(JSON.stringify(cohortdata2));
-            setTimeout(update,3000,cohortdata2test);
+            setTimeout(function(){
 
+                update(cohortdata2test);
+            },3000);
+
+       
+       
+       
         });
 })();
 

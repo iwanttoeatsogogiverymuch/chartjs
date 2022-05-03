@@ -247,8 +247,8 @@
       .text(getPercent);
 
 
-    d3.select("#fullpielegend")
-      .selectAll("text")
+    d3.select("#fullpie")
+      .selectAll(".donutlegend")
       .data(_data)
       .transition()
       .duration(duration)
@@ -360,6 +360,13 @@
     ir /*inner radius*/
   ) {
 
+
+
+      var height = 400;
+      var width = 800;
+      
+
+
     // 강남금융센터 #be653e
     // 삼성지점 #78bb37
     // 수유지점 #e0b63d
@@ -456,44 +463,48 @@
         this._current = d;
       });
 
+
+
+      
     var pielegend = d3
-      .select("#fullpielegend")
-      .append("svg")
-      .attr("width", 300)
-      .attr("height", 300)
-      .attr("viewBox", "0 0 800 800")
-      .attr("preserveAspectRatio", "none")
+      .select("#fullpie").select("svg")
+      .append("g")
+      .attr("width", width)
+      .attr("height",height )
+      // .attr("viewBox", "0 0 800 400")
+      // .attr("preserveAspectRatio", "none")
       .append("g")
       .attr("x", "100")
-      .attr("transform", "translate(0,200)")
+      .attr("transform", "translate(400,50)")
       .attr("y", "30")
       .attr("width", "200")
       .attr("height", "200")
       .attr("font-family", "Noto Sans KR")
-      .attr("font-size", "2em")
+      .attr("font-size", "1em")
       .attr("text-anchor", "start")
       .selectAll("g")
       .data(_data)
       .enter()
       .append("g")
       .attr("transform", function (d, i) {
-        return "translate(0," + i * 50 + ")";
+        return "translate(0," + i * 40 + ")";
       });
 
     pielegend
       .append("rect")
       .attr("x", 19)
       .attr("y", 9.5)
-      .attr("width", 35)
-      .attr("height", 35)
+      .attr("width", 25)
+      .attr("height", 25)
       .attr("fill", function (d) {
         return colorscale(d.data.label);
       });
 
     pielegend
       .append("text")
-      .attr("x", 92)
-      .attr("y", 41)
+      .attr("class","donutlegend")
+      .attr("x", 55)
+      .attr("y", 27)
 
       .text(function (d) {
         return (

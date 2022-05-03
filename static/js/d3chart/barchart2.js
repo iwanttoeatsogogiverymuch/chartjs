@@ -508,7 +508,11 @@
         }
 
 
-        setTimeout(update,4000,parseddata2);
+        setTimeout(function () {
+
+            update(parseddata2);
+        },4000)
+        // setTimeout(update,4000,parseddata2);
     });
 })();
 
