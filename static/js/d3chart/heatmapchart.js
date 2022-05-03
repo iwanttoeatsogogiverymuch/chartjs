@@ -4,8 +4,6 @@
     window.addEventListener("load",
         function () {
 
-        var heatmapchart = {};
-        
         var cohortdata2 = [
 
             {"signdate": "2022-04-01", "retentiondate": "2022-04-02", "retentionvalue": "99"},

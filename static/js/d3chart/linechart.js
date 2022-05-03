@@ -235,14 +235,14 @@
             .text("Date");
 
 
-        // y축 레이블
-        svg9.append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 0 - margin.left)
-            .attr("x", 0 - (height / 2))
-            .attr("dy", "1em")
-            .style("text-anchor", "middle")
-            .text("Value");
+        // // y축 레이블
+        // svg9.append("text")
+        //     .attr("transform", "rotate(-90)")
+        //     .attr("y", 0 - margin.left)
+        //     .attr("x", 0 - (height / 2))
+        //     .attr("dy", "1em")
+        //     .style("text-anchor", "middle")
+        //     .text("Value");
 
 
 

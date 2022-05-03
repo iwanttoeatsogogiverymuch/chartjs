@@ -477,9 +477,6 @@ var heatmapchart = (function heatmap(){
 
 
     }
-
-
-
             function update(newData){
 
                 svg6.selectAll("g").remove().exit();
