@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/static/js/lib/moment/moment.js"></script>
+    <script src="/node_modules/d3/build/d3.min.js"></script>
+    <script src="/static/js/d3chart/barchartiife.js"></script>
+
+    <link rel="stylesheet"  type ="text/css" href="/static/css/d3.css" />
+    <title>Document</title>
+</head>
+
+<body>
+<div style="height:50%">
+    <div id="barchart" style="width:600px; height: 400px;">
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var testdata2 = [
+        {"date": "2022-03-01" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-02" , "DAU":"34000", "MAU":"200000", "ALL":"400000"},
+        {"date": "2022-03-03" , "DAU":"34000", "MAU":"300000", "ALL":"400000"},
+        {"date": "2022-03-04" , "DAU":"34000", "MAU":"100000", "ALL":"400000"},
+        {"date": "2022-03-05" , "DAU":"34000", "MAU":"250000", "ALL":"400000"},
+        {"date": "2022-03-06" , "DAU":"34000", "MAU":"23000", "ALL":"400000"},
+        {"date": "2022-03-07" , "DAU":"34000", "MAU":"10000", "ALL":"400000"},
+        {"date": "2022-03-08" , "DAU":"34000", "MAU":"200000", "ALL":"400000"},
+        {"date": "2022-03-09" , "DAU":"34000", "MAU":"356000", "ALL":"400000"},
+        {"date": "2022-03-10" , "DAU":"34000", "MAU":"240000", "ALL":"400000"},
+        {"date": "2022-03-11" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-12" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-13" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-14" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-15" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-16" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-17" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-18" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-19" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-21" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-22" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-23" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-24" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-25" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-26" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+        {"date": "2022-03-27" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
+
+    ];
+
+
+    barchart.draw();
+    setTimeout(function (){
+        barchart.update(JSON.parse(JSON.stringify(testdata2)));
+    },3000);
+    setTimeout(function (){
+        barchart.update(JSON.parse(JSON.stringify(testdata2.slice(5))));
+    },3000);
+    setTimeout(function (){
+        barchart.update(JSON.parse(JSON.stringify(testdata2)));
+    },6000);
+    setTimeout(function (){
+        barchart.update(JSON.parse(JSON.stringify(testdata2.slice(3))));
+    },7000);
+
+
+
+</script>
