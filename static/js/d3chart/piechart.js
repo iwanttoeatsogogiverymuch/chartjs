@@ -1,6 +1,11 @@
 var piechart = (function extracted() {
 
+
+    var divid;
+
   var piechart = {};
+
+  var key;
 
   var tooltip;
 
@@ -28,11 +33,20 @@ var piechart = (function extracted() {
 
   var piecolor;
 
+  var pie2 = d3
+      .pie()
+      .sort(null)
+      .value(function (d) {
+          return d.value;
+      });
+
 
   var width3,
       height3,
       radius3;
 
+    var polyline;
+    var text;
 
   var salesData3;
   var salesData4;
@@ -99,10 +113,25 @@ var piechart = (function extracted() {
     };
   }
 
+  function initPie2Calc(){
+
+      pie2 = d3
+          .pie()
+          .sort(null)
+          .value(function (d) {
+              return d.value;
+          });
+      key = function (d) {
+          return d.data.label;
+      };
+
+  }
+
 
   function draw(){
 
 
+      initPie2Calc();
     pieData = salesData3.map(function (d) {
       return d.value;
     });
@@ -147,7 +176,7 @@ var piechart = (function extracted() {
         });
 
     svg5 = d3
-        .select("#my_dataviz")
+        .select("#piechart")
         .append("svg")
         .attr("width", width3)
         .attr("height", height3)
@@ -197,7 +226,7 @@ var piechart = (function extracted() {
 
 
     legend = d3
-        .select("#my_dataviz")
+        .select("#piechart")
         .select("svg")
         .append("g")
         .attr("font-family", "Noto Sans KR")
@@ -235,14 +264,84 @@ var piechart = (function extracted() {
         });
 
 
+      text = svg5
+          .select(".labels")
+          .selectAll("text")
+          .data(pie2(salesData3), key);
+
+      text.enter()
+          .append("text")
+          .attr("dy", ".35em");
+
+      text
+          .transition()
+          .duration(1000)
+          .text(function (d) {
+              console.log(d);
+              return d.data.label;
+          })
+          .attrTween("transform", function (d) {
+              this._current = this._current || d;
+              var interpolate = d3.interpolate(this._current, d);
+              this._current = interpolate(0);
+              return function (t) {
+                  var d2 = interpolate(t);
+                  var pos = outerArc.centroid(d2);
+                  pos[0] = radius3 * (midAngle(d2) < Math.PI ? 1 : -1);
+                  return "translate(" + pos + ")";
+              };
+          })
+          .styleTween("text-anchor", function (d) {
+              this._current = this._current || d;
+              var interpolate = d3.interpolate(this._current, d);
+              this._current = interpolate(0);
+              return function (t) {
+                  var d2 = interpolate(t);
+                  return midAngle(d2) < Math.PI ? "start" : "end";
+              };
+          });
+
+      text.exit().remove();
+
+      /* ------- SLICE TO TEXT POLYLINES -------*/
+
+      polyline = svg5
+          .select(".lines")
+          .selectAll("polyline")
+          .data(pie2(salesData3), key);
+
+      polyline.enter().append("polyline");
+
+      polyline
+          .transition()
+          .duration(1000)
+          .attrTween("points", function (d) {
+              this._current = this._current || d;
+              var interpolate = d3.interpolate(this._current, d);
+              this._current = interpolate(0);
+              return function (t) {
+                  var d2 = interpolate(t);
+                  var pos = outerArc.centroid(d2);
+                  pos[0] = radius3 * 0.9 * (midAngle(d2) < Math.PI ? 1 : -1);
+                  return [tooltipArc.centroid(d2), outerArc.centroid(d2), pos];
+              };
+          });
+
+      polyline.exit().remove();
+
+
+
+
   }
+
+
+  //update
      function update (data) {
 
-      var polyline;
-      var text;
-      var pie2;
-      var key;
 
+
+
+         initPie2Calc();
       console.log(data);
       
       values = data.map(function (d) {
@@ -250,21 +349,13 @@ var piechart = (function extracted() {
       });
       
       
-      pie2 = d3
-          .pie()
-          .sort(null)
-          .value(function (d) {
-            return d.value;
-          });
 
       
       function midAngle(d) {
         return d.startAngle + (d.endAngle - d.startAngle) / 2;
       }
 
-      key = function (d) {
-        return d.data.label;
-      };
+
       /* ------- PIE SLICES -------*/
 
       // svg5.selectAll(".arc")
@@ -279,160 +370,131 @@ var piechart = (function extracted() {
 
        
        //기존차트 비우기
-      g4.remove().exit();
-      
-      g4 = svg5
-          .selectAll(".arc")
-          .data(pie(values))
-          .enter()
-          .append("g")
-          .attr("class", "arc");
-      
-
-      g4.append("path")
-          .on("mouseover", onMouseOver())
-          .on("mousemove", onMouseMove())
-          .on("mouseout", onMouseOut())
-          .style("fill", function (d, i) {
-            return piecolor(salesData3[i].label);
-          })
-          .attr("d", transitionArc)
-          .transition()
-          .ease(d3.easeSin)
-          .duration(500)
-          .attr("d", arc);
+         if(g4 != null){
 
 
-      g4.append("text")
-          .attr("transform", function (d) {
-            return "translate(" + arc.centroid(d) + ")";
-          })
-          .attr("font-family", "Noto Sans KR")
-          .attr("font-size", "1.5rem")
-          .attr("font-weight", "Regular")
-          .attr("fill", "white")
-          .attr("text-anchor", "start")
-          .text(function (d) {
-            return getPercent(d);
-          });
+             initPie2Calc();
+
+             g4.remove().exit();
+
+             g4 = svg5
+                 .selectAll(".arc")
+                 .data(pie(values))
+                 .enter()
+                 .append("g")
+                 .attr("class", "arc");
 
 
-      // g4.append("text")
-      //   .attr("transform", function (d) {
-      //     return "translate(" + arc.centroid(d) + ")";
-      //   })
-      //   .attr("font-family", "Noto Sans KR")
-      //   .attr("font-size", "25px")
-      //   .attr("font-weight", "Regular")
-      //   .attr("fill", "white")
-      //   .attr("text-anchor", "start")
-      //   .text(function (d) {
-      //     return d.data;
-      //   });
-
-      // var slice = g4
-      //   .select(".arc")
-      //   .selectAll("path.slice")
-      //   .data(pie(values), key);
-
-      // slice
-      //   .enter()
-      //   .insert("path"                           )
-      //   .style("fill", function (d,i) {
-      //     return piecolor(data[i].label);
-      //   })
-      //   .attr("class", "arc");
-
-      // slice
-      //   .transition()
-      //   .duration(1000)
-      //   .attrTween("d", function (d) {
-      //     this._current = this._current || d;
-      //     var interpolate = d3.interpolate(this._current, d);
-      //     this._current = interpolate(0);
-      //     return function (t) {
-      //       return arc(interpolate(t));
-      //     };
-      //   });
-
-      //slice.exit().remove();
-
-      /* ------- TEXT LABELS -------*/
-
-      text = svg5
-          .select(".labels")
-          .selectAll("text")
-          .data(pie2(data), key);
-
-      text.enter()
-          .append("text")
-          .attr("dy", ".35em");
-
-      text
-          .transition()
-          .duration(1000)
-          .text(function (d) {
-            console.log(d);
-            return d.data.label;
-          })
-          .attrTween("transform", function (d) {
-            this._current = this._current || d;
-            var interpolate = d3.interpolate(this._current, d);
-            this._current = interpolate(0);
-            return function (t) {
-              var d2 = interpolate(t);
-              var pos = outerArc.centroid(d2);
-              pos[0] = radius3 * (midAngle(d2) < Math.PI ? 1 : -1);
-              return "translate(" + pos + ")";
-            };
-          })
-          .styleTween("text-anchor", function (d) {
-            this._current = this._current || d;
-            var interpolate = d3.interpolate(this._current, d);
-            this._current = interpolate(0);
-            return function (t) {
-              var d2 = interpolate(t);
-              return midAngle(d2) < Math.PI ? "start" : "end";
-            };
-          });
-
-      text.exit().remove();
-
-      /* ------- SLICE TO TEXT POLYLINES -------*/
-
-      polyline = svg5
-          .select(".lines")
-          .selectAll("polyline")
-          .data(pie2(data), key);
-
-      polyline.enter().append("polyline");
-
-      polyline
-        .transition()
-        .duration(1000)
-        .attrTween("points", function (d) {
-          this._current = this._current || d;
-          var interpolate = d3.interpolate(this._current, d);
-          this._current = interpolate(0);
-          return function (t) {
-            var d2 = interpolate(t);
-            var pos = outerArc.centroid(d2);
-            pos[0] = radius3 * 0.9 * (midAngle(d2) < Math.PI ? 1 : -1);
-            return [tooltipArc.centroid(d2), outerArc.centroid(d2), pos];
-          };
-        });
-
-      polyline.exit().remove();
-    };
+             g4.append("path")
+                 .on("mouseover", onMouseOver())
+                 .on("mousemove", onMouseMove())
+                 .on("mouseout", onMouseOut())
+                 .style("fill", function (d, i) {
+                     return piecolor(salesData3[i].label);
+                 })
+                 .attr("d", transitionArc)
+                 .transition()
+                 .ease(d3.easeSin)
+                 .duration(500)
+                 .attr("d", arc);
 
 
+             g4.append("text")
+                 .attr("transform", function (d) {
+                     return "translate(" + arc.centroid(d) + ")";
+                 })
+                 .attr("font-family", "Noto Sans KR")
+                 .attr("font-size", "1.5rem")
+                 .attr("font-weight", "Regular")
+                 .attr("fill", "white")
+                 .attr("text-anchor", "start")
+                 .text(function (d) {
+                     return getPercent(d);
+                 });
 
-    setTimeout(function () {
-      update(salesData3);
-    }, 2000);
 
+             //slice.exit().remove();
+
+             /* ------- TEXT LABELS -------*/
+
+             text = svg5
+                 .select(".labels")
+                 .selectAll("text")
+                 .data(pie2(data), key);
+
+             text.enter()
+                 .append("text")
+                 .attr("dy", ".35em");
+
+             text
+                 .transition()
+                 .duration(1000)
+                 .text(function (d) {
+                     console.log(d);
+                     return d.data.label;
+                 })
+                 .attrTween("transform", function (d) {
+                     this._current = this._current || d;
+                     var interpolate = d3.interpolate(this._current, d);
+                     this._current = interpolate(0);
+                     return function (t) {
+                         var d2 = interpolate(t);
+                         var pos = outerArc.centroid(d2);
+                         pos[0] = radius3 * (midAngle(d2) < Math.PI ? 1 : -1);
+                         return "translate(" + pos + ")";
+                     };
+                 })
+                 .styleTween("text-anchor", function (d) {
+                     this._current = this._current || d;
+                     var interpolate = d3.interpolate(this._current, d);
+                     this._current = interpolate(0);
+                     return function (t) {
+                         var d2 = interpolate(t);
+                         return midAngle(d2) < Math.PI ? "start" : "end";
+                     };
+                 });
+
+             text.exit().remove();
+
+             /* ------- SLICE TO TEXT POLYLINES -------*/
+
+             polyline = svg5
+                 .select(".lines")
+                 .selectAll("polyline")
+                 .data(pie2(data), key);
+
+             polyline.enter().append("polyline");
+
+             polyline
+                 .transition()
+                 .duration(1000)
+                 .attrTween("points", function (d) {
+                     this._current = this._current || d;
+                     var interpolate = d3.interpolate(this._current, d);
+                     this._current = interpolate(0);
+                     return function (t) {
+                         var d2 = interpolate(t);
+                         var pos = outerArc.centroid(d2);
+                         pos[0] = radius3 * 0.9 * (midAngle(d2) < Math.PI ? 1 : -1);
+                         return [tooltipArc.centroid(d2), outerArc.centroid(d2), pos];
+                     };
+                 });
+
+             polyline.exit().remove();
+
+         }
+
+    }
 
     update(salesData3);
+    update(salesData3);
+
+    // setTimeout(function () {
+    //   update(salesData3);
+    // }, 2000);
+    //
+    //
+    // update(salesData3);
 
 
 //전역에 노출시킬 퍼블릭 함수

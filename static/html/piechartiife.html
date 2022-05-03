@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/static/js/lib/moment/moment.js"></script>
   <script src="/node_modules/d3/build/d3.min.js"></script>
-  <script src="/static/js/d3chart/barchartiife.js"></script>
+  <script src="/static/js/d3chart/piechart.js"></script>
 
   <link rel="stylesheet"  type ="text/css" href="/static/css/d3.css" />
   <title>Document</title>
@@ -21,6 +21,44 @@
 
 <script type="text/javascript">
 
+
+  var salesData = [
+    {label: "강남금융센터", color: "#be653e", value: "300"},
+    {label: "삼성지점", color: "#78bb37", value: "400"},
+    {label: "수유지점", color: "#e0b63d", value: "200"},
+    {label: "영업본부(개인)", color: "#ef9db5", value: "200"},
+    {label: "영업부", color: "#d46b8e", value: "300"},
+    {label: "채권2팀", color: "#9a9adc", value: "30"},
+    {label: "투자금융팀", color: "#6cc4a0", value: "120"},
+  ];
+
+  var salesData4 = [
+    {label: "강남금융센터", color: "#be653e", value: "300"},
+    {label: "삼성지점", color: "#78bb37", value: "400"},
+    {label: "수유지점", color: "#e0b63d", value: "200"},
+    {label: "영업본부(개인)", color: "#ef9db5", value: "200"},
+  ];
+
+
+  function randomData() {
+    return salesData.map(function (d) {
+      return {
+        label: d.label,
+        value: 1000000 * Math.random(),
+        color: d.color,
+      };
+    });
+  }
+
+
+piechart.draw();
+
+setTimeout(function (){
+  piechart.update(randomData());
+},3000);
+  setTimeout(function (){
+    piechart.update(randomData());
+  },6000);
 
 
 
