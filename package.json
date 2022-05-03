@@ -21,7 +21,7 @@
     "bower": "^1.8.14",
     "d3": "^4.13.0",
     "eonasdan-bootstrap-datetimepicker": "^4.7.14",
-    "jquery": "^2.1.4",
+    "jquery": "^3.6.0",
     "moment": "^2.29.2"
   }
 }
