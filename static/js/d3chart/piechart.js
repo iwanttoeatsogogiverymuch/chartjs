@@ -187,6 +187,18 @@ var piechart = (function extracted() {
           return d;
         });
 
+        pie2 = d3
+            .pie()
+            .sort(null)
+            .value(function (d) {
+                return d.value;
+            });
+        key = function (d) {
+            return d.data.label;
+        };
+
+
+
     svg5 = d3
         .select("#piechart")
         .append("svg")
@@ -197,6 +209,10 @@ var piechart = (function extracted() {
         .append("g")
         .attr("transform", "translate(" + width3 / 3 + "," + height3 / 2 + ")");
 
+        svg5.append("g").attr("class", "lines");
+        svg5.append("g").attr("class", "slices");
+        svg5.append("g").attr("class", "labels");
+
     g4 = svg5
         .selectAll(".arc")
         .data(pie(pieData))
@@ -204,9 +220,9 @@ var piechart = (function extracted() {
         .append("g")
         .attr("class", "arc");
 
-    svg5.append("g").attr("class", "slices");
-    svg5.append("g").attr("class", "labels");
-    svg5.append("g").attr("class", "lines");
+
+
+
 
     g4.append("path")
         .style("fill", function (d, i) {
@@ -317,21 +333,17 @@ var piechart = (function extracted() {
 
       /* ------- SLICE TO TEXT POLYLINES -------*/
 
+
       polyline = svg5
           .select(".lines")
           .selectAll("polyline")
-          .data(d3.entries(pie2(salesData3)));
+          .data(pie2(salesData3),key);
 
-      polyline.enter().append("polyline");
-        console.log(pie2(salesData3));
-      polyline
-          // .transition()
-          // .duration(1)
+        polyline.enter().append("polyline")
           .attr("stroke", "black")
           .style("fill", "none")
           .attr("stroke-width", 2)
           .attr('points', function(d) {
-
 
               var posA = arc.centroid(d); // line insertion in the slice
               var posB = outerArc.centroid(d); // line break: we use the other arc generator that has been built only for that
@@ -339,7 +351,7 @@ var piechart = (function extracted() {
               var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
               posC[0] = radius3 * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
               return [posA, posB, posC];
-          })
+          });
           // .attr("points", function (d) {
           //     this._current = this._current || d;
           //     var interpolate = d3.interpolate(this._current, d);
@@ -486,7 +498,11 @@ var piechart = (function extracted() {
                  .selectAll("polyline")
                  .data(pie2(data), key);
 
+             console.log(polyline._enter);
+
              polyline.enter().append("polyline");
+
+
 
              polyline
                  .transition()
@@ -516,7 +532,7 @@ var piechart = (function extracted() {
     //   update(salesData3);
     // }, 2000);
     //
-    //
+
     // update(salesData3);
 
 
