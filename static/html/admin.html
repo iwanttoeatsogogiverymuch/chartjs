@@ -1,0 +1,485 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=11">
+<meta name="Description" content="우리금융저축은행">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+
+	<script src="/static/js/lib/moment/moment.js"></script>
+	<script src="/node_modules/d3/build/d3.min.js"></script>
+	<script src="/static/js/d3chart/piechart.js"></script>
+
+
+<!-- css -->
+<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+<link rel="stylesheet" type="text/css"  href="/static/css/style.css">
+<link rel="stylesheet" type="text/css"  href="/static/css/adminStyle.css">
+	<link rel="stylesheet"  type ="text/css" href="/static/css/d3.css" />
+
+
+
+
+</head>
+<!-----------------------------
+       [차트 색상 가이드]
+       
+       정기예금 : #0075cc
+       정기적금 : #48a0ce
+       핵심예금(개인) : #44c4be
+       핵심예금(기업) : #36c35d
+       기타 : #6079d6
+       전체 : #8664cb
+       수유지점 : #e0b63d
+       삼성지점 : #78bb37
+       강남금융센터 : #be653e
+       영업본부 : #d46b8e
+       영업본부(개인) : #ef9db5
+       투자금융팀 : #6cc4a0
+       채권2팀 : #9a9adc
+       기업고객본부 : #debd8e
+       회원수 :  #8ea7e0
+       DAU : #8ccbd2
+       MAU : #fba597
+------------------------------->
+<body>
+	<div id="wrap">
+		<div class="container">
+			<!--header-->
+			<div class="header">
+				<h1>우리금융저축은행</h1>
+				<div class="gnb">
+					<ul>
+						<li><a id="appChk" href="javascript:;">여신현황</a></li>
+						<li class="on"><a href="javascript:;">수신현황</a></li>
+						<li><a href="javascript:;">우리WON 저축은행 앱</a></li>
+					</ul>
+				</div>
+			</div>
+			<!--//header-->
+			<!--content-->
+			<div class="content">
+				<!--searchwrp-->
+				<div class="search-wrp">
+					<div class="search-cont">
+						<div class="inp-box">
+							<label for="">일자</label>
+							<div class="date">
+								<input type="text" class="date-picker">
+							</div>
+							<div class="date">
+								<input type="text" class="date-picker" readonly>
+							</div>
+						</div>
+						<div class="inp-box">
+							<label for="">지점</label>
+							<select name="" id="">
+								<option value="default" selected readonly>선택</option>
+								<option value="">지점1</option>
+								<option value="">지점2</option>
+							</select>
+						</div>
+						<div class="inp-box">
+							<label for="">상품</label>
+							<select name="" id="" disabled>
+								<option value="default" selected readonly>선택</option>
+								<option value="">상품1</option>
+								<option value="">상품2</option>
+							</select>
+						</div>
+						<div class="radio-wrp">
+							<div class="inp-box">
+								<span class="inp">
+									<input type="radio" name="radios" id="radio1" checked disabled>
+									<label for="radio1">전일</label>
+								</span>
+							</div>
+							<div class="inp-box">
+								<span class="inp">
+									<input type="radio" name="radios" id="radio2">
+									<label for="radio2">주간</label>
+								</span>
+							</div>
+							<div class="inp-box">
+								<span class="inp">
+									<input type="radio" name="radios" id="radio3">
+									<label for="radio3">월간</label>
+								</span>
+							</div>
+							<div class="inp-box">
+								<span class="inp">
+									<input type="radio" name="radios" id="radio4">
+									<label for="radio4">분기</label>
+								</span>
+							</div>
+							<div class="inp-box">
+								<span class="inp">
+									<input type="radio" name="radios" id="radio5">
+									<label for="radio5">연도</label>
+								</span>
+							</div>
+						</div>
+						<a href="javascript:;" class="search-btn">검색</a>
+					</div>
+				</div>
+				<!--//searchwrp-->
+				<!--tab-->
+				<div class="tab-menus">
+					<ul>
+						<li class="on"><a href="javascript:;">대면/비대면 현황</a></li>
+						<li><a href="javascript:;">신규/잔액기준 현황</a></li>
+						<li><a href="javascript:;">상품별 실적</a></li>
+						<li><a href="javascript:;">기간별 실적</a></li>
+						<li><a href="javascript:;">지점별 실적</a></li>
+					</ul>
+				</div>
+				<!--//tab-->
+				<!--tabwrp-->
+				<div class="tab-wrp">
+					<div class="call-date">
+						<span>2022.01.03 ~ 2022.04.22 기준</span>
+					</div>
+					<!--tab-content [대면/비대면현황]-->
+					<div class="tab-content">
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>비대면 총합계<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="piechart" style="height: 500px; width: 500px;"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>비대면 실적<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="barchart1"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>대면 총합계<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="piechart2"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>대면 실적<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="barchart2"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+					</div>
+					<!--//tab-content [대면/비대면현황]-->
+					<!--tab-content [신규/잔액기준현황]-->
+					<div class="tab-content">
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>신규취급액기준 총합계<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="piechart1"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>신규취급액 기준실적<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="barchart1"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>잔액기준 총합계<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="piechart2"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>잔액기준 실적<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="barchart2"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+					</div>
+					<!--//tab-content [신규/잔액기준현황]-->
+					<!--tab-content [상품별실적]-->
+					<div class="tab-content">
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>상품별 실적 총 : 00건</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="piechart1"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>실적 추이<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="piechart2"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+					</div>
+					<!--//tab-content [상품별실적]-->
+					<!--tab-content [기간별실적]-->
+					<div class="tab-content">
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>기간 실적 총 : 00건<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="piechart1"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+					</div>
+					<!--//tab-content [기간별실적]-->
+					<!--tab-content [지점별실적]-->
+					<div class="tab-content">
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>총 실행건수 0,000건</h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="piechart1"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>총 실행금액 1,000,000백만원</h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="barchart1"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>대면 총합계<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="piechart2"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+					</div>
+					<!--//tab-content [지점별실적]-->
+				</div>
+				<!--//tabwrp-->
+			</div>
+			<!--//content-->
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+
+
+		var salesData = [
+			{label: "강남금융센터", color: "#be653e", value: "300"},
+			{label: "삼성지점", color: "#78bb37", value: "400"},
+			{label: "수유지점", color: "#e0b63d", value: "200"},
+			{label: "영업본부(개인)", color: "#ef9db5", value: "200"},
+			{label: "영업부", color: "#d46b8e", value: "300"},
+			{label: "채권2팀", color: "#9a9adc", value: "30"},
+			{label: "투자금융팀", color: "#6cc4a0", value: "120"},
+		];
+
+		var salesData4 = [
+			{label: "강남금융센터", color: "#be653e", value: "300"},
+			{label: "삼성지점", color: "#78bb37", value: "400"},
+			{label: "수유지점", color: "#e0b63d", value: "200"},
+			{label: "영업본부(개인)", color: "#ef9db5", value: "200"},
+		];
+
+
+		function randomData() {
+			return salesData.map(function (d) {
+				return {
+					label: d.label,
+					value: 1000000 * Math.random(),
+					color: d.color,
+				};
+			});
+		}
+
+
+		// setTimeout(
+		//         function (){piechart.update(randomData())},2000
+		// );
+		piechart.draw();
+
+
+
+
+		// setTimeout(function (){
+		//   piechart.update(randomData());
+		// },3000);
+		//   setTimeout(function (){
+		//     piechart.update(randomData());
+		//   },6000);
+
+
+
+
+
+
+	</script>
+</body>
+</html>	

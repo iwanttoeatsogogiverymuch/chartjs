@@ -1,0 +1,164 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="Description" content="우리금융저축은행">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+<!-- css -->
+<link rel="stylesheet" href="../css/style.css">
+<!-- jquery ui css -->
+<link rel="stylesheet" href="../css/jquery-ui.css">
+
+<!-- js -->
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/apexcharts/dist/apexcharts.min.js"></script>
+
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/mainChart.js"></script>
+<script type="text/javascript" src="/js/tabChart.js"></script>
+
+<script type="text/javascript">
+	var dayCheck = new Date();
+	var reloadTick;
+	var TICK_TIME = 60000;
+	var TimeoutId; 
+	var setTab = 1;
+	$(function() {
+		$.datepicker.setDefaults({
+	        dateFormat: 'yy-mm-dd',
+	        prevText: '이전 달',
+	        nextText: '다음 달',
+	        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+	        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+	        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+	        showMonthAfterYear: true,
+	        yearSuffix: '년'
+	    });
+
+		let setDate = "[[${param.setDate}]]";
+		
+		if(setDate){
+			$("#datepicker1").datepicker();
+			$("#datepicker1").val(setDate);
+		}else{
+			$("#datepicker1").datepicker().datepicker('setDate', new Date());;
+		}
+		chart1();
+		yearchartdraw();
+		weekchartdraw();
+		start(TICK_TIME);
+		autoReload(1*60*1000);
+	});
+	
+	function autoReload(time){
+		reloadTick = setInterval(function() {
+			let dt = new Date();
+			if(dayCheck.getDate() != dt.getDate()){
+				location.href="/";
+			}
+		}, time);
+	}
+	
+	function start(time){
+		setTab++;
+		TimeoutId = setInterval(function() {
+			if(setTab == 1){
+				$('#tab1').trigger('click');
+			}else if(setTab == 2){
+				$('#tab2').trigger('click');
+			}else if(setTab == 3){
+				$('#tab3').trigger('click');
+			}else if(setTab == 4){
+				$('#tab4').trigger('click');
+			}else if(setTab == 5){
+				$('#tab5').trigger('click');
+			}else{
+				$('#tab1').trigger('click');
+				setTab = 1;
+			}
+			setTab++;
+		}, time);
+	}
+	
+	var toggle = true;
+	function stop(){
+		 if(toggle){
+			toggle = false;
+			$('#stopchk').removeClass('btnstop').addClass('btnstart');
+			clearInterval(TimeoutId);			
+		 }else{
+			 toggle = true;
+			$('#stopchk').removeClass('btnstart').addClass('btnstop');
+			start(TICK_TIME);
+		 }
+		
+	}
+	
+	function submit(){
+		location.href="/?setDate=" + $("#datepicker1").val();
+	}
+	
+	function enterkey(){
+		if (window.event.keyCode == 13) { submit(); }
+	}
+	
+	function reset(){
+		location.href="/";
+	}
+	
+</script>
+</head>
+<body>
+	<p class="won">(단위:억 원)</p>
+	<div class="tab-container">
+		<input id="tab1" name="tab-menu" type="radio" checked onclick="chart1();" > 
+		<label for="tab1">우리WON저축은행 실적</label> 
+		<input id="tab2" name="tab-menu" type="radio" onclick="chart2();" >
+		<label for="tab2">우리WON저축은행 비교실적</label>
+		<input id="tab3" name="tab-menu" type="radio" onclick="chart3();" >
+		<label for="tab3">총 여신 실적</label>
+		<input id="tab4" name="tab-menu" type="radio" onclick="chart4();" >
+		<label for="tab4">일별 대출실행액</label>
+		<input id="tab5" name="tab-menu" type="radio" onclick="chart5();" >
+		<label for="tab5">채널별 실적</label>
+		
+		<div id="tab-content1" class="tab-content">
+			<div id="piechart1" class="leftchart"></div>
+			<div id="piechart2" class="leftchart"></div>
+		</div>
+		<div id="tab-content2" class="tab-content">
+			<div id="piechart3" class="leftchart"></div>
+			<div id="piechart4" class="leftchart"></div>
+		</div>
+		<div id="tab-content3" class="tab-content">
+			<div id="columnchart_values02"></div>
+		</div>
+		<div id="tab-content4" class="tab-content">
+			<div id="chart_div"></div>
+		</div>
+		<div id="tab-content5" class="tab-content">
+			<div id="chart5_1" class="leftchart"></div>
+			<div id="chart5_2" class="leftchart"></div>
+		</div>
+	</div>
+	<div class="weekchart">
+		<div class="DatePicker calendar">
+			<input type="text" id="datepicker1" class="datepicker" name="setDate" onkeyup="enterkey()" > 
+			<a onclick="submit();" class="btnsearch">검색</a>
+			<a onclick="stop();" id="stopchk" class="btnstop"></a>
+			<a onclick="reset();" class="refresh">새로고침</a>
+		</div>
+		<div class="rightchart" id="weekchart" style="height: 100%"></div>
+	</div>
+	<div class="bottomchart">
+		<div id="columnchart_values"></div>
+	</div>
+	<script type="text/javascript">
+	
+	</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+@charset "utf-8";
+/* CSS Document */
+
+@font-face {
+  font-family: 'MaruBuri';   
+  src: url(/css/font/MaruBuriOTF/MaruBuri-Bold.otf) format('opentype'),
+	url(/css/font/MaruBuriOTF/MaruBuri-ExtraLight.otf) format('opentype'),
+	url(/css/font/MaruBuriOTF/MaruBuri-Light.otf) format('opentype'),
+	url(/css/font/MaruBuriOTF/MaruBuri-Regular.otf) format('opentype'),
+	url(/css/font/MaruBuriOTF/MaruBuri-SemiBold.otf) format('opentype')
+} 

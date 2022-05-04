@@ -1,0 +1,91 @@
+@charset "utf-8";
+
+#wrap{width:100%;height:100%;overflow-x:hidden;overflow-y:auto;}
+.container{width:1200px;margin:0 auto;position:relative;padding-top:95px;padding-bottom:50px;}
+.header{position:absolute;left:0;top:0;width:100%;height: 95px;padding: 31px 0 36px 131px;}
+
+/* header */
+.header h1{width:100px;height:40px;position:absolute;left:0;top:28px;text-indent:-999em;font-size:0;background:url(../css/images/img_h1_woori_logo.png) no-repeat;background-size:100px auto;}
+.header .gnb li{float:left;position:relative;}
+.header .gnb li.on:before{content:'';width:100%;height:3px;position:absolute;left:0;bottom:-4px;background:#0144a5}
+.header .gnb li.on a{color:#0144a5;font-weight:bold}
+.header .gnb li a{font-size:18px;}
+.header .gnb li:first-child{margin-left:91px;}
+.header .gnb li + li{margin-left:86px;}
+
+/* input */
+.inp-box{display:inline-block;}
+.inp-box + .inp-box{margin-left:19px}
+.inp-box input[type="text"]{border:1px solid #ccc;width:224px;height:30px;padding-left:20px;font-size:15px;margin-left:19px;border-radius:5px;}
+.inp-box input[type="text"]:read-only{background:#ededed;}
+.inp-box label{font-size:15px;}
+.inp-box select{margin-left:19px;}
+.inp-box select:disabled{background:#ededed url(../css/images/ico_arr_bottom.png) 90% center no-repeat;background-size:13px auto;}
+.inp-box .inp{display:flex;align-items:center;justify-content:center;}
+.inp-box .inp label{position:relative;padding-left:34px;cursor:pointer;color:#000}
+.inp-box .inp label:before{content:'';width:25px;height:25px;display:inline-block;position:absolute;left:0;top:0;border-radius:100%;border:1px solid #d2d2d2;background:#fff;}
+.inp-box .inp input:checked + label:after{content:'';width:15px;height:15px;display:inline-block;position:absolute;left:5px;top:5px;border-radius:100%;background:#418af3;}
+.inp-box input[type="radio"]{display:none;}
+.inp-box input[type="radio"]:disabled + label{color:#898989}
+.inp-box input[type="radio"]:disabled + label:before{background:#ededed}
+.inp-box input[type="radio"]:disabled + label:after{background:#cdc9c9}
+.inp-box .date{position:relative;display:inline-block;}
+.inp-box .date + .date:before{content:'~';display:inline-block;position:absolute;left: 2px;top: 50%;transform: translateY(-50%);color:#222}
+
+/* search */
+.search-wrp{padding:23px 40px;background:#f7f7f7;border:1px solid #e6e6e6;border-radius:5px;}
+.search-wrp .search-cont{position:relative;}
+.search-wrp .search-cont > .inp-box + .inp-box{margin-left:40px}
+.search-wrp .radio-wrp{margin-top:15px}
+.search-wrp .search-btn{width:98px;height:56px;text-align:center;padding-top:15px;border-radius:4px;background:#418af3;position:absolute;right:0;top:6px;font-size:18px;color:#fff}
+
+/* datePicker */
+.date-picker{width:150px !important}
+.date-picker + button.ui-datepicker-trigger{position:absolute;top:0;right:10px;width:18px;height:100%;background:url(../css/images/icon_cal.png) center no-repeat;background-size:18px;font-size:0 !important;}
+.ui-widget.ui-widget-content{border:none !important;box-shadow:5px 7px 8px rgb(0 0 0 / 20%) !important;border-radius:10px;padding:15px}
+.ui-datepicker .ui-datepicker-buttonpane,
+.ui-datepicker .ui-datepicker-prev, 
+.ui-datepicker .ui-datepicker-next{display:none !important}
+.ui-datepicker .ui-datepicker-title{margin:0 !important}
+.ui-widget-header{border:none !important;padding:0 !important;background:none !important}
+.ui-datepicker-title select{height:45px}
+.ui-datepicker select.ui-datepicker-month, 
+.ui-datepicker select.ui-datepicker-year{width:50% !important;border:none;}
+.ui-datepicker td span, .ui-datepicker td a{text-align:center !important}
+.ui-datepicker-week-end a{color:red !important}
+.ui-datepicker-week-end .ui-state-active{color:#fff !important}
+.ui-state-default{border:1px solid #fff !important;background:#fff !important}
+.ui-state-active{background:#418af3 !important;color:#fff !important}
+.ui-state-highlight{border-color:#a9a9a9 !important}
+.ui-priority-secondary{opacity:0.3 !important}
+
+/* tab */
+.tab-menus{margin: 20px 0;display:inline-block;width:100%;}
+.tab-menus li{border:1px solid #d2d2d2;float:left;width:232px;height: 45px;border-radius:5px;text-align:center;}
+.tab-menus li + li{margin-left:10px;}
+.tab-menus li a{display:inline-block;width:100%;height:100%;font-size: 16px;color:#555;letter-spacing:-0.5px;padding-top: 9px;}
+.tab-menus li.on{border-color:#418af3;}
+.tab-menus li.on a{color:#418af3;}
+
+.call-date{margin:0 0 10px;text-align:left;font-size:16px;}
+.call-date span:before{content:'';display:inline-block;width:15px;height:15px;background:#418af3;margin-right:10px;position:relative;top:2px}
+
+.tab-content{display:none}
+
+.chart-box-wrp{display:flex;width:100%;}
+.chart-box-wrp + .chart-box-wrp{margin-top:30px;padding-top:30px;border-top:1px solid #d2d2d2}
+.chart-box-wrp .chart-box{flex:1;width:100%;border:1px solid #d2d2d2;border-radius:5px;}
+.chart-box-wrp .chart-box + .chart-box{margin-left:2%}
+.chart-box-wrp .chart-box .box-head{position:relative;padding:20px 20px}
+.chart-box-wrp .chart-box .box-head h2{font-size:16px;font-weight:normal;}
+.chart-box-wrp .chart-box .box-head h2 span{font-size:13px;margin-left:5px;color:#555}
+.chart-box-wrp .chart-box .downloads{position:absolute;right:10px;display:flex;top:12px}
+.chart-box-wrp .chart-box .downloads a{display:flex;align-items:center;justify-content:center;height:42px;color:#555;font-size:13px;border-radius:5px}
+.chart-box-wrp .chart-box .downloads a + a{margin-left:15px}
+.chart-box-wrp .chart-box .downloads a span{position:relative;padding-left:33px;}
+.chart-box-wrp .chart-box .downloads a span:before{content:'';width:24px;height:24px;position:absolute;left:0;top:-2px;}
+.chart-box-wrp .chart-box .downloads a.download_e span:before{background:url(../css/images/icon_download_exel.png) center center no-repeat;background-size:24px auto;}
+.chart-box-wrp .chart-box .downloads a.download_g span:before{background:url(../css/images/icon_download_graph.png) center center no-repeat;background-size:23px auto;}
+
+.chart-box-wrp .chart-box .chart-cont{width:100%;padding:15px;min-height:250px}
+.chart-box-wrp .chart-box .chart-cont .chart-draw{width:100%;overflow-x:auto;overflow-y:hidden;}
