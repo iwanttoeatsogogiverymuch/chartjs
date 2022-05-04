@@ -189,14 +189,7 @@ var multilinechart = (function extracted() {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        //Read the data
-        d3.json(
-            "/resource/retention.json",
 
-            function (err, data) {
-                if (err) {
-                    // document.write("error in json load");
-                }
                 var pnum = data.map(function (d, i) {
                     //  return moment - new Date(d.retentiondate.toString()) ;
                     var a = moment(d.retentiondate.toString());
@@ -368,10 +361,6 @@ var multilinechart = (function extracted() {
                     .range(["blue","red","yellow","orange","grey"]);
 
                 var legend = svg9.append("g").selectAll("rect").data(data).join().append("rect");
-
-            }//d3.json callback
-        );
-
 
 
 

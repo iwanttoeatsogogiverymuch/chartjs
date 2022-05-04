@@ -1,7 +1,12 @@
 (function extracted() {
     window.addEventListener("load", function () {
 
+        var svg9;
+        var margin, linechartwidth, linechartheight;
         var XMLNS_SVG_2000 = "xmlns=http://www.w3.org/2000/svg";
+        var width;
+        var height;
+
 
         var tooltip = d3
             .select("body")
@@ -175,12 +180,12 @@
         ];
 
         // set the dimensions and margins of the graph
-        var margin = {top: 10, right: 30, bottom: 30, left: 40},
-            linechartwidth = 600 - margin.left - margin.right,
-            linechartheight = 200 - margin.top - margin.bottom;
+        margin = {top: 10, right: 30, bottom: 30, left: 40};
+        linechartwidth = 600 - margin.left - margin.right;
+        linechartheight = 200 - margin.top - margin.bottom;
 
         // append the svg object to the body of the page
-        var svg9 = d3
+        svg9 = d3
             .select("#multilinechart")
             .append("svg")
             .attr("width", linechartwidth + margin.left + margin.right)
@@ -368,7 +373,13 @@
                     .domain(signdates)
                     .range(["blue","red","yellow","orange","grey"]);
 
-                var legend = svg9.append("g").selectAll("rect").data(data).join().append("rect");
+                var legend = svg9.append("g")
+                    .selectAll("rect")
+                    .data(data)
+                    .enter()
+                    .append("rect")
+                    .attr("x",)
+                    attr("y",width);
 
             }
         );

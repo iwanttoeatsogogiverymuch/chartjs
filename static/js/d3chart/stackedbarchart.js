@@ -147,15 +147,22 @@ function setComma(num){
             g.selectAll("rect").attr("opacity",".2");
             d3.select(this).style("fill", function() {
         return d3.hsl( d3.select(this).style("fill") ).darker(1).toString();
+
+
     }).attr("opacity","1");
           
           tooltip.style("opacity", "100"); })
+
+
         .on("mouseout", function () {      
             g.selectAll("rect").attr("opacity","1");
             d3.select(this).style("fill", function() {
         return d3.hsl( d3.select(this).style("fill") ).brighter(1).toString();
+
     });
           tooltip.style("opacity", "0"); })
+
+
         .on("mousemove", function (d, i,j) {
 
           var subgroupName = d3.select(this.parentNode).datum().key;
@@ -164,6 +171,7 @@ function setComma(num){
           tooltip.style("left", (d3.event.pageX + 10) + "px");
           tooltip.style("top", (d3.event.pageY - 10) + "px");
           tooltip.html( subgroupName.toString() + "<br>" + setComma(subgroupValue));
+
           
         })
         .transition()
