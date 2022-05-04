@@ -90,7 +90,9 @@
 
 
   var label = svg.select('.labels').selectAll('text')
-          .data(pie(data))
+          .data(pie(data));
+
+  label
           .enter().append('text')
           .attr('dy', '.35em')
           .html(function(d) {

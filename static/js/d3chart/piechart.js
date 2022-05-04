@@ -108,7 +108,13 @@ var piechart = (function extracted() {
     };
   }
 
-  function initPie2Calc(){
+
+    function midAngle(d) {
+        return d.startAngle + (d.endAngle - d.startAngle) / 2;
+    }
+
+
+    function initPie2Calc(){
 
       pie2 = d3
           .pie()
@@ -139,6 +145,22 @@ var piechart = (function extracted() {
     }
 
     function draw(){
+
+
+
+        salesData3 = [
+            {label: "강남금융센터", color: "#be653e", value: "300"},
+            {label: "삼성지점", color: "#78bb37", value: "400"},
+            {label: "수유지점", color: "#e0b63d", value: "200"},
+            {label: "영업본부(개인)", color: "#ef9db5", value: "200"},
+            {label: "영업부", color: "#d46b8e", value: "300"},
+            {label: "채권2팀", color: "#9a9adc", value: "30"},
+            {label: "투자금융팀", color: "#6cc4a0", value: "120"},
+        ];
+
+
+
+
 
         builTooltip();
 
@@ -292,44 +314,31 @@ var piechart = (function extracted() {
         });
 
 
-      text = svg5
-          .select(".labels")
-          .selectAll("text")
-          .data(pie2(salesData3), key);
+              text = svg5
+                  .select(".labels")
+                  .selectAll("text")
+                  .data(pie2(salesData3));
 
-      text.enter()
-          .append("text")
-          .attr("dy", ".35em");
+           text =  text.enter()
+                  .append("text")
+                  .attr("dy", ".35em");
+
 
       text
-          .transition()
-          .duration(1000)
-          .text(function (d) {
-              console.log(d);
+          .html(function(d) {
               return d.data.label;
           })
-          .attrTween("transform", function (d) {
-              this._current = this._current || d;
-              var interpolate = d3.interpolate(this._current, d);
-              this._current = interpolate(0);
-              return function (t) {
-                  var d2 = interpolate(t);
-                  var pos = outerArc.centroid(d2);
-                  pos[0] = radius3 * (midAngle(d2) < Math.PI ? 1 : -1);
-                  return "translate(" + pos + ")";
-              };
+          .attr('transform', function(d) {
+              var pos = outerArc.centroid(d);
+              pos[0] = radius3 * 0.95 * (midAngle(d) < Math.PI ? 1 : -1);
+              return 'translate(' + pos + ')';
           })
-          .styleTween("text-anchor", function (d) {
-              this._current = this._current || d;
-              var interpolate = d3.interpolate(this._current, d);
-              this._current = interpolate(0);
-              return function (t) {
-                  var d2 = interpolate(t);
-                  return midAngle(d2) < Math.PI ? "start" : "end";
-              };
+          .style('text-anchor', function(d) {
+              return (midAngle(d)) < Math.PI ? 'start' : 'end';
           });
 
-      text.exit().remove();
+
+      //text.exit().remove();
 
       /* ------- SLICE TO TEXT POLYLINES -------*/
 
@@ -377,7 +386,6 @@ var piechart = (function extracted() {
 
 
          initPie2Calc();
-      console.log(data);
       
      var values = data.map(function (d) {
         return d.value;
@@ -385,10 +393,6 @@ var piechart = (function extracted() {
       
       
 
-      
-      function midAngle(d) {
-        return d.startAngle + (d.endAngle - d.startAngle) / 2;
-      }
 
 
       /* ------- PIE SLICES -------*/
@@ -452,20 +456,20 @@ var piechart = (function extracted() {
 
              /* ------- TEXT LABELS -------*/
 
-             text = svg5
+         var    text2 = svg5
                  .select(".labels")
                  .selectAll("text")
                  .data(pie2(data), key);
 
-             text.enter()
+             text2.enter()
                  .append("text")
                  .attr("dy", ".35em");
 
-             text
+             text2
                  .transition()
                  .duration(1000)
                  .text(function (d) {
-                     console.log(d);
+
                      return d.data.label;
                  })
                  .attrTween("transform", function (d) {
@@ -489,7 +493,7 @@ var piechart = (function extracted() {
                      };
                  });
 
-             text.exit().remove();
+             text2.exit().remove();
 
              /* ------- SLICE TO TEXT POLYLINES -------*/
 
@@ -498,7 +502,6 @@ var piechart = (function extracted() {
                  .selectAll("polyline")
                  .data(pie2(data), key);
 
-             console.log(polyline._enter);
 
              polyline.enter().append("polyline");
 
