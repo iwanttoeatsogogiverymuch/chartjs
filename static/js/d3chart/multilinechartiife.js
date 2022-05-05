@@ -152,6 +152,7 @@ var multilinechart = (function extracted() {
         svg9.selectAll("path").style("opacity", ".3");
         d3.select(this)
             .style("stroke", function () {
+
                 return d3.hsl(d3.select(this).attr("stroke")).darker(1).toString();
             })
             .style("opacity", "1")
@@ -434,6 +435,9 @@ var multilinechart = (function extracted() {
         linechartwidth = 600 - margin.left - margin.right;
         linechartheight = 200 - margin.top - margin.bottom;
 
+        //delete previous chart svg
+        d3.select("#multilinechart").selectAll("svg");
+
         // append the svg object to the body of the page
         svg9 = d3
             .select("#multilinechart")
@@ -626,7 +630,8 @@ var multilinechart = (function extracted() {
 
     return {
 
-        draw: draw
+        draw: draw,
+        update:update
     }
 
 })();
