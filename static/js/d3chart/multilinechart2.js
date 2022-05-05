@@ -82,7 +82,7 @@ window.addEventListener("load", function () {
 
             //nest json data
             var sumstat = d3.nest()
-                .key(d => d.signdate)
+                .key(function (d) {return d.signdate;})
                 .entries(data);
             var signdatekey = sumstat.map(function (d) { return d.key; });
 

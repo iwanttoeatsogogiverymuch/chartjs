@@ -1,7 +1,7 @@
 var piechart = (function extracted() {
 
 
-    var divid;
+  var divid;
 
   var piechart = {};
 
@@ -40,14 +40,11 @@ var piechart = (function extracted() {
           return d.value;
       });
 
-
   var width3,
       height3,
       radius3;
-
-    var polyline;
-    var text;
-
+  var polyline;
+  var text;
   var salesData3;
   var salesData4;
 
@@ -128,9 +125,7 @@ var piechart = (function extracted() {
 
   }
 
-
     function builTooltip() {
-
       if(tooltip === undefined)
       {
 
@@ -146,8 +141,6 @@ var piechart = (function extracted() {
 
     function draw(){
 
-
-
         salesData3 = [
             {label: "강남금융센터", color: "#be653e", value: "300"},
             {label: "삼성지점", color: "#78bb37", value: "400"},
@@ -158,21 +151,19 @@ var piechart = (function extracted() {
             {label: "투자금융팀", color: "#6cc4a0", value: "120"},
         ];
 
-
-
-
-
         builTooltip();
-
 
         initPie2Calc();
     pieData = salesData3.map(function (d) {
+
       return d.value;
     });
     colors = salesData3.map(function (d) {
+
       return d.color;
     });
     labels = salesData3.map(function (d) {
+
       return d.label;
     });
 
@@ -221,6 +212,7 @@ var piechart = (function extracted() {
 
 
 
+
     svg5 = d3
         .select("#piechart")
         .append("svg")
@@ -231,20 +223,19 @@ var piechart = (function extracted() {
         .append("g")
         .attr("transform", "translate(" + width3 / 3 + "," + height3 / 2 + ")");
 
-        svg5.append("g").attr("class", "lines");
+
         svg5.append("g").attr("class", "slices");
         svg5.append("g").attr("class", "labels");
+        svg5.append("g").attr("class", "lines");
 
-    g4 = svg5
+
+
+        g4 = svg5
         .selectAll(".arc")
         .data(pie(pieData))
         .enter()
         .append("g")
         .attr("class", "arc");
-
-
-
-
 
     g4.append("path")
         .style("fill", function (d, i) {
@@ -313,25 +304,22 @@ var piechart = (function extracted() {
           return d;
         });
 
-
               text = svg5
                   .select(".labels")
                   .selectAll("text")
-                  .data(pie2(salesData3));
-
-           text =  text.enter()
+                  .data(pie2(salesData3),key).enter()
                   .append("text")
-                  .attr("dy", ".35em");
+                  .attr("dy", "0.35em");
 
 
       text
-          .html(function(d) {
-              return d.data.label;
+          .text(function(d) {
+              return d.data.label.toString();
           })
           .attr('transform', function(d) {
               var pos = outerArc.centroid(d);
               pos[0] = radius3 * 0.95 * (midAngle(d) < Math.PI ? 1 : -1);
-              return 'translate(' + pos + ')';
+              return "translate(" + pos.toString() + ")";
           })
           .style('text-anchor', function(d) {
               return (midAngle(d)) < Math.PI ? 'start' : 'end';
@@ -346,20 +334,20 @@ var piechart = (function extracted() {
       polyline = svg5
           .select(".lines")
           .selectAll("polyline")
-          .data(pie2(salesData3),key);
-
-        polyline.enter().append("polyline")
+          .data(pie2(salesData3),key).enter().append("polyline")
           .attr("stroke", "black")
+          .attr("stroke-width","2")
           .style("fill", "none")
-          .attr("stroke-width", 2)
-          .attr('points', function(d) {
-
+         // .attr("stroke-width", 2)
+          .attr("points", function(d) {
               var posA = arc.centroid(d); // line insertion in the slice
               var posB = outerArc.centroid(d); // line break: we use the other arc generator that has been built only for that
               var posC = outerArc.centroid(d); // Label position = almost the same as posB
               var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
               posC[0] = radius3 * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
-              return [posA, posB, posC];
+            // posC[0] = d.startAngle;
+             return [posA.toString(),posB.toString(),posC.toString()];
+              //return ("12,20 14,20 40,50");
           });
           // .attr("points", function (d) {
           //     this._current = this._current || d;
@@ -382,18 +370,12 @@ var piechart = (function extracted() {
   //update
      function update (data) {
 
-
-
-
          initPie2Calc();
       
      var values = data.map(function (d) {
         return d.value;
       });
       
-      
-
-
 
       /* ------- PIE SLICES -------*/
 
@@ -410,9 +392,6 @@ var piechart = (function extracted() {
        
        //기존차트 비우기
          if(g4 != null){
-
-
-
 
              g4.remove().exit();
 
@@ -456,10 +435,11 @@ var piechart = (function extracted() {
 
              /* ------- TEXT LABELS -------*/
 
-         var    text2 = svg5
+         var text2 = svg5
                  .select(".labels")
                  .selectAll("text")
                  .data(pie2(data), key);
+
 
              text2.enter()
                  .append("text")
@@ -470,23 +450,29 @@ var piechart = (function extracted() {
                  .duration(1000)
                  .text(function (d) {
 
-                     return d.data.label;
+                     return d.data.label.toString();
                  })
                  .attrTween("transform", function (d) {
+
                      this._current = this._current || d;
                      var interpolate = d3.interpolate(this._current, d);
                      this._current = interpolate(0);
+
+
                      return function (t) {
                          var d2 = interpolate(t);
                          var pos = outerArc.centroid(d2);
                          pos[0] = radius3 * (midAngle(d2) < Math.PI ? 1 : -1);
                          return "translate(" + pos + ")";
+
                      };
                  })
                  .styleTween("text-anchor", function (d) {
+
                      this._current = this._current || d;
                      var interpolate = d3.interpolate(this._current, d);
                      this._current = interpolate(0);
+
                      return function (t) {
                          var d2 = interpolate(t);
                          return midAngle(d2) < Math.PI ? "start" : "end";
@@ -504,8 +490,6 @@ var piechart = (function extracted() {
 
 
              polyline.enter().append("polyline");
-
-
 
              polyline
                  .transition()
@@ -525,7 +509,6 @@ var piechart = (function extracted() {
              polyline.exit().remove();
 
          }
-
     }
 
     //update(salesData3);

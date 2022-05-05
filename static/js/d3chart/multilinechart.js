@@ -378,8 +378,8 @@
                     .data(data)
                     .enter()
                     .append("rect")
-                    .attr("x",)
-                    attr("y",width);
+                    .attr("x",height)
+                    .attr("y",width);
 
             }
         );

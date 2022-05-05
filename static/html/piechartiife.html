@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=9">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/static/js/lib/moment/moment.js"></script>
-  <script src="/node_modules/d3/build/d3.min.js"></script>
+  <script src="/static/js/lib/d3/d3.v4.js"></script>
   <script src="/static/js/d3chart/piechart.js"></script>
 
   <link rel="stylesheet"  type ="text/css" href="/static/css/d3.css" />
@@ -23,6 +23,7 @@
 
 
   var salesData = [
+
     {label: "강남금융센터", color: "#be653e", value: "300"},
     {label: "삼성지점", color: "#78bb37", value: "400"},
     {label: "수유지점", color: "#e0b63d", value: "200"},
@@ -51,9 +52,9 @@
   }
 
 
-  // setTimeout(
-  //         function (){piechart.update(randomData())},2000
-  // );
+  setTimeout(
+          function (){piechart.update(randomData())},2000
+  );
     piechart.draw();
 
 

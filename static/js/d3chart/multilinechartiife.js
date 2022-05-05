@@ -31,11 +31,15 @@ var multilinechart = (function extracted() {
 
     var XMLNS_SVG_2000 = "xmlns=http://www.w3.org/2000/svg";
 
-    tooltip = d3
-        .select("body")
-        .append("div")
-        .attr("class", "toolTip")
-        .style("opacity", "0");
+    function buildTooltip(){
+
+        tooltip = d3
+            .select("body")
+            .append("div")
+            .attr("class", "toolTip")
+            .style("opacity", "0");
+
+    }
 
     function onMouseOverTooltip(d) {
         tooltip.style("opacity", "1");
@@ -64,21 +68,20 @@ var multilinechart = (function extracted() {
 
         svg9.selectAll("path")
             .filter(function (pathd) {
-                console.log(pathd)
+                //console.log(pathd)
                 if (pathd != null) {
 
                     return pathd.key == hoverdata.signdate;
                 }
 
-
             })
-            .style("stroke", function (d) {
-                return d3.hsl(d3.select(this).style("stroke")).darker(1).toString();
+            .style("stroke", function () {
+                return d3.hsl(d3.select(this).attr("stroke").toString()).darker(1).toString();
             });
 
         svg9.selectAll("path")
             .filter(function (pathd) {
-                console.log(pathd)
+              //  console.log(pathd)
                 if (pathd != null) {
 
                     return pathd.key != hoverdata.signdate;
@@ -86,8 +89,8 @@ var multilinechart = (function extracted() {
 
 
             })
-            .style("stroke", function (d) {
-                return d3.hsl(d3.select(this).style("stroke")).brighter(1).toString();
+            .style("stroke", function () {
+                return d3.hsl(d3.select(this).attr("stroke").toString()).brighter(1).toString();
             });
     }
 
@@ -107,7 +110,7 @@ var multilinechart = (function extracted() {
 
         svg9.selectAll("path")
             .filter(function (pathd) {
-                console.log(pathd)
+
                 if (pathd != null) {
 
                     return pathd.key == hoverdata.signdate;
@@ -115,8 +118,12 @@ var multilinechart = (function extracted() {
 
 
             })
-            .style("stroke", function (d) {
-                return d3.hsl(d3.select(this).style("stroke")).brighter(1).toString();
+            .style("stroke", function () {
+                console.log(d3.select(this).style("stroke"))
+                console.log(d3.select(this).attr("stroke"))
+                console.log(d3.hsl(d3.select(this).attr("stroke").toString()).brighter(1).toString())
+                console.log(d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString())
+                return d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString();
             });
 
         svg9.selectAll("path")
@@ -129,8 +136,8 @@ var multilinechart = (function extracted() {
 
 
             })
-            .style("stroke", function (d) {
-                return d3.hsl(d3.select(this).style("stroke")).darker(1).toString();
+            .style("stroke", function () {
+                return d3.hsl(d3.select(this).style("stroke").toString()).darker(1).toString();
             });
     }
 
@@ -140,7 +147,7 @@ var multilinechart = (function extracted() {
         svg9.selectAll("path").style("opacity", ".3");
         d3.select(this)
             .style("stroke", function () {
-                return d3.hsl(d3.select(this).style("stroke")).darker(1).toString();
+                return d3.hsl(d3.select(this).attr("stroke")).darker(1).toString();
             })
             .style("opacity", "1")
             .attr("r", 5);
@@ -193,213 +200,428 @@ var multilinechart = (function extracted() {
 
     }
 
-    mcgpalette0 = [
-        "#8664cb",
-        "#0075CC",
-        "#48A0CE",
-        "#44C4BE",
-        "#36C35D",
-        "#6079D6",
-    ];
+    function draw (data){
 
-    // set the dimensions and margins of the graph
-    margin = {top: 10, right: 30, bottom: 30, left: 40};
-    linechartwidth = 600 - margin.left - margin.right;
-    linechartheight = 200 - margin.top - margin.bottom;
+        buildTooltip();
+        data =JSON.parse(JSON.stringify(data));
 
-    // append the svg object to the body of the page
-    svg9 = d3
-        .select("#multilinechart")
-        .append("svg")
-        .attr("width", linechartwidth + margin.left + margin.right)
-        .attr("height", linechartheight + margin.top + margin.bottom)
-        .attr("viewBox", "0 0 600 200")
-        .attr("preserveAspectRatio", "none")
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        mcgpalette0 = [
+            "#8664cb",
+            "#0075CC",
+            "#48A0CE",
+            "#44C4BE",
+            "#36C35D",
+            "#6079D6",
+        ];
+        // set the dimensions and margins of the graph
+        margin = {top: 10, right: 30, bottom: 30, left: 40};
+        linechartwidth = 600 - margin.left - margin.right;
+        linechartheight = 200 - margin.top - margin.bottom;
+
+        // append the svg object to the body of the page
+        svg9 = d3
+            .select("#multilinechart")
+            .append("svg")
+            .attr("width", linechartwidth + margin.left + margin.right)
+            .attr("height", linechartheight + margin.top + margin.bottom)
+            .attr("viewBox", "0 0 600 200")
+            .attr("preserveAspectRatio", "none")
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-    pnum = data.map(function (d, i) {
-        //  return moment - new Date(d.retentiondate.toString()) ;
-        var a = moment(d.retentiondate.toString());
-        var b = moment(d.signdate.toString());
-        data[i].preiod_num = a.diff(b, "days");
-        return a.diff(b, "days");
-    });
-
-    //   console.log(data);
-    // Add X axis --> it is a date format
-    linex = d3
-        .scalePoint()
-        .domain(pnum.sort(d3.ascending))
-        .range([0, linechartwidth]);
-
-    svg9
-        .append("g")
-        .attr("transform", "translate(0," + linechartheight + ")")
-        .call(d3.axisBottom(linex))
-        .call(function (g) {
-            g.selectAll(".tick line").remove();
-        })
-        .call(function (g) {
-            g.selectAll(".domain")
-                .attr("stroke-width", "2.5")
-                .attr("stroke-opacity", "0.5");
-        })
-        .call(function (g) {
-            g.selectAll("text")
-                .attr("font-family", "Noto Sans KR")
-                .attr("fill", "grey");
+        pnum = data.map(function (d, i) {
+            //  return moment - new Date(d.retentiondate.toString()) ;
+            var a = moment(d.retentiondate.toString());
+            var b = moment(d.signdate.toString());
+            data[i].preiod_num = a.diff(b, "days");
+            return a.diff(b, "days");
         });
 
-    // Add Y axis
-    liney = d3
-        .scaleLinear()
-        .domain([
-            0,
-            d3.max(data, function (d) {
-                return d.retentionvalue;
-            }),
-        ])
-        .range([linechartheight, 0])
-        .nice();
+        //   console.log(data);
+        // Add X axis --> it is a date format
+        linex = d3
+            .scalePoint()
+            .domain(pnum.sort(d3.ascending))
+            .range([0, linechartwidth]);
 
-    svg9
-        .append("g")
-        .attr("transform", "translate(0," + 0 + ")")
-        .call(
-            d3.axisLeft(liney).tickFormat(function (d) {
-                return d + "%";
+        svg9
+            .append("g")
+            .attr("transform", "translate(0," + linechartheight + ")")
+            .call(d3.axisBottom(linex))
+            .call(function (g) {
+                g.selectAll(".tick line").remove();
             })
-        )
-        .call(function (g) {
-            g.selectAll(" .tick line").remove();
-        })
-        .call(function (g) {
-            g.selectAll("text")
-                .attr("font-family", "Noto Sans KR")
-                .attr("fill", "grey");
-        });
-    sumstat = d3
-        .nest()
-        .key(function (d) {
-            return d.signdate;
-        })
-        .entries(data);
-    signdatekey = sumstat.map(function (d) {
-        return d.key;
-    });
-    lineColors = d3.scaleOrdinal().domain(signdatekey).range(mcgpalette0);
+            .call(function (g) {
+                g.selectAll(".domain")
+                    .attr("stroke-width", "2.5")
+                    .attr("stroke-opacity", "0.5");
+            })
+            .call(function (g) {
+                g.selectAll("text")
+                    .attr("font-family", "Noto Sans KR")
+                    .attr("fill", "grey");
+            });
 
-    //nest json data
+        // Add Y axis
+        liney = d3
+            .scaleLinear()
+            .domain([
+                0,
+                d3.max(data, function (d) {
+                    return d.retentionvalue;
+                }),
+            ])
+            .range([linechartheight, 0])
+            .nice();
 
-
-    //color scale
-
-    // Add the line
-    svg9
-        .selectAll("svg")
-        .append("g")
-        .data(sumstat)
-        .enter()
-        .append("path")
-        .attr("fill", "none")
-        .attr("stroke", function (d) {
-            return lineColors(d.key);
-        })
-        .attr("stroke-width", 3.5)
-        .attr("ry", "3")
-        .attr("d", function (d, i) {
-            return d3
-                .line()
-                .x(function (d) {
-                    return linex(d.preiod_num);
+        svg9
+            .append("g")
+            .attr("transform", "translate(0," + 0 + ")")
+            .call(
+                d3.axisLeft(liney).tickFormat(function (d) {
+                    return d + "%";
                 })
-                .y(function (d) {
-                    return liney(d.retentionvalue);
-                })(d.values);
-        })
-        .on("mouseover", onMouseOverPath)
-        .on("mouseout", onMouseOutPath);
+            )
+            .call(function (g) {
+                g.selectAll(" .tick line").remove();
+            })
+            .call(function (g) {
+                g.selectAll("text")
+                    .attr("font-family", "Noto Sans KR")
+                    .attr("fill", "grey");
+            });
+        sumstat = d3
+            .nest()
+            .key(function (d) {
+                return d.signdate;
+            })
+            .entries(data);
+        signdatekey = sumstat.map(function (d) {
+            return d.key;
+        });
+        lineColors = d3.scaleOrdinal().domain(signdatekey).range(mcgpalette0);
 
-    gridlines = d3
-        .axisLeft()
-        .tickFormat("")
-        .tickSize(-linechartwidth)
-        .scale(liney);
+        //nest json data
 
-    svg9
-        .append("g")
-        .attr("class", "grid")
-        .call(gridlines.tickValues([0, 20, 40, 60, 80, 100]));
 
-    // Add the text label for the x axis
-    svg9
-        .append("text")
-        .attr(
-            "transform",
-            "translate(" +
-            linechartwidth / 2 +
-            " ," +
-            (linechartheight + margin.bottom - 3) +
-            ")"
-        )
-        .style("text-anchor", "middle")
-        .style("font-size", "0.5rem")
-        .style("font-weight", "Bold")
-        .text("재방문일");
+        //color scale
 
-    // Add the text label for the Y axis
-    svg9
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x", -30)
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .text("Value");
+        // Add the line
+        svg9
+            .selectAll("svg")
+            .append("g")
+            .data(sumstat)
+            .enter()
+            .append("path")
+            .attr("fill", "none")
+            .attr("stroke", function (d) {
+                return lineColors(d.key);
+            })
+            .attr("stroke-width", 3.5)
+            .attr("ry", "3")
+            .attr("d", function (d, i) {
+                return d3
+                    .line()
+                    .x(function (d) {
+                        return linex(d.preiod_num);
+                    })
+                    .y(function (d) {
+                        return liney(d.retentionvalue);
+                    })(d.values);
+            })
+            .on("mouseover", onMouseOverPath)
+            .on("mouseout", onMouseOutPath);
 
-    //  append circle
-    chartPoint = svg9
-        .selectAll("svg")
-        .append("g")
-        .data(data)
-        .enter()
-        .append("circle")
-        .attr("r", 3.5)
-        .on("mouseover", onMouseOver)
-        .on("mouseout", onMouseOut)
-        .attr("cx", function (d) {
-            return linex(d.preiod_num);
-        })
-        .attr("cy", function (d) {
-            return liney(d.retentionvalue);
-        })
-        .style("fill", function (d) {
-            return lineColors(d.signdate);
+        gridlines = d3
+            .axisLeft()
+            .tickFormat("")
+            .tickSize(-linechartwidth)
+            .scale(liney);
+
+        svg9
+            .append("g")
+            .attr("class", "grid")
+            .call(gridlines.tickValues([0, 20, 40, 60, 80, 100]));
+
+        // Add the text label for the x axis
+        svg9
+            .append("text")
+            .attr(
+                "transform",
+                "translate(" +
+                linechartwidth / 2 +
+                " ," +
+                (linechartheight + margin.bottom - 3) +
+                ")"
+            )
+            .style("text-anchor", "middle")
+            .style("font-size", "0.5rem")
+            .style("font-weight", "Bold")
+            .text("재방문일");
+
+        // Add the text label for the Y axis
+        svg9
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x", -30)
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Value");
+
+        //  append circle
+        chartPoint = svg9
+            .selectAll("svg")
+            .append("g")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("r", 3.5)
+            .on("mouseover", onMouseOver)
+            .on("mouseout", onMouseOut)
+            .attr("cx", function (d) {
+                return linex(d.preiod_num);
+            })
+            .attr("cy", function (d) {
+
+                return liney(d.retentionvalue);
+            })
+            .style("fill", function (d) {
+                return lineColors(d.signdate);
+            });
+
+        //범례
+
+        // lengendxScale = d3.scaleOrdinal()
+        //     .domain(signdates)
+        //     .range(linechartwidth);
+        //
+        // legendColorScale = d3.scaleOrdinal()
+        //     .domain(signdates)
+        //     .range(["blue", "red", "yellow", "orange", "grey"]);
+        //
+        // legend = svg9.append("g").selectAll("rect").data(data).join().append("rect");
+        //
+
+
+    }
+
+
+    function update (data){
+
+        if(tooltip === undefined){
+            buildTooltip();
+        }
+
+        data =JSON.parse(JSON.stringify(data));
+
+        mcgpalette0 = [
+            "#8664cb",
+            "#0075CC",
+            "#48A0CE",
+            "#44C4BE",
+            "#36C35D",
+            "#6079D6",
+        ];
+        // set the dimensions and margins of the graph
+        margin = {top: 10, right: 30, bottom: 30, left: 40};
+        linechartwidth = 600 - margin.left - margin.right;
+        linechartheight = 200 - margin.top - margin.bottom;
+
+        // append the svg object to the body of the page
+        svg9 = d3
+            .select("#multilinechart")
+            .append("svg")
+            .attr("width", linechartwidth + margin.left + margin.right)
+            .attr("height", linechartheight + margin.top + margin.bottom)
+            .attr("viewBox", "0 0 600 200")
+            .attr("preserveAspectRatio", "none")
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+        pnum = data.map(function (d, i) {
+            //  return moment - new Date(d.retentiondate.toString()) ;
+            var a = moment(d.retentiondate.toString());
+            var b = moment(d.signdate.toString());
+            data[i].preiod_num = a.diff(b, "days");
+            return a.diff(b, "days");
         });
 
-    //범례
+        //   console.log(data);
+        // Add X axis --> it is a date format
+        linex = d3
+            .scalePoint()
+            .domain(pnum.sort(d3.ascending))
+            .range([0, linechartwidth]);
 
-    lengendxScale = d3.scaleOrdinal()
-        .domain(signdates)
-        .range(linechartwidth);
+        svg9
+            .append("g")
+            .attr("transform", "translate(0," + linechartheight + ")")
+            .call(d3.axisBottom(linex))
+            .call(function (g) {
+                g.selectAll(".tick line").remove();
+            })
+            .call(function (g) {
+                g.selectAll(".domain")
+                    .attr("stroke-width", "2.5")
+                    .attr("stroke-opacity", "0.5");
+            })
+            .call(function (g) {
+                g.selectAll("text")
+                    .attr("font-family", "Noto Sans KR")
+                    .attr("fill", "grey");
+            });
 
-    legendColorScale = d3.scaleOrdinal()
-        .domain(signdates)
-        .range(["blue", "red", "yellow", "orange", "grey"]);
+        // Add Y axis
+        liney = d3
+            .scaleLinear()
+            .domain([
+                0,
+                d3.max(data, function (d) {
+                    return d.retentionvalue;
+                }),
+            ])
+            .range([linechartheight, 0])
+            .nice();
 
-    legend = svg9.append("g").selectAll("rect").data(data).join().append("rect");
+        svg9
+            .append("g")
+            .attr("transform", "translate(0," + 0 + ")")
+            .call(
+                d3.axisLeft(liney).tickFormat(function (d) {
+                    return d + "%";
+                })
+            )
+            .call(function (g) {
+                g.selectAll(" .tick line").remove();
+            })
+            .call(function (g) {
+                g.selectAll("text")
+                    .attr("font-family", "Noto Sans KR")
+                    .attr("fill", "grey");
+            });
+        sumstat = d3
+            .nest()
+            .key(function (d) {
+                return d.signdate;
+            })
+            .entries(data);
+        signdatekey = sumstat.map(function (d) {
+            return d.key;
+        });
+        lineColors = d3.scaleOrdinal().domain(signdatekey).range(mcgpalette0);
+
+        //nest json data
+
+
+        //color scale
+
+        // Add the line
+        svg9
+            .selectAll("svg")
+            .append("g")
+            .data(sumstat)
+            .enter()
+            .append("path")
+            .attr("fill", "none")
+            .attr("stroke", function (d) {
+                return lineColors(d.key);
+            })
+            .attr("stroke-width", 3.5)
+            .attr("ry", "3")
+            .attr("d", function (d, i) {
+                return d3
+                    .line()
+                    .x(function (d) {
+                        return linex(d.preiod_num);
+                    })
+                    .y(function (d) {
+                        return liney(d.retentionvalue);
+                    })(d.values);
+            })
+            .on("mouseover", onMouseOverPath)
+            .on("mouseout", onMouseOutPath);
+
+        gridlines = d3
+            .axisLeft()
+            .tickFormat("")
+            .tickSize(-linechartwidth)
+            .scale(liney);
+
+        svg9
+            .append("g")
+            .attr("class", "grid")
+            .call(gridlines.tickValues([0, 20, 40, 60, 80, 100]));
+
+        // Add the text label for the x axis
+        svg9
+            .append("text")
+            .attr(
+                "transform",
+                "translate(" +
+                linechartwidth / 2 +
+                " ," +
+                (linechartheight + margin.bottom - 3) +
+                ")"
+            )
+            .style("text-anchor", "middle")
+            .style("font-size", "0.5rem")
+            .style("font-weight", "Bold")
+            .text("재방문일");
+
+        // Add the text label for the Y axis
+        svg9
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x", -30)
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Value");
+
+        //  append circle
+        chartPoint = svg9
+            .selectAll("svg")
+            .append("g")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("r", 3.5)
+            .on("mouseover", onMouseOver)
+            .on("mouseout", onMouseOut)
+            .attr("cx", function (d) {
+                return linex(d.preiod_num);
+            })
+            .attr("cy", function (d) {
+
+                return liney(d.retentionvalue);
+            })
+            .style("fill", function (d) {
+                return lineColors(d.signdate);
+            });
+
+        //범례
+
+        lengendxScale = d3.scaleOrdinal()
+            .domain(signdates)
+            .range(linechartwidth);
+
+        legendColorScale = d3.scaleOrdinal()
+            .domain(signdates)
+            .range(["blue", "red", "yellow", "orange", "grey"]);
+
+        legend = svg9.append("g").selectAll("rect").data(data).join().append("rect");
 
 
 
-
-
-
+    }
 
 
     return {
 
+        draw: draw
     }
 
 })();

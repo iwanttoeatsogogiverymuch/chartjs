@@ -70,7 +70,7 @@
 .call-date{margin:0 0 10px;text-align:left;font-size:16px;}
 .call-date span:before{content:'';display:inline-block;width:15px;height:15px;background:#418af3;margin-right:10px;position:relative;top:2px}
 
-.tab-content{display:none}
+.tab-content{display:block;}
 
 .chart-box-wrp{display:flex;width:100%;}
 .chart-box-wrp + .chart-box-wrp{margin-top:30px;padding-top:30px;border-top:1px solid #d2d2d2}
@@ -89,3 +89,4 @@
 
 .chart-box-wrp .chart-box .chart-cont{width:100%;padding:15px;min-height:250px}
 .chart-box-wrp .chart-box .chart-cont .chart-draw{width:100%;overflow-x:auto;overflow-y:hidden;}
+.piechart{ width:100%; height: 100%;}

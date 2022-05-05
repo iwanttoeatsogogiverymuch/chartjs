@@ -8,16 +8,17 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="/static/js/lib/moment/moment.js"></script>
-  <script src="/node_modules/d3/build/d3.min.js"></script>
+  <script src="/static/js/lib/d3/d3.v4.js"></script>
   <script src="/static/js/d3chart/multilinechartiife.js"></script>
   <script src="/static/js/d3chart/multilinechart2.js"></script>
 
-  <link rel="stylesheet" href="/static/css/d3.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/d3.css"/>
   <title>Document</title>
 </head>
 
 <body>
   <div>
+
     <!-- <div id="groupedbar"  class="chartboard" style="height: 370px; width: 900px;"></div> -->
     <div id="multilinechart"style="height: 370px; width: 900px;">
     </div>
@@ -26,6 +27,95 @@
     </div>
     <!-- <div id="my_dataviz2" style="height: 370px; width: 900px;"></div> -->
   </div>
+<script type="text/javascript">
+
+ var testdata= [{"signdate":"2022-04-01","retentiondate":"2022-04-02","retentionvalue":"100"},
+    {"signdate":"2022-04-01","retentiondate":"2022-04-03","retentionvalue":"99"},
+    {"signdate":"2022-04-01","retentiondate":"2022-04-04","retentionvalue":"98"},
+    {"signdate":"2022-04-01","retentiondate":"2022-04-05","retentionvalue":"97"},
+    {"signdate":"2022-04-01","retentiondate":"2022-04-06","retentionvalue":"96"},
+    {"signdate":"2022-04-01","retentiondate":"2022-04-07","retentionvalue":"92"},
+    {"signdate":"2022-04-01","retentiondate":"2022-04-08","retentionvalue":"94"},
+    {"signdate":"2022-04-01","retentiondate":"2022-04-09","retentionvalue":"77"},
+    {"signdate":"2022-04-01","retentiondate":"2022-04-10","retentionvalue":"66"},
+    {"signdate":"2022-04-01","retentiondate":"2022-04-11","retentionvalue":"43"},
+
+    {"signdate":"2022-04-02","retentiondate":"2022-04-03","retentionvalue":"97"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-04","retentionvalue":"96"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-05","retentionvalue":"95"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-06","retentionvalue":"93"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-07","retentionvalue":"92"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-08","retentionvalue":"88"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-09","retentionvalue":"79"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-10","retentionvalue":"77"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-11","retentionvalue":"65"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-12","retentionvalue":"50"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-13","retentionvalue":"42"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-14","retentionvalue":"33"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-15","retentionvalue":"22"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-16","retentionvalue":"17"},
+    {"signdate":"2022-04-02","retentiondate":"2022-04-17","retentionvalue":"20"},
+
+
+    {"signdate":"2022-04-03","retentiondate":"2022-04-04","retentionvalue":"98"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-05","retentionvalue":"97"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-06","retentionvalue":"96"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-07","retentionvalue":"94"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-08","retentionvalue":"93"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-09","retentionvalue":"88"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-10","retentionvalue":"79"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-11","retentionvalue":"76"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-12","retentionvalue":"72"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-13","retentionvalue":"70"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-14","retentionvalue":"65"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-15","retentionvalue":"60"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-16","retentionvalue":"55"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-17","retentionvalue":"52"},
+    {"signdate":"2022-04-03","retentiondate":"2022-04-18","retentionvalue":"50"},
+
+
+    {"signdate":"2022-04-04","retentiondate":"2022-04-05","retentionvalue":"90"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-06","retentionvalue":"88"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-07","retentionvalue":"86"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-08","retentionvalue":"82"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-09","retentionvalue":"78"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-10","retentionvalue":"66"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-11","retentionvalue":"55"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-12","retentionvalue":"50"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-13","retentionvalue":"35"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-14","retentionvalue":"29"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-15","retentionvalue":"21"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-16","retentionvalue":"19"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-17","retentionvalue":"17"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-18","retentionvalue":"8"},
+    {"signdate":"2022-04-04","retentiondate":"2022-04-19","retentionvalue":"1"},
+
+
+    {"signdate":"2022-04-05","retentiondate":"2022-04-06","retentionvalue":"92"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-07","retentionvalue":"90"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-08","retentionvalue":"88"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-09","retentionvalue":"87"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-10","retentionvalue":"86"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-11","retentionvalue":"80"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-12","retentionvalue":"77"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-13","retentionvalue":"65"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-14","retentionvalue":"35"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-15","retentionvalue":"32"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-16","retentionvalue":"30"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-17","retentionvalue":"24"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-18","retentionvalue":"21"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-19","retentionvalue":"11"},
+    {"signdate":"2022-04-05","retentiondate":"2022-04-20","retentionvalue":"10"}
+
+
+
+
+  ];
+
+ multilinechart.draw(testdata);
+
+</script>
+
 </body>
 
 </html>
