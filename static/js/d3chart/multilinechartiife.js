@@ -42,6 +42,7 @@ var multilinechart = (function extracted() {
     }
 
     function onMouseOverTooltip(d) {
+
         tooltip.style("opacity", "1");
         tooltip.style("left", d3.event.pageX + 10 + "px");
         tooltip.style("top", d3.event.pageY + 10 + "px");
@@ -119,10 +120,14 @@ var multilinechart = (function extracted() {
 
             })
             .style("stroke", function () {
-                console.log(d3.select(this).style("stroke"))
-                console.log(d3.select(this).attr("stroke"))
-                console.log(d3.hsl(d3.select(this).attr("stroke").toString()).brighter(1).toString())
-                console.log(d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString())
+
+                //ie9 버전에서는 attr로 색상변경시 hsl 코드 변환이 제대로 이루어지지 않음
+                //style 값으로 처리해야 제대로 색상변경이가능함
+
+                // console.log(d3.select(this).style("stroke"))
+                // console.log(d3.select(this).attr("stroke"))
+                // console.log(d3.hsl(d3.select(this).attr("stroke").toString()).brighter(1).toString())
+                // console.log(d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString())
                 return d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString();
             });
 

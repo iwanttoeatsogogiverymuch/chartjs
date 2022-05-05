@@ -254,7 +254,7 @@ var piechart = (function extracted() {
           return "translate(" + arc.centroid(d) + ")";
         })
         .attr("font-family", "Noto Sans KR")
-        .attr("font-size", "0.5rem")
+        .attr("font-size", "1rem")
         .attr("font-weight", "Regular")
         .attr("fill", "white")
         .attr("text-anchor", "start")
@@ -271,7 +271,7 @@ var piechart = (function extracted() {
         .select("svg")
         .append("g")
         .attr("font-family", "Noto Sans KR")
-        .attr("font-size", "1.5rem")
+        .attr("font-size", "1rem")
         .attr("text-anchor", "start")
         .selectAll("g")
         .data(labels)
@@ -279,8 +279,8 @@ var piechart = (function extracted() {
         .append("g")
         .attr("transform", function (d, i) {
 
-          var initY = 70;
-          var legendmargin = 30 * i;
+          var initY = 110;
+          var legendmargin = 20 * i;
           var legendtrans = initY + legendmargin;
 
           return "translate(-200," + legendtrans + ")";
@@ -299,7 +299,7 @@ var piechart = (function extracted() {
         .attr("font-weight", "Light")
         .attr("x", width3 - 24)
         .attr("y", 9.5)
-        .attr("dy", "0.32em")
+        .attr("dy", "0.35em")
         .text(function (d) {
           return d;
         });
@@ -336,7 +336,7 @@ var piechart = (function extracted() {
           .selectAll("polyline")
           .data(pie2(salesData3),key).enter().append("polyline")
           .attr("stroke", "black")
-          .attr("stroke-width","2")
+          .attr("stroke-width","1")
           .style("fill", "none")
          // .attr("stroke-width", 2)
           .attr("points", function(d) {

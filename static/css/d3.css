@@ -318,6 +318,10 @@ svg text {
 
 polyline {
 opacity: 1;
-stroke-dasharray: 3 10;
-stroke-width:4px;
+stroke-dasharray: 5 5 ;
+stroke-width:2px;
+stroke-linecap: round;
+ stroke-linejoin: arcs;
+
+
 }

@@ -1,5 +1,57 @@
+var verticalbarchart = (function vertical(){
 
-window.addEventListener('load', function () {
+  var legend2;
+  var keys;
+  var z2;
+  var easing;
+  var mcgpalette0;
+  var verticalx;
+  var verticaly1;
+  var verticaly0;
+  var g2;
+  var height2;
+  var width2;
+  var margin2;
+  var svg2;
+  var tooltip;
+  var testdata = [
+    {"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-02", "DAU": "14000", "MAU": "500000", "ALL": "400000"},
+    {"date": "2022-03-03", "DAU": "24000", "MAU": "700000", "ALL": "400000"},
+    {"date": "2022-03-04", "DAU": "44000", "MAU": "200000", "ALL": "400000"},
+    {"date": "2022-03-05", "DAU": "25300", "MAU": "100000", "ALL": "400000"},
+    {"date": "2022-03-06", "DAU": "38900", "MAU": "300000", "ALL": "400000"}
+  ];
+
+  var testdata2 = [
+    {"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-02", "DAU": "34000", "MAU": "200000", "ALL": "400000"},
+    {"date": "2022-03-03", "DAU": "34000", "MAU": "300000", "ALL": "400000"},
+    {"date": "2022-03-04", "DAU": "34000", "MAU": "100000", "ALL": "400000"},
+    {"date": "2022-03-05", "DAU": "34000", "MAU": "250000", "ALL": "400000"},
+    {"date": "2022-03-06", "DAU": "34000", "MAU": "23000", "ALL": "400000"},
+    {"date": "2022-03-07", "DAU": "34000", "MAU": "10000", "ALL": "400000"},
+    {"date": "2022-03-08", "DAU": "34000", "MAU": "200000", "ALL": "400000"},
+    {"date": "2022-03-09", "DAU": "34000", "MAU": "356000", "ALL": "400000"},
+    {"date": "2022-03-10", "DAU": "34000", "MAU": "240000", "ALL": "400000"},
+    {"date": "2022-03-11", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-12", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-13", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-14", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-15", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-16", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-17", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-18", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-19", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-21", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-22", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-23", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-24", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-25", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-26", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+    {"date": "2022-03-27", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+
+  ];
 
   function setComma(num) {
     var len, point, str;
@@ -19,94 +71,84 @@ window.addEventListener('load', function () {
 
   };
 
-  var tooltip = d3.select("body").append("div")
-    .attr("class", "toolTip")
-    .style("display", "none").attr("font-size", "3rem");
+  function draw(data) {
+    tooltip = d3.select("body").append("div")
+        .attr("class", "toolTip")
+        .style("display", "none").attr("font-size", "3rem");
 
 
-  var svg2 = d3.select("#verticalbarchart")
-    .append("svg")
-    .attr("width", 1200)
-    .attr("height", 600)
-    .attr("viewBox", "0 0 1200 600")
-    .attr("preserveAspectRatio", "none");
+    svg2 = d3.select("#verticalbarchart")
+        .append("svg")
+        .attr("width", 1200)
+        .attr("height", 600)
+        .attr("viewBox", "0 0 1200 600")
+        .attr("preserveAspectRatio", "none");
 
-  var margin2 = { top: 10, right: 70, bottom: 30, left: 90 };
-  var width2 = +svg2.attr("width") - margin2.left - margin2.right;
-  var height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
+    margin2 = {top: 10, right: 70, bottom: 30, left: 90};
+    width2 = +svg2.attr("width") - margin2.left - margin2.right;
+    height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
 
-  //positioning the svg g
-  var g2 = svg2
-    .append("g")
-    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+    //positioning the svg g
+    g2 = svg2
+        .append("g")
+        .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-  var verticaly0 = d3.scaleBand()
-    .rangeRound([0, height2]).paddingOuter(0.2);
-  var verticaly1 = d3.scaleBand()
-    .padding(0.1);
-  var verticalx = d3.scaleLinear().domain([0, 30000000])
-    .rangeRound([0, width2 - 50]);
-
-
-  var mcgpalette0 = [
-    "#8664cb",
-    "#0075CC",
-    "#48A0CE",
-    "#44C4BE",
-    "#36C35D",
-    "#6079D6",
-  ];
-
-  var easing = [
-    "easeElastic",
-    "easeBounce",
-    "easeLinear",
-    "easeSin",
-    "easeQuad",
-    "easeCubic",
-    "easePoly",
-    "easeCircle",
-    "easeExp",
-    "easeBack"
-  ];
+    verticaly0 = d3.scaleBand()
+        .rangeRound([0, height2]).paddingOuter(0.2);
+    verticaly1 = d3.scaleBand()
+        .padding(0.1);
+    verticalx = d3.scaleLinear().domain([0, 30000000])
+        .rangeRound([0, width2 - 50]);
 
 
-  //color scale 
-  var z2 = d3
-    .scaleOrdinal()
-    .range(mcgpalette0);
+    mcgpalette0 = [
+      "#8664cb",
+      "#0075CC",
+      "#48A0CE",
+      "#44C4BE",
+      "#36C35D",
+      "#6079D6",
+    ];
 
-  //csv to json format
-  d3.csv(
-    "/resource/data.csv",
-    function (d, i, columns) {
-      console.log(d)
-      for (var i = 1, n = columns.length; i < n; ++i)
-        d[columns[i]] = +d[columns[i]];
-      return d;
+    easing = [
+      "easeElastic",
+      "easeBounce",
+      "easeLinear",
+      "easeSin",
+      "easeQuad",
+      "easeCubic",
+      "easePoly",
+      "easeCircle",
+      "easeExp",
+      "easeBack"
+    ];
 
-    },
-    function (error, data) {
-      if (error) throw error;
-      var keys = data.columns.slice(1);
-      verticaly0.domain(
+
+    //color scale
+    z2 = d3
+        .scaleOrdinal()
+        .range(mcgpalette0);
+
+
+    keys = data.columns.slice(1);
+    verticaly0.domain(
         data.map(function (d) {
           return d.State;
         })
-      );
-      verticaly1.domain(keys)
+    );
+    verticaly1.domain(keys)
         .rangeRound([0, verticaly0.bandwidth()]);
 
-      verticalx.domain([
-        0,
-        d3.max(data, function (d) {
-          return d3.max(keys, function (key) {
-            return d[key];
-          });
-        }),
-      ]).nice();
+    verticalx.domain([
+      0,
+      d3.max(data, function (d) {
+        return d3.max(keys, function (key) {
+          return d[key];
+        });
+      }),
+    ]).nice();
 
-      g2.append("g")
+    g2.append("g")
         .selectAll("g")
         .data(data)
         .enter()
@@ -117,7 +159,7 @@ window.addEventListener('load', function () {
         .selectAll("rect")
         .data(function (d) {
           return keys.map(function (key) {
-            return { key: key, value: d[key] };
+            return {key: key, value: d[key]};
           });
         })
         .enter()
@@ -125,8 +167,14 @@ window.addEventListener('load', function () {
         .attr("x", verticalx(0))
         .attr("height", verticaly1.bandwidth())
 
-        .attr("y", function (d) { return verticaly1(d.key); }).on("mouseover", function () { tooltip.style("display", null); })
-        .on("mouseout", function () { tooltip.style("display", "none"); })
+        .attr("y", function (d) {
+          return verticaly1(d.key);
+        }).on("mouseover", function () {
+      tooltip.style("display", null);
+    })
+        .on("mouseout", function () {
+          tooltip.style("display", "none");
+        })
         .on("mousemove", function (d) {
 
 
@@ -153,8 +201,8 @@ window.addEventListener('load', function () {
         });
 
 
-      //  tooltip text top
-      g2.append("g")
+    //  tooltip text top
+    g2.append("g")
         .selectAll("g")
         .data(data)
         .enter()
@@ -165,7 +213,7 @@ window.addEventListener('load', function () {
         .selectAll("text")
         .data(function (d) {
           return keys.map(function (key) {
-            return { key: key, value: d[key] };
+            return {key: key, value: d[key]};
           });
         })
         .enter()
@@ -188,18 +236,28 @@ window.addEventListener('load', function () {
         });
 
 
-      g2.append("g")
+    g2.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + height2 + ")")
         .call(d3.axisBottom(verticalx))
-        .call(function (g) { g.selectAll(".tick line").remove() })
-        .call(function (g) { g.selectAll(".domain").attr("stroke-width", "10").attr("stroke-opacity", "0.9").style("stroke","grey") })
-        .call(function (g) { g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey") });
+        .call(function (g) {
+          g.selectAll(".tick line").remove()
+        })
+        .call(function (g) {
+          g.selectAll(".domain").attr("stroke-width", "10").attr("stroke-opacity", "0.9").style("stroke", "grey")
+        })
+        .call(function (g) {
+          g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey")
+        });
 
-      g2.append("g")
+    g2.append("g")
         .attr("class", "axis")
-        .call(d3.axisLeft(verticaly0).ticks(null, "s")).call(function (g) { g.selectAll(".tick line").remove() })
-        .call(function (g) { g.selectAll(".domain").attr("stroke-width", "10").attr("stroke-opacity", "0.9").style("stroke","grey") })
+        .call(d3.axisLeft(verticaly0).ticks(null, "s")).call(function (g) {
+      g.selectAll(".tick line").remove()
+    })
+        .call(function (g) {
+          g.selectAll(".domain").attr("stroke-width", "10").attr("stroke-opacity", "0.9").style("stroke", "grey")
+        })
         .append("text")
         .attr("x", 300)
         .attr("y", height2 / 2)
@@ -211,7 +269,7 @@ window.addEventListener('load', function () {
         .attr("text-anchor", "middle");
 
 
-      var legend2 = g2
+    legend2 = g2
         .append("g")
         .attr("font-family", "Noto Sans KR")
         .attr("font-size", "1em")
@@ -225,14 +283,14 @@ window.addEventListener('load', function () {
         });
 
 
-      legend2
+    legend2
         .append("rect")
         .attr("x", width2 - 19)
         .attr("width", 19)
         .attr("height", 19)
         .attr("fill", z2);
 
-      legend2
+    legend2
         .append("text")
         .attr("x", width2 - 24)
         .attr("y", 13)
@@ -244,11 +302,17 @@ window.addEventListener('load', function () {
 
 
 
+  }
 
 
-    }
-  );
-});
+
+
+return{
+
+}
+
+})();
+
 
 
 

@@ -2,22 +2,39 @@ var barchart = (function barchart(){
 
 
     var divid;
+
     var legend2;
+
     var keys;
+
     var daucolor;
+
     var daucolorpallete;
+
     var z2;
+
     var mcgpalette0;
+
     var y;
+
     var x1;
+
     var x0;
+
     var g2;
+
     var height2;
+
     var width2;
+
     var margin2;
+
     var svg2;
+
     var tooltip;
+
     var parseddata2;
+
     var parseddata;
 
 

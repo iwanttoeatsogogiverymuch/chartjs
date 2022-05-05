@@ -117,6 +117,9 @@ window.addEventListener("load", function () {
                 .tickSize(-linechartheight)
                 .scale(linex);
 
+
+
+
             svg9.append("g")
                 .attr("class", "gridvertical")
                 .call(gridlines2.tickValues([2, 4, 6, 8, 10, 12,14])) 
