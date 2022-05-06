@@ -291,7 +291,7 @@ var tablechart = (function heatmap(){
         // Build X scales and axis:
         x5 = d3.scaleBand()
             .range([0, width5 + 100])
-            .domain(preioddates.sort(d3.ascending));
+            .domain(preioddates.sort(d3.ascending)).padding(0.02);
 
 
         svg6
@@ -310,7 +310,7 @@ var tablechart = (function heatmap(){
 
         y5 = d3.scaleBand()
             .range([height5, 0])
-            .domain(signdates.sort(d3.ascending));
+            .domain(signdates.sort(d3.ascending)).padding(0.02);
 
 
 
@@ -321,8 +321,11 @@ var tablechart = (function heatmap(){
                     .remove()
             })
             .call(function (g) {
+                //g.append("rect").attr("fill","white").attr("storke","grey").attr("stroke-width","1");
                 g.selectAll("text")
                     .attr("font-family", "Noto Sans KR")
+                    .attr("dy","0.32em")
+                    .attr("text-anchor","end")
                     .attr("fill", "grey")
             });
 
@@ -336,17 +339,19 @@ var tablechart = (function heatmap(){
             })
             .enter()
             .append("rect")
+            .attr("class","values")
             // .style("stroke", "grey")
             // .style("stroke-opacity", "0.2")
             .attr("x", function (d) {
-                d;
+
                 return x5(d.preiod_num);
             })
             .attr("y", function (d) {
                 return y5(d.signdate);
             })
-            .style("stroke-width",0.5)
-            .style("stroke","grey")
+            .attr("rx","3")
+            .style("stroke-width","0.2")
+            .style("stroke","lightgrey")
             .attr("width", function () {
                 return x5.bandwidth();
             })
@@ -359,7 +364,12 @@ var tablechart = (function heatmap(){
                 var mouseoverdata = d;
                 tooltip.style("opacity", "1");
                 svg6.selectAll("rect")
-                    .filter(function (d) {return d.signdate === mouseoverdata.signdate})
+                    .filter(function (d) {
+                        if(d.signdate !== undefined){
+                            return  d.signdate === mouseoverdata.signdate;
+                        }
+                        })
+
                     .style("fill",function () {
                         return d3.hsl(d3.select(this).style("fill")).darker(0.5).toString();
                     });
@@ -396,7 +406,7 @@ var tablechart = (function heatmap(){
             .append("g")
             .attr("font-family", "Noto Sans KR")
             .attr("font-weight", "Light")
-            .attr("font-size", "0.3rem")
+            .attr("font-size", "0.5rem")
             .append("g")
             .selectAll("text")
             .data(data)
@@ -584,7 +594,7 @@ var tablechart = (function heatmap(){
                 if (d.retentionvalue >= 30 && d.retentionvalue < 60) {
                     textcolor = "grey";
                 } else {
-                    textcolor = "white";
+                    textcolor = "grey";
                 }
                 return textcolor;
             })

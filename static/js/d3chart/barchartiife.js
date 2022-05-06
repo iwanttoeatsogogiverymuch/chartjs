@@ -86,7 +86,7 @@ var barchart = (function barchart(){
 
         str = num.substring(0, point);
         while (point < len) {
-            if (str != "") str += ",";
+            if (str !== "") str += ",";
             str += num.substring(point, point + 3);
             point += 3;
         }
