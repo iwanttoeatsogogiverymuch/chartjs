@@ -1,6 +1,7 @@
 var multilinechart = (function extracted() {
 
     var tooltip;
+
     var legend;
 
     var legendColorScale;
@@ -103,12 +104,18 @@ var multilinechart = (function extracted() {
         svg9.selectAll("circle").style("opacity", "1");
 
         d3.select(this)
-            .style("fill", function () {
-                return d3.hsl(d3.select(this).style("fill")).brighter(1).toString();
+            .style("fill", function (d) {
+                
+                return d3.rgb(lineColors(d.signdate));
             })
             .attr("r", "3.5").lower();
 
 
+    // .style("fill", function (d) {
+    //         return d3.hsl(d3.select(this).style("fill")).brighter(1).toString();
+    //     }).lower();
+    //    
+        
         svg9.selectAll("path")
             .filter(function (pathd) {
 
@@ -124,10 +131,10 @@ var multilinechart = (function extracted() {
                 //ie9 버전에서는 attr로 색상변경시 hsl 코드 변환이 제대로 이루어지지 않음
                 //style 값으로 처리해야 제대로 색상변경이가능함
 
-                // console.log(d3.select(this).style("stroke"))
-                // console.log(d3.select(this).attr("stroke"))
-                // console.log(d3.hsl(d3.select(this).attr("stroke").toString()).brighter(1).toString())
-                // console.log(d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString())
+                console.log(d3.select(this).style("stroke"))
+                console.log(d3.select(this).attr("stroke"))
+                console.log(d3.hsl(d3.select(this).attr("stroke").toString()).brighter(1).toString())
+                console.log(d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString())
                 return d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString();
             });
 
@@ -436,7 +443,7 @@ var multilinechart = (function extracted() {
         linechartheight = 200 - margin.top - margin.bottom;
 
         //delete previous chart svg
-        d3.select("#multilinechart").selectAll("svg");
+        d3.select("#multilinechart").selectAll("svg").remove();
 
         // append the svg object to the body of the page
         svg9 = d3
@@ -564,6 +571,7 @@ var multilinechart = (function extracted() {
             .attr("class", "grid")
             .call(gridlines.tickValues([0, 20, 40, 60, 80, 100]));
 
+
         // Add the text label for the x axis
         svg9
             .append("text")
@@ -580,6 +588,7 @@ var multilinechart = (function extracted() {
             .style("font-weight", "Bold")
             .text("재방문일");
 
+
         // Add the text label for the Y axis
         svg9
             .append("text")
@@ -589,6 +598,7 @@ var multilinechart = (function extracted() {
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .text("Value");
+
 
         //  append circle
         chartPoint = svg9
@@ -613,16 +623,16 @@ var multilinechart = (function extracted() {
 
         //범례
 
-        lengendxScale = d3.scaleOrdinal()
-            .domain(signdates)
-            .range(linechartwidth);
-
-        legendColorScale = d3.scaleOrdinal()
-            .domain(signdates)
-            .range(["blue", "red", "yellow", "orange", "grey"]);
-
-        legend = svg9.append("g").selectAll("rect").data(data).join().append("rect");
-
+        // lengendxScale = d3.scaleOrdinal()
+        //     .domain(signdates)
+        //     .range(linechartwidth);
+        //
+        // legendColorScale = d3.scaleOrdinal()
+        //     .domain(signdates)
+        //     .range(["blue", "red", "yellow", "orange", "grey"]);
+        //
+        // legend = svg9.append("g").selectAll("rect").data(data).join().append("rect");
+        //
 
 
     }

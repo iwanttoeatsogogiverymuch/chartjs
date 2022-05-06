@@ -29,7 +29,8 @@
   </div>
 <script type="text/javascript">
 
- var testdata= [{"signdate":"2022-04-01","retentiondate":"2022-04-02","retentionvalue":"100"},
+ var testdata= [
+   {"signdate":"2022-04-01","retentiondate":"2022-04-02","retentionvalue":"100"},
     {"signdate":"2022-04-01","retentiondate":"2022-04-03","retentionvalue":"99"},
     {"signdate":"2022-04-01","retentiondate":"2022-04-04","retentionvalue":"98"},
     {"signdate":"2022-04-01","retentiondate":"2022-04-05","retentionvalue":"97"},
@@ -56,7 +57,6 @@
     {"signdate":"2022-04-02","retentiondate":"2022-04-16","retentionvalue":"17"},
     {"signdate":"2022-04-02","retentiondate":"2022-04-17","retentionvalue":"20"},
 
-
     {"signdate":"2022-04-03","retentiondate":"2022-04-04","retentionvalue":"98"},
     {"signdate":"2022-04-03","retentiondate":"2022-04-05","retentionvalue":"97"},
     {"signdate":"2022-04-03","retentiondate":"2022-04-06","retentionvalue":"96"},
@@ -73,7 +73,6 @@
     {"signdate":"2022-04-03","retentiondate":"2022-04-17","retentionvalue":"52"},
     {"signdate":"2022-04-03","retentiondate":"2022-04-18","retentionvalue":"50"},
 
-
     {"signdate":"2022-04-04","retentiondate":"2022-04-05","retentionvalue":"90"},
     {"signdate":"2022-04-04","retentiondate":"2022-04-06","retentionvalue":"88"},
     {"signdate":"2022-04-04","retentiondate":"2022-04-07","retentionvalue":"86"},
@@ -89,8 +88,6 @@
     {"signdate":"2022-04-04","retentiondate":"2022-04-17","retentionvalue":"17"},
     {"signdate":"2022-04-04","retentiondate":"2022-04-18","retentionvalue":"8"},
     {"signdate":"2022-04-04","retentiondate":"2022-04-19","retentionvalue":"1"},
-
-
     {"signdate":"2022-04-05","retentiondate":"2022-04-06","retentionvalue":"92"},
     {"signdate":"2022-04-05","retentiondate":"2022-04-07","retentionvalue":"90"},
     {"signdate":"2022-04-05","retentiondate":"2022-04-08","retentionvalue":"88"},
@@ -107,16 +104,12 @@
     {"signdate":"2022-04-05","retentiondate":"2022-04-19","retentionvalue":"11"},
     {"signdate":"2022-04-05","retentiondate":"2022-04-20","retentionvalue":"10"}
 
-
-
-
   ];
 
  multilinechart.draw(testdata);
 
  setTimeout(function () {
-   multilinechart.update(testdata.slice(2));
- },2000);
+   multilinechart.update(testdata.slice(2));},2000);
 
 
 

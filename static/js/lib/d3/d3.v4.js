@@ -1262,12 +1262,16 @@ function styleConstant(name, value, priority) {
     this.style.setProperty(name, value, priority);
   };
 }
+  // 2022-05-07
+  // AUTHOR : lim sookyung
+  //change v to v.Tostring()
+  //this is for ie9 version style funtion compatablity
 
 function styleFunction(name, value, priority) {
   return function() {
     var v = value.apply(this, arguments);
     if (v == null) this.style.removeProperty(name);
-    else this.style.setProperty(name, v, priority);
+    else this.style.setProperty(name, v.toString(), priority);
   };
 }
 
