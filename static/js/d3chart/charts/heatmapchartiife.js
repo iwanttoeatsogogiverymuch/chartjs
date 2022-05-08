@@ -39,47 +39,74 @@ var heatmapchart = (function heatmap(){
     //x축 y축 스케일 매핑 (단순값x)
     var x5, y5;
 
+    var usercounts;
+
 
     // 코호트 사용자 분석 테스트 데이터 (임의가공분)
     // 차트상 표시되는 x좌표인 period_num은 차트내부에서 계산됨
 
     var cohortdata2 = [
-
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-02", "retentionvalue": "99", "ALL":"4500"},
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-03", "retentionvalue": "99", "ALL":"4500"},
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-04", "retentionvalue": "98", "ALL":"4500"},
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-05", "retentionvalue": "97", "ALL":"4500"},
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-06", "retentionvalue": "96", "ALL":"4500"},
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-07", "retentionvalue": "88", "ALL":"4500"},
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-08", "retentionvalue": "77", "ALL":"4500"},
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-09", "retentionvalue": "66", "ALL":"4500"},
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-10", "retentionvalue": "45", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-03", "retentionvalue": "97", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-04", "retentionvalue": "96", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-05", "retentionvalue": "95", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-06", "retentionvalue": "93", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-07", "retentionvalue": "92", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-08", "retentionvalue": "88", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-09", "retentionvalue": "79", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-10", "retentionvalue": "77", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-11", "retentionvalue": "65", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-12", "retentionvalue": "50", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-13", "retentionvalue": "42", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-14", "retentionvalue": "33", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-15", "retentionvalue": "32", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-16", "retentionvalue": "30", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-17", "retentionvalue": "29", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-18", "retentionvalue": "28", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-19", "retentionvalue": "25", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-20", "retentionvalue": "20", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-21", "retentionvalue": "18", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-22", "retentionvalue": "15", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-23", "retentionvalue": "13", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-24", "retentionvalue": "12", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-25", "retentionvalue": "11", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-26", "retentionvalue": "10", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-27", "retentionvalue": "9", "ALL":"4500"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-28", "retentionvalue": "8", "ALL":"4500"}
+        {"APP_LOGIN_DT": "전체", "PERIOD": "1", "RETENTION_RATE": "0.97", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "2", "RETENTION_RATE": "0.96", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "3", "RETENTION_RATE": "0.95", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "4", "RETENTION_RATE": "0.93", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "5", "RETENTION_RATE": "0.92", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "6", "RETENTION_RATE": "0.88", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "7", "RETENTION_RATE": "0.79", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "8", "RETENTION_RATE": "0.77", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "9", "RETENTION_RATE": "0.65", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "10", "RETENTION_RATE": "0.50", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "11", "RETENTION_RATE": "0.42", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "12", "RETENTION_RATE": "0.33", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "13", "RETENTION_RATE": "0.32", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "14", "RETENTION_RATE": "0.30", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "15", "RETENTION_RATE": "0.29", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "16", "RETENTION_RATE": "0.28", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "17", "RETENTION_RATE": "0.25", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "18", "RETENTION_RATE": "0.20", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "19", "RETENTION_RATE": "0.18", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "20", "RETENTION_RATE": "0.15", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "21", "RETENTION_RATE": "0.13", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "22", "RETENTION_RATE": "0.12", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "23", "RETENTION_RATE": "0.11", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "24", "RETENTION_RATE": "0.10", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "25", "RETENTION_RATE": "0.9", "ALL":"4500"},
+        {"APP_LOGIN_DT": "전체", "PERIOD": "26", "RETENTION_RATE": "0.8", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "1", "RETENTION_RATE": "0.99", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "2", "RETENTION_RATE": "0.98", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "3", "RETENTION_RATE": "0.96", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "4", "RETENTION_RATE": "0.95", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "5", "RETENTION_RATE": "0.94", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "6", "RETENTION_RATE": "0.93", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "7", "RETENTION_RATE": "0.88", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "8", "RETENTION_RATE": "0.83", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "9", "RETENTION_RATE": "0.45", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "1", "RETENTION_RATE": "0.97", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "2", "RETENTION_RATE": "0.96", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "3", "RETENTION_RATE": "0.95", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "4", "RETENTION_RATE": "0.93", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "5", "RETENTION_RATE": "0.92", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "6", "RETENTION_RATE": "0.88", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "7", "RETENTION_RATE": "0.79", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "8", "RETENTION_RATE": "0.77", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "9", "RETENTION_RATE": "0.65", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "10", "RETENTION_RATE": "0.50", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "11", "RETENTION_RATE": "0.42", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "12", "RETENTION_RATE": "0.33", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "13", "RETENTION_RATE": "0.32", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "14", "RETENTION_RATE": "0.30", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "15", "RETENTION_RATE": "0.29", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "16", "RETENTION_RATE": "0.28", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "17", "RETENTION_RATE": "0.25", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "18", "RETENTION_RATE": "0.20", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "19", "RETENTION_RATE": "0.18", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "20", "RETENTION_RATE": "0.15", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "21", "RETENTION_RATE": "0.13", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "22", "RETENTION_RATE": "0.12", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "23", "RETENTION_RATE": "0.11", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "24", "RETENTION_RATE": "0.10", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "25", "RETENTION_RATE": "0.9", "ALL":"4500"},
+        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "26", "RETENTION_RATE": "0.8", "ALL":"4500"}
     ];
 
 
@@ -299,23 +326,35 @@ var heatmapchart = (function heatmap(){
         initChart(jsondata);
 
         signdates = data.map(function (d) {
-            return d.signdate;
+            return d.APP_LOGIN_DT;
         });
 
-        preioddates = data.map(function (d, i) {
-            //  return moment - new Date(d.retentiondate.toString()) ;
+        // preioddates = data.map(function (d, i) {
+        //     //  return moment - new Date(d.retentiondate.toString()) ;
+        //
+        //     if (d.APP_LOGIN_DT.toString() === "전체") {
+        //
+        //         return data[i].PERIOD = d.RETENTION_RATE;
+        //     }
+        //
+        //     var a = moment(d.retentiondate.toString());
+        //     var b = moment(d.signdate.toString());
+        //     data[i].PERIOD = a.diff(b, "days");
+        //     return a.diff(b, "days");
+        // });
 
-            if (d.signdate.toString() === "전체") {
+        usercounts = data.filter(function (d) {
+            return d.PERIOD === "1";
+        }).map(function (d){
+            return d.ALL;
+        })
+        preioddates = data.map(
 
-                return data[i].preiod_num = d.retentiondate;
+            function (d) {
+
+                return parseInt(d.PERIOD);
             }
-
-            var a = moment(d.retentiondate.toString());
-            var b = moment(d.signdate.toString());
-            data[i].preiod_num = a.diff(b, "days");
-            return a.diff(b, "days");
-        });
-
+        );
         // Build X scales and axis:
         x5 = d3.scaleBand()
             .range([0, width5 + 100])
@@ -358,11 +397,11 @@ var heatmapchart = (function heatmap(){
         // Build color scale
         myColor = d3
             .scaleSequential()
-            .domain([100, 50])
+            .domain([1, 0.5])
             .interpolator(d3.interpolate("#418af3", "white"));
 
         myColorred = d3.scaleSequential()
-            .domain([50, 0])
+            .domain([0.5, 0])
             .interpolator(d3.interpolate("white", "#ff5d5c"));
 
         svg6
@@ -377,10 +416,10 @@ var heatmapchart = (function heatmap(){
             // .style("stroke-opacity", "0.2")
             .attr("x", function (d) {
                 d;
-                return x5(d.preiod_num);
+                return x5(d.PERIOD);
             })
             .attr("y", function (d) {
-                return y5(d.signdate);
+                return y5(d.APP_LOGIN_DT);
             })
             .attr("rx", 10)
             .attr("ry", 10)
@@ -391,17 +430,17 @@ var heatmapchart = (function heatmap(){
                 return y5.bandwidth();
             })
             .style("fill", function (d) {
-                if (d.retentionvalue > 50) {
-                    return myColor(d.retentionvalue);
+                if (d.RETENTION_RATE > 0.5) {
+                    return myColor(d.RETENTION_RATE);
                 } else {
-                    return myColorred(d.retentionvalue);
+                    return myColorred(d.RETENTION_RATE);
                 }
             })
             .on("mouseover", function (d) {
                 var mouseoverdata = d;
                 tooltip.style("opacity", "1");
                 svg6.selectAll("rect")
-                    .filter(function (d) {return d.signdate === mouseoverdata.signdate})
+                    .filter(function (d) {return d.APP_LOGIN_DT === mouseoverdata.APP_LOGIN_DT})
                     .style("fill",function () {
                         return d3.hsl(d3.select(this).style("fill")).darker(0.5).toString();
                     });
@@ -413,7 +452,7 @@ var heatmapchart = (function heatmap(){
                 tooltip.style("opacity", "0");
 
                 svg6.selectAll("rect")
-                    .filter(function (d) {return d.signdate === mouseoverdata.signdate})
+                    .filter(function (d) {return d.APP_LOGIN_DT === mouseoverdata.APP_LOGIN_DT})
                     .style("fill",function () {
                         return d3.hsl(d3.select(this).style("fill")).brighter(0.5).toString();
                     });
@@ -431,7 +470,7 @@ var heatmapchart = (function heatmap(){
 
                 tooltip.style("left", (d3.event.pageX + 10) + "px");
                 tooltip.style("top", (d3.event.pageY - 10) + "px");
-                tooltip.html(d.retentionvalue.toString() +"<br>"+d.signdate);
+                tooltip.html(d.RETENTION_RATE.toString() +"<br>"+d.APP_LOGIN_DT);
 
             })
         svg6
@@ -445,15 +484,15 @@ var heatmapchart = (function heatmap(){
             .enter()
             .append("text")
             .text(function (d) {
-                return d.retentionvalue + "%";
+                return d.RETENTION_RATE + "%";
             })
             .attr("x", function (d) {
                 // return (i * 20) + 40;
 
-                return x5(d.preiod_num);
+                return x5(d.PERIOD);
             })
             .attr("y", function (d) {
-                return y5(d.signdate);
+                return y5(d.APP_LOGIN_DT);
                 //return (local.get(this) * 20) + 40;
             })
             .attr("dx", x5.bandwidth() / 2)
@@ -464,7 +503,7 @@ var heatmapchart = (function heatmap(){
             .attr("fill", function (d) {
 
                 var textcolor;
-                if (d.retentionvalue >= 30 && d.retentionvalue < 60) {
+                if (d.RETENTION_RATE >= 0.3 && d.RETENTION_RATE < 0.6) {
                     textcolor = "grey";
                 } else {
                     textcolor = "white";

@@ -284,7 +284,7 @@ var barchart = (function barchart(){
                 })
                 .append("text")
                 .attr("dy", "1em")
-                .attr("fill", "#000")
+                .attr("fill", "#3a3a3a")
                 .attr("font-weight", "Regular")
                 .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.5rem")
@@ -297,7 +297,7 @@ var barchart = (function barchart(){
                     return height2 - y(parseInt(d.value));
                 })
                 .attr("y", function (d) {
-                    return y(parseInt(d.value)) - 22;
+                    return y(parseInt(d.value)) - 18;
                 })
                 .text(function (d) {
 
@@ -309,7 +309,7 @@ var barchart = (function barchart(){
                         return d.CODE;
                     }
                     else{
-                        return d.CODE;
+                        return d.value;
 
                     }
 
@@ -329,7 +329,7 @@ var barchart = (function barchart(){
                     g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke","#999999")
                 })
                 .call(function (g) {
-                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#DCDCDC")
+                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838")
                 });
 
             g2.append("g")
@@ -342,13 +342,13 @@ var barchart = (function barchart(){
                     g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke","#999999")
                 })
                 .call(function (g) {
-                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#DCDCDC")
+                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#4b5154")
                 })
                 .append("text")
                 .attr("x", width2 / 2)
                 .attr("y", y(y.ticks().pop()) + 0.5)
                 .attr("dy", "0.32em")
-                .attr("fill", "#000")
+                .attr("fill", "#101010")
                 .attr("font-weight", "Regular")
                 .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.5rem")
@@ -555,7 +555,7 @@ var barchart = (function barchart(){
                 })
                 .append("text")
                 .attr("dy", "1em")
-                .attr("fill", "#000")
+                .attr("fill", "#474747")
                 .attr("font-weight", "Regular")
                 .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.5rem")
@@ -573,7 +573,7 @@ var barchart = (function barchart(){
                 .text(function (d) {
 
                     if(config && config.value === true){
-                        return d.CODE;
+                        return d.value;
                     }
 
                     else if (config && config.label === true){
