@@ -9,7 +9,8 @@
 
 	<script src="/static/js/lib/moment/moment.js"></script>
 	<script src="/static/js/lib/d3/d3.v4.js"></script>
-	<script src="/static/js/d3chart/piechart.js"></script>
+	<script src="/static/js/d3chart/charts/piechart.js"></script>
+	<script src="/static/js/d3chart/charts/barchartiife.js"></script>
 
 
 <!-- css -->
@@ -23,6 +24,7 @@
 
 </head>
 <!-----------------------------
+
        [차트 색상 가이드]
        
        정기예금 : #0075cc
@@ -42,6 +44,7 @@
        회원수 :  #8ea7e0
        DAU : #8ccbd2
        MAU : #fba597
+
 ------------------------------->
 <body>
 	<div id="wrap">
@@ -148,7 +151,7 @@
 								<div class="box-head">
 									<h2>비대면 총합계<span>(단위 : 백만원)</span></h2>
 									<div class="downloads">
-										<a href="javascript:;"  onclick="piechart.update(randomData());" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;"  onclick="piechart1.update(randomData());" class="download_e"><span>엑셀 다운로드</span></a>
 										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
 									</div>
 								</div>
@@ -164,14 +167,16 @@
 								<div class="box-head">
 									<h2>비대면 실적<span>(단위 : 백만원)</span></h2>
 									<div class="downloads">
-										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" onclick="piechart2.update(randomData());" class="download_e"><span>엑셀 다운로드</span></a>
 										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
 									</div>
 								</div>
 								<div class="chart-cont">
 									<div class="chart-draw">
 										<!-- 차트호출 -->
-
+										<div id="piechart2" style="height: 500px; width: 500px;"></div>
+										<!--// 차트호출 -->
+									</div>
 										<!--// 차트호출 -->
 									</div>
 								</div>
@@ -191,7 +196,7 @@
 								<div class="chart-cont">
 									<div class="chart-draw">
 										<!-- 차트호출 -->
-
+										<div id="groupedbarchart1" style="height: 500px; width: 500px;"></div>
 										<!--// 차트호출 -->
 									</div>
 								</div>
@@ -463,7 +468,17 @@
 		// setTimeout(
 		//         function (){piechart.update(randomData())},2000
 		// );
-		piechart.draw();
+
+
+		var piechart1 = piechart();
+		var piechart2 = piechart();
+
+
+		piechart1.draw("piechart",salesData);
+		piechart2.draw("piechart2",randomData());
+		//groupedbarchart.draw("groupedbarchart1",salesData);
+
+
 
 
 
@@ -478,8 +493,42 @@
 
 
 
+		var testdata2 = [
+			{"date": "강남금융센터" , "정기예금":"34000", "정기적금":"400000", "핵심예금(개인)":"400000", "핵심예금(기업)":"30000","기타":"2000","전체":"4000000"},
+			{"date": "삼성지점" ,  "정기예금":"34000", "정기적금":"400000", "핵심예금(개인)":"400000", "핵심예금(기업)":"30000","기타":"2000","전체":"4000000"},
+			{"date": "수유지점" , "정기예금":"34000", "정기적금":"400000", "핵심예금(개인)":"400000", "핵심예금(기업)":"30000","기타":"2000","전체":"4000000"},
+			{"date": "영업점" , "정기예금":"34000", "정기적금":"400000", "핵심예금(개인)":"400000", "핵심예금(기업)":"30000","기타":"2000","전체":"4000000"},
+		];
 
 
+
+		var untactperfom = [
+			{"AREA":"강남금융센터", "CODE":"정기예금","value":"340000"},
+			{"AREA":"강남금융센터", "CODE":"정기적금","value":"34000"},
+			{"AREA":"강남금융센터", "CODE":"핵심예금(개인)","value":"230000"},
+			{"AREA":"강남금융센터", "CODE":"핵심예금(기업)","value":"11000"},
+			{"AREA":"강남금융센터", "CODE":"기타","value":"320000"},
+			{"AREA":"강남금융센터", "CODE":"전체","value":"430000"},
+			{"AREA":"수유지점", "CODE":"정기예금","value":"2000"},
+			{"AREA":"수유지점", "CODE":"정기적금","value":"30000"},
+			{"AREA":"수유지점", "CODE":"핵심예금(개인)","value":"150000"},
+			{"AREA":"수유지점", "CODE":"핵심예금(기업)","value":"20000"},
+			{"AREA":"수유지점", "CODE":"기타","value":"340000"},
+			{"AREA":"수유지점", "CODE":"전체","value":"340000"},
+
+		];
+
+		var barchart1 = barchart();
+		barchart1.draw("groupedbarchart1",JSON.parse(JSON.stringify(untactperfom)));
+		setTimeout(function (){
+			barchart1.update(JSON.parse(JSON.stringify(untactperfom)));
+		},3000);
+		setTimeout(function (){
+			barchart1.update(JSON.parse(JSON.stringify(untactperfom.slice(1))));
+		},6000);
+		setTimeout(function (){
+			barchart1.update(JSON.parse(JSON.stringify(untactperfom.slice(2))));
+		},7000);
 	</script>
 </body>
 </html>	

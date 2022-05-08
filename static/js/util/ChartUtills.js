@@ -3,6 +3,13 @@
     //global에 올릴 변수
     var ChartUtills = {};
 
+
+    //타입을 변환해주는 함수
+    function getType(target) {
+        return Object.prototype.toString.call(target).slice(8, -1);
+    }
+    
+    
     //문자열 세자리 수 ',' 생성함수
     function setComma(num) {
         var len, point, str;
@@ -34,8 +41,12 @@
 
     }
 
+    ChartUtills.getType = getType;
     ChartUtills.setComma = setComma;
     ChartUtills.initTooltip = initToolTip;
+
+    //전역 = 브라우저 window 객체에 ChartTuills객체를 담는다.
+
     this.ChartUtills = ChartUtills;
 
 })();

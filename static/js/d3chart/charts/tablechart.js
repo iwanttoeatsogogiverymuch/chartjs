@@ -2,6 +2,7 @@
 
 var tablechart = (function heatmap(){
 
+    var config;
     //지역변수
 
     //차트를 그릴 div id
@@ -157,7 +158,30 @@ var tablechart = (function heatmap(){
 
     ];
 
+    function setConfig(){
 
+        if(config === undefined){
+
+            config = {
+
+                isxAxisTitleVisible:true,
+                isyAxisTitleVisible:true,
+                isTitleVisible: true,
+                isLegendVisible : true,
+                isTable: true,
+                gridline:{
+                    x:true,
+                    y:false,
+                }
+
+            };
+
+        }
+        else{
+
+        }
+
+    }
 
     function onMouseOutRect() {
         return function (d) {

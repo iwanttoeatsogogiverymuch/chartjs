@@ -14,6 +14,7 @@ var verticalbarchart = (function vertical(){
   var margin2;
   var svg2;
   var tooltip;
+
   var testdata = [
     {"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
     {"date": "2022-03-02", "DAU": "14000", "MAU": "500000", "ALL": "400000"},
