@@ -3,6 +3,8 @@
 var linechart = (function () {
 
     var config;
+    var tablebottom ;
+
 
     var gridlines;
     var liney;
@@ -86,8 +88,6 @@ var linechart = (function () {
 
                 isxAxisTitleVisible:true,
                 isyAxisTitleVisible:true,
-                isTitleVisible: true,
-                isLegendVisible : true,
                 isTable: true,
                 gridline:{
                     x:true,
@@ -185,7 +185,7 @@ var linechart = (function () {
         });
 
         //   console.log(data);
-        // 스케일밴드가 아닌 스케일포인트로해야 추후로path를 그릴시에 x,y 포인트 위치가 정확히 맞음 (rect는 band로)
+        // 스케일밴드가 아닌 스케일포인트로해야 추후 path를 그릴시에 x,y 포인트 위치가 정확히 맞음 (rect는 band로)
         linex = d3.scalePoint()
             .domain(pnum.sort(d3.ascending))
             .range([0, linechartwidth]);
