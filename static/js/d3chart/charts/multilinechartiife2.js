@@ -234,9 +234,9 @@ var multilinechart2 = (function extracted() {
         ];
 
         // set the dimensions and margins of the graph
-        margin = {top: 20, right: 30, bottom: 30, left: 40};
-        linechartwidth = 600 - margin.left - margin.right;
-        linechartheight = 200 - margin.top - margin.bottom;
+        margin = {top: 50, right: 30, bottom: 50, left: 40};
+        linechartwidth = 1150 - margin.left - margin.right;
+        linechartheight = 370 - margin.top - margin.bottom;
 
         // append the svg object to the body of the page
         svg9 = d3
@@ -244,7 +244,7 @@ var multilinechart2 = (function extracted() {
             .append("svg")
             .attr("width", linechartwidth + margin.left + margin.right)
             .attr("height", linechartheight + margin.top + margin.bottom)
-            .attr("viewBox", "0 0 600 200")
+            .attr("viewBox", "0 0 1150 370")
             .attr("preserveAspectRatio", "none")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -278,7 +278,7 @@ var multilinechart2 = (function extracted() {
 
         svg9.append("g")
             .attr("class", "gridvertical")
-            .call(gridlines2.tickValues([2,4,6,8,,10,12,14]))
+            .call(gridlines2.tickValues([2,4,6,8,10,12,14]))
             .call(function (g) { g.selectAll(".domain").remove() })
 
 
@@ -295,7 +295,7 @@ var multilinechart2 = (function extracted() {
             })
             .call(function (g) {
                 g.selectAll(".domain")
-                    .attr("stroke-width", "2.5")
+                    .attr("stroke-width", "3")
                     .attr("stroke-opacity", "0.5");
             })
             .call(function (g) {
@@ -328,10 +328,17 @@ var multilinechart2 = (function extracted() {
                 g.selectAll(" .tick line").remove();
             })
             .call(function (g) {
+                g.selectAll(".domain")
+                    .attr("stroke-width", "3")
+                    .attr("stroke-opacity", "0.5");
+            })
+            .call(function (g) {
                 g.selectAll("text").remove()
                     .attr("font-family", "Noto Sans KR")
                     .attr("fill", "grey");
             });
+
+
         sumstat = d3
             .nest()
             .key(function (d) {
@@ -359,7 +366,8 @@ var multilinechart2 = (function extracted() {
             .attr("stroke", function (d) {
                 return lineColors(d.key);
             })
-            .attr("stroke-width", 3.5)
+            .attr("stroke-width", 7)
+            .style("stroke-linecap","round")
             .attr("ry", "3")
             .attr("d", function (d, i) {
                 return d3
@@ -386,13 +394,60 @@ var multilinechart2 = (function extracted() {
         //     .call(gridlines.tickValues([0, 20, 40, 60, 80, 100]));
 
 
-
         // y축 레이블
         svg9.append("g").append("text")
-            .style("font-size", "0.5rem")
-            .attr("transform", "translate(-15" + " ," + -10 + ")")
+            .style("font-size", "1rem")
+            .attr("transform", "translate(15" + " ," + -15 + ")")
             .style("text-anchor", "middle")
             .text("백만원");
+
+
+        lengendxScale = d3.scaleBand()
+            .domain(signdatekey)
+            .range([linechartwidth/4,linechartwidth/4*3]);
+
+
+        legendColorScale = d3.scaleOrdinal()
+            .domain(signdatekey)
+            .range(mcgpalette0);
+
+
+        legend = svg9.append("g")
+            .selectAll("rect")
+            .data(signdatekey)
+            .enter()
+            .append("rect")
+            .attr("transform",function (d,i){
+              console.log(lengendxScale(d))
+                return "translate("+lengendxScale(d) + "," + (linechartheight+margin.bottom - 23) + ")";
+            })
+           // .attr("transform","translate(300,"+(linechartheight+margin.bottom - 23) + ")")
+            .attr("width","22")
+            .attr("height","22")
+            .attr("fill",function (d){
+                return legendColorScale(d)
+            })
+
+        legend = svg9.append("g")
+            .selectAll("text")
+            .data(signdatekey)
+            .enter()
+            .append("text")
+            .attr("transform",function (d,i){
+                console.log(lengendxScale(d))
+                return "translate("+lengendxScale(d) + "," + (linechartheight+margin.bottom - 23) + ")";
+            })
+            // .attr("transform","translate(300,"+(linechartheight+margin.bottom - 23) + ")")
+            .attr("width","22")
+            .attr("height","22")
+            .attr("x","25")
+            .attr("y","12")
+            .attr("dy","0.32em")
+            .attr("fill",function (d){
+                return legendColorScale(d)
+            }).text(function (d){
+                return d;
+            })
 
 
 
@@ -453,9 +508,9 @@ var multilinechart2 = (function extracted() {
             "#6079D6",
         ];
         // set the dimensions and margins of the graph
-        margin = {top: 10, right: 30, bottom: 30, left: 40};
-        linechartwidth = 600 - margin.left - margin.right;
-        linechartheight = 200 - margin.top - margin.bottom;
+        margin = {top: 30, right: 30, bottom: 30, left: 40};
+        linechartwidth = 1100 - margin.left - margin.right;
+        linechartheight = 400 - margin.top - margin.bottom;
 
         //delete previous chart svg
         d3.select("#multilinechart").selectAll("svg").remove();
@@ -466,7 +521,7 @@ var multilinechart2 = (function extracted() {
             .append("svg")
             .attr("width", linechartwidth + margin.left + margin.right)
             .attr("height", linechartheight + margin.top + margin.bottom)
-            .attr("viewBox", "0 0 600 200")
+            .attr("viewBox", "0 0 1150 400")
             .attr("preserveAspectRatio", "none")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -638,16 +693,7 @@ var multilinechart2 = (function extracted() {
 
         //범례
 
-        // lengendxScale = d3.scaleOrdinal()
-        //     .domain(signdates)
-        //     .range(linechartwidth);
-        //
-        // legendColorScale = d3.scaleOrdinal()
-        //     .domain(signdates)
-        //     .range(["blue", "red", "yellow", "orange", "grey"]);
-        //
-        // legend = svg9.append("g").selectAll("rect").data(data).join().append("rect");
-        //
+
 
 
     }
