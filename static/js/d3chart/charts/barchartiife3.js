@@ -119,7 +119,7 @@ var barchart = (function barchart(){
         function draw(id,datas){
 
 
-
+            var gridlines;
             divid = id;
             parseddata = JSON.parse(JSON.stringify(datas));
 
@@ -129,9 +129,7 @@ var barchart = (function barchart(){
                 .style("display", "none").attr("font-size", "3rem");
 
 
-
-
-            svg2 = d3.select("#"+id)
+            svg2 = d3.select("#" + id)
                 .append("svg")
                 .attr("width", 400)
                 .attr("height", 400)
@@ -147,17 +145,7 @@ var barchart = (function barchart(){
             width2 = +svg2.attr("width") - margin2.left - margin2.right;
             height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
 
-            //positioning the svg g
-            g2 = svg2
-                .append("g")
-                .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-            x0 = d3.scaleBand()
-                .rangeRound([0, width2-30]).paddingInner(0.15);
-            x1 = d3.scaleBand()
-                .padding(0.1);
-            y = d3.scaleLinear()
-                .rangeRound([height2, 0]);
 
 
             //잔액기준실적 컬러매핑핑
@@ -188,6 +176,14 @@ var barchart = (function barchart(){
                 .scaleOrdinal()
                 .range(daucolorpallete);
 
+            x0 = d3.scaleBand()
+                .rangeRound([0, width2 - 30]).paddingInner(0.15);
+            x1 = d3.scaleBand()
+                .padding(0.1);
+            y = d3.scaleLinear()
+                .rangeRound([height2, 0]);
+
+
 
             //json 키값(가장처음칼럼제외)
             keys = Object.keys(parseddata[0]);
@@ -197,7 +193,7 @@ var barchart = (function barchart(){
                 parseddata.map(function (d) {
                     //날짜
                     var datekey = Object.keys(parseddata[0])[0];
-                 //   console.log(datekey);
+                    //   console.log(datekey);
                     return d[datekey];
                 })
             );
@@ -206,19 +202,45 @@ var barchart = (function barchart(){
 
             x1.domain(
                 parseddata.map(function (d) {
-                //날짜
-                var codekey = Object.keys(parseddata[0])[1];
-                //   console.log(datekey);
-                return d[codekey];
-            }))
+                    //날짜
+                    var codekey = Object.keys(parseddata[0])[1];
+                    //   console.log(datekey);
+                    return d[codekey];
+                }))
                 .rangeRound([0, x0.bandwidth()]);
 
             y.domain([
                 0,
-                d3.max(parseddata, function (d){
+                d3.max(parseddata, function (d) {
                     return d.value;
                 }),
             ]).nice();
+
+
+
+
+
+
+            //차트 그리드라인
+            gridlines = d3.axisLeft()
+                .tickFormat("")
+                //
+                .tickSize(-width2+margin2.right).ticks(7)
+                .scale(y);
+
+            svg2.append("g")
+                .attr("class", "grid")
+                .attr("transform", "translate("+margin2.left+ " ," + margin2.top + ")")
+                .call(gridlines);
+
+
+            //positioning the svg g
+            g2 = svg2
+                .append("g")
+                .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+
 
             g2.append("g")
                 .selectAll("g")
@@ -301,18 +323,14 @@ var barchart = (function barchart(){
                 })
                 .text(function (d) {
 
-                    if(config && config.value === true){
+                    if (config && config.value === true) {
                         return d.CODE;
-                    }
-
-                    else if (config && config.label === true){
+                    } else if (config && config.label === true) {
                         return d.CODE;
-                    }
-                    else{
+                    } else {
                         return d.value;
 
                     }
-
 
 
                 });
@@ -326,7 +344,7 @@ var barchart = (function barchart(){
                     g.selectAll(".tick line").remove()
                 })
                 .call(function (g) {
-                    g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke","#999999")
+                    g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke", "#999999")
                 })
                 .call(function (g) {
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838")
@@ -336,13 +354,13 @@ var barchart = (function barchart(){
                 .attr("class", "axis")
                 .call(d3.axisLeft(y).ticks(null, "s").tickSizeOuter(0))
                 .call(function (g) {
-                g.selectAll(".tick line").remove()
-                 })
-                .call(function (g) {
-                    g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke","#999999")
+                    g.selectAll(".tick line").remove()
                 })
                 .call(function (g) {
-                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#4b5154")
+                    g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke", "#999999")
+                })
+                .call(function (g) {
+                    g.selectAll("text").remove();
                 })
                 .append("text")
                 .attr("x", width2 / 2)
@@ -379,11 +397,31 @@ var barchart = (function barchart(){
             legend2
                 .append("text")
                 .attr("x", width2 - 24)
-                .attr("dy","0.32em")
+                .attr("dy", "0.32em")
                 .attr("y", 6)
                 .text(function (d) {
                     return d;
                 });
+
+
+
+
+            // y축 레이블
+            svg2.append("g").append("text")
+                .style("font-size", "0.5rem")
+                .attr("transform", "translate(20" + " ," + 30 + ")")
+                .style("text-anchor", "middle")
+                .text("백만원");
+
+
+            // x축 레이블
+            svg2.append("text")    .style("font-size","0.5rem").style("font-family","Noto Sans KR")
+                .attr("transform", "translate("+(width2) + ","+(height2+margin2.bottom+10)+")")
+                // .attr("y", 0 - margin2.left)
+                // .attr("x", 0 - (height2 / 2))
+                .attr("dy", "0.35em")
+                .style("text-anchor", "middle")
+                .text("시점");
 
 
 

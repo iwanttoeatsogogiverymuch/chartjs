@@ -1,5 +1,6 @@
 //iife함수사용
 //d3 v4.js , momentjs 의존
+//tablechart 의존
 var linechart = (function () {
 
     var config;
@@ -133,21 +134,26 @@ var linechart = (function () {
         }
     }
 
-    function draw(id,parsedData,config) {
+    function draw(id,parsedData,tableid) {
 
-        if(config !== undefined){
-            this.config = config;
-        }
-       else{
-            setConfig();
-        }
-        data = JSON.parse(JSON.stringify(JSON.parse((parsedData))));
+       //  if(config !== undefined){
+       //      this.config = config;
+       //  }
+       // else{
+       //      setConfig();
+       //  }
+
+
+
+        data = JSON.parse(JSON.stringify(parsedData));
+
+        tablebottom = tablechart.draw(tableid,data);
         //test data
         //not used
         data2 = JSON.parse(JSON.stringify(cohortdata2));
 
         // 차트 마진설정
-        margin = { top: 10, right: 30, bottom: 30, left: 40 };
+        margin = { top: 10, right: 30, bottom: 30, left: 70 };
         linechartwidth = 600 - margin.left - margin.right;
         linechartheight = 200 - margin.top - margin.bottom;
 
@@ -296,19 +302,21 @@ var linechart = (function () {
 
         // x축 레이블
         svg9.append("text")
-            .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.bottom) + ")")
+            .attr("transform", "translate(" + (linechartwidth / 2) + " ," + (linechartheight+27) + ")")
             .style("text-anchor", "middle")
+            .attr("font-size","0.5rem")
             .text("Date");
 
 
         // y축 레이블
         svg9.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", 0 - margin.left)
-            .attr("x", 0 - (height / 2))
-            .attr("dy", "1em")
+            .attr("y", -50)
+            .attr("x", (-height/6))
+            .attr("font-size","0.7rem")
+            .attr("dy", "0.32em")
             .style("text-anchor", "middle")
-            .text("Value");
+            .text("y축");
 
 
 
@@ -377,17 +385,16 @@ var linechart = (function () {
                     .attr("fill", "grey")
                     .attr("font-size", "0.5rem")
                     .attr("text-anchor", "middle")
-            });
-
-
-        // Build color scale
-        var mylineColorblue = d3
-            .scaleSequential()
-            .domain([100, 50])
-            .interpolator(d3.interpolate("#418af3", "white"));
-        var mylineColorred = d3.scaleSequential()
-            .domain([50, 0])
-            .interpolator(d3.interpolate("white", "#ff5d5c"));
+            })
+            .append("text")
+            .attr("class", "axis-title")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .attr("fill", "#5D6971")
+            .text("(Population)");
+        ;
 
 
 
@@ -482,7 +489,7 @@ var linechart = (function () {
 
 
 
-    };
+    }
 
 
     // setTimeout(function () {
