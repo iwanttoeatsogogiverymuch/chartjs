@@ -1,4 +1,4 @@
-var barchart = (function barchart(){
+var barchart2 = (function barchart(){
 
     function barchartiife(){
 
@@ -360,7 +360,7 @@ var barchart = (function barchart(){
                     g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke", "#999999")
                 })
                 .call(function (g) {
-                    g.selectAll("text").remove();
+                    g.selectAll("text");
                 })
                 .append("text")
                 .attr("x", width2 / 2)

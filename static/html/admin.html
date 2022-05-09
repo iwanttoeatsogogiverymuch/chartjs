@@ -13,6 +13,8 @@
 	<script src="/static/js/d3chart/charts/barchartiife.js"></script>
 	<script src="/static/js/d3chart/charts/stackedbarchartiife.js"></script>
 	<script src="/static/js/d3chart/charts/multilinechartiife2.js"></script>
+	<script src="/static/js/d3chart/charts/barchartiife3.js"></script>
+	<script src="/static/js/d3chart/charts/verticalbarchartiife.js"></script>
 
 
 <!-- css -->
@@ -290,6 +292,8 @@
 									<div class="chart-draw">
 										<!-- 차트호출 -->
 
+
+										<div id="groupedbarchart3"style="height: 500px; width: 550px;"></div>
 										<!--// 차트호출 -->
 									</div>
 								</div>
@@ -305,6 +309,7 @@
 								<div class="chart-cont">
 									<div class="chart-draw">
 										<!-- 차트호출 -->
+										<div id="verticalbarchart1"style="height: 500px; width: 550px;"></div>
 
 										<!--// 차트호출 -->
 									</div>
@@ -313,25 +318,7 @@
 						</div>
 						<!--//chart-box-wrp-->
 						<!--chart-box-wrp-->
-						<div class="chart-box-wrp">
-							<div class="chart-box">
-								<div class="box-head">
-									<h2>대면 총합계<span>(단위 : 백만원)</span></h2>
-									<div class="downloads">
-										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
-										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
-									</div>
-								</div>
-								<div class="chart-cont">
-									<div class="chart-draw">
-										<!-- 차트호출 -->
 
-										<!--// 차트호출 -->
-									</div>
-								</div>
-							</div>
-						</div>
-						<!--//chart-box-wrp-->
 					</div>
 					<!--//tab-content [지점별실적]-->
 				</div>
@@ -428,11 +415,11 @@
 		];
 
 		var barchart1 = barchart();
-		var barchart2 = barchart();
+		var barchart2in = barchart();
 
 
 		barchart1.draw("groupedbarchart1",JSON.parse(JSON.stringify(untactperfom)));
-		barchart2.draw("groupedbarchart2",JSON.parse(JSON.stringify(untactperfom.slice(1))));
+		barchart2in.draw("groupedbarchart2",JSON.parse(JSON.stringify(untactperfom.slice(1))));
 
 
 
@@ -531,6 +518,44 @@
 		];
 
 		multilinechart2.draw("multilinechart2",testdata);
+
+
+
+		var untactperfom2 = [
+			{"AREA":"강남금융센터", "CODE":"정기예금","value":"340000"},
+			{"AREA":"강남금융센터", "CODE":"정기적금","value":"34000"},
+			{"AREA":"강남금융센터", "CODE":"핵심예금(개인)","value":"230000"},
+			{"AREA":"강남금융센터", "CODE":"핵심예금(기업)","value":"11000"},
+			{"AREA":"강남금융센터", "CODE":"기타","value":"320000"},
+			{"AREA":"강남금융센터", "CODE":"전체","value":"430000"},
+			{"AREA":"수유지점", "CODE":"정기예금","value":"2000"},
+			{"AREA":"수유지점", "CODE":"정기적금","value":"30000"},
+			{"AREA":"수유지점", "CODE":"핵심예금(개인)","value":"150000"},
+			{"AREA":"수유지점", "CODE":"핵심예금(기업)","value":"20000"},
+			{"AREA":"수유지점", "CODE":"기타","value":"340000"},
+			{"AREA":"수유지점", "CODE":"전체","value":"340000"},
+
+		];
+
+		var barchart3 = barchart2();
+
+
+
+		barchart3.draw("groupedbarchart3",JSON.parse(JSON.stringify(untactperfom2)));
+
+		var testdata = [
+			{"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+			{"date": "2022-03-02", "DAU": "14000", "MAU": "500000", "ALL": "400000"},
+			{"date": "2022-03-03", "DAU": "24000", "MAU": "700000", "ALL": "400000"},
+			{"date": "2022-03-04", "DAU": "44000", "MAU": "200000", "ALL": "400000"},
+			{"date": "2022-03-05", "DAU": "25300", "MAU": "100000", "ALL": "400000"},
+			{"date": "2022-03-06", "DAU": "38900", "MAU": "300000", "ALL": "400000"}
+		];
+
+
+		verticalbarchart.draw("verticalbarchart1",testdata);
+
+
 
 
 	</script>

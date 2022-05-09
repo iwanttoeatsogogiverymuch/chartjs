@@ -1,5 +1,6 @@
 var verticalbarchart = (function vertical(){
 
+  var divid;
   var legend2;
   var keys;
   var z2;
@@ -72,20 +73,23 @@ var verticalbarchart = (function vertical(){
 
   };
 
-  function draw(data) {
+  function draw(id,data) {
+
+    divid = id;
+
     tooltip = d3.select("body").append("div")
         .attr("class", "toolTip")
         .style("display", "none").attr("font-size", "3rem");
 
 
-    svg2 = d3.select("#verticalbarchart")
+    svg2 = d3.select("#"+divid)
         .append("svg")
-        .attr("width", 1200)
-        .attr("height", 600)
-        .attr("viewBox", "0 0 1200 600")
+        .attr("width", 550)
+        .attr("height", 500)
+        .attr("viewBox", "0 0 550 500")
         .attr("preserveAspectRatio", "none");
 
-    margin2 = {top: 10, right: 70, bottom: 30, left: 90};
+    margin2 = {top: 30, right: 30, bottom: 30, left: 20};
     width2 = +svg2.attr("width") - margin2.left - margin2.right;
     height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
 
@@ -131,10 +135,10 @@ var verticalbarchart = (function vertical(){
         .range(mcgpalette0);
 
 
-    keys = data.columns.slice(1);
+    keys = Object.keys(data[0]).slice(1);
     verticaly0.domain(
         data.map(function (d) {
-          return d.State;
+          return d.date;
         })
     );
     verticaly1.domain(keys)
@@ -155,7 +159,7 @@ var verticalbarchart = (function vertical(){
         .enter()
         .append("g")
         .attr("transform", function (d) {
-          return "translate(" + "0," + verticaly0(d.State) + ")";
+          return "translate(" + "0," + verticaly0(d.date) + ")";
         })
         .selectAll("rect")
         .data(function (d) {
@@ -209,7 +213,7 @@ var verticalbarchart = (function vertical(){
         .enter()
         .append("g")
         .attr("transform", function (d) {
-          return "translate(0," + verticaly0(d.State) + ")";
+          return "translate(0," + verticaly0(d.date) + ")";
         })
         .selectAll("text")
         .data(function (d) {
@@ -221,9 +225,8 @@ var verticalbarchart = (function vertical(){
         .append("text")
         .attr("dy", "0.35em")
         .attr("fill", "grey")
-        .attr("font-weight", "Bold")
         .attr("font-family", "Noto Sans KR")
-        .attr("font-size", "0.65em")
+        .attr("font-size", "1rem")
         .attr("alignment-baseline", "middle")
         .attr("text-anchor", "start")
         .attr("x", function (d) {
@@ -240,12 +243,12 @@ var verticalbarchart = (function vertical(){
     g2.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + height2 + ")")
-        .call(d3.axisBottom(verticalx))
+        .call(d3.axisBottom(verticalx).tickSizeOuter(0))
         .call(function (g) {
           g.selectAll(".tick line").remove()
         })
         .call(function (g) {
-          g.selectAll(".domain").attr("stroke-width", "10").attr("stroke-opacity", "0.9").style("stroke", "grey")
+          g.selectAll(".domain").attr("stroke-width", "2.5").attr("stroke-opacity", "0.9").style("stroke", "grey")
         })
         .call(function (g) {
           g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey")
@@ -253,11 +256,11 @@ var verticalbarchart = (function vertical(){
 
     g2.append("g")
         .attr("class", "axis")
-        .call(d3.axisLeft(verticaly0).ticks(null, "s")).call(function (g) {
+        .call(d3.axisLeft(verticaly0).ticks(null, "s").tickSizeOuter(0)).call(function (g) {
       g.selectAll(".tick line").remove()
     })
         .call(function (g) {
-          g.selectAll(".domain").attr("stroke-width", "10").attr("stroke-opacity", "0.9").style("stroke", "grey")
+          g.selectAll(".domain").attr("stroke-width", "2.5").attr("stroke-opacity", "0.9").style("stroke", "grey")
         })
         .append("text")
         .attr("x", 300)
@@ -310,6 +313,7 @@ var verticalbarchart = (function vertical(){
 
 return{
 
+    draw:draw
 }
 
 })();
