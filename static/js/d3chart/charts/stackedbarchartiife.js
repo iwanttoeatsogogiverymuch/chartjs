@@ -1,5 +1,7 @@
 var stackedbarchart = (function stack() {
 
+    var divid;
+
     var legend;
 
     var keys;
@@ -91,8 +93,9 @@ var stackedbarchart = (function stack() {
         return str;
 
     };
-function draw(data) {
+function draw(id,data) {
 
+     divid = id;
     if (svg !== undefined){
 
         d3.selectAll("#stackedbar").select("svg").remove();
@@ -113,11 +116,11 @@ function draw(data) {
     mcgpalette0 = ["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D"];
 
     svg = d3
-        .select("#stackedbar")
+        .select("#"+divid)
         .append("svg")
-        .attr("width", "700")
-        .attr("height", "400")
-        .attr("viewBox", "0 0 700 400")
+        .attr("width", "1200")
+        .attr("height", "500")
+        .attr("viewBox", "0 0 1200 500")
         .attr("preserveAspectRatio", "true");
 
     margin = {top: 20, right: 20, bottom: 30, left: 40};

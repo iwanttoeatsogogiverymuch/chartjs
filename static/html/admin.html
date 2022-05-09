@@ -11,6 +11,7 @@
 	<script src="/static/js/lib/d3/d3.v4.js"></script>
 	<script src="/static/js/d3chart/charts/piechart.js"></script>
 	<script src="/static/js/d3chart/charts/barchartiife.js"></script>
+	<script src="/static/js/d3chart/charts/stackedbarchartiife.js"></script>
 
 
 <!-- css -->
@@ -196,7 +197,7 @@
 								<div class="chart-cont">
 									<div class="chart-draw">
 										<!-- 차트호출 -->
-										<div id="groupedbarchart1" style="height: 500px; width: 500px;"></div>
+										<div id="groupedbarchart1" style="height: 500px; width: 550px;"></div>
 										<!--// 차트호출 -->
 									</div>
 								</div>
@@ -212,6 +213,7 @@
 								<div class="chart-cont">
 									<div class="chart-draw">
 										<!-- 차트호출 -->
+										<div id="groupedbarchart2" style="height: 500px; width: 550px;"></div>
 
 										<!--// 차트호출 -->
 									</div>
@@ -222,80 +224,7 @@
 					</div>
 					<!--//tab-content [대면/비대면현황]-->
 					<!--tab-content [신규/잔액기준현황]-->
-					<div class="tab-content">
-						<!--chart-box-wrp-->
-						<div class="chart-box-wrp">
-							<div class="chart-box">
-								<div class="box-head">
-									<h2>신규취급액기준 총합계<span>(단위 : 백만원)</span></h2>
-									<div class="downloads">
-										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
-										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
-									</div>
-								</div>
-								<div class="chart-cont">
-									<div class="chart-draw">
-										<!-- 차트호출 -->
 
-										<!--// 차트호출 -->
-									</div>
-								</div>
-							</div>
-							<div class="chart-box">
-								<div class="box-head">
-									<h2>신규취급액 기준실적<span>(단위 : 백만원)</span></h2>
-									<div class="downloads">
-										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
-										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
-									</div>
-								</div>
-								<div class="chart-cont">
-									<div class="chart-draw">
-										<!-- 차트호출 -->
-
-										<!--// 차트호출 -->
-									</div>
-								</div>
-							</div>
-						</div>
-						<!--//chart-box-wrp-->
-						<!--chart-box-wrp-->
-						<div class="chart-box-wrp">
-							<div class="chart-box">
-								<div class="box-head">
-									<h2>잔액기준 총합계<span>(단위 : 백만원)</span></h2>
-									<div class="downloads">
-										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
-										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
-									</div>
-								</div>
-								<div class="chart-cont">
-									<div class="chart-draw">
-										<!-- 차트호출 -->
-
-										<!--// 차트호출 -->
-									</div>
-								</div>
-							</div>
-							<div class="chart-box">
-								<div class="box-head">
-									<h2>잔액기준 실적<span>(단위 : 백만원)</span></h2>
-									<div class="downloads">
-										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
-										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
-									</div>
-								</div>
-								<div class="chart-cont">
-									<div class="chart-draw">
-										<!-- 차트호출 -->
-
-										<!--// 차트호출 -->
-									</div>
-								</div>
-							</div>
-						</div>
-						<!--//chart-box-wrp-->
-					</div>
 					<!--//tab-content [신규/잔액기준현황]-->
 					<!--tab-content [상품별실적]-->
 					<div class="tab-content">
@@ -312,7 +241,7 @@
 								<div class="chart-cont">
 									<div class="chart-draw">
 										<!-- 차트호출 -->
-
+										<div id="stackedbarchart1" style="height: 500px; width: 1150px;"></div>
 										<!--// 차트호출 -->
 									</div>
 								</div>
@@ -332,7 +261,7 @@
 								<div class="chart-cont">
 									<div class="chart-draw">
 										<!-- 차트호출 -->
-
+										<div id="multilinechart" style="height: 300px; width: 1150px;"></div>
 										<!--// 차트호출 -->
 									</div>
 								</div>
@@ -437,20 +366,20 @@
 
 
 		var salesData = [
-			{label: "강남금융센터", color: "#be653e", value: "300"},
-			{label: "삼성지점", color: "#78bb37", value: "400"},
-			{label: "수유지점", color: "#e0b63d", value: "200"},
-			{label: "영업본부(개인)", color: "#ef9db5", value: "200"},
-			{label: "영업부", color: "#d46b8e", value: "300"},
-			{label: "채권2팀", color: "#9a9adc", value: "30"},
-			{label: "투자금융팀", color: "#6cc4a0", value: "120"},
+			{label: "강남금융센터", value: "300"},
+			{label: "삼성지점",  value: "400"},
+			{label: "수유지점",value: "200"},
+			{label: "영업본부(개인)", value: "200"},
+			{label: "영업부", value: "300"},
+			{label: "채권2팀",value: "30"},
+			{label: "투자금융팀", value: "120"},
 		];
 
 		var salesData4 = [
-			{label: "강남금융센터", color: "#be653e", value: "300"},
-			{label: "삼성지점", color: "#78bb37", value: "400"},
-			{label: "수유지점", color: "#e0b63d", value: "200"},
-			{label: "영업본부(개인)", color: "#ef9db5", value: "200"},
+			{label: "강남금융센터", value: "300"},
+			{label: "삼성지점",  value: "400"},
+			{label: "수유지점",  value: "200"},
+			{label: "영업본부(개인)",  value: "200"},
 		];
 
 
@@ -458,7 +387,7 @@
 			return salesData.map(function (d) {
 				return {
 					label: d.label,
-					value: 1000000 * Math.random(),
+					value: Math.floor(100 * Math.random()) ,
 					color: d.color,
 				};
 			});
@@ -519,16 +448,26 @@
 		];
 
 		var barchart1 = barchart();
+		var barchart2 = barchart();
+
+
 		barchart1.draw("groupedbarchart1",JSON.parse(JSON.stringify(untactperfom)));
-		// setTimeout(function (){
-		// 	barchart1.update(JSON.parse(JSON.stringify(untactperfom)));
-		// },3000);
-		// setTimeout(function (){
-		// 	barchart1.update(JSON.parse(JSON.stringify(untactperfom.slice(1))));
-		// },6000);
-		// setTimeout(function (){
-		// 	barchart1.update(JSON.parse(JSON.stringify(untactperfom.slice(2))));
-		// },7000);
+		barchart2.draw("groupedbarchart2",JSON.parse(JSON.stringify(untactperfom.slice(1))));
+
+
+
+		var testdata = [
+			{"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+			{"date": "2022-03-02", "DAU": "14000", "MAU": "500000", "ALL": "400000"},
+			{"date": "2022-03-03", "DAU": "24000", "MAU": "700000", "ALL": "400000"},
+			{"date": "2022-03-04", "DAU": "44000", "MAU": "200000", "ALL": "400000"},
+			{"date": "2022-03-05", "DAU": "25300", "MAU": "100000", "ALL": "400000"},
+			{"date": "2022-03-06", "DAU": "38900", "MAU": "300000", "ALL": "400000"}
+		];
+
+
+		stackedbarchart.draw("stackedbarchart1",JSON.parse(JSON.stringify(testdata)));
+
 	</script>
 </body>
 </html>	

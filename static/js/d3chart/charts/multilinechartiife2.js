@@ -1,4 +1,6 @@
-var multilinechart = (function extracted() {
+var multilinechart2 = (function extracted() {
+
+    var divid;
 
     var tooltip;
 
@@ -213,10 +215,14 @@ var multilinechart = (function extracted() {
 
     }
 
-    function draw (data){
+    function draw (id, data){
 
         buildTooltip();
+
+        divid =id;
+
         data =JSON.parse(JSON.stringify(data));
+
 
         mcgpalette0 = [
             "#8664cb",
@@ -226,14 +232,15 @@ var multilinechart = (function extracted() {
             "#36C35D",
             "#6079D6",
         ];
+
         // set the dimensions and margins of the graph
-        margin = {top: 10, right: 30, bottom: 30, left: 40};
+        margin = {top: 20, right: 30, bottom: 30, left: 40};
         linechartwidth = 600 - margin.left - margin.right;
         linechartheight = 200 - margin.top - margin.bottom;
 
         // append the svg object to the body of the page
         svg9 = d3
-            .select("#multilinechart")
+            .select("#"+divid)
             .append("svg")
             .attr("width", linechartwidth + margin.left + margin.right)
             .attr("height", linechartheight + margin.top + margin.bottom)
@@ -241,6 +248,8 @@ var multilinechart = (function extracted() {
             .attr("preserveAspectRatio", "none")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
 
 
         pnum = data.map(function (d, i) {
@@ -258,10 +267,29 @@ var multilinechart = (function extracted() {
             .domain(pnum.sort(d3.ascending))
             .range([0, linechartwidth]);
 
+
+        var gridlines2 = d3.axisTop()
+            .tickFormat("")
+            .tickSize(-linechartheight)
+            .scale(linex);
+
+
+
+
+        svg9.append("g")
+            .attr("class", "gridvertical")
+            .call(gridlines2.tickValues([2,4,6,8,,10,12,14]))
+            .call(function (g) { g.selectAll(".domain").remove() })
+
+
+
+
+
+
         svg9
             .append("g")
             .attr("transform", "translate(0," + linechartheight + ")")
-            .call(d3.axisBottom(linex))
+            .call(d3.axisBottom(linex).tickSizeOuter(0))
             .call(function (g) {
                 g.selectAll(".tick line").remove();
             })
@@ -294,13 +322,13 @@ var multilinechart = (function extracted() {
             .call(
                 d3.axisLeft(liney).tickFormat(function (d) {
                     return d + "%";
-                })
+                }).tickSizeOuter(0)
             )
             .call(function (g) {
                 g.selectAll(" .tick line").remove();
             })
             .call(function (g) {
-                g.selectAll("text")
+                g.selectAll("text").remove()
                     .attr("font-family", "Noto Sans KR")
                     .attr("fill", "grey");
             });
@@ -346,63 +374,50 @@ var multilinechart = (function extracted() {
             .on("mouseover", onMouseOverPath)
             .on("mouseout", onMouseOutPath);
 
-        gridlines = d3
-            .axisLeft()
-            .tickFormat("")
-            .tickSize(-linechartwidth)
-            .scale(liney);
+        // gridlines = d3
+        //     .axisLeft()
+        //     .tickFormat("")
+        //     .tickSize(-linechartwidth)
+        //     .scale(liney);
+        //
+        // svg9
+        //     .append("g")
+        //     .attr("class", "grid")
+        //     .call(gridlines.tickValues([0, 20, 40, 60, 80, 100]));
 
-        svg9
-            .append("g")
-            .attr("class", "grid")
-            .call(gridlines.tickValues([0, 20, 40, 60, 80, 100]));
 
-        // Add the text label for the x axis
-        svg9
-            .append("text")
-            .attr(
-                "transform",
-                "translate(" +
-                linechartwidth / 2 +
-                " ," +
-                (linechartheight + margin.bottom - 3) +
-                ")"
-            )
-            .style("text-anchor", "middle")
+
+        // y축 레이블
+        svg9.append("g").append("text")
             .style("font-size", "0.5rem")
-            .style("font-weight", "Bold")
-            .text("재방문일");
-
-        // Add the text label for the Y axis
-        svg9
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 0 - margin.left)
-            .attr("x", -30)
-            .attr("dy", "1em")
+            .attr("transform", "translate(-15" + " ," + -10 + ")")
             .style("text-anchor", "middle")
-            .text("Value");
+            .text("백만원");
 
-        //  append circle
-        chartPoint = svg9
-            .selectAll("svg")
-            .append("g")
-            .data(data)
-            .enter()
-            .append("circle")
-            .attr("r", 3.5)
-            .on("mouseover", onMouseOver)
-            .on("mouseout", onMouseOut)
-            .attr("cx", function (d) {
-                return linex(d.preiod_num);
-            })
-            .attr("cy", function (d) {
 
-                return liney(d.retentionvalue);
-            })
-            .style("fill", function (d) {
-                return lineColors(d.signdate);
-            });
+
+
+
+        // //  append circle
+        // chartPoint = svg9
+        //     .selectAll("svg")
+        //     .append("g")
+        //     .data(data)
+        //     .enter()
+        //     .append("circle")
+        //     .attr("r", 3.5)
+        //     .on("mouseover", onMouseOver)
+        //     .on("mouseout", onMouseOut)
+        //     .attr("cx", function (d) {
+        //         return linex(d.preiod_num);
+        //     })
+        //     .attr("cy", function (d) {
+        //
+        //         return liney(d.retentionvalue);
+        //     })
+        //     .style("fill", function (d) {
+        //         return lineColors(d.signdate);
+        //     });
 
         //범례
 
@@ -447,7 +462,7 @@ var multilinechart = (function extracted() {
 
         // append the svg object to the body of the page
         svg9 = d3
-            .select("#multilinechart")
+            .select("#"+divid)
             .append("svg")
             .attr("width", linechartwidth + margin.left + margin.right)
             .attr("height", linechartheight + margin.top + margin.bottom)
@@ -560,16 +575,16 @@ var multilinechart = (function extracted() {
             .on("mouseover", onMouseOverPath)
             .on("mouseout", onMouseOutPath);
 
-        gridlines = d3
-            .axisLeft()
-            .tickFormat("")
-            .tickSize(-linechartwidth)
-            .scale(liney);
-
-        svg9
-            .append("g")
-            .attr("class", "grid")
-            .call(gridlines.tickValues([0, 20, 40, 60, 80, 100]));
+        // gridlines = d3
+        //     .axisLeft()
+        //     .tickFormat("")
+        //     .tickSize(-linechartwidth)
+        //     .scale(liney);
+        //
+        // svg9
+        //     .append("g")
+        //     .attr("class", "grid")
+        //     .call(gridlines.tickValues([0, 20, 40, 60, 80, 100]));
 
 
         // Add the text label for the x axis

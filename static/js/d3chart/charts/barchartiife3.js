@@ -683,7 +683,6 @@ var barchart = (function barchart(){
                 .text(function (d) {
                     return d;
                 });
-
         }
 
         function readJson(){

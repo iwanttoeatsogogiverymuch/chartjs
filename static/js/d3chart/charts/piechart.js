@@ -169,15 +169,35 @@ var piechart = (function extracted() {
 
             builTooltip();
 
+
+            var piecolors = [
+                "#be653e",
+                "#78bb37",
+                "#e0b63d",
+                "#ef9db5",
+                "#d46b8e",
+                "#9a9adc",
+                "#6cc4a0"
+
+            ];
+
+
             initPie2Calc();
             pieData = piedata.map(function (d) {
 
                 return d.value;
             });
-            colors = piedata.map(function (d) {
+            colors =
+               [
+                    "#8664cb",
+                    "#0075CC",
+                    "#48A0CE",
+                    "#44C4BE",
+                    "#36C35D",
+                    "#6079D6",
+                ];
 
-                return d.color;
-            });
+
             labels = piedata.map(function (d) {
 
                 return d.label;
@@ -187,7 +207,7 @@ var piechart = (function extracted() {
             height3 = 400;
             radius3 = Math.min(width3, height3) / 4;
 
-            piecolor = d3.scaleOrdinal().range(colors).domain(labels);
+            piecolor = d3.scaleOrdinal().range(piecolors).domain(labels);
 
             arc = d3
                 .arc()
@@ -271,12 +291,12 @@ var piechart = (function extracted() {
                     return "translate(" + arc.centroid(d) + ")";
                 })
                 .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
+                .attr("font-size", "0.7rem")
                 .attr("font-weight", "Regular")
                 .attr("fill", "white")
                 .attr("text-anchor", "start")
                 .text(function (d) {
-                    return d.data.value;
+                    return getPercent(d);
                 })
                 .on("mouseover", onMouseOver())
                 .on("mousemove", onMouseMove())
@@ -291,7 +311,7 @@ var piechart = (function extracted() {
                 .attr("font-size", "0.7rem")
                 .attr("text-anchor", "start")
                 .selectAll("g")
-                .data(labels)
+                .data(piedata)
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
@@ -309,7 +329,10 @@ var piechart = (function extracted() {
                 .attr("y",3)
                 .attr("width", 12)
                 .attr("height", 12)
-                .attr("fill", piecolor);
+                .attr("fill",function (d) {
+
+                return piecolor(d.label)}
+                );
 
             legend
                 .append("text")
@@ -319,7 +342,7 @@ var piechart = (function extracted() {
                 .attr("y", 9.5)
                 .attr("dy", "0.35em")
                 .text(function (d) {
-                    return d;
+                    return d.label + " [" + d.value + "]";
                 });
 
             text = svg5
@@ -424,7 +447,7 @@ var piechart = (function extracted() {
                     .on("mousemove", onMouseMove())
                     .on("mouseout", onMouseOut())
                     .style("fill", function (d, i) {
-                        return piecolor(salesData3[i].label);
+                        return piecolor(d.data.label);
                     })
                     .attr("d", transitionArc)
                     .transition()
@@ -445,6 +468,54 @@ var piechart = (function extracted() {
                     .text(function (d) {
                         return getPercent(d);
                     });
+
+
+                legend.remove();
+
+                legend = d3
+                    .select("#"+divid)
+                    .select("svg")
+                    .append("g")
+                    .attr("font-family", "Noto Sans KR")
+                    .attr("font-size", "0.7rem")
+                    .attr("text-anchor", "start")
+                    .selectAll("g")
+                    .data(data)
+                    .enter()
+                    .append("g")
+                    .attr("transform", function (d, i) {
+
+                        var initY = 137;
+                        var legendmargin = 15 * i;
+                        var legendtrans = initY + legendmargin;
+
+                        return "translate(-95," + legendtrans + ")";
+                    });
+
+                legend
+                    .append("rect")
+                    .attr("x", width3 - 45)
+                    .attr("y",3)
+                    .attr("width", 12)
+                    .attr("height", 12)
+                    .attr("fill",function (d) {
+
+                        return piecolor(d.label)}
+                    );
+
+
+                legend
+                    .append("text")
+                    .attr("font-family", "Noto Sans KR")
+                    .attr("font-weight", "Light")
+                    .attr("x", width3 - 28)
+                    .attr("y", 9.5)
+                    .attr("dy", "0.35em")
+                    .text(function (d) {
+                        return d.label + " [" + d.value + "]";
+                    });
+
+
 
 
                 //slice.exit().remove();
