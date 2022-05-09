@@ -1,4 +1,4 @@
-var multilinechart = (function extracted() {
+var multilinechart3 = (function extracted() {
 
     var tooltip;
 

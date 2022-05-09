@@ -15,6 +15,7 @@
 	<script src="/static/js/d3chart/charts/multilinechartiife2.js"></script>
 	<script src="/static/js/d3chart/charts/barchartiife3.js"></script>
 	<script src="/static/js/d3chart/charts/verticalbarchartiife.js"></script>
+	<script src="/static/js/d3chart/charts/multilinechartiife3.js"></script>
 
 
 <!-- css -->
@@ -553,8 +554,14 @@
 		];
 
 
-		verticalbarchart.draw("verticalbarchart1",testdata);
+		var verticalbarchartins = verticalbarchart();
+		verticalbarchartins.draw("verticalbarchart1",testdata);
 
+
+
+
+
+		multilinechart3.draw("multilinchart2",testdata);
 
 
 

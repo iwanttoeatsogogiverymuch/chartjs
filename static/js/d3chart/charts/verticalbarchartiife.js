@@ -1,4 +1,5 @@
 var verticalbarchart = (function vertical(){
+function extracted(){
 
   var divid;
   var legend2;
@@ -15,6 +16,7 @@ var verticalbarchart = (function vertical(){
   var margin2;
   var svg2;
   var tooltip;
+  var gridline;
 
   var testdata = [
     {"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
@@ -89,14 +91,11 @@ var verticalbarchart = (function vertical(){
         .attr("viewBox", "0 0 550 500")
         .attr("preserveAspectRatio", "none");
 
-    margin2 = {top: 30, right: 30, bottom: 30, left: 20};
+    margin2 = {top: 30, right: 30, bottom: 30, left: 60};
     width2 = +svg2.attr("width") - margin2.left - margin2.right;
     height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
 
-    //positioning the svg g
-    g2 = svg2
-        .append("g")
-        .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
 
     verticaly0 = d3.scaleBand()
         .rangeRound([0, height2]).paddingOuter(0.2);
@@ -152,6 +151,33 @@ var verticalbarchart = (function vertical(){
         });
       }),
     ]).nice();
+
+
+    //grid line drawing
+    //grid line should be below the chart rect svg
+
+    //차트 그리드라인
+    gridlines = d3.axisTop()
+        .tickFormat("")
+        //
+        .tickSize(-width2+margin2.right).ticks(7)
+        .scale(verticalx);
+
+    svg2.append("g")
+        .attr("class", "grid")
+        .attr("transform", "translate("+margin2.left+ " ," + margin2.top + ")")
+        .call(gridlines);
+
+
+    gridline = d3.axisTop(verticalx).tickSize(-height2);
+
+    //positioning the svg g
+    g2 = svg2
+        .append("g")
+        .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+
 
     g2.append("g")
         .selectAll("g")
@@ -306,15 +332,17 @@ var verticalbarchart = (function vertical(){
 
 
 
+
+  }
+
+  return{
+    draw:draw
   }
 
 
 
-
-return{
-
-    draw:draw
 }
+  return extracted;
 
 })();
 
