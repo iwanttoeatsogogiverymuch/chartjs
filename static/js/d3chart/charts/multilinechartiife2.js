@@ -442,10 +442,9 @@ var multilinechart2 = (function extracted() {
             .attr("height","22")
             .attr("x","25")
             .attr("y","12")
+            .attr("font-size","1rem")
             .attr("dy","0.32em")
-            .attr("fill",function (d){
-                return legendColorScale(d)
-            }).text(function (d){
+            .attr("fill","grey").text(function (d){
                 return d;
             })
 
