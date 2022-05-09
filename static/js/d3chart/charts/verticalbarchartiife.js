@@ -243,7 +243,7 @@ var verticalbarchart = (function vertical(){
     g2.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + height2 + ")")
-        .call(d3.axisBottom(verticalx).tickSizeOuter(0))
+        .call(d3.axisBottom(verticalx).tickSizeOuter(0).ticks(7))
         .call(function (g) {
           g.selectAll(".tick line").remove()
         })
