@@ -5,6 +5,7 @@ var linechart = (function () {
     var config;
     var tablebottom ;
 
+
     var gridlines;
     var liney;
     var linex;

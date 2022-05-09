@@ -378,9 +378,9 @@ var barchart = (function barchart(){
 
             legend2
                 .append("text")
-                .attr("x", width2 - 20)
+                .attr("x", width2 - 24)
                 .attr("dy","0.32em")
-                .attr("y", 5)
+                .attr("y", 6)
                 .text(function (d) {
                     return d;
                 });
@@ -588,41 +588,34 @@ var barchart = (function barchart(){
 
                 });
 
+
             g2.append("g")
                 .attr("class", "axis")
                 .attr("transform", "translate(0," + height2 + ")")
-                .call(d3.axisBottom(x0).tickSizeOuter(0))
+                .call(d3.axisBottom(x0))
                 .call(function (g) {
                     g.selectAll(".tick line").remove()
                 })
                 .call(function (g) {
-                    g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke","#999999")
+                    g.selectAll(".domain").attr("stroke-width", "5").attr("stroke-opacity", "0.5")
                 })
                 .call(function (g) {
-                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838")
+                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey")
                 });
 
             g2.append("g")
                 .attr("class", "axis")
-                .call(d3.axisLeft(y).ticks(null, "s").tickSizeOuter(0))
-                .call(function (g) {
-                    g.selectAll(".tick line").remove()
-                })
-                .call(function (g) {
-                    g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke","#999999")
-                })
-                .call(function (g) {
-                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#4b5154")
-                })
+                .call(d3.axisLeft(y).ticks(null, "s"))
                 .append("text")
                 .attr("x", width2 / 2)
                 .attr("y", y(y.ticks().pop()) + 0.5)
                 .attr("dy", "0.32em")
-                .attr("fill", "#101010")
+                .attr("fill", "#000")
                 .attr("font-weight", "Regular")
                 .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.5rem")
                 .attr("text-anchor", "middle");
+
 
             legend2 = g2
                 .append("g")
@@ -634,26 +627,24 @@ var barchart = (function barchart(){
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
-                    return "translate(10," + i * 13 + ")";
+                    return "translate(10," + i * 15 + ")";
                 });
 
 
             legend2
                 .append("rect")
                 .attr("x", width2 - 19)
-                .attr("width", 10)
-                .attr("height", 10)
+                .attr("width", 13)
+                .attr("height", 13)
                 .attr("fill", z2);
 
             legend2
                 .append("text")
-                .attr("x", width2 - 20)
-                .attr("dy","0.32em")
-                .attr("y", 5)
+                .attr("x", width2 - 24)
+                .attr("y", 13)
                 .text(function (d) {
                     return d;
                 });
-
 
         }
 

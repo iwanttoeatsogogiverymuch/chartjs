@@ -321,6 +321,7 @@ var heatmapchart = (function heatmap(){
     //public function
     function draw(id,jsondata) {
 
+        var rowLabel;
         divid = id;
 
         initChart(jsondata);
@@ -343,11 +344,9 @@ var heatmapchart = (function heatmap(){
         //     return a.diff(b, "days");
         // });
 
-        usercounts = data.filter(function (d) {
-            return d.PERIOD === "1";
-        }).map(function (d){
-            return d.ALL;
-        })
+
+
+
         preioddates = data.map(
 
             function (d) {
@@ -357,7 +356,7 @@ var heatmapchart = (function heatmap(){
         );
         // Build X scales and axis:
         x5 = d3.scaleBand()
-            .range([0, width5 + 100])
+            .range([50, width5 + 100])
             .domain(preioddates.sort(d3.ascending))
             .padding(0.1);
 
@@ -383,13 +382,14 @@ var heatmapchart = (function heatmap(){
 
 
         svg6.append("g")
+            .attr("transform", "translate(50," + 0 + ")")
             .call(d3.axisLeft(y5).tickSize(0))
             .call(function (g) {
                 g.selectAll(".domain, .tick line")
                     .remove()
             })
             .call(function (g) {
-                g.selectAll("text")
+                g.selectAll("text").attr("x","-5")
                     .attr("font-family", "Noto Sans KR")
                     .attr("fill", "grey")
             });
@@ -404,25 +404,86 @@ var heatmapchart = (function heatmap(){
             .domain([0.5, 0])
             .interpolator(d3.interpolate("white", "#ff5d5c"));
 
+
+
+
+        usercounts = data.filter(function (d) {
+            return d.PERIOD === "1";
+        });
+
+        var userXScale = d3.scaleBand()
+            .range([height5, 0])
+            .domain(usercounts.sort(d3.ascending))
+            .padding(0.1);
+
         svg6
             .selectAll()
             .append("g")
+            .data(usercounts)
+            .enter()
+            .append("text")
+            .attr("transform", "translate(-50," + 0 + ")")
+            .attr("y",function (d) {
+               return y5(d.APP_LOGIN_DT)+y5.bandwidth()/2;
+            })
+            .attr("height",y5.bandwidth()/2)
+            .attr("dy","0.32em")
+            .attr("font-family", "Noto Sans KR")
+            .attr("fill", "grey")
+            .attr("font-size","0.7rem")
+            .text(function (d){
+                return d.ALL;
+            });
+
+       //일자 라벨
+        svg6
+            .append("g")
+            .attr("transform", "translate(-50," + 0 + ")")
+            .append("text")
+            .attr("x","0")
+            .attr("y","-5")
+            .attr("dy","0.35em")
+            .attr("font-family", "Noto Sans KR")
+            .attr("fill", "grey")
+            .attr("font-size","0.5rem")
+            .text("유저수");
+
+        //전체유저수 라벨
+        svg6
+            .append("g")
+            .attr("transform", "translate(0," + 0 + ")")
+            .append("text")
+            .attr("x","0")
+            .attr("y","-5")
+            .attr("dy","0.35em")
+            .attr("font-family", "Noto Sans KR")
+            .attr("fill", "grey")
+            .attr("font-size","0.5rem")
+            .text("가입일");
+
+
+
+        svg6
+            .selectAll()
+            .append("g")
+            .attr("transform", "translate(0," + 0 + ")")
             .data(data, function (d) {
                 return d;
             })
             .enter()
             .append("rect")
+          //  .attr("transform", "translate(0," + 0 + ")")
             // .style("stroke", "grey")
             // .style("stroke-opacity", "0.2")
             .attr("x", function (d) {
-                d;
+
                 return x5(d.PERIOD);
             })
             .attr("y", function (d) {
                 return y5(d.APP_LOGIN_DT);
             })
-            .attr("rx", 10)
-            .attr("ry", 10)
+            // .attr("rx", 10)
+            // .attr("ry", 10)
             .attr("width", function () {
                 return x5.bandwidth();
             })
@@ -470,21 +531,278 @@ var heatmapchart = (function heatmap(){
 
                 tooltip.style("left", (d3.event.pageX + 10) + "px");
                 tooltip.style("top", (d3.event.pageY - 10) + "px");
-                tooltip.html(d.RETENTION_RATE.toString() +"<br>"+d.APP_LOGIN_DT);
+                tooltip.html(d3.format(",.1%")(d.RETENTION_RATE) +"<br>"+d.APP_LOGIN_DT);
 
             })
         svg6
             .append("g")
             .attr("font-family", "Noto Sans KR")
             .attr("font-weight", "Light")
-            .attr("font-size", "0.3rem")
+            .attr("font-size", "0.4rem")
             .append("g")
             .selectAll("text")
             .data(data)
             .enter()
             .append("text")
             .text(function (d) {
-                return d.RETENTION_RATE + "%";
+                return d3.format(",.1%")(d.RETENTION_RATE);
+            })
+            .attr("x", function (d) {
+                // return (i * 20) + 40;
+
+                return x5(d.PERIOD);
+            })
+            .attr("y", function (d) {
+                return y5(d.APP_LOGIN_DT);
+                //return (local.get(this) * 20) + 40;
+            })
+            .attr("dx", x5.bandwidth() / 2)
+            .attr("dy", y5.bandwidth() / 2)
+            .attr("dominant-baseline", "text-before-edge")
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "middle")
+            .attr("fill", function (d) {
+
+                var textcolor;
+                if (d.RETENTION_RATE >= 0.3 && d.RETENTION_RATE < 0.6) {
+                    textcolor = "grey";
+                } else {
+                    textcolor = "white";
+                }
+                return textcolor;
+
+            })
+            .attr("pointer-events","none");
+
+
+
+
+    }
+
+    //public function
+    function update2(id,jsondata) {
+
+
+        divid = id;
+
+        initChart(jsondata);
+
+        signdates = data.map(function (d) {
+            return d.APP_LOGIN_DT;
+        });
+
+        // preioddates = data.map(function (d, i) {
+        //     //  return moment - new Date(d.retentiondate.toString()) ;
+        //
+        //     if (d.APP_LOGIN_DT.toString() === "전체") {
+        //
+        //         return data[i].PERIOD = d.RETENTION_RATE;
+        //     }
+        //
+        //     var a = moment(d.retentiondate.toString());
+        //     var b = moment(d.signdate.toString());
+        //     data[i].PERIOD = a.diff(b, "days");
+        //     return a.diff(b, "days");
+        // });
+
+
+
+
+        preioddates = data.map(
+
+            function (d) {
+
+                return parseInt(d.PERIOD);
+            }
+        );
+        // Build X scales and axis:
+        x5 = d3.scaleBand()
+            .range([50, width5 + 100])
+            .domain(preioddates.sort(d3.ascending))
+            .padding(0.1);
+
+
+        svg6
+            .append("g")
+            .attr("transform", "translate(0," + 0 + ")")
+            .call(d3.axisTop(x5).tickFormat(d3.timeFormat).tickSize(0))
+            .call(function (g) {
+                g.selectAll(".domain, .tick line").remove()
+            })
+            .call(function (g) {
+                g.selectAll("text")
+                    .attr("font-family", "Noto Sans KR")
+                    .attr("fill", "grey")
+            });
+
+
+        y5 = d3.scaleBand()
+            .range([height5, 0])
+            .domain(signdates.sort(d3.ascending))
+            .padding(0.1);
+
+
+        svg6.append("g")
+            .attr("transform", "translate(50," + 0 + ")")
+            .call(d3.axisLeft(y5).tickSize(0))
+            .call(function (g) {
+                g.selectAll(".domain, .tick line")
+                    .remove()
+            })
+            .call(function (g) {
+                g.selectAll("text").attr("x","-5")
+                    .attr("font-family", "Noto Sans KR")
+                    .attr("fill", "grey")
+            });
+
+        // Build color scale
+        myColor = d3
+            .scaleSequential()
+            .domain([1, 0.5])
+            .interpolator(d3.interpolate("#418af3", "white"));
+
+        myColorred = d3.scaleSequential()
+            .domain([0.5, 0])
+            .interpolator(d3.interpolate("white", "#ff5d5c"));
+
+
+
+
+        usercounts = data.filter(function (d) {
+            return d.PERIOD === "1";
+        });
+
+
+        svg6
+            .selectAll()
+            .append("g")
+            .data(usercounts)
+            .enter()
+            .append("text")
+            .attr("transform", "translate(-50," + 0 + ")")
+            .attr("y",function (d) {
+                return y5(d.APP_LOGIN_DT)+y5.bandwidth()/2;
+            })
+            .attr("height",y5.bandwidth()/2)
+            .attr("dy","0.32em")
+            .attr("font-family", "Noto Sans KR")
+            .attr("fill", "grey")
+            .attr("font-size","0.7rem")
+            .text(function (d){
+                return d.ALL;
+            });
+
+        //일자 라벨
+        svg6
+            .append("g")
+            .attr("transform", "translate(-50," + 0 + ")")
+            .append("text")
+            .attr("x","0")
+            .attr("y","-5")
+            .attr("dy","0.35em")
+            .attr("font-family", "Noto Sans KR")
+            .attr("fill", "grey")
+            .attr("font-size","0.5rem")
+            .text("유저수");
+
+        //전체유저수 라벨
+        svg6
+            .append("g")
+            .attr("transform", "translate(0," + 0 + ")")
+            .append("text")
+            .attr("x","0")
+            .attr("y","-5")
+            .attr("dy","0.35em")
+            .attr("font-family", "Noto Sans KR")
+            .attr("fill", "grey")
+            .attr("font-size","0.5rem")
+            .text("가입일");
+
+
+
+        svg6
+            .selectAll()
+            .append("g")
+            .attr("transform", "translate(0," + 0 + ")")
+            .data(data, function (d) {
+                return d;
+            })
+            .enter()
+            .append("rect")
+            //  .attr("transform", "translate(0," + 0 + ")")
+            // .style("stroke", "grey")
+            // .style("stroke-opacity", "0.2")
+            .attr("x", function (d) {
+
+                return x5(d.PERIOD);
+            })
+            .attr("y", function (d) {
+                return y5(d.APP_LOGIN_DT);
+            })
+            // .attr("rx", 10)
+            // .attr("ry", 10)
+            .attr("width", function () {
+                return x5.bandwidth();
+            })
+            .attr("height", function () {
+                return y5.bandwidth();
+            })
+            .style("fill", function (d) {
+                if (d.RETENTION_RATE > 0.5) {
+                    return myColor(d.RETENTION_RATE);
+                } else {
+                    return myColorred(d.RETENTION_RATE);
+                }
+            })
+            .on("mouseover", function (d) {
+                var mouseoverdata = d;
+                tooltip.style("opacity", "1");
+                svg6.selectAll("rect")
+                    .filter(function (d) {return d.APP_LOGIN_DT === mouseoverdata.APP_LOGIN_DT})
+                    .style("fill",function () {
+                        return d3.hsl(d3.select(this).style("fill")).darker(0.5).toString();
+                    });
+
+
+            })
+            .on("mouseout", function (d) {
+                var mouseoverdata = d;
+                tooltip.style("opacity", "0");
+
+                svg6.selectAll("rect")
+                    .filter(function (d) {return d.APP_LOGIN_DT === mouseoverdata.APP_LOGIN_DT})
+                    .style("fill",function () {
+                        return d3.hsl(d3.select(this).style("fill")).brighter(0.5).toString();
+                    });
+                d3.select(this).attr("width",function () {
+                    return x5.bandwidth();
+                }).attr("height",function () {
+                    return y5.bandwidth();
+                });
+
+            })
+            .on("mousemove", function (d) {
+
+                // var subgroupName = d3.select(this.parentNode).datum().key;
+                //  var subgroupValue = d.data.signdate;
+
+                tooltip.style("left", (d3.event.pageX + 10) + "px");
+                tooltip.style("top", (d3.event.pageY - 10) + "px");
+                tooltip.html(d3.format(",.1%")(d.RETENTION_RATE) +"<br>"+d.APP_LOGIN_DT);
+
+            })
+        svg6
+            .append("g")
+            .attr("font-family", "Noto Sans KR")
+            .attr("font-weight", "Light")
+            .attr("font-size", "0.4rem")
+            .append("g")
+            .selectAll("text")
+            .data(data)
+            .enter()
+            .append("text")
+            .text(function (d) {
+                return d3.format(",.1%")(d.RETENTION_RATE);
             })
             .attr("x", function (d) {
                 // return (i * 20) + 40;
@@ -516,6 +834,8 @@ var heatmapchart = (function heatmap(){
 
 
     }
+
+
             function update(newData){
 
                 svg6.selectAll("g").remove().exit();
