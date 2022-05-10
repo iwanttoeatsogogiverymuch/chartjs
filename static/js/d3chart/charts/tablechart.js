@@ -35,7 +35,7 @@ var tablechart = (function heatmap(){
         //svg와 그안의 g값을 참조 ( 경우에따라 다를 수 있음, svg값만 참조하는것이아님)
         var svg6;
 
-        var xIndexs, y0Indexs;
+        var yIndexval, xIndexval;
 
         //x축 y축 스케일 매핑 (단순값x)
         var x5, y5;
@@ -157,24 +157,19 @@ var tablechart = (function heatmap(){
 
             initChart(jsondata);
 
-            xIndexs = data.map(function (d) {
-                return d.xIndex;
+            yIndexval = data.map(function (d) {
+                return d.yIndex;
             });
 
-            y0Indexs = data.map(function (d, i) {
-                //  return moment - new Date(d.retentiondate.toString()) ;
+            xIndexval = data.map(function (d, i) {
+                    return d.xIndex;
 
-
-                var a = moment(d.y0Index.toString());
-                var b = moment(d.xIndex.toString());
-                data[i].y0Index = a.diff(b, "days");
-                return a.diff(b, "days");
             });
 
             // Build X scales and axis:
             x5 = d3.scaleBand()
                 .range([0, width5 + 100])
-                .domain(y0Indexs.sort(d3.ascending)).padding(0.02);
+                .domain(xIndexval.sort(d3.ascending)).padding(0.02);
 
 
             svg6
@@ -193,9 +188,7 @@ var tablechart = (function heatmap(){
 
             y5 = d3.scaleBand()
                 .range([height5, 0])
-                .domain(xIndexs.sort(d3.ascending)).padding(0.02);
-
-
+                .domain(yIndexval.sort(d3.ascending)).padding(0.02);
 
             svg6.append("g")
                 .call(d3.axisLeft(y5).tickSize(0))
@@ -212,8 +205,6 @@ var tablechart = (function heatmap(){
                         .attr("fill", "grey")
                 });
 
-
-
             svg6
                 .selectAll()
                 .append("g")
@@ -224,12 +215,10 @@ var tablechart = (function heatmap(){
                 .append("rect")
                 .attr("class","values")
                 .attr("x", function (d) {
-
-                    return x5(d.y0Index);
+                    return x5(d.xIndex);
                 })
                 .attr("y", function (d) {
-                    return y5(d.xIndex
-                    );
+                    return y5(d.yIndex);
                 })
                 .attr("rx","3")
                 .style("stroke-width","0.2")
@@ -247,18 +236,13 @@ var tablechart = (function heatmap(){
                     tooltip.style("opacity", "1");
                     svg6.selectAll("rect")
                         .filter(function (d) {
-                            if(d.xIndex
-                                !== undefined){
-                                return  d.xIndex
-                                    === mouseoverdata.xIndex
-                                    ;
+                            if(d.xIndex !== undefined){
+                                return  d.xIndex === mouseoverdata.xIndex;
                             }
                         })
-
                         .style("fill",function () {
                             return d3.hsl(d3.select(this).style("fill")).darker(0.5).toString();
                         });
-
 
                 })
                 .on("mouseout", function (d) {
@@ -329,41 +313,26 @@ var tablechart = (function heatmap(){
                 .attr("pointer-events","none");
 
 
-
         }
         function update(newData){
 
             svg6.selectAll("g").remove().exit();
             svg6.selectAll("rect").remove().exit();
 
-            xIndex
-            s = newData.map(function (d) {
-                return d.xIndex
-                    ;
+            yIndexval = data.map(function (d) {
+                return d.yIndex;
             });
 
-            y0Indexs = newData.map(function (d, i) {
-                //  return moment - new Date(d.retentiondate.toString()) ;
+            xIndexval = data.map(function (d, i) {
+                return d.xIndex;
 
-                if ( d.xIndex
-                    .toString() === "전체") {
-
-                    return newData[i].y0Index = d.retentiondate;
-                }
-
-                var a = moment(d.retentiondate.toString());
-                var b = moment(d.xIndex
-                    .toString());
-                newData[i].y0Index = a.diff(b, "days");
-                return a.diff(b, "days");
             });
+
 
             // Build X scales and axis:
             x5 = d3.scaleBand()
                 .range([0, width5 + 100])
-                .domain(y0Indexs.sort(d3.ascending));
-
-
+                .domain(xIndexval.sort(d3.ascending));
 
             svg6
                 .append("g")
@@ -378,12 +347,10 @@ var tablechart = (function heatmap(){
                         .attr("fill", "grey")
                 });
 
-
-
             // Build Y scales and axis:
             y5 = d3.scaleBand()
                 .range([height5, 0])
-                .domain(xIndexs.sort(d3.ascending));
+                .domain(yIndexval.sort(d3.ascending));
 
 
             // .padding(0.01);
@@ -398,7 +365,6 @@ var tablechart = (function heatmap(){
                         .attr("font-family", "Noto Sans KR")
                         .attr("fill", "grey")
                 });
-
 
             svg6
                 .selectAll().append("g")
@@ -426,8 +392,7 @@ var tablechart = (function heatmap(){
                 .transition().delay(function (d,i) {return  i*15;}).ease(d3.easeSin)
 
                 .attr("y", function (d) {
-                    return y5(d.xIndex
-                    );
+                    return y5(d.xIndex);
                 })
                 .attr("rx", 10)
                 .attr("ry", 10)
@@ -475,26 +440,15 @@ var tablechart = (function heatmap(){
                     return textcolor;
                 })
                 .attr("pointer-events","none");
-
-
         }
-
-
         //public area
         return {
             update: update,
             draw:draw
         };
-
-
     }
 
  return table;
 
 })();
-
-
-
-
-
 
