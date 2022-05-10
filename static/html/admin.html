@@ -7,6 +7,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
 
+	<script src="/static/js/lib/jquery/jquery.js"></script>
 	<script src="/static/js/lib/moment/moment.js"></script>
 	<script src="/static/js/lib/d3/d3.v4.js"></script>
 	<script src="/static/js/d3chart/charts/piechart.js"></script>
@@ -135,7 +136,9 @@
 				<!--tab-->
 				<div class="tab-menus">
 					<ul>
-						<li class="on"><a href="javascript:;">대면/비대면 현황</a></li>
+						<li class="on"><a href="javascript:;" onclick="function f() {
+						  
+						}">대면/비대면 현황</a></li>
 						<li><a href="javascript:;">신규/잔액기준 현황</a></li>
 						<li><a href="javascript:;">상품별 실적</a></li>
 						<li><a href="javascript:;">기간별 실적</a></li>
@@ -231,9 +234,9 @@
 
 					<!--//tab-content [신규/잔액기준현황]-->
 					<!--tab-content [상품별실적]-->
-					<div class="tab-content">
+					<div class="tab-content" >
 						<!--chart-box-wrp-->
-						<div class="chart-box-wrp">
+						<div class="chart-box-wrp" id="firstwrap">
 							<div class="chart-box">
 								<div class="box-head">
 									<h2>상품별 실적 총 : 00건</span></h2>

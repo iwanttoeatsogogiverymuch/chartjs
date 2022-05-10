@@ -1,5 +1,9 @@
 var multilinechart3 = (function extracted() {
 
+    var pointtext;
+
+    var divid;
+    
     var tooltip;
 
     var legend;
@@ -131,10 +135,10 @@ var multilinechart3 = (function extracted() {
                 //ie9 버전에서는 attr로 색상변경시 hsl 코드 변환이 제대로 이루어지지 않음
                 //style 값으로 처리해야 제대로 색상변경이가능함
 
-                console.log(d3.select(this).style("stroke"))
-                console.log(d3.select(this).attr("stroke"))
-                console.log(d3.hsl(d3.select(this).attr("stroke").toString()).brighter(1).toString())
-                console.log(d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString())
+                // console.log(d3.select(this).style("stroke"))
+                // console.log(d3.select(this).attr("stroke"))
+                // console.log(d3.hsl(d3.select(this).attr("stroke").toString()).brighter(1).toString())
+                // console.log(d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString())
                 return d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString();
             });
 
@@ -213,8 +217,9 @@ var multilinechart3 = (function extracted() {
 
     }
 
-    function draw (data){
+    function draw (id,data){
 
+        divid = id;
         buildTooltip();
         data =JSON.parse(JSON.stringify(data));
 
@@ -404,57 +409,22 @@ var multilinechart3 = (function extracted() {
                 return lineColors(d.signdate);
             });
 
-
-
-
-        lengendxScale = d3.scaleBand()
-            .domain(signdatekey)
-            .range([linechartwidth/4,linechartwidth/4*3]);
-
-
-        legendColorScale = d3.scaleOrdinal()
-            .domain(signdatekey)
-            .range(mcgpalette0);
-
-
-        legend = svg9.append("g")
-            .selectAll("rect")
-            .data(signdatekey)
-            .enter()
-            .append("rect")
-            .attr("transform",function (d,i){
-                console.log(lengendxScale(d))
-                return "translate("+lengendxScale(d) + "," + (linechartheight+margin.bottom - 23) + ")";
-            })
-            // .attr("transform","translate(300,"+(linechartheight+margin.bottom - 23) + ")")
-            .attr("width","22")
-            .attr("height","22")
-            .attr("fill",function (d){
-                return legendColorScale(d)
-            })
-
-        legend = svg9.append("g")
-            .selectAll("text")
-            .data(signdatekey)
+        pointtext = svg9.selectAll()
+            .append("g")
+            .data(data)
             .enter()
             .append("text")
-            .attr("transform",function (d,i){
-                console.log(lengendxScale(d))
-                return "translate("+lengendxScale(d) + "," + (linechartheight+margin.bottom - 23) + ")";
+            .attr("font-size","0.5rem")
+            .attr("x",function (d) {
+                return linex(d.preiod_num)-10;
             })
-            // .attr("transform","translate(300,"+(linechartheight+margin.bottom - 23) + ")")
-            .attr("width","22")
-            .attr("height","22")
-            .attr("x","25")
-            .attr("y","12")
-            .attr("font-size","1rem")
+            .attr("y",function (d){
+               return liney(d.retentionvalue)-10;
+            })
             .attr("dy","0.32em")
-            .attr("fill","grey").text(function (d){
-                return d;
-            })
-
-
-
+            .text(function (d) {
+                return d.retentionvalue;
+            });
         //범례
 
         // lengendxScale = d3.scaleOrdinal()
@@ -498,7 +468,7 @@ var multilinechart3 = (function extracted() {
 
         // append the svg object to the body of the page
         svg9 = d3
-            .select("#multilinechart")
+            .select("#",+divid)
             .append("svg")
             .attr("width", linechartwidth + margin.left + margin.right)
             .attr("height", linechartheight + margin.top + margin.bottom)
@@ -674,16 +644,6 @@ var multilinechart3 = (function extracted() {
 
         //범례
 
-        // lengendxScale = d3.scaleOrdinal()
-        //     .domain(signdates)
-        //     .range(linechartwidth);
-        //
-        // legendColorScale = d3.scaleOrdinal()
-        //     .domain(signdates)
-        //     .range(["blue", "red", "yellow", "orange", "grey"]);
-        //
-        // legend = svg9.append("g").selectAll("rect").data(data).join().append("rect");
-        //
 
 
     }
