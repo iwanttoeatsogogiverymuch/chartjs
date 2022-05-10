@@ -1,5 +1,7 @@
 var multilinechart2 = (function extracted() {
 
+    var strokewidth = 5;
+
     var divid;
 
     var tooltip;
@@ -345,6 +347,10 @@ var multilinechart2 = (function extracted() {
                 return d.signdate;
             })
             .entries(data);
+
+
+        console.log(sumstat);
+
         signdatekey = sumstat.map(function (d) {
             return d.key;
         });
@@ -366,10 +372,12 @@ var multilinechart2 = (function extracted() {
             .attr("stroke", function (d) {
                 return lineColors(d.key);
             })
-            .attr("stroke-width", 7)
+            .attr("stroke-width", strokewidth.toString())
             .style("stroke-linecap","round")
             .attr("ry", "3")
             .attr("d", function (d, i) {
+
+                //nesting된 값을 기준으로 순회하여 line을 그림
                 return d3
                     .line()
                     .x(function (d) {
@@ -492,12 +500,14 @@ var multilinechart2 = (function extracted() {
 
     function update (data){
 
+        //툴팁생성
         if(tooltip === undefined){
             buildTooltip();
         }
 
         data =JSON.parse(JSON.stringify(data));
 
+        //컬러코드
         mcgpalette0 = [
             "#8664cb",
             "#0075CC",
@@ -512,7 +522,7 @@ var multilinechart2 = (function extracted() {
         linechartheight = 400 - margin.top - margin.bottom;
 
         //delete previous chart svg
-        d3.select("#multilinechart").selectAll("svg").remove();
+        d3.select("#"+divid).selectAll("svg").remove();
 
         // append the svg object to the body of the page
         svg9 = d3
@@ -541,6 +551,7 @@ var multilinechart2 = (function extracted() {
             .domain(pnum.sort(d3.ascending))
             .range([0, linechartwidth]);
 
+        //x좌표 바 생성
         svg9
             .append("g")
             .attr("transform", "translate(0," + linechartheight + ")")
@@ -571,6 +582,7 @@ var multilinechart2 = (function extracted() {
             .range([linechartheight, 0])
             .nice();
 
+        //y좌표바 생성
         svg9
             .append("g")
             .attr("transform", "translate(0," + 0 + ")")
@@ -587,12 +599,17 @@ var multilinechart2 = (function extracted() {
                     .attr("font-family", "Noto Sans KR")
                     .attr("fill", "grey");
             });
+
+        //json 포맷을 key값 기준으로 네스트
+        //
         sumstat = d3
             .nest()
             .key(function (d) {
                 return d.signdate;
             })
             .entries(data);
+
+
         signdatekey = sumstat.map(function (d) {
             return d.key;
         });
@@ -614,7 +631,7 @@ var multilinechart2 = (function extracted() {
             .attr("stroke", function (d) {
                 return lineColors(d.key);
             })
-            .attr("stroke-width", 3.5)
+            .attr("stroke-width", strokewidth.toString())
             .attr("ry", "3")
             .attr("d", function (d, i) {
                 return d3

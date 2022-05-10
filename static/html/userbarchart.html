@@ -19,29 +19,45 @@
 <body>
 
 
-    <div id="userbarchart" style="height: 500px; width: 500px">
+    <div id="userbarchart" style="height: 250px; width: 1200px">
 
     </div>
 
 <script>
     var untactperfom = [
-        {"AREA":"강남금융센터", "CODE":"정기예금","value":"340000"},
-        {"AREA":"강남금융센터", "CODE":"정기적금","value":"34000"},
-        {"AREA":"강남금융센터", "CODE":"핵심예금(개인)","value":"230000"},
-        {"AREA":"강남금융센터", "CODE":"핵심예금(기업)","value":"11000"},
-        {"AREA":"강남금융센터", "CODE":"기타","value":"320000"},
-        {"AREA":"강남금융센터", "CODE":"전체","value":"430000"},
-        {"AREA":"수유지점", "CODE":"정기예금","value":"2000"},
-        {"AREA":"수유지점", "CODE":"정기적금","value":"30000"},
-        {"AREA":"수유지점", "CODE":"핵심예금(개인)","value":"150000"},
-        {"AREA":"수유지점", "CODE":"핵심예금(기업)","value":"20000"},
-        {"AREA":"수유지점", "CODE":"기타","value":"340000"},
-        {"AREA":"수유지점", "CODE":"전체","value":"340000"},
+        {"AREA":"3/25", "CODE":"MAU","value":"200000"},
+        {"AREA":"3/25", "CODE":"DAU","value":"34000"},
+        {"AREA":"3/25", "CODE":"ALL","value":"23000"},
+        {"AREA":"3/26", "CODE":"MAU","value":"34000"},
+        {"AREA":"3/26", "CODE":"DAU","value":"34000"},
+        {"AREA":"3/26", "CODE":"ALL","value":"23000"},
+        {"AREA":"3/27", "CODE":"MAU","value":"34000"},
+        {"AREA":"3/27", "CODE":"DAU","value":"34000"},
+        {"AREA":"3/27", "CODE":"ALL","value":"23000"},
+        {"AREA":"3/28", "CODE":"MAU","value":"34000"},
+        {"AREA":"3/28", "CODE":"DAU","value":"34000"},
+        {"AREA":"3/28", "CODE":"ALL","value":"23000"},
+        {"AREA":"3/29", "CODE":"MAU","value":"34000"},
+        {"AREA":"3/29", "CODE":"DAU","value":"34000"},
+        {"AREA":"3/29", "CODE":"ALL","value":"23000"},
+        {"AREA":"3/30", "CODE":"MAU","value":"34000"},
+        {"AREA":"3/30", "CODE":"DAU","value":"34000"},
+        {"AREA":"3/30", "CODE":"ALL","value":"230000"},
+        {"AREA":"3/31", "CODE":"MAU","value":"2000"},
+        {"AREA":"3/31", "CODE":"DAU","value":"30000"},
+        {"AREA":"3/31", "CODE":"ALL","value":"150000"}
+
 
     ];
-    var barchartmau = barchart();
+    var barchartmau = barchart2();
 
     barchartmau.draw("userbarchart",untactperfom)
+
+    setTimeout(
+        function (){
+            barchartmau.update(untactperfom.slice(1));
+        } , 3000
+    );
 
 
 </script>

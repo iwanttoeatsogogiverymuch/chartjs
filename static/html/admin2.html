@@ -1,0 +1,571 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=11">
+<meta name="Description" content="우리금융저축은행">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+
+	<script src="/static/js/lib/moment/moment.js"></script>
+	<script src="/static/js/lib/d3/d3.v4.js"></script>
+	<script src="/static/js/d3chart/charts/piechart.js"></script>
+	<script src="/static/js/d3chart/charts/barchartiife.js"></script>
+	<script src="/static/js/d3chart/charts/stackedbarchartiife.js"></script>
+	<script src="/static/js/d3chart/charts/multilinechartiife2.js"></script>
+	<script src="/static/js/d3chart/charts/barchartiife3.js"></script>
+	<script src="/static/js/d3chart/charts/verticalbarchartiife.js"></script>
+	<script src="/static/js/d3chart/charts/multilinechartiife3.js"></script>
+
+
+<!-- css -->
+<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+<link rel="stylesheet" type="text/css"  href="/static/css/style.css">
+<link rel="stylesheet" type="text/css"  href="/static/css/adminStyle.css">
+	<link rel="stylesheet"  type ="text/css" href="/static/css/d3.css" />
+
+
+
+
+</head>
+<!-----------------------------
+
+       [차트 색상 가이드]
+       
+       정기예금 : #0075cc
+       정기적금 : #48a0ce
+       핵심예금(개인) : #44c4be
+       핵심예금(기업) : #36c35d
+       기타 : #6079d6
+       전체 : #8664cb
+       수유지점 : #e0b63d
+       삼성지점 : #78bb37
+       강남금융센터 : #be653e
+       영업본부 : #d46b8e
+       영업본부(개인) : #ef9db5
+       투자금융팀 : #6cc4a0
+       채권2팀 : #9a9adc
+       기업고객본부 : #debd8e
+       회원수 :  #8ea7e0
+       DAU : #8ccbd2
+       MAU : #fba597
+
+------------------------------->
+<body>
+	<div id="wrap">
+		<div class="container">
+			<!--header-->
+			<div class="header">
+				<h1>우리금융저축은행</h1>
+				<div class="gnb">
+					<ul>
+						<li><a id="appChk" href="javascript:;">여신현황</a></li>
+						<li class="on"><a href="javascript:;">xcv</a></li>
+						<li><a href="javascript:;">우리WON 저축은행 앱</a></li>
+					</ul>
+				</div>
+			</div>
+			<!--//header-->
+			<!--content-->
+			<div class="content">
+				<!--searchwrp-->
+				<div class="search-wrp">
+					<div class="search-cont">
+						<div class="inp-box">
+							<label for="">일자</label>
+							<div class="date">
+								<input type="text" class="date-picker">
+							</div>
+							<div class="date">
+								<input type="text" class="date-picker" readonly>
+							</div>
+						</div>
+						<div class="inp-box">
+							<label for="">지점</label>
+							<select name="" id="">
+								<option value="default" selected readonly>선택</option>
+								<option value="">지점1</option>
+								<option value="">지점2</option>
+							</select>
+						</div>
+						<div class="inp-box">
+							<label for="">상품</label>
+							<select name="" id="" disabled>
+								<option value="default" selected readonly>선택</option>
+								<option value="">상품1</option>
+								<option value="">상품2</option>
+							</select>
+						</div>
+						<div class="radio-wrp">
+							<div class="inp-box">
+								<span class="inp">
+									<input type="radio" name="radios" id="radio1" checked disabled>
+									<label for="radio1">전일</label>
+								</span>
+							</div>
+							<div class="inp-box">
+								<span class="inp">
+									<input type="radio" name="radios" id="radio2">
+									<label for="radio2">주간</label>
+								</span>
+							</div>
+							<div class="inp-box">
+								<span class="inp">
+									<input type="radio" name="radios" id="radio3">
+									<label for="radio3">월간</label>
+								</span>
+							</div>
+							<div class="inp-box">
+								<span class="inp">
+									<input type="radio" name="radios" id="radio4">
+									<label for="radio4">분기</label>
+								</span>
+							</div>
+							<div class="inp-box">
+								<span class="inp">
+									<input type="radio" name="radios" id="radio5">
+									<label for="radio5">연도</label>
+								</span>
+							</div>
+						</div>
+						<a href="javascript:;" class="search-btn">검색</a>
+					</div>
+				</div>
+				<!--//searchwrp-->
+				<!--tab-->
+				<div class="tab-menus">
+					<ul>
+						<li class="on"><a href="javascript:;">대면/비대면 현황</a></li>
+						<li><a href="javascript:;">신규/잔액기준 현황</a></li>
+						<li><a href="javascript:;">상품별 실적</a></li>
+						<li><a href="javascript:;">기간별 실적</a></li>
+						<li><a href="javascript:;">지점별 실적</a></li>
+					</ul>
+				</div>
+				<!--//tab-->
+				<!--tabwrp-->
+				<div class="tab-wrp">
+					<div class="call-date">
+						<span>2022.01.03 ~ 2022.04.22 기준</span>
+					</div>
+					<!--tab-content [대면/비대면현황]-->
+					<div class="tab-content">
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>비대면 총합계<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;"  onclick="piechart1.update(randomData());" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="piechart" style="height: 500px; width: 500px;"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>비대면 실적<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" onclick="piechart2.update(randomData());" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="piechart2" style="height: 500px; width: 500px;"></div>
+										<!--// 차트호출 -->
+									</div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>대면 총합계<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" onclick="barchart1.update(JSON.parse(JSON.stringify(untactperfom.slice(1))));" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="groupedbarchart1" style="height: 500px; width: 550px;"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>대면 실적<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="groupedbarchart2" style="height: 500px; width: 550px;"></div>
+
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+					</div>
+					<!--//tab-content [대면/비대면현황]-->
+					<!--tab-content [신규/잔액기준현황]-->
+
+					<!--//tab-content [신규/잔액기준현황]-->
+					<!--tab-content [상품별실적]-->
+					<div class="tab-content">
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>상품별 실적 총 : 00건</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="stackedbarchart1" style="height: 500px; width: 1150px;"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>실적 추이<span>(단위 : 백만원)</span></h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="multilinechart2"style="height: 350px; width: 1150px;">
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+					</div>
+					<!--//tab-content [상품별실적]-->
+					<!--tab-content [기간별실적]-->
+
+					<!--//tab-content [기간별실적]-->
+					<!--tab-content [지점별실적]-->
+					<div class="tab-content">
+						<!--chart-box-wrp-->
+						<div class="chart-box-wrp">
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>총 실행건수 0,000건</h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+
+
+										<div id="groupedbarchart3"style="height: 500px; width: 550px;"></div>
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+							<div class="chart-box">
+								<div class="box-head">
+									<h2>총 실행금액 1,000,000백만원</h2>
+									<div class="downloads">
+										<a href="javascript:;" class="download_e"><span>엑셀 다운로드</span></a>
+										<a href="javascript:;" class="download_g"><span>그래프 다운로드</span></a>
+									</div>
+								</div>
+								<div class="chart-cont">
+									<div class="chart-draw">
+										<!-- 차트호출 -->
+										<div id="verticalbarchart1"style="height: 500px; width: 550px;"></div>
+
+										<!--// 차트호출 -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--//chart-box-wrp-->
+						<!--chart-box-wrp-->
+
+					</div>
+					<!--//tab-content [지점별실적]-->
+				</div>
+				<!--//tabwrp-->
+			</div>
+			<!--//content-->
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+
+
+		var salesData = [
+			{label: "강남금융센터", value: "300"},
+			{label: "삼성지점",  value: "400"},
+			{label: "수유지점",value: "200"},
+			{label: "영업본부(개인)", value: "200"},
+			{label: "영업부", value: "300"},
+			{label: "채권2팀",value: "30"},
+			{label: "투자금융팀", value: "120"},
+		];
+
+		var salesData4 = [
+			{label: "강남금융센터", value: "300"},
+			{label: "삼성지점",  value: "400"},
+			{label: "수유지점",  value: "200"},
+			{label: "영업본부(개인)",  value: "200"},
+		];
+
+
+		function randomData() {
+			return salesData.map(function (d) {
+				return {
+					label: d.label,
+					value: Math.floor(100 * Math.random()) ,
+					color: d.color,
+				};
+			});
+		}
+
+
+		// setTimeout(
+		//         function (){piechart.update(randomData())},2000
+		// );
+
+
+		var piechart1 = piechart();
+		var piechart2 = piechart();
+
+
+		piechart1.draw("piechart",salesData);
+		piechart2.draw("piechart2",randomData());
+		//groupedbarchart.draw("groupedbarchart1",salesData);
+
+
+
+
+
+
+		// setTimeout(function (){
+		//   piechart.update(randomData());
+		// },3000);
+		//   setTimeout(function (){
+		//     piechart.update(randomData());
+		//   },6000);
+
+
+
+
+		var testdata2 = [
+			{"date": "강남금융센터" , "정기예금":"34000", "정기적금":"400000", "핵심예금(개인)":"400000", "핵심예금(기업)":"30000","기타":"2000","전체":"4000000"},
+			{"date": "삼성지점" ,  "정기예금":"34000", "정기적금":"400000", "핵심예금(개인)":"400000", "핵심예금(기업)":"30000","기타":"2000","전체":"4000000"},
+			{"date": "수유지점" , "정기예금":"34000", "정기적금":"400000", "핵심예금(개인)":"400000", "핵심예금(기업)":"30000","기타":"2000","전체":"4000000"},
+			{"date": "영업점" , "정기예금":"34000", "정기적금":"400000", "핵심예금(개인)":"400000", "핵심예금(기업)":"30000","기타":"2000","전체":"4000000"},
+		];
+
+
+
+		var untactperfom = [
+			{"AREA":"강남금융센터", "CODE":"정기예금","value":"340000"},
+			{"AREA":"강남금융센터", "CODE":"정기적금","value":"34000"},
+			{"AREA":"강남금융센터", "CODE":"핵심예금(개인)","value":"230000"},
+			{"AREA":"강남금융센터", "CODE":"핵심예금(기업)","value":"11000"},
+			{"AREA":"강남금융센터", "CODE":"기타","value":"320000"},
+			{"AREA":"강남금융센터", "CODE":"전체","value":"430000"},
+			{"AREA":"수유지점", "CODE":"정기예금","value":"2000"},
+			{"AREA":"수유지점", "CODE":"정기적금","value":"30000"},
+			{"AREA":"수유지점", "CODE":"핵심예금(개인)","value":"150000"},
+			{"AREA":"수유지점", "CODE":"핵심예금(기업)","value":"20000"},
+			{"AREA":"수유지점", "CODE":"기타","value":"340000"},
+			{"AREA":"수유지점", "CODE":"전체","value":"340000"},
+
+		];
+
+		//인스턴스화한후 사용해야함 (중복그래프)
+		var barchart1 = barchart();
+		var barchart2in = barchart();
+
+
+		barchart1.draw("groupedbarchart1",JSON.parse(JSON.stringify(untactperfom)));
+		barchart2in.draw("groupedbarchart2",JSON.parse(JSON.stringify(untactperfom.slice(1))));
+
+
+
+		var testdata = [
+			{"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+			{"date": "2022-03-02", "DAU": "14000", "MAU": "500000", "ALL": "400000"},
+			{"date": "2022-03-03", "DAU": "24000", "MAU": "700000", "ALL": "400000"},
+			{"date": "2022-03-04", "DAU": "44000", "MAU": "200000", "ALL": "400000"},
+			{"date": "2022-03-05", "DAU": "25300", "MAU": "100000", "ALL": "400000"},
+			{"date": "2022-03-06", "DAU": "38900", "MAU": "300000", "ALL": "400000"}
+		];
+
+
+		var stackedbarchart1 = stackedbarchart();
+		stackedbarchart1.draw("stackedbarchart1",JSON.parse(JSON.stringify(testdata)));
+
+
+
+
+
+		var testdata= [
+			{"signdate":"2022-04-01","retentiondate":"2022-04-02","retentionvalue":"100"},
+			{"signdate":"2022-04-01","retentiondate":"2022-04-03","retentionvalue":"99"},
+			{"signdate":"2022-04-01","retentiondate":"2022-04-04","retentionvalue":"98"},
+			{"signdate":"2022-04-01","retentiondate":"2022-04-05","retentionvalue":"97"},
+			{"signdate":"2022-04-01","retentiondate":"2022-04-06","retentionvalue":"96"},
+			{"signdate":"2022-04-01","retentiondate":"2022-04-07","retentionvalue":"92"},
+			{"signdate":"2022-04-01","retentiondate":"2022-04-08","retentionvalue":"94"},
+			{"signdate":"2022-04-01","retentiondate":"2022-04-09","retentionvalue":"77"},
+			{"signdate":"2022-04-01","retentiondate":"2022-04-10","retentionvalue":"66"},
+			{"signdate":"2022-04-01","retentiondate":"2022-04-11","retentionvalue":"43"},
+
+			{"signdate":"2022-04-02","retentiondate":"2022-04-03","retentionvalue":"97"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-04","retentionvalue":"96"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-05","retentionvalue":"95"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-06","retentionvalue":"93"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-07","retentionvalue":"92"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-08","retentionvalue":"88"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-09","retentionvalue":"79"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-10","retentionvalue":"77"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-11","retentionvalue":"65"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-12","retentionvalue":"50"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-13","retentionvalue":"42"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-14","retentionvalue":"33"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-15","retentionvalue":"22"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-16","retentionvalue":"17"},
+			{"signdate":"2022-04-02","retentiondate":"2022-04-17","retentionvalue":"20"},
+
+			{"signdate":"2022-04-03","retentiondate":"2022-04-04","retentionvalue":"98"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-05","retentionvalue":"97"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-06","retentionvalue":"96"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-07","retentionvalue":"94"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-08","retentionvalue":"93"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-09","retentionvalue":"88"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-10","retentionvalue":"79"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-11","retentionvalue":"76"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-12","retentionvalue":"72"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-13","retentionvalue":"70"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-14","retentionvalue":"65"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-15","retentionvalue":"60"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-16","retentionvalue":"55"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-17","retentionvalue":"52"},
+			{"signdate":"2022-04-03","retentiondate":"2022-04-18","retentionvalue":"50"},
+
+			{"signdate":"2022-04-04","retentiondate":"2022-04-05","retentionvalue":"90"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-06","retentionvalue":"88"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-07","retentionvalue":"86"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-08","retentionvalue":"82"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-09","retentionvalue":"78"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-10","retentionvalue":"66"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-11","retentionvalue":"55"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-12","retentionvalue":"50"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-13","retentionvalue":"35"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-14","retentionvalue":"29"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-15","retentionvalue":"21"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-16","retentionvalue":"19"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-17","retentionvalue":"17"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-18","retentionvalue":"8"},
+			{"signdate":"2022-04-04","retentiondate":"2022-04-19","retentionvalue":"1"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-06","retentionvalue":"92"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-07","retentionvalue":"90"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-08","retentionvalue":"88"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-09","retentionvalue":"87"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-10","retentionvalue":"86"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-11","retentionvalue":"80"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-12","retentionvalue":"77"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-13","retentionvalue":"65"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-14","retentionvalue":"35"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-15","retentionvalue":"32"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-16","retentionvalue":"30"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-17","retentionvalue":"24"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-18","retentionvalue":"21"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-19","retentionvalue":"11"},
+			{"signdate":"2022-04-05","retentiondate":"2022-04-20","retentionvalue":"10"}
+
+		];
+
+		multilinechart2.draw("multilinechart2",testdata);
+
+
+
+		var untactperfom2 = [
+			{"AREA":"강남금융센터", "CODE":"정기예금","value":"340000"},
+			{"AREA":"강남금융센터", "CODE":"정기적금","value":"34000"},
+			{"AREA":"강남금융센터", "CODE":"핵심예금(개인)","value":"230000"},
+			{"AREA":"강남금융센터", "CODE":"핵심예금(기업)","value":"11000"},
+			{"AREA":"강남금융센터", "CODE":"기타","value":"320000"},
+			{"AREA":"강남금융센터", "CODE":"전체","value":"430000"},
+			{"AREA":"수유지점", "CODE":"정기예금","value":"2000"},
+			{"AREA":"수유지점", "CODE":"정기적금","value":"30000"},
+			{"AREA":"수유지점", "CODE":"핵심예금(개인)","value":"150000"},
+			{"AREA":"수유지점", "CODE":"핵심예금(기업)","value":"20000"},
+			{"AREA":"수유지점", "CODE":"기타","value":"340000"},
+			{"AREA":"수유지점", "CODE":"전체","value":"340000"},
+
+		];
+
+		var barchart3 = barchart2();
+
+
+
+		barchart3.draw("groupedbarchart3",JSON.parse(JSON.stringify(untactperfom2)));
+
+		var testdata = [
+			{"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
+			{"date": "2022-03-02", "DAU": "14000", "MAU": "500000", "ALL": "400000"},
+			{"date": "2022-03-03", "DAU": "24000", "MAU": "700000", "ALL": "400000"},
+			{"date": "2022-03-04", "DAU": "44000", "MAU": "200000", "ALL": "400000"},
+			{"date": "2022-03-05", "DAU": "25300", "MAU": "100000", "ALL": "400000"},
+			{"date": "2022-03-06", "DAU": "38900", "MAU": "300000", "ALL": "400000"}
+		];
+
+
+		var verticalbarchartins = verticalbarchart();
+		verticalbarchartins.draw("verticalbarchart1",testdata);
+
+
+
+
+
+		multilinechart3.draw("multilinchart2",testdata);
+
+
+
+	</script>
+</body>
+</html>	

@@ -214,65 +214,6 @@ var heatmapchart = (function heatmap(){
 
 
 
-    function onMouseOutRect() {
-        return function (d) {
-            var mouseoverdata = d;
-            tooltip.style("opacity", "0");
-
-            svg6.selectAll("rect")
-                .filter(function (d) {
-                    return d.signdate === mouseoverdata.signdate
-                })
-                .style("fill", function () {
-                    return d3.hsl(d3.select(this).style("fill")).brighter(0.5).toString();
-                });
-            d3.select(this).attr("width", function () {
-                return x5.bandwidth();
-            }).attr("height", function () {
-                return y5.bandwidth();
-            });
-
-        };
-    }
-
-
-    //지역함수
-
-    function onMouseMoveRect() {
-        return function (d) {
-
-            // var subgroupName = d3.select(this.parentNode).datum().key;
-            //  var subgroupValue = d.data.signdate;
-
-
-            tooltip.style("left", (d3.event.pageX + 10) + "px");
-            tooltip.style("top", (d3.event.pageY - 10) + "px");
-            tooltip.html(d.retentionvalue.toString() + "<br>" + d.signdate);
-
-        };
-    }
-
-    function onMouseOverRect() {
-        return function (d) {
-            var mouseoverdata = d;
-            tooltip.style("opacity", "1");
-            svg6.selectAll("rect")
-                .filter(function (d) {
-                    return d.signdate === mouseoverdata.signdate
-                })
-                .style("fill", function () {
-                    return d3.hsl(d3.select(this).style("fill")).darker(0.5).toString();
-                })
-            d3.select(this).attr("width", function () {
-                return x5.bandwidth() + 5;
-            }).attr("height", function () {
-                return y5.bandwidth() + 5;
-            });
-
-
-        };
-    }
-
 
     function buildTooltip() {
 
@@ -321,7 +262,6 @@ var heatmapchart = (function heatmap(){
     //public function
     function draw(id,jsondata) {
 
-        var rowLabel;
         divid = id;
 
         initChart(jsondata);
@@ -329,22 +269,6 @@ var heatmapchart = (function heatmap(){
         signdates = data.map(function (d) {
             return d.APP_LOGIN_DT;
         });
-
-        // preioddates = data.map(function (d, i) {
-        //     //  return moment - new Date(d.retentiondate.toString()) ;
-        //
-        //     if (d.APP_LOGIN_DT.toString() === "전체") {
-        //
-        //         return data[i].PERIOD = d.RETENTION_RATE;
-        //     }
-        //
-        //     var a = moment(d.retentiondate.toString());
-        //     var b = moment(d.signdate.toString());
-        //     data[i].PERIOD = a.diff(b, "days");
-        //     return a.diff(b, "days");
-        // });
-
-
 
 
         preioddates = data.map(
@@ -405,10 +329,8 @@ var heatmapchart = (function heatmap(){
             .interpolator(d3.interpolate("white", "#ff5d5c"));
 
 
-
-
         usercounts = data.filter(function (d) {
-            return d.PERIOD === "1";
+            return d.PERIOD === "10";
         });
 
         var userXScale = d3.scaleBand()
@@ -461,8 +383,6 @@ var heatmapchart = (function heatmap(){
             .attr("font-size","0.5rem")
             .text("가입일");
 
-
-
         svg6
             .selectAll()
             .append("g")
@@ -472,9 +392,6 @@ var heatmapchart = (function heatmap(){
             })
             .enter()
             .append("rect")
-          //  .attr("transform", "translate(0," + 0 + ")")
-            // .style("stroke", "grey")
-            // .style("stroke-opacity", "0.2")
             .attr("x", function (d) {
 
                 return x5(d.PERIOD);
@@ -482,8 +399,6 @@ var heatmapchart = (function heatmap(){
             .attr("y", function (d) {
                 return y5(d.APP_LOGIN_DT);
             })
-            // .attr("rx", 10)
-            // .attr("ry", 10)
             .attr("width", function () {
                 return x5.bandwidth();
             })
@@ -506,7 +421,6 @@ var heatmapchart = (function heatmap(){
                         return d3.hsl(d3.select(this).style("fill")).darker(0.5).toString();
                     });
 
-
             })
             .on("mouseout", function (d) {
                 var mouseoverdata = d;
@@ -525,9 +439,6 @@ var heatmapchart = (function heatmap(){
 
             })
             .on("mousemove", function (d) {
-
-                // var subgroupName = d3.select(this.parentNode).datum().key;
-                //  var subgroupValue = d.data.signdate;
 
                 tooltip.style("left", (d3.event.pageX + 10) + "px");
                 tooltip.style("top", (d3.event.pageY - 10) + "px");
@@ -575,15 +486,10 @@ var heatmapchart = (function heatmap(){
             .attr("pointer-events","none");
 
 
-
-
     }
 
     //public function
-    function update2(id,jsondata) {
-
-
-        divid = id;
+    function update(jsondata) {
 
         initChart(jsondata);
 
@@ -621,6 +527,8 @@ var heatmapchart = (function heatmap(){
             .domain(preioddates.sort(d3.ascending))
             .padding(0.1);
 
+
+        d3.select("#"+divid).select("svg").remove();
 
         svg6
             .append("g")
@@ -669,7 +577,7 @@ var heatmapchart = (function heatmap(){
 
 
         usercounts = data.filter(function (d) {
-            return d.PERIOD === "1";
+            return d.PERIOD === "4";
         });
 
 
@@ -836,181 +744,154 @@ var heatmapchart = (function heatmap(){
     }
 
 
-            function update(newData){
+            // function update(newData){
+            //
+            //     svg6.selectAll("g").remove().exit();
+            //     svg6.selectAll("rect").remove().exit();
+            //
+            //    signdates = newData.map(function (d) {
+            //         return d.APP_LOGIN_DT;
+            //     });
+            //
+            //    preioddates = newData.map(function (d, i) {
+            //       return d.PERIOD;
+            //     });
+            //
+            //     // Build X scales and axis:
+            //      x5 = d3.scaleBand()
+            //         .range([0, width5 + 100])
+            //         .domain(preioddates.sort(d3.ascending))
+            //         .padding(0.1);
+            //
+            //
+            //     svg6
+            //         .append("g")
+            //         .attr("transform", "translate(0,"  + 0 + ")")
+            //         .call(d3.axisTop(x5).tickFormat(d3.timeFormat).tickSize(0))
+            //         .call(function (g) {
+            //             g.selectAll(".domain, .tick line").remove()
+            //         })
+            //         .call(function (g) {
+            //             g.selectAll("text")
+            //                 .attr("font-family", "Noto Sans KR")
+            //                 .attr("fill", "grey")
+            //         });
+            //
+            //     // svg6
+            //     //     .append("g")
+            //     //     .attr("transform", "translate(0," + 0 + ")")
+            //     //     .call(d3.axisTop(x5).tickFormat(d3.timeFormat).tickSize(0))
+            //     //     .call(function (g) {
+            //     //         g.selectAll(".domain, .tick line").remove()
+            //     //     })
+            //     //     .call(function (g) {
+            //     //         g.selectAll("text")
+            //     //             .attr("font-family", "Noto Sans KR")
+            //     //             .attr("fill", "grey")
+            //     //     });
+            //
+            //
+            //
+            //
+            //     // Build Y scales and axis:
+            //     y5 = d3.scaleBand()
+            //         .range([height5, 0])
+            //         .domain(signdates.sort(d3.ascending))
+            //         .padding(0.1);
+            //
+            //
+            //
+            //     // .padding(0.01);
+            //     svg6.append("g")
+            //         .call(d3.axisLeft(y5).tickSize(0))
+            //         .call(function (g) {
+            //             g.selectAll(".domain, .tick line")
+            //                 .remove()
+            //         })
+            //         .call(function (g) {
+            //             g.selectAll("text")
+            //                 .attr("font-family", "Noto Sans KR")
+            //                 .attr("fill", "grey")
+            //         });
+            //
+            //
+            //     svg6
+            //         .selectAll().append("g")
+            //         .data(newData, function (d) {
+            //             return d;
+            //         })
+            //         .enter()
+            //         .append("rect")
+            //         // .attr("x", "0")
+            //         // .attr("y", "0")
+            //         .attr("x", function (d) {
+            //
+            //             return x5(d.preiod_num);
+            //         })
+            //         .style("fill", function (d) {
+            //             if (d.retentionvalue > 50) {
+            //                 return myColor(d.retentionvalue);
+            //             } else {
+            //                 return myColorred(d.retentionvalue);
+            //             }
+            //         })
+            //         .on("mouseover", onMouseOverRect())
+            //         .on("mouseout", onMouseOutRect())
+            //         .on("mousemove", onMouseMoveRect())
+            //         .transition().delay(function (d,i) {return  i*15;}).ease(d3.easeSin)
+            //
+            //         .attr("y", function (d) {
+            //             return y5(d.signdate);
+            //         })
+            //         .attr("rx", 10)
+            //         .attr("ry", 10)
+            //         .attr("width", function () {
+            //             return x5.bandwidth();
+            //         })
+            //         .attr("height", function () {
+            //             return y5.bandwidth();
+            //         });
+            //
+            //
+            //     svg6
+            //         .append("g")
+            //         .attr("font-family", "Noto Sans KR")
+            //         .attr("font-weight", "Light")
+            //         .attr("font-size", "0.3rem")
+            //         .append("g")
+            //         .selectAll("text")
+            //         .data(newData)
+            //         .enter()
+            //         .append("text")
+            //         .text(function (d) {
+            //             return d.retentionvalue + "%";
+            //         })
+            //         .attr("x", function (d) {
+            //             return x5(d.preiod_num);
+            //         })
+            //         .attr("y", function (d) {
+            //             return y5(d.signdate);
+            //         })
+            //         .attr("dx", x5.bandwidth() / 2)
+            //         .attr("dy", y5.bandwidth() / 2)
+            //         .attr("dominant-baseline", "text-before-edge")
+            //         .attr("text-anchor", "middle")
+            //         .attr("alignment-baseline", "middle")
+            //         .attr("fill", function (d) {
+            //
+            //             var textcolor;
+            //             if (d.retentionvalue >= 30 && d.retentionvalue < 60) {
+            //                 textcolor = "grey";
+            //             } else {
+            //                 textcolor = "white";
+            //             }
+            //             return textcolor;
+            //         })
+            //         .attr("pointer-events","none");
+            //
+            //
+            // }
 
-                svg6.selectAll("g").remove().exit();
-                svg6.selectAll("rect").remove().exit();
-
-               signdates = newData.map(function (d) {
-                    return d.signdate;
-                });
-
-               preioddates = newData.map(function (d, i) {
-                    //  return moment - new Date(d.retentiondate.toString()) ;
-
-                    if ( d.signdate.toString() === "전체") {
-
-                        return newData[i].preiod_num = d.retentiondate;
-                    }
-
-                    var a = moment(d.retentiondate.toString());
-                    var b = moment(d.signdate.toString());
-                   newData[i].preiod_num = a.diff(b, "days");
-                    return a.diff(b, "days");
-                });
-
-                // Build X scales and axis:
-                 x5 = d3.scaleBand()
-                    .range([0, width5 + 100])
-                    .domain(preioddates.sort(d3.ascending))
-                    .padding(0.1);
-
-
-                svg6
-                    .append("g")
-                    .attr("transform", "translate(0,"  + 0 + ")")
-                    .call(d3.axisTop(x5).tickFormat(d3.timeFormat).tickSize(0))
-                    .call(function (g) {
-                        g.selectAll(".domain, .tick line").remove()
-                    })
-                    .call(function (g) {
-                        g.selectAll("text")
-                            .attr("font-family", "Noto Sans KR")
-                            .attr("fill", "grey")
-                    });
-
-                // svg6
-                //     .append("g")
-                //     .attr("transform", "translate(0," + 0 + ")")
-                //     .call(d3.axisTop(x5).tickFormat(d3.timeFormat).tickSize(0))
-                //     .call(function (g) {
-                //         g.selectAll(".domain, .tick line").remove()
-                //     })
-                //     .call(function (g) {
-                //         g.selectAll("text")
-                //             .attr("font-family", "Noto Sans KR")
-                //             .attr("fill", "grey")
-                //     });
-
-
-
-
-                // Build Y scales and axis:
-                y5 = d3.scaleBand()
-                    .range([height5, 0])
-                    .domain(signdates.sort(d3.ascending))
-                    .padding(0.1);
-
-
-
-                // .padding(0.01);
-                svg6.append("g")
-                    .call(d3.axisLeft(y5).tickSize(0))
-                    .call(function (g) {
-                        g.selectAll(".domain, .tick line")
-                            .remove()
-                    })
-                    .call(function (g) {
-                        g.selectAll("text")
-                            .attr("font-family", "Noto Sans KR")
-                            .attr("fill", "grey")
-                    });
-
-
-                svg6
-                    .selectAll().append("g")
-                    .data(newData, function (d) {
-                        return d;
-                    })
-                    .enter()
-                    .append("rect")
-                    // .attr("x", "0")
-                    // .attr("y", "0")
-                    .attr("x", function (d) {
-
-                        return x5(d.preiod_num);
-                    })
-                    .style("fill", function (d) {
-                        if (d.retentionvalue > 50) {
-                            return myColor(d.retentionvalue);
-                        } else {
-                            return myColorred(d.retentionvalue);
-                        }
-                    })
-                    .on("mouseover", onMouseOverRect())
-                    .on("mouseout", onMouseOutRect())
-                    .on("mousemove", onMouseMoveRect())
-                    .transition().delay(function (d,i) {return  i*15;}).ease(d3.easeSin)
-
-                    .attr("y", function (d) {
-                        return y5(d.signdate);
-                    })
-                    .attr("rx", 10)
-                    .attr("ry", 10)
-                    .attr("width", function () {
-                        return x5.bandwidth();
-                    })
-                    .attr("height", function () {
-                        return y5.bandwidth();
-                    });
-
-
-                svg6
-                    .append("g")
-                    .attr("font-family", "Noto Sans KR")
-                    .attr("font-weight", "Light")
-                    .attr("font-size", "0.3rem")
-                    .append("g")
-                    .selectAll("text")
-                    .data(newData)
-                    .enter()
-                    .append("text")
-                    .text(function (d) {
-                        return d.retentionvalue + "%";
-                    })
-                    .attr("x", function (d) {
-                        return x5(d.preiod_num);
-                    })
-                    .attr("y", function (d) {
-                        return y5(d.signdate);
-                    })
-                    .attr("dx", x5.bandwidth() / 2)
-                    .attr("dy", y5.bandwidth() / 2)
-                    .attr("dominant-baseline", "text-before-edge")
-                    .attr("text-anchor", "middle")
-                    .attr("alignment-baseline", "middle")
-                    .attr("fill", function (d) {
-
-                        var textcolor;
-                        if (d.retentionvalue >= 30 && d.retentionvalue < 60) {
-                            textcolor = "grey";
-                        } else {
-                            textcolor = "white";
-                        }
-                        return textcolor;
-                    })
-                    .attr("pointer-events","none");
-
-
-            }
-
-           var cohortdata2test =  JSON.parse(JSON.stringify(cohortdata2));
-
-
-    //init inside test
-
-    // setTimeout(function(){
-    //
-    //     draw();
-    // },1000);
-    //
-    //
-    //
-    // setTimeout(function(){
-    //
-    //             update(cohortdata2test);
-    //         },3000);
-    //
 
             //public area
             return {

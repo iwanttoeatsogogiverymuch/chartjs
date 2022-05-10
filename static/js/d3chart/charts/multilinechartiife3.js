@@ -404,6 +404,57 @@ var multilinechart3 = (function extracted() {
                 return lineColors(d.signdate);
             });
 
+
+
+
+        lengendxScale = d3.scaleBand()
+            .domain(signdatekey)
+            .range([linechartwidth/4,linechartwidth/4*3]);
+
+
+        legendColorScale = d3.scaleOrdinal()
+            .domain(signdatekey)
+            .range(mcgpalette0);
+
+
+        legend = svg9.append("g")
+            .selectAll("rect")
+            .data(signdatekey)
+            .enter()
+            .append("rect")
+            .attr("transform",function (d,i){
+                console.log(lengendxScale(d))
+                return "translate("+lengendxScale(d) + "," + (linechartheight+margin.bottom - 23) + ")";
+            })
+            // .attr("transform","translate(300,"+(linechartheight+margin.bottom - 23) + ")")
+            .attr("width","22")
+            .attr("height","22")
+            .attr("fill",function (d){
+                return legendColorScale(d)
+            })
+
+        legend = svg9.append("g")
+            .selectAll("text")
+            .data(signdatekey)
+            .enter()
+            .append("text")
+            .attr("transform",function (d,i){
+                console.log(lengendxScale(d))
+                return "translate("+lengendxScale(d) + "," + (linechartheight+margin.bottom - 23) + ")";
+            })
+            // .attr("transform","translate(300,"+(linechartheight+margin.bottom - 23) + ")")
+            .attr("width","22")
+            .attr("height","22")
+            .attr("x","25")
+            .attr("y","12")
+            .attr("font-size","1rem")
+            .attr("dy","0.32em")
+            .attr("fill","grey").text(function (d){
+                return d;
+            })
+
+
+
         //범례
 
         // lengendxScale = d3.scaleOrdinal()

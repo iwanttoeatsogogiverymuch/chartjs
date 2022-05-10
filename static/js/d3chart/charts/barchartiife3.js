@@ -1,8 +1,14 @@
 var barchart2 = (function barchart(){
 
+
+    //수신 우리WON 저축은행 앱
+    // mau dau 차트
     function barchartiife(){
 
 
+
+        var divwidth;
+        var divheight;
 
         var config;
 
@@ -131,9 +137,9 @@ var barchart2 = (function barchart(){
 
             svg2 = d3.select("#" + id)
                 .append("svg")
-                .attr("width", 400)
-                .attr("height", 400)
-                .attr("viewBox", "0 0 400 400")
+                .attr("width", 1200)
+                .attr("height", 250)
+                .attr("viewBox", "0 0 1200 250")
                 .attr("preserveAspectRatio", "none");
 
             margin2 = {
@@ -145,9 +151,6 @@ var barchart2 = (function barchart(){
             width2 = +svg2.attr("width") - margin2.left - margin2.right;
             height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
 
-
-
-
             //잔액기준실적 컬러매핑핑
             mcgpalette0 = [
                 "#8664cb",
@@ -157,7 +160,6 @@ var barchart2 = (function barchart(){
                 "#36C35D",
                 "#6079D6",
             ];
-
 
             //컬러 매핑
             z2 = d3
@@ -183,8 +185,6 @@ var barchart2 = (function barchart(){
             y = d3.scaleLinear()
                 .rangeRound([height2, 0]);
 
-
-
             //json 키값(가장처음칼럼제외)
             keys = Object.keys(parseddata[0]);
 
@@ -202,23 +202,19 @@ var barchart2 = (function barchart(){
 
             x1.domain(
                 parseddata.map(function (d) {
-                    //날짜
+
                     var codekey = Object.keys(parseddata[0])[1];
-                    //   console.log(datekey);
+
                     return d[codekey];
-                }))
+                }).reverse())
                 .rangeRound([0, x0.bandwidth()]);
 
             y.domain([
                 0,
                 d3.max(parseddata, function (d) {
-                    return d.value;
-                }),
-            ]).nice();
-
-
-
-
+                    return parseInt(d.value);
+                })
+            ]);
 
 
             //차트 그리드라인
@@ -238,8 +234,6 @@ var barchart2 = (function barchart(){
             g2 = svg2
                 .append("g")
                 .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
-
-
 
 
             g2.append("g")
@@ -291,7 +285,7 @@ var barchart2 = (function barchart(){
                 })
                 .attr("rx", 2)
                 .attr("fill", function (d) {
-                    return z2(d.CODE);
+                    return daucolor(d.CODE);
                 });
 
 
@@ -322,18 +316,21 @@ var barchart2 = (function barchart(){
                     return y(parseInt(d.value)) - 18;
                 })
                 .text(function (d) {
+                        var text;
+                        if(d.CODE === "ALL"){
+                            text = "회원수";
+                        }
+                        else if(d.CODE === "DAU"){
+                            text = "DAU";
+                        }
+                        else{
+                            text = "MAU";
+                        }
+                        return text;
 
-                    if (config && config.value === true) {
-                        return d.CODE;
-                    } else if (config && config.label === true) {
-                        return d.CODE;
-                    } else {
-                        return d.value;
-
-                    }
+                    });
 
 
-                });
 
 
             g2.append("g")
@@ -352,7 +349,7 @@ var barchart2 = (function barchart(){
 
             g2.append("g")
                 .attr("class", "axis")
-                .call(d3.axisLeft(y).ticks(null, "s").tickSizeOuter(0))
+                .call(d3.axisLeft(y).tickSizeOuter(0))
                 .call(function (g) {
                     g.selectAll(".tick line").remove()
                 })
@@ -360,7 +357,7 @@ var barchart2 = (function barchart(){
                     g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke", "#999999")
                 })
                 .call(function (g) {
-                    g.selectAll("text");
+                    g.selectAll("text").remove();
                 })
                 .append("text")
                 .attr("x", width2 / 2)
@@ -392,7 +389,7 @@ var barchart2 = (function barchart(){
                 .attr("x", width2 - 19)
                 .attr("width", 10)
                 .attr("height", 10)
-                .attr("fill", z2);
+                .attr("fill", daucolor);
 
             legend2
                 .append("text")
@@ -411,17 +408,17 @@ var barchart2 = (function barchart(){
                 .style("font-size", "0.5rem")
                 .attr("transform", "translate(20" + " ," + 30 + ")")
                 .style("text-anchor", "middle")
-                .text("백만원");
+                .text("회원수");
 
 
             // x축 레이블
             svg2.append("text")    .style("font-size","0.5rem").style("font-family","Noto Sans KR")
-                .attr("transform", "translate("+(width2) + ","+(height2+margin2.bottom+10)+")")
+                .attr("transform", "translate("+(width2+10) + ","+(height2+margin2.bottom+10)+")")
                 // .attr("y", 0 - margin2.left)
                 // .attr("x", 0 - (height2 / 2))
                 .attr("dy", "0.35em")
                 .style("text-anchor", "middle")
-                .text("시점");
+                .text("일자");
 
 
 
@@ -442,9 +439,9 @@ var barchart2 = (function barchart(){
             svg2.remove().exit();
             svg2 = d3.select("#"+divid)
                 .append("svg")
-                .attr("width", 400)
-                .attr("height", 400)
-                .attr("viewBox", "0 0 400 400")
+                .attr("width", 1200)
+                .attr("height", 250)
+                .attr("viewBox", "0 0 1200 250")
                 .attr("preserveAspectRatio", "none");
 
             margin2 = {
@@ -469,18 +466,9 @@ var barchart2 = (function barchart(){
                 .rangeRound([height2, 0]);
 
 
-            //잔액기준실적 컬러매핑핑
-            mcgpalette0 = [
-                "#8664cb",
-                "#0075CC",
-                "#48A0CE",
-                "#44C4BE",
-                "#36C35D",
-                "#6079D6",
-            ];
 
 
-            //컬러 매핑
+            //대면비대면
             z2 = d3
                 .scaleOrdinal()
                 .range(mcgpalette0);
@@ -519,15 +507,28 @@ var barchart2 = (function barchart(){
                     var codekey = Object.keys(parseddata[0])[1];
                     //   console.log(datekey);
                     return d[codekey];
-                }))
+                }).reverse())
                 .rangeRound([0, x0.bandwidth()]);
 
             y.domain([
                 0,
                 d3.max(parseddata, function (d){
-                    return d.value;
-                }),
+                    return parseInt(d.value);
+                })
             ]).nice();
+
+            //차트 그리드라인
+            gridlines = d3.axisLeft()
+                .tickFormat("")
+                //
+                .tickSize(-width2+margin2.right).ticks(7)
+                .scale(y);
+
+            svg2.append("g")
+                .attr("class", "grid")
+                .attr("transform", "translate("+margin2.left+ " ," + margin2.top + ")")
+                .call(gridlines);
+
 
             g2.append("g")
                 .selectAll("g")
@@ -578,7 +579,7 @@ var barchart2 = (function barchart(){
                 })
                 .attr("rx", 2)
                 .attr("fill", function (d) {
-                    return z2(d.CODE);
+                    return daucolor(d.CODE);
                 });
 
 
@@ -609,50 +610,59 @@ var barchart2 = (function barchart(){
                     return y(parseInt(d.value)) - 22;
                 })
                 .text(function (d) {
-
-                    if(config && config.value === true){
-                        return d.value;
+                    var text;
+                    if(d.CODE === "ALL"){
+                        text = "회원수";
                     }
-
-                    else if (config && config.label === true){
-                        return d.CODE;
+                    else if(d.CODE === "DAU"){
+                        text = "DAU";
                     }
                     else{
-                        return d.CODE;
-
+                        text = "MAU";
                     }
-
+                        return text;
 
 
                 });
+
 
 
             g2.append("g")
                 .attr("class", "axis")
                 .attr("transform", "translate(0," + height2 + ")")
-                .call(d3.axisBottom(x0))
+                .call(d3.axisBottom(x0).tickSizeOuter(0))
                 .call(function (g) {
                     g.selectAll(".tick line").remove()
                 })
                 .call(function (g) {
-                    g.selectAll(".domain").attr("stroke-width", "5").attr("stroke-opacity", "0.5")
+                    g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke", "#999999")
                 })
                 .call(function (g) {
-                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey")
+                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838")
                 });
 
             g2.append("g")
                 .attr("class", "axis")
-                .call(d3.axisLeft(y).ticks(null, "s"))
+                .call(d3.axisLeft(y).ticks(null, "s").tickSizeOuter(0))
+                .call(function (g) {
+                    g.selectAll(".tick line").remove()
+                })
+                .call(function (g) {
+                    g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke", "#999999")
+                })
+                .call(function (g) {
+                    g.selectAll("text").remove();
+                })
                 .append("text")
                 .attr("x", width2 / 2)
                 .attr("y", y(y.ticks().pop()) + 0.5)
                 .attr("dy", "0.32em")
-                .attr("fill", "#000")
+                .attr("fill", "#101010")
                 .attr("font-weight", "Regular")
                 .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.5rem")
                 .attr("text-anchor", "middle");
+
 
 
             legend2 = g2
@@ -674,15 +684,36 @@ var barchart2 = (function barchart(){
                 .attr("x", width2 - 19)
                 .attr("width", 13)
                 .attr("height", 13)
-                .attr("fill", z2);
+                .attr("fill", daucolor);
 
             legend2
                 .append("text")
                 .attr("x", width2 - 24)
-                .attr("y", 13)
+                .attr("y", 10)
                 .text(function (d) {
                     return d;
                 });
+
+
+
+            // y축 레이블
+            svg2.append("g").append("text")
+                .style("font-size", "0.5rem")
+                .attr("transform", "translate(20" + " ," + 30 + ")")
+                .style("text-anchor", "middle")
+                .text("회원수");
+
+
+            // x축 레이블
+            svg2.append("text")    .style("font-size","0.5rem").style("font-family","Noto Sans KR")
+                .attr("transform", "translate("+(width2+10) + ","+(height2+margin2.bottom+10)+")")
+                // .attr("y", 0 - margin2.left)
+                // .attr("x", 0 - (height2 / 2))
+                .attr("dy", "0.35em")
+                .style("text-anchor", "middle")
+                .text("일자");
+
+
         }
 
         function readJson(){

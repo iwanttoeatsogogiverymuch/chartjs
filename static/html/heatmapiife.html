@@ -197,17 +197,17 @@
 
 
     heatmapchart.draw("my_dataviz2",cohortdata2);
-    //
-    // setTimeout(function () {
-    //     heatmapchart.update(cohortdata2);
-    // },3000);
-    // setTimeout(function () {
-    //     heatmapchart.update(cohortdata);
-    // },6000);
-    // setTimeout(function () {
-    //     heatmapchart.update(cohortdata2);
-    // },8000);
-    //
+
+    setTimeout(function () {
+        heatmapchart.update(cohortdata2.slice(2));
+    },3000);
+    setTimeout(function () {
+        heatmapchart.update(cohortdata2.slice(4));
+    },6000);
+    setTimeout(function () {
+        heatmapchart.update(cohortdata2);
+    },8000);
+
 
 
 
