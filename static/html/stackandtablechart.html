@@ -39,6 +39,7 @@
     ];
 
     var testdata2 = [
+
         {"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
         {"date": "2022-03-02", "DAU": "34000", "MAU": "200000", "ALL": "400000"},
         {"date": "2022-03-03", "DAU": "34000", "MAU": "300000", "ALL": "400000"},
@@ -65,47 +66,32 @@
         {"date": "2022-03-25", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
         {"date": "2022-03-26", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
         {"date": "2022-03-27", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-
     ];
 
-    var cohortdata = [
-
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-02", "retentionvalue": "99"},
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-03", "retentionvalue": "99"},
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-04", "retentionvalue": "98"},
-        {"signdate": "2022-04-01", "retentiondate": "2022-04-05", "retentionvalue": "97"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-03", "retentionvalue": "97"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-04", "retentionvalue": "96"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-05", "retentionvalue": "95"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-06", "retentionvalue": "93"},
-        {"signdate": "2022-04-02", "retentiondate": "2022-04-16", "retentionvalue": "30"},
-        {"signdate": "2022-04-03", "retentiondate": "2022-04-04", "retentionvalue": "98"},
-        {"signdate": "2022-04-03", "retentiondate": "2022-04-05", "retentionvalue": "97"},
-        {"signdate": "2022-04-03", "retentiondate": "2022-04-06", "retentionvalue": "96"},
-        {"signdate": "2022-04-04", "retentiondate": "2022-04-05", "retentionvalue": "90"},
-        {"signdate": "2022-04-04", "retentiondate": "2022-04-06", "retentionvalue": "88"},
-        {"signdate": "2022-04-04", "retentiondate": "2022-04-07", "retentionvalue": "86"},
-        {"signdate": "2022-04-04", "retentiondate": "2022-04-08", "retentionvalue": "82"}
-
-
+    var cohortdata =
+        [
+        {"xIndex": "2022-04-01i", "yIndex": "카카오톡이체", "retentionvalue": "99"},
+        {"xIndex": "2022-04-01", "yIndex": "자동이체", "retentionvalue": "99"},
+        {"xIndex": "2022-04-01", "yIndex": "지연이체", "retentionvalue": "98"},
+        {"xIndex": "2022-04-01", "yIndex": "즉시이체", "retentionvalue": "97"},
+        {"xIndex": "2022-04-02", "yIndex": "카카오톡이체", "retentionvalue": "97"},
+        {"xIndex": "2022-04-02", "yIndex": "자동이체", "retentionvalue": "96"},
+        {"xIndex": "2022-04-02", "yIndex": "지연이체", "retentionvalue": "95"},
+        {"xIndex": "2022-04-02", "yIndex": "즉시이체", "retentionvalue": "93"},
+        {"xIndex": "2022-04-02", "yIndex": "ㅇㅇ", "retentionvalue": "30"},
+        {"xIndex": "2022-04-03", "yIndex": "카카오톡이체", "retentionvalue": "98"},
+        {"xIndex": "2022-04-03", "yIndex": "자동이체", "retentionvalue": "97"},
+        {"xIndex": "2022-04-03", "yIndex": "지연이체", "retentionvalue": "96"},
+        {"xIndex": "2022-04-04", "yIndex": "즉시이체", "retentionvalue": "90"},
+        {"xIndex": "2022-04-04", "yIndex": "카카오톡이체", "retentionvalue": "88"},
+        {"xIndex": "2022-04-04", "yIndex": "자동이체", "retentionvalue": "86"},
+        {"xIndex": "2022-04-04", "yIndex": "지연이체", "retentionvalue": "82"}
     ];
-
-
-
 
     var stack = stackedbarchart();
-
     stack.draw("stackedbar",JSON.parse(JSON.stringify(testdata)));
-
-
-
-    tablechart.draw("tablechart",cohortdata);
-    //
-    // setTimeout(function (){
-    //
-    //     stackedbarchart.draw(JSON.parse(JSON.stringify(testdata.slice(3))));
-    //
-    // },2000);
+    var table1 = tablechart();
+    table1.draw("tablechart",cohortdata);
 
 </script>
 </body>

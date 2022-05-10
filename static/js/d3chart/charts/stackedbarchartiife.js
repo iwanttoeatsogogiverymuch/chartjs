@@ -189,7 +189,6 @@ var stackedbarchart = (function stack() {
             ]).nice();
             z.domain(keys);
 
-
             gridlines = d3
                 .axisLeft()
                 .tickFormat("")
@@ -203,7 +202,6 @@ var stackedbarchart = (function stack() {
                 .attr("transform","translate(" + margin.left + "," + (margin.bottom-9) +")")
                 .call(gridlines);
 
-
             gridlines2 = d3
                 .axisTop()
                 .tickFormat("")
@@ -216,15 +214,9 @@ var stackedbarchart = (function stack() {
                 .attr("transform","translate(" + margin.left + "," + (margin.bottom-9) +")")
                 .call(gridlines2);
 
-
-
-
             g = svg
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-
 
 
             g.append("g")
@@ -250,12 +242,10 @@ var stackedbarchart = (function stack() {
                 d3.select(this).style("fill", function () {
                     return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
 
-
                 }).attr("opacity", "1");
 
                 tooltip.style("opacity", "100");
             })
-
 
                 .on("mouseout", function () {
                     g.selectAll("rect").attr("opacity", "1");
@@ -266,7 +256,6 @@ var stackedbarchart = (function stack() {
                     tooltip.style("opacity", "0");
                 })
 
-
                 .on("mousemove", function (d, i, j) {
 
                     var subgroupName = d3.select(this.parentNode).datum().key;
@@ -275,7 +264,6 @@ var stackedbarchart = (function stack() {
                     tooltip.style("left", (d3.event.pageX + 10) + "px");
                     tooltip.style("top", (d3.event.pageY - 10) + "px");
                     tooltip.html(subgroupName.toString() + "<br>" + setComma(subgroupValue));
-
 
                 })
                 .transition()
@@ -304,7 +292,6 @@ var stackedbarchart = (function stack() {
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey")
                 });
 
-
             g.append("g")
                 .attr("class", "axis")
                 .call(d3.axisLeft(y).ticks(5).tickSizeOuter(0))
@@ -326,11 +313,6 @@ var stackedbarchart = (function stack() {
                 .attr("text-anchor", "start")
                 .text("");
 
-
-
-
-
-
             g.append("g")
                 .selectAll("g")
                 .data(d3.stack().keys(keys)(data))
@@ -342,10 +324,6 @@ var stackedbarchart = (function stack() {
                 })
                 .enter()
                 .append("text")
-                // .attr("x", function (d,i) {
-                //   return x(d.data.State) + x.bandwidth()/2;
-                // })
-                // .attr("y", function(d) { return y((d[1] +d[0])/2) ; })
                 .attr("y", function (d) {
                     return y(d[1]);
                 })
@@ -362,12 +340,10 @@ var stackedbarchart = (function stack() {
                 .attr("font-size", "1rem")
                 .attr("fill", function (d, i) {
                     return "white";
-                    // return d3.hsl(z(d3.select(this.parentNode).key)).darker(3).toString();
                 })
                 .text(function (d) {
                     return setComma(d[1] - d[0]);
                 });
-
 
             legend = g
                 .append("g")
@@ -399,8 +375,6 @@ var stackedbarchart = (function stack() {
                 .text(function (d) {
                     return d;
                 });
-
-
 
         }
 
