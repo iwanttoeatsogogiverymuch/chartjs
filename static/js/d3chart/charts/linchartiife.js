@@ -13,8 +13,8 @@ var linechart = (function () {
     var margin, linechartwidth, linechartheight;
     var data2;
     var data;
-    var svgwidth = 800;
-    var svgheight = 400;
+    var svgwidth = 1200;
+    var svgheight = 200;
 
     var cohortdata2 = [
 
@@ -60,8 +60,8 @@ var linechart = (function () {
 
         // 차트 마진설정
         margin = { top: 10, right: 30, bottom: 30, left: 70 };
-        linechartwidth = 600 - margin.left - margin.right;
-        linechartheight = 200 - margin.top - margin.bottom;
+        linechartwidth = svgwidth - margin.left - margin.right;
+        linechartheight = svgheight - margin.top - margin.bottom;
 
         //툴팁 (차트당 1개씩 중복되고있음)
         tooltip = d3.select("body").append("div")
@@ -75,7 +75,7 @@ var linechart = (function () {
             .append("svg")
             .attr("width", linechartwidth + margin.left + margin.right)
             .attr("height", linechartheight + margin.top + margin.bottom)
-            .attr("viewBox", "0 0 600 200")
+            .attr("viewBox", "0 0 "+svgwidth .toString()+" "+ svgheight.toString())
             .attr("preserveAspectRatio", "none")
             .append("g")
             .attr("transform",
@@ -240,8 +240,8 @@ var linechart = (function () {
 
         // 차트 마진설정
         margin = { top: 10, right: 30, bottom: 30, left: 70 };
-        linechartwidth = 600 - margin.left - margin.right;
-        linechartheight = 200 - margin.top - margin.bottom;
+        linechartwidth = svgwidth - margin.left - margin.right;
+        linechartheight = svgheight - margin.top - margin.bottom;
 
         //툴팁 (차트당 1개씩 중복되고있음)
         tooltip = d3.select("body").append("div")
@@ -255,7 +255,7 @@ var linechart = (function () {
             .append("svg")
             .attr("width", linechartwidth + margin.left + margin.right)
             .attr("height", linechartheight + margin.top + margin.bottom)
-            .attr("viewBox", "0 0 600 200")
+            .attr("viewBox", "0 0 "+svgwidth .toString()+" "+ svgheight.toString())
             .attr("preserveAspectRatio", "none")
             .append("g")
             .attr("transform",

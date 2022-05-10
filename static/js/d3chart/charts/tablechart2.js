@@ -400,8 +400,6 @@ var tablechart2 = (function heatmap(){
             .attr("y", function (d) {
                 return y5(d.APP_LOGIN_DT);
             })
-            .attr("rx", 10)
-            .attr("ry", 10)
             .attr("width", function () {
                 return x5.bandwidth();
             })

@@ -1,7 +1,15 @@
-!(function () {
+!(function ddd() {
 
-  var Donut3D = {};
+  var  Donut3D = {};
+  var svg;
+  var height3 = 400;
+  var width3 = 500;
+  var piedcolor;
+  var colorscale;
+  var divid;
+
   var duration = 1300;
+  var legend;
   var config;
   var delayfunc = function (d, i) {
     return i * 100;
@@ -211,7 +219,7 @@
       })(data);
 
 
-    d3.select("#" + id)
+    d3.select("#" + id).selectAll("g")
       .selectAll(".innerSlice")
       .data(_data)
       .transition()
@@ -220,7 +228,7 @@
       .attrTween("d", arcTweenInner);
 
 
-    d3.select("#" + id)
+    d3.select("#" + id).select("g")
       .selectAll(".topSlice")
       .data(_data)
       .transition()
@@ -229,7 +237,7 @@
       .attrTween("d", arcTweenTop);
 
 
-    d3.select("#" + id)
+    d3.select("#" + id).select("g")
       .selectAll(".outerSlice")
       .data(_data)
       .transition()
@@ -248,20 +256,20 @@
       .text(getPercent);
 
 
-    d3.select("#fullpie")
-      .selectAll(".donutlegend")
-      .data(_data)
-      .transition()
-      .duration(duration)
-      .text(function (d) {
-        return (
-          d.data.label +
-          "  [" +
-          setComma(Math.round(d.data.value)) +
-          "원" +
-          "  ]"
-        );
-      });
+    // d3.select("#fullpie")
+    //   .selectAll(".donutlegend")
+    //   .data(_data)
+    //   .transition()
+    //   .duration(duration)
+    //   .text(function (d) {
+    //     return (
+    //       d.data.label +
+    //       "  [" +
+    //       setComma(Math.round(d.data.value)) +
+    //       "원" +
+    //       "  ]"
+    //     );
+    //   });
 
 
     d3.select("#"+id ).append("g")
@@ -361,6 +369,54 @@
     }
     //  polyline.remove().exit();
 
+    d3.select("#"+id).selectAll(".legend").remove();
+
+    legend = d3
+        .select("#"+id).select("svg")
+        .append("g")
+        .attr("transform","translate(50,20)")
+        .attr("class","legend")
+        .attr("font-family", "Noto Sans KR")
+        .attr("font-size", "0.8rem")
+        .attr("text-anchor", "start")
+        .selectAll("g")
+        .data(_data)
+        .enter()
+        .append("g")
+        .attr("transform", function (d, i) {
+
+          var initY = 137;
+          var legendmargin = 15 * i;
+          var legendtrans = initY + legendmargin;
+
+          return "translate(-150," + legendtrans + ")";
+        });
+
+    legend
+        .append("rect")
+        .attr("x", width3 - 45)
+        .attr("y",3)
+        .attr("width", 12)
+        .attr("height", 12)
+        .attr("fill",function (d) {
+
+          return colorscale(d.data.label)}
+        );
+
+    legend
+        .append("text")
+        .attr("font-family", "Noto Sans KR")
+        .attr("font-weight", "Light")
+        .attr("x", width3 - 28)
+        .attr("y", 9.5)
+        .attr("dy", "0.35em")
+        .text(function (d) {
+          return d.data.label + " [" + d.data.value + "]";
+        });
+
+
+
+
 
   };
 
@@ -376,10 +432,12 @@
   ) {
 
 
-
-      var height = 400;
-      var width = 800;
-      
+    svg = d3
+        .select("#"+id)
+        .append("svg")
+        .attr("width", width3)
+        .attr("height", height3)
+        .attr("viewBox", "0 0 " + width3.toString() + " "  + height3.toString() );
 
 
     // 강남금융센터 #be653e
@@ -391,9 +449,10 @@
     // 투자금융팀 #6cc4a0
 
 
-    var colorscale = d3.scaleOrdinal()
+    colorscale = d3.scaleOrdinal()
         .domain(["강남금융센터","삼성지점","수유지점","영업본부(개인)","영업부","채권2팀","투자금융팀"])
-        .range(["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
+        .range(
+            ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
 
 
 
@@ -404,8 +463,7 @@
         return d.value;
       })(data);
 
-    var slices = d3
-      .select("#" + id)
+    var slices = svg
       .append("g")
       .attr("transform", "translate(" + x + "," + y + ")")
       .attr("class", "slices");
@@ -478,54 +536,50 @@
         this._current = d;
       });
 
+    legend = svg
+        .append("g")
+        .attr("class","legend")
+        .attr("transform","translate(50,20)")
+        .attr("font-family", "Noto Sans KR")
+        .attr("font-size", "0.8rem")
+        .attr("text-anchor", "start")
+        .selectAll("g")
+        .data(_data)
+        .enter()
+        .append("g")
+        .attr("transform", function (d, i) {
 
+          var initY = 137;
+          var legendmargin = 15 * i;
+          var legendtrans = initY + legendmargin;
 
-      
-    var pielegend = d3
-      .select("#fullpie").select("svg")
-      .append("g")
-      .attr("width", width)
-      .attr("height",height )
-      // .attr("viewBox", "0 0 800 400")
-      // .attr("preserveAspectRatio", "none")
-      .append("g")
-      .attr("x", "100")
-      .attr("transform", "translate(400,50)")
-      .attr("y", "30")
-      .attr("width", "200")
-      .attr("height", "200")
-      .attr("font-family", "Noto Sans KR")
-      .attr("font-size", "1em")
-      .attr("text-anchor", "start")
-      .selectAll("g")
-      .data(_data)
-      .enter()
-      .append("g")
-      .attr("transform", function (d, i) {
-        return "translate(0," + i * 40 + ")";
-      });
+          return "translate(-150," + legendtrans + ")";
+        });
 
-    pielegend
-      .append("rect")
-      .attr("x", 19)
-      .attr("y", 9.5)
-      .attr("width", 25)
-      .attr("height", 25)
-      .attr("fill", function (d) {
-        return colorscale(d.data.label);
-      });
+    legend
+        .append("rect")
+        .attr("x", width3 - 45)
+        .attr("y",3)
+        .attr("width", 12)
+        .attr("height", 12)
+        .attr("fill",function (d) {
 
-    pielegend
-      .append("text")
-      .attr("class","donutlegend")
-      .attr("x", 55)
-      .attr("y", 27)
-
-      .text(function (d) {
-        return (
-          d.data.label + "  [" + setComma(Math.round(d.data.value)) + "원" + "]"
+          return colorscale(d.data.label);
+        }
         );
-      });
+
+    legend
+        .append("text")
+        .attr("font-family", "Noto Sans KR")
+        .attr("font-weight", "Light")
+        .attr("x", width3 - 28)
+        .attr("y", 9.5)
+        .attr("dy", "0.35em")
+        .text(function (d) {
+          return d.data.label + " [" + d.data.value + "]";
+        });
+
+
 
     slices.append("g").attr("class", "labels");
     slices.append("g").attr("class", "lines");

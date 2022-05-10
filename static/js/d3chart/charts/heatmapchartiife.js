@@ -2,15 +2,14 @@
 
 var heatmapchart = (function heatmap(){
 
-    //지역변수
 
     //차트를 그릴 div id
     var divid;
 
     //svg 가로값
-    var width = 600;
+    var width =1200;
     //svg 세로값
-    var height = 300;
+    var height = 250;
     //컬러스케일값 빨간색 부분 지정
     var myColorred;
 
@@ -244,7 +243,7 @@ var heatmapchart = (function heatmap(){
             .append("svg")
             .attr("width", width5 + margin5.left + margin5.right)
             .attr("height", height5 + margin5.top + margin5.bottom)
-            .attr("viewBox", "0 0 700 200")
+            .attr("viewBox", "0 0 1200 250")
             .attr("prserveAspectRatio", "none")
             .append("g")
             .attr("transform", "translate(" + margin5.left + "," + margin5.top + ")");
@@ -280,7 +279,7 @@ var heatmapchart = (function heatmap(){
         );
         // Build X scales and axis:
         x5 = d3.scaleBand()
-            .range([50, width5 + 100])
+            .range([50, width5])
             .domain(preioddates.sort(d3.ascending))
             .padding(0.1);
 
@@ -330,7 +329,7 @@ var heatmapchart = (function heatmap(){
 
 
         usercounts = data.filter(function (d) {
-            return d.PERIOD === "10";
+            return d.PERIOD === "4";
         });
 
         var userXScale = d3.scaleBand()
@@ -523,7 +522,7 @@ var heatmapchart = (function heatmap(){
         );
         // Build X scales and axis:
         x5 = d3.scaleBand()
-            .range([50, width5 + 100])
+            .range([50, width5])
             .domain(preioddates.sort(d3.ascending))
             .padding(0.1);
 

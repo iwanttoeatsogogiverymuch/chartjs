@@ -1,5 +1,6 @@
-var stackedbarchart = (function stack() {
+var stackedbarchart2 = (function stack() {
 
+    var divid;
     var legend;
 
     var keys;
@@ -91,13 +92,16 @@ var stackedbarchart = (function stack() {
         return str;
 
     };
-function draw(data) {
+function draw(id,data) {
 
+    divid = id;
     if (svg !== undefined){
 
         d3.selectAll("#stackedbar").select("svg").remove();
 
     }
+
+    data = JSON.parse(JSON.stringify(data));
 
     var gridlines;
     tooltip = d3.select("body").append("div")
@@ -113,7 +117,7 @@ function draw(data) {
     mcgpalette0 = ["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D"];
 
     svg = d3
-        .select("#stackedbar")
+        .select("#"+divid)
         .append("svg")
         .attr("width", "700")
         .attr("height", "400")

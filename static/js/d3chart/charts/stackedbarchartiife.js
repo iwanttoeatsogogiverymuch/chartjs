@@ -1,7 +1,7 @@
 var stackedbarchart = (function stack() {
 
-    function stackedbarinner(){
 
+    function stackedbarinner(){
 
         var divid;
 

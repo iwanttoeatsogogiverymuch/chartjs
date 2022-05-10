@@ -9,8 +9,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="/static/js/lib/moment/moment.js"></script>
     <script src ="/static/js/lib/d3/d3.v4.js"></script>
-    <script src="/js/d3chart/charts/stackedbarchartiife.js"></script>
-    <script src="/js/d3chart/charts/tablechart.js"></script>
+    <script src="/static/js/d3chart/charts/stackedbarchartiife.js"></script>
+    <script src="/static/js/d3chart/charts/tablechart.js"></script>
 
     <link rel="stylesheet" href="/static/css/d3.css" />
     <title>verticalbarchart</title>
@@ -93,7 +93,9 @@
 
 
 
-    stackedbarchart.draw(JSON.parse(JSON.stringify(testdata)));
+    var stack = stackedbarchart();
+
+    stack.draw("stackedbar",JSON.parse(JSON.stringify(testdata)));
 
 
 

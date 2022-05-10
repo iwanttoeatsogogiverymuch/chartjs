@@ -1,5 +1,5 @@
 
-
+//우리WON저축은행앱 전용 스택바차트
 var tablechart = (function heatmap(){
 
     var config;
