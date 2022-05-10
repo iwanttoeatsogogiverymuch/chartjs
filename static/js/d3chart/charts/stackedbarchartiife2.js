@@ -1,6 +1,7 @@
 var stackedbarchart2 = (function stack() {
 
     var divid;
+
     var legend;
 
     var keys;

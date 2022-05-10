@@ -5,7 +5,7 @@ var tablechart2 = (function heatmap(){
     //차트를 그릴 div id
     var divid;
     //svg 가로값
-    var width = 800;
+    var width = 1200;
     //svg 세로값
     var height = 50;
     //컬러스케일값 빨간색 부분 지정
@@ -127,7 +127,7 @@ var tablechart2 = (function heatmap(){
             .append("svg")
             .attr("width", width)
             .attr("height", height)
-            .attr("viewBox", "0 0 800 50")
+            .attr("viewBox", "0 0 1200 50")
             .attr("prserveAspectRatio", "none")
             .append("g")
             .attr("transform", "translate(" + margin5.left + "," + margin5.top + ")");
@@ -273,7 +273,7 @@ var tablechart2 = (function heatmap(){
             .append("g")
             .attr("font-family", "Noto Sans KR")
             .attr("font-weight", "Light")
-            .attr("font-size", "0.4rem")
+            .attr("font-size", "0.6rem")
             .append("g")
             .selectAll("text")
             .data(data)
@@ -412,7 +412,7 @@ var tablechart2 = (function heatmap(){
             .append("g")
             .attr("font-family", "Noto Sans KR")
             .attr("font-weight", "Light")
-            .attr("font-size", "0.4rem")
+            .attr("font-size", "0.6rem")
             .append("g")
             .selectAll("text")
             .data(newData)

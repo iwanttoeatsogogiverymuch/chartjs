@@ -359,7 +359,7 @@ var stackedbarchart = (function stack() {
                 .attr("dy", function (d) {
                     return (y(d[0]) - y(d[1])) / 2;
                 })
-                .attr("font-size", "0.66em")
+                .attr("font-size", "1rem")
                 .attr("fill", function (d, i) {
                     return "white";
                     // return d3.hsl(z(d3.select(this.parentNode).key)).darker(3).toString();
@@ -372,7 +372,7 @@ var stackedbarchart = (function stack() {
             legend = g
                 .append("g")
                 .attr("font-family", "Sans serif")
-                .attr("font-size", 10)
+                .attr("font-size", "0.7rem")
                 .attr("text-anchor", "end")
                 .selectAll("g")
                 .data(keys.slice().reverse())
