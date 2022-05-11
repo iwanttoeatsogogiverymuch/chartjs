@@ -114,18 +114,6 @@ function extracted(){
       "#6079D6",
     ];
 
-    easing = [
-      "easeElastic",
-      "easeBounce",
-      "easeLinear",
-      "easeSin",
-      "easeQuad",
-      "easeCubic",
-      "easePoly",
-      "easeCircle",
-      "easeExp",
-      "easeBack"
-    ];
 
 
     //color scale
@@ -135,13 +123,14 @@ function extracted(){
 
 
     keys = Object.keys(data[0]).slice(1);
+
     verticaly0.domain(
         data.map(function (d) {
           return d.date;
         })
-    );
+    ).padding("0.08");
     verticaly1.domain(keys)
-        .rangeRound([0, verticaly0.bandwidth()]);
+        .rangeRound([0, verticaly0.bandwidth()]).padding("0.3");
 
     verticalx.domain([
       0,
@@ -202,9 +191,12 @@ function extracted(){
           return verticaly1(d.key);
         }).on("mouseover", function () {
       tooltip.style("display", null);
+      tooltip.style("opacity", "1");
+
     })
         .on("mouseout", function () {
           tooltip.style("display", "none");
+          tooltip.style("opacity", "0");
         })
         .on("mousemove", function (d) {
 
@@ -324,16 +316,20 @@ function extracted(){
         });
 
 
+  }
+  function update(data){
 
+    d3.select("#"+divid).select("svg").remove();
 
+    draw(divid,data);
 
 
   }
 
   return{
-    draw:draw
+    draw:draw,
+    update:update
   }
-
 
 
 }

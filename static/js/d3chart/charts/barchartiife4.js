@@ -5,6 +5,7 @@ var barchart4 = (function barchartd(){
     function barchartiife2(){
 
 
+        var isxAxisRoate;
         var divwidth = 550;
         var divheight = 500;
 
@@ -85,9 +86,10 @@ var barchart4 = (function barchartd(){
         };
 
 
-        function draw(id,datas){
+        function draw(id,datas,xaxisR){
 
 
+            isxAxisRoate = xaxisR;
             var gridlines;
             divid = id;
             parseddata = JSON.parse(JSON.stringify(datas));
@@ -134,7 +136,7 @@ var barchart4 = (function barchartd(){
             x0 = d3.scaleBand()
                 .rangeRound([0, width2 - 30]).paddingInner(0.15);
             x1 = d3.scaleBand()
-                .padding(0.1);
+                .padding(0.3);
             y = d3.scaleLinear()
                 .rangeRound([height2, 0]);
 
@@ -206,9 +208,12 @@ var barchart4 = (function barchartd(){
                 .attr("y", y(0))
                 .on("mouseover", function () {
                     tooltip.style("display", null);
+                    tooltip.style("opacity", "1");
+
                 })
                 .on("mouseout", function () {
                     tooltip.style("display", "none");
+                    tooltip.style("opacity", "0");
                 })
                 .on("mousemove", function (d) {
 
@@ -289,6 +294,16 @@ var barchart4 = (function barchartd(){
                 })
                 .call(function (g) {
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838")
+
+                    if(isxAxisRoate === true){
+                    g.selectAll("text")
+                            .style("text-anchor", "end")
+                            .attr("dx", "-.8em")
+                            .attr("dy", ".15em")
+                            .attr("transform", "rotate(-65)" );
+
+                    }
+
                 });
 
             g2.append("g")

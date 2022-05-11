@@ -439,21 +439,6 @@ var tablechart2 = (function heatmap(){
     }
 
 
-    //init inside test
-
-    // setTimeout(function(){
-    //
-    //     draw();
-    // },1000);
-    //
-    //
-    //
-    // setTimeout(function(){
-    //
-    //             update(cohortdata2test);
-    //         },3000);
-    //
-
     //public area
     return {
         update: update,

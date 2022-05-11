@@ -11,7 +11,7 @@
   <script src="/static/js/lib/moment/moment.js"></script>
   <script src="/static/js/lib/d3/d3.v4.js"></script>
   <script src="/static/js/d3chart/charts/multilinechartiife.js"></script>
-  <script src="/static/js/d3chart/charts/multilinechartiife3.js"></script>
+  <script src="/static/js/d3chart/charts/multilinechartiife4.js"></script>
 
 
   <link rel="stylesheet" type="text/css" href="/static/css/d3.css"/>
@@ -33,79 +33,30 @@
 
  var testdata= [
 
-    {"signdate":"2022-04-01","retentiondate":"2022-04-02","retentionvalue":"100"},
-    {"signdate":"2022-04-01","retentiondate":"2022-04-03","retentionvalue":"99"},
-    {"signdate":"2022-04-01","retentiondate":"2022-04-04","retentionvalue":"98"},
-    {"signdate":"2022-04-01","retentiondate":"2022-04-05","retentionvalue":"97"},
-    {"signdate":"2022-04-01","retentiondate":"2022-04-06","retentionvalue":"96"},
-    {"signdate":"2022-04-01","retentiondate":"2022-04-07","retentionvalue":"92"},
-    {"signdate":"2022-04-01","retentiondate":"2022-04-08","retentionvalue":"94"},
-    {"signdate":"2022-04-01","retentiondate":"2022-04-09","retentionvalue":"77"},
-    {"signdate":"2022-04-01","retentiondate":"2022-04-10","retentionvalue":"66"},
-    {"signdate":"2022-04-01","retentiondate":"2022-04-11","retentionvalue":"43"},
 
-    {"signdate":"2022-04-02","retentiondate":"2022-04-03","retentionvalue":"97"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-04","retentionvalue":"96"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-05","retentionvalue":"95"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-06","retentionvalue":"93"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-07","retentionvalue":"92"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-08","retentionvalue":"88"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-09","retentionvalue":"79"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-10","retentionvalue":"77"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-11","retentionvalue":"65"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-12","retentionvalue":"50"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-13","retentionvalue":"42"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-14","retentionvalue":"33"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-15","retentionvalue":"22"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-16","retentionvalue":"17"},
-    {"signdate":"2022-04-02","retentiondate":"2022-04-17","retentionvalue":"20"},
+    {"signdate":"재예치율","retentiondate":"2022-04-03","retentionvalue":"9900"},
+    {"signdate":"재예치율","retentiondate":"2022-04-04","retentionvalue":"9800"},
+    {"signdate":"재예치율","retentiondate":"2022-04-05","retentionvalue":"9700"},
+    {"signdate":"재예치율","retentiondate":"2022-04-06","retentionvalue":"9600"},
+    {"signdate":"재예치율","retentiondate":"2022-04-07","retentionvalue":"9200"},
+    {"signdate":"재예치율","retentiondate":"2022-04-08","retentionvalue":"9400"},
+    {"signdate":"재예치율","retentiondate":"2022-04-09","retentionvalue":"7700"},
+    {"signdate":"재예치율","retentiondate":"2022-04-10","retentionvalue":"6600"},
+    {"signdate":"재예치율","retentiondate":"2022-04-11","retentionvalue":"4300"},
 
-    {"signdate":"2022-04-03","retentiondate":"2022-04-04","retentionvalue":"98"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-05","retentionvalue":"97"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-06","retentionvalue":"96"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-07","retentionvalue":"94"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-08","retentionvalue":"93"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-09","retentionvalue":"88"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-10","retentionvalue":"79"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-11","retentionvalue":"76"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-12","retentionvalue":"72"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-13","retentionvalue":"70"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-14","retentionvalue":"65"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-15","retentionvalue":"60"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-16","retentionvalue":"55"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-17","retentionvalue":"52"},
-    {"signdate":"2022-04-03","retentiondate":"2022-04-18","retentionvalue":"50"},
+    {"signdate":"중도해지율","retentiondate":"2022-04-03","retentionvalue":"9700"},
+    {"signdate":"중도해지율","retentiondate":"2022-04-04","retentionvalue":"9600"},
+    {"signdate":"중도해지율","retentiondate":"2022-04-05","retentionvalue":"9500"},
+    {"signdate":"중도해지율","retentiondate":"2022-04-06","retentionvalue":"9300"},
+    {"signdate":"중도해지율","retentiondate":"2022-04-07","retentionvalue":"9200"},
+    {"signdate":"중도해지율","retentiondate":"2022-04-08","retentionvalue":"8800"},
+    {"signdate":"중도해지율","retentiondate":"2022-04-09","retentionvalue":"7900"},
+    {"signdate":"중도해지율","retentiondate":"2022-04-10","retentionvalue":"7700"},
+    {"signdate":"중도해지율","retentiondate":"2022-04-11","retentionvalue":"6500"},
 
-    {"signdate":"2022-04-04","retentiondate":"2022-04-05","retentionvalue":"90"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-06","retentionvalue":"88"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-07","retentionvalue":"86"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-08","retentionvalue":"82"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-09","retentionvalue":"78"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-10","retentionvalue":"66"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-11","retentionvalue":"55"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-12","retentionvalue":"50"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-13","retentionvalue":"35"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-14","retentionvalue":"29"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-15","retentionvalue":"21"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-16","retentionvalue":"19"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-17","retentionvalue":"17"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-18","retentionvalue":"8"},
-    {"signdate":"2022-04-04","retentiondate":"2022-04-19","retentionvalue":"1"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-06","retentionvalue":"92"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-07","retentionvalue":"90"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-08","retentionvalue":"88"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-09","retentionvalue":"87"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-10","retentionvalue":"86"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-11","retentionvalue":"80"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-12","retentionvalue":"77"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-13","retentionvalue":"65"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-14","retentionvalue":"35"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-15","retentionvalue":"32"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-16","retentionvalue":"30"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-17","retentionvalue":"24"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-18","retentionvalue":"21"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-19","retentionvalue":"11"},
-    {"signdate":"2022-04-05","retentiondate":"2022-04-20","retentionvalue":"10"}
+
+
+
 
   ];
 
@@ -114,7 +65,8 @@
  // setTimeout(function () {
  //   multilinechart.update(testdata.slice(2));},2000);
 
-   multilinechart3.draw("multilinechart2",testdata);
+ var mul4 = multilinechart4();
+ mul4.draw("multilinechart2",testdata);
 
 </script>
 

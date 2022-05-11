@@ -1,26 +1,19 @@
-var barchart2 = (function barchart(){
+var barchart5 = (function barchartd(){
 
 
-    //수신 우리WON 저축은행 앱
-    // mau dau 차트
-    function barchartiife(){
+    //수신 영업일보용  바차트
+    function barchartiife2(){
 
 
-
-        var divwidth;
-        var divheight;
-
-        var config;
+        var isxAxisRoate;
+        var divwidth = 1200;
+        var divheight =700;
 
         var divid;
 
         var legend2;
 
         var keys;
-
-        var daucolor;
-
-        var daucolorpallete;
 
         var z2;
 
@@ -72,35 +65,7 @@ var barchart2 = (function barchart(){
             {"date": "2022-03-06" , "DAU":"38900", "MAU":"300000", "ALL":"400000"}
         ];
 
-        var testdata2 = [
-            {"date": "2022-03-01" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-02" , "DAU":"34000", "MAU":"200000", "ALL":"400000"},
-            {"date": "2022-03-03" , "DAU":"34000", "MAU":"300000", "ALL":"400000"},
-            {"date": "2022-03-04" , "DAU":"34000", "MAU":"100000", "ALL":"400000"},
-            {"date": "2022-03-05" , "DAU":"34000", "MAU":"250000", "ALL":"400000"},
-            {"date": "2022-03-06" , "DAU":"34000", "MAU":"23000", "ALL":"400000"},
-            {"date": "2022-03-07" , "DAU":"34000", "MAU":"10000", "ALL":"400000"},
-            {"date": "2022-03-08" , "DAU":"34000", "MAU":"200000", "ALL":"400000"},
-            {"date": "2022-03-09" , "DAU":"34000", "MAU":"356000", "ALL":"400000"},
-            {"date": "2022-03-10" , "DAU":"34000", "MAU":"240000", "ALL":"400000"},
-            {"date": "2022-03-11" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-12" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-13" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-14" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-15" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-16" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-17" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-18" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-19" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-21" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-22" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-23" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-24" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-25" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-26" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-27" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
 
-        ];
 
 
         function setComma(num) {
@@ -121,10 +86,10 @@ var barchart2 = (function barchart(){
         };
 
 
+        function draw(id,datas,xaxisR){
 
-        function draw(id,datas){
 
-
+            isxAxisRoate = xaxisR;
             var gridlines;
             divid = id;
             parseddata = JSON.parse(JSON.stringify(datas));
@@ -137,21 +102,21 @@ var barchart2 = (function barchart(){
 
             svg2 = d3.select("#" + id)
                 .append("svg")
-                .attr("width", 1200)
-                .attr("height", 250)
-                .attr("viewBox", "0 0 1200 250")
+                .attr("width", divwidth)
+                .attr("height", divheight)
+                .attr("viewBox", "0 0 " + divwidth + " "+ divheight)
                 .attr("preserveAspectRatio", "none");
 
             margin2 = {
                 top: 30,
                 right: 30,
-                bottom: 30,
-                left: 40
+                bottom: 80,
+                left: 60
             };
             width2 = +svg2.attr("width") - margin2.left - margin2.right;
             height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
 
-            //잔액기준실적 컬러매핑핑
+            //재예치
             mcgpalette0 = [
                 "#8664cb",
                 "#0075CC",
@@ -159,6 +124,7 @@ var barchart2 = (function barchart(){
                 "#44C4BE",
                 "#36C35D",
                 "#6079D6",
+                "#32906e"
             ];
 
             //컬러 매핑
@@ -166,22 +132,11 @@ var barchart2 = (function barchart(){
                 .scaleOrdinal()
                 .range(mcgpalette0);
 
-            //유저통계차트용 컬러스키마
-            daucolorpallete = [
-                "#8ea7e0",
-                "#8ccbd2",
-                "#fba597"
-            ];
-
-            //유저통계차트용 컬러매핑
-            daucolor = d3
-                .scaleOrdinal()
-                .range(daucolorpallete);
 
             x0 = d3.scaleBand()
-                .rangeRound([0, width2 - 30]).paddingInner(0.15);
+                .rangeRound([0, width2 - 30]).paddingInner(0.08);
             x1 = d3.scaleBand()
-                .padding(0.1);
+                .padding(0.35);
             y = d3.scaleLinear()
                 .rangeRound([height2, 0]);
 
@@ -253,11 +208,12 @@ var barchart2 = (function barchart(){
                 .attr("y", y(0))
                 .on("mouseover", function () {
                     tooltip.style("display", null);
-                    tooltip.style("opacity","1");
+                    tooltip.style("opacity", "1");
+
                 })
                 .on("mouseout", function () {
                     tooltip.style("display", "none");
-                    tooltip.style("opacity","0");
+                    tooltip.style("opacity", "0");
                 })
                 .on("mousemove", function (d) {
 
@@ -272,7 +228,7 @@ var barchart2 = (function barchart(){
                 .transition()
                 .duration(1000)
                 .delay(function (d, i) {
-                    return i * 100;
+                    return i * 25;
                 }).ease(d3.easeSin)
                 .attr("height", function (d) {
 
@@ -287,50 +243,8 @@ var barchart2 = (function barchart(){
                 })
                 .attr("rx", 2)
                 .attr("fill", function (d) {
-                    return daucolor(d.CODE);
+                    return z2(d.CODE);
                 });
-
-
-            //tooltip text top
-            g2.append("g")
-                .selectAll("g")
-                .data(parseddata)
-                .enter()
-                .append("g")
-                .attr("transform", function (d) {
-                    return "translate(" + x0(d.AREA) + ",0)";
-                })
-                .append("text")
-                .attr("dy", "1em")
-                .attr("fill", "#3a3a3a")
-                .attr("font-weight", "Regular")
-                .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
-                .attr("text-anchor", "start")
-                .attr("x", function (d) {
-                    return x1(d.CODE);
-                })
-                .attr("width", x1.bandwidth())
-                .attr("height", function (d) {
-                    return height2 - y(parseInt(d.value));
-                })
-                .attr("y", function (d) {
-                    return y(parseInt(d.value)) - 18;
-                })
-                .text(function (d) {
-                        var text;
-                        if(d.CODE === "ALL"){
-                            text = "회원수";
-                        }
-                        else if(d.CODE === "DAU"){
-                            text = "DAU";
-                        }
-                        else{
-                            text = "MAU";
-                        }
-                        return text;
-
-                    });
 
 
 
@@ -347,6 +261,16 @@ var barchart2 = (function barchart(){
                 })
                 .call(function (g) {
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838")
+
+
+                    g.selectAll("text")
+                            .style("text-anchor", "end")
+                            .attr("dx", "-.8em")
+                            .attr("dy", ".15em")
+                            .attr("transform", "rotate(-90)" );
+
+
+
                 });
 
             g2.append("g")
@@ -359,30 +283,21 @@ var barchart2 = (function barchart(){
                     g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke", "#999999")
                 })
                 .call(function (g) {
-                    g.selectAll("text").remove();
-                })
-                .append("text")
-                .attr("x", width2 / 2)
-                .attr("y", y(y.ticks().pop()) + 0.5)
-                .attr("dy", "0.32em")
-                .attr("fill", "#101010")
-                .attr("font-weight", "Regular")
-                .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
-                .attr("text-anchor", "middle");
+                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838");
+                });
 
 
             legend2 = g2
                 .append("g")
                 .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
+                .attr("font-size", "0.8rem")
                 .attr("text-anchor", "end")
                 .selectAll("g")
                 .data(x1.domain())
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
-                    return "translate(10," + i * 13 + ")";
+                    return "translate(10," + i * 15 + ")";
                 });
 
 
@@ -391,7 +306,7 @@ var barchart2 = (function barchart(){
                 .attr("x", width2 - 19)
                 .attr("width", 10)
                 .attr("height", 10)
-                .attr("fill", daucolor);
+                .attr("fill", z2);
 
             legend2
                 .append("text")
@@ -404,17 +319,16 @@ var barchart2 = (function barchart(){
 
 
 
-
             // y축 레이블
             svg2.append("g").append("text")
-                .style("font-size", "0.5rem")
+                .attr("font-size", "0.8rem")
                 .attr("transform", "translate(20" + " ," + 30 + ")")
                 .style("text-anchor", "middle")
-                .text("회원수");
+                .text("건수");
 
 
             // x축 레이블
-            svg2.append("text")    .style("font-size","0.5rem").style("font-family","Noto Sans KR")
+            svg2.append("text")    .style("font-size","0.8rem").style("font-family","Noto Sans KR")
                 .attr("transform", "translate("+(width2+10) + ","+(height2+margin2.bottom+10)+")")
                 // .attr("y", 0 - margin2.left)
                 // .attr("x", 0 - (height2 / 2))
@@ -439,12 +353,13 @@ var barchart2 = (function barchart(){
 
 
             svg2.remove().exit();
-            svg2 = d3.select("#"+divid)
+            svg2 = d3.select("#" + id)
                 .append("svg")
-                .attr("width", 1200)
-                .attr("height", 250)
-                .attr("viewBox", "0 0 1200 250")
+                .attr("width", divwidth)
+                .attr("height", divheight)
+                .attr("viewBox", "0 0 " + divwidth + " "+ divheight)
                 .attr("preserveAspectRatio", "none");
+
 
             margin2 = {
                 top: 30,
@@ -460,32 +375,25 @@ var barchart2 = (function barchart(){
                 .append("g")
                 .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
+            //스케일매핑함수 세팅
+
+            //x좌표값 스케일
             x0 = d3.scaleBand()
                 .rangeRound([0, width2-30]).paddingInner(0.15);
+
+            //x좌표값 (그룹바 x좌표)
             x1 = d3.scaleBand()
                 .padding(0.1);
+
+            //y좌표값 스케일
             y = d3.scaleLinear()
                 .rangeRound([height2, 0]);
 
 
 
-
-            //대면비대면
             z2 = d3
                 .scaleOrdinal()
                 .range(mcgpalette0);
-
-            //유저통계차트용 컬러스키마
-            daucolorpallete = [
-                "#8ea7e0",
-                "#8ccbd2",
-                "#fba597"
-            ];
-
-            //유저통계차트용 컬러매핑
-            daucolor = d3
-                .scaleOrdinal()
-                .range(daucolorpallete);
 
 
             //json 키값(가장처음칼럼제외)
@@ -555,9 +463,6 @@ var barchart2 = (function barchart(){
                 })
                 .on("mousemove", function (d) {
 
-                    // var subgroupName = d3.select(this.parentNode).datum().key;
-                    // var subgroupValue = d.data[subgroupName];
-
                     tooltip.style("left", (d3.event.pageX + 10) + "px");
                     tooltip.style("top", (d3.event.pageY - 10) + "px");
                     tooltip.html(d.CODE.toString() + "<br>" + setComma(d.value));
@@ -581,54 +486,12 @@ var barchart2 = (function barchart(){
                 })
                 .attr("rx", 2)
                 .attr("fill", function (d) {
-                    return daucolor(d.CODE);
-                });
-
-
-            //tooltip text top
-            g2.append("g")
-                .selectAll("g")
-                .data(parseddata)
-                .enter()
-                .append("g")
-                .attr("transform", function (d) {
-                    return "translate(" + x0(d.AREA) + ",0)";
-                })
-                .append("text")
-                .attr("dy", "1em")
-                .attr("fill", "#474747")
-                .attr("font-weight", "Regular")
-                .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
-                .attr("text-anchor", "start")
-                .attr("x", function (d) {
-                    return x1(d.CODE);
-                })
-                .attr("width", x1.bandwidth())
-                .attr("height", function (d) {
-                    return height2 - y(parseInt(d.value));
-                })
-                .attr("y", function (d) {
-                    return y(parseInt(d.value)) - 22;
-                })
-                .text(function (d) {
-                    var text;
-                    if(d.CODE === "ALL"){
-                        text = "회원수";
-                    }
-                    else if(d.CODE === "DAU"){
-                        text = "DAU";
-                    }
-                    else{
-                        text = "MAU";
-                    }
-                        return text;
-
-
+                    return z2(d.CODE);
                 });
 
 
 
+            //x좌표 차트 틱 바
             g2.append("g")
                 .attr("class", "axis")
                 .attr("transform", "translate(0," + height2 + ")")
@@ -643,16 +506,20 @@ var barchart2 = (function barchart(){
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838")
                 });
 
+            //y좌표 차트 틱 바
             g2.append("g")
                 .attr("class", "axis")
                 .call(d3.axisLeft(y).ticks(null, "s").tickSizeOuter(0))
                 .call(function (g) {
+                    //불필요한 라인 및 틱 제거
                     g.selectAll(".tick line").remove()
                 })
                 .call(function (g) {
+                    //stroke설정
                     g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke", "#999999")
                 })
                 .call(function (g) {
+                    //텍스트설정
                     g.selectAll("text").remove();
                 })
                 .append("text")
@@ -667,27 +534,30 @@ var barchart2 = (function barchart(){
 
 
 
+            //범례
             legend2 = g2
                 .append("g")
                 .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
+                .attr("font-size", "0.8rem")
                 .attr("text-anchor", "end")
                 .selectAll("g")
                 .data(x1.domain())
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
-                    return "translate(10," + i * 15 + ")";
+                    return "translate(10," + i * 13 + ")";
                 });
 
 
+            //범례 사각형
             legend2
                 .append("rect")
                 .attr("x", width2 - 19)
                 .attr("width", 13)
                 .attr("height", 13)
-                .attr("fill", daucolor);
+                .attr("fill", z2);
 
+            //범례텍스트
             legend2
                 .append("text")
                 .attr("x", width2 - 24)
@@ -700,10 +570,10 @@ var barchart2 = (function barchart(){
 
             // y축 레이블
             svg2.append("g").append("text")
-                .style("font-size", "0.5rem")
+                .attr("font-size", "2rem")
                 .attr("transform", "translate(20" + " ," + 30 + ")")
                 .style("text-anchor", "middle")
-                .text("회원수");
+                .text("건수");
 
 
             // x축 레이블
@@ -718,21 +588,6 @@ var barchart2 = (function barchart(){
 
         }
 
-        function readJson(){
-
-            parseddata2 = JSON.parse(JSON.stringify(testdata2));
-
-
-        }
-
-        // setTimeout(function () {
-        //
-        //     readJson();
-        //     update(parseddata2);
-        // },4000);
-        // setTimeout(update,4000,parseddata2);
-
-
         return {
 
             draw:draw,
@@ -743,7 +598,7 @@ var barchart2 = (function barchart(){
     }
 
 
-    return barchartiife;
+    return barchartiife2;
 
         })();
 
