@@ -112,7 +112,7 @@ var barchart = (function barchart(){
             return str;
 
 
-        };
+        }
 
 
 

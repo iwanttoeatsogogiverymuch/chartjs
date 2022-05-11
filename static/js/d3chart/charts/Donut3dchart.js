@@ -448,9 +448,12 @@
     // 채권2팀 #9a9adc
     // 투자금융팀 #6cc4a0
 
+    var labels = data.map(function (d) {
+      return d.label;
+    });
 
     colorscale = d3.scaleOrdinal()
-        .domain(["강남금융센터","삼성지점","수유지점","영업본부(개인)","영업부","채권2팀","투자금융팀"])
+        .domain(labels)
         .range(
             ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
 

@@ -14,11 +14,9 @@
 	<script src="/static/js/d3chart/charts/barchartiife.js"></script>
 	<script src="/static/js/d3chart/charts/stackedbarchartiife.js"></script>
 	<script src="/static/js/d3chart/charts/multilinechartiife2.js"></script>
-	<script src="/static/js/d3chart/charts/barchartiife4.js"></script>
 	<script src="/static/js/d3chart/charts/verticalbarchartiife.js"></script>
 	<script src="/static/js/d3chart/charts/multilinechartiife3.js"></script>
-
-
+	<script src="/static/js/d3chart/charts/barchartiife4.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
 <link rel="stylesheet" type="text/css"  href="/static/css/style.css">
@@ -541,11 +539,13 @@
 
 		];
 
-		var barchart3 = barchart4();
+
+		var bar4 = barchart4();
 
 
 
-		barchart3.draw("groupedbarchart3",JSON.parse(JSON.stringify(untactperfom2)));
+
+		bar4.draw("groupedbarchart3",JSON.parse(JSON.stringify(untactperfom2)));
 
 		var testdata = [
 			{"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},

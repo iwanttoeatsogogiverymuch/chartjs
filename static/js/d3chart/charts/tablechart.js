@@ -2,14 +2,18 @@
 var tablechart = (function heatmap(){
 
     function table(){
+
+
+        //컬러값매핑함수
+        var colorscale , colorscale2 , colorscale3;
+
         var config;
-        //지역변수
 
         //차트를 그릴 div id
         var divid;
 
         //svg 가로값
-        var width = 600;
+        var width = 1200;
 
         //svg 세로값
         var height = 200;
@@ -39,6 +43,26 @@ var tablechart = (function heatmap(){
 
         //x축 y축 스케일 매핑 (단순값x)
         var x5, y5;
+
+
+        function setComma(num) {
+            var len, point, str;
+            num = num + "";
+            point = num.length % 3;
+            len = num.length;
+
+            str = num.substring(0, point);
+            while (point < len) {
+                if (str !== "") str += ",";
+                str += num.substring(point, point + 3);
+                point += 3;
+            }
+            return str;
+
+
+        }
+
+
 
         function onMouseOutRect() {
             return function (d) {
@@ -115,7 +139,7 @@ var tablechart = (function heatmap(){
                 .append("svg")
                 .attr("width", width5 + margin5.left + margin5.right)
                 .attr("height", height5 + margin5.top + margin5.bottom)
-                .attr("viewBox", "0 0 700 200")
+                .attr("viewBox", "0 0 1200 200")
                 .attr("prserveAspectRatio", "none")
                 .append("g")
                 .attr("transform", "translate(" + margin5.left + "," + margin5.top + ")");
@@ -145,8 +169,45 @@ var tablechart = (function heatmap(){
 
             // Build X scales and axis:
             x5 = d3.scaleBand()
-                .range([0, width5 + 100])
+                .range([0, width5])
                 .domain(xIndexval.sort(d3.ascending)).padding(0.02);
+
+
+
+            colorscale = d3.scaleOrdinal()
+                .domain(["강남금융센터","삼성지점","수유지점","영업본부(개인)","영업부","채권2팀","투자금융팀"])
+                .range(
+                    ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
+
+            // e-자유적립적금
+            // e-정기적금
+            // e-회원정기예금(복리)
+            // e-회원정기예금(단리)
+            // 더마니드림 e-정기예금
+            // e-정기예금(복리)
+            // e-정기예금(단리)
+
+            colorscale2 = d3.scaleOrdinal()
+                .domain(["e-자유적립적금","e-정기적금","e-회원정기예금(복리)","e-회원정기예금(단리)","더마니드림 e-정기예금","e-정기예금(복리)","e-정기예금(단리)"])
+                .range(
+                    ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
+
+            //
+            // 전체
+            // 자동이체
+            // 카카오톡이체
+            // 예약이체
+            // 지연이체
+            // 즉시이체
+
+            colorscale3 = d3.scaleOrdinal()
+                .domain(yIndexval)
+                .range(
+                    ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc"]);
+
+
+
+
 
             svg6
                 .append("g")
@@ -176,17 +237,23 @@ var tablechart = (function heatmap(){
                     g.selectAll("text")  .attr("transform","translate(-50,0)")
                         .attr("font-family", "Noto Sans KR")
                         .attr("dy","0.32em")
+                        .attr("font-size","0.5rem")
                         .attr("text-anchor","start")
                         .attr("fill", "grey");
                     g.selectAll("g.tick")
                         .append("g")
                         .attr("transform","translate(-50,0)")
                         .append("rect")
-                        .attr("x","-30")
-                        .attr("y","-5")
+                        .attr("x","-25")
+                        .attr("y","-7")
                         .attr("width","15")
                         .attr("height","15")
-                        .attr("fill","grey");
+                        .attr("fill",function (d){
+
+
+                            return colorscale3(d);
+
+                        });
                 });
 
             svg6
@@ -255,14 +322,14 @@ var tablechart = (function heatmap(){
                 .append("g")
                 .attr("font-family", "Noto Sans KR")
                 .attr("font-weight", "Light")
-                .attr("font-size", "0.5rem")
+                .attr("font-size", "0.7rem")
                 .append("g")
                 .selectAll("text")
                 .data(data)
                 .enter()
                 .append("text")
                 .text(function (d) {
-                    return d.retentionvalue + "%";
+                    return setComma(d.retentionvalue);
                 })
                 .attr("x", function (d) {
                     return x5(d.xIndex);
@@ -302,7 +369,7 @@ var tablechart = (function heatmap(){
             });
             // Build X scales and axis:
             x5 = d3.scaleBand()
-                .range([0, width5 + 100])
+                .range([0, width5])
                 .domain(xIndexval.sort(d3.ascending));
 
             svg6
@@ -383,7 +450,7 @@ var tablechart = (function heatmap(){
                 .enter()
                 .append("text")
                 .text(function (d) {
-                    return d.retentionvalue + "%";
+                    return d.retentionvalue ;
                 })
                 .attr("x", function (d) {
                     return x5(d.yIndex);
@@ -415,7 +482,7 @@ var tablechart = (function heatmap(){
         };
     }
 
- return table;
+    return table;
 
 })();
 

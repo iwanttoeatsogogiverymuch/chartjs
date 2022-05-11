@@ -277,7 +277,7 @@ function extracted(){
           g.selectAll(".domain").attr("stroke-width", "2.5").attr("stroke-opacity", "0.9").style("stroke", "grey")
         })
         .call(function (g) {
-          g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey")
+          g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey").attr("font-size","0.7rem")
         });
 
     g2.append("g")
@@ -288,15 +288,10 @@ function extracted(){
         .call(function (g) {
           g.selectAll(".domain").attr("stroke-width", "2.5").attr("stroke-opacity", "0.9").style("stroke", "grey")
         })
-        .append("text")
-        .attr("x", 300)
-        .attr("y", height2 / 2)
-        .attr("dy", "0.32em")
-        .attr("fill", "#000")
-        .attr("font-weight", "Regular")
-        .attr("font-family", "Noto Sans KR")
-        .attr("font-size", "0.2em")
-        .attr("text-anchor", "middle");
+        .call(function (g) {
+          g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey").attr("font-size","0.8rem")
+        });
+
 
 
     legend2 = g2

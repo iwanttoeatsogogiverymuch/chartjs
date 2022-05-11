@@ -1,9 +1,8 @@
-var barchart4 = (function barchart(){
+var barchart4 = (function barchartd(){
 
 
-    //수신 영업일보차트
-    function barchartiife(){
-
+    //수신 영업일보용  바차트
+    function barchartiife2(){
 
 
         var divwidth = 550;
@@ -110,8 +109,9 @@ var barchart4 = (function barchart(){
                 top: 30,
                 right: 30,
                 bottom: 30,
-                left: 40
+                left: 60
             };
+
             width2 = +svg2.attr("width") - margin2.left - margin2.right;
             height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
 
@@ -256,7 +256,7 @@ var barchart4 = (function barchart(){
                 .attr("fill", "#3a3a3a")
                 .attr("font-weight", "Regular")
                 .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
+                .attr("font-size", "0.8rem")
                 .attr("text-anchor", "start")
                 .attr("x", function (d) {
                     return x1(d.CODE);
@@ -269,17 +269,8 @@ var barchart4 = (function barchart(){
                     return y(parseInt(d.value)) - 18;
                 })
                 .text(function (d) {
-                        var text;
-                        if(d.CODE === "ALL"){
-                            text = "회원수";
-                        }
-                        else if(d.CODE === "DAU"){
-                            text = "DAU";
-                        }
-                        else{
-                            text = "MAU";
-                        }
-                        return text;
+
+                    return  setComma(d.value).toString();
 
                     });
 
@@ -310,30 +301,21 @@ var barchart4 = (function barchart(){
                     g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke", "#999999")
                 })
                 .call(function (g) {
-                    g.selectAll("text").remove();
-                })
-                .append("text")
-                .attr("x", width2 / 2)
-                .attr("y", y(y.ticks().pop()) + 0.5)
-                .attr("dy", "0.32em")
-                .attr("fill", "#101010")
-                .attr("font-weight", "Regular")
-                .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
-                .attr("text-anchor", "middle");
+                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838");
+                });
 
 
             legend2 = g2
                 .append("g")
                 .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
+                .attr("font-size", "0.8rem")
                 .attr("text-anchor", "end")
                 .selectAll("g")
                 .data(x1.domain())
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
-                    return "translate(10," + i * 13 + ")";
+                    return "translate(10," + i * 15 + ")";
                 });
 
 
@@ -355,17 +337,16 @@ var barchart4 = (function barchart(){
 
 
 
-
             // y축 레이블
             svg2.append("g").append("text")
-                .style("font-size", "0.5rem")
+                .attr("font-size", "0.8rem")
                 .attr("transform", "translate(20" + " ," + 30 + ")")
                 .style("text-anchor", "middle")
-                .text("회원수");
+                .text("백만원");
 
 
             // x축 레이블
-            svg2.append("text")    .style("font-size","0.5rem").style("font-family","Noto Sans KR")
+            svg2.append("text")    .style("font-size","0.8rem").style("font-family","Noto Sans KR")
                 .attr("transform", "translate("+(width2+10) + ","+(height2+margin2.bottom+10)+")")
                 // .attr("y", 0 - margin2.left)
                 // .attr("x", 0 - (height2 / 2))
@@ -422,7 +403,7 @@ var barchart4 = (function barchart(){
             x1 = d3.scaleBand()
                 .padding(0.1);
 
-            /y좌표값 스케일
+            //y좌표값 스케일
             y = d3.scaleLinear()
                 .rangeRound([height2, 0]);
 
@@ -615,14 +596,14 @@ var barchart4 = (function barchart(){
             legend2 = g2
                 .append("g")
                 .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
+                .attr("font-size", "0.8rem")
                 .attr("text-anchor", "end")
                 .selectAll("g")
                 .data(x1.domain())
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
-                    return "translate(10," + i * 15 + ")";
+                    return "translate(10," + i * 13 + ")";
                 });
 
 
@@ -647,7 +628,7 @@ var barchart4 = (function barchart(){
 
             // y축 레이블
             svg2.append("g").append("text")
-                .style("font-size", "0.5rem")
+                .attr("font-size", "2rem")
                 .attr("transform", "translate(20" + " ," + 30 + ")")
                 .style("text-anchor", "middle")
                 .text("회원수");
@@ -675,7 +656,7 @@ var barchart4 = (function barchart(){
     }
 
 
-    return barchartiife;
+    return barchartiife2;
 
         })();
 

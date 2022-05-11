@@ -3,6 +3,10 @@ var stackedbarchart = (function stack() {
 
     function stackedbarinner(){
 
+        var xlabel;
+        var ylabel;
+
+        var colorscale3;
         var divid;
 
         var legend;
@@ -96,8 +100,10 @@ var stackedbarchart = (function stack() {
             return str;
 
         };
-        function draw(id,data) {
+        function draw(id,data,xl,yl) {
 
+            xlabel=xl;
+            ylabel=yl;
             divid = id;
             if (svg !== undefined){
 
@@ -118,6 +124,20 @@ var stackedbarchart = (function stack() {
             //bar colors
             mcgpalette0 = ["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D"];
 
+
+            colorscale2 = d3.scaleOrdinal()
+                .domain(["e-자유적립적금","e-정기적금","e-회원정기예금(복리)","e-회원정기예금(단리)","더마니드림 e-정기예금","e-정기예금(복리)","e-정기예금(단리)"])
+                .range(
+                    ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
+
+
+
+
+            colorscale3 = d3.scaleOrdinal()
+                .domain(["전체","자동이체","카카오톡이체","예약이체","지연이체","즉시이체"])
+                .range(
+                    ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc"]);
+
             svg = d3
                 .select("#"+divid)
                 .append("svg")
@@ -126,7 +146,7 @@ var stackedbarchart = (function stack() {
                 .attr("viewBox", "0 0 1200 500")
                 .attr("preserveAspectRatio", "true");
 
-            margin = {top: 20, right: 20, bottom: 30, left: 40};
+            margin = {top: 20, right: 20, bottom: 30, left: 50};
             width = +svg.attr("width") - margin.left - margin.right;
             height = +svg.attr("height") - margin.top - margin.bottom;
 
@@ -179,7 +199,7 @@ var stackedbarchart = (function stack() {
             x.domain(
                 data.map(function (d) {
                     return d.date;
-                })
+                }).sort(d3.ascending)
             );
             y.domain([
                 0,
@@ -188,6 +208,17 @@ var stackedbarchart = (function stack() {
                 }),
             ]).nice();
             z.domain(keys);
+
+
+
+
+
+            colorscale3 = d3.scaleOrdinal()
+                .domain(keys)
+                .range(
+                    ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc"]);
+
+
 
             gridlines = d3
                 .axisLeft()
@@ -225,7 +256,7 @@ var stackedbarchart = (function stack() {
                 .enter()
                 .append("g")
                 .attr("fill", function (d) {
-                    return z(d.key);
+                    return colorscale3(d.key);
                 })
                 .selectAll("rect")
                 .data(function (d) {
@@ -355,7 +386,7 @@ var stackedbarchart = (function stack() {
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
-                    return "translate(0," + i * 20 + ")";
+                    return "translate(-10," + i * 20 + ")";
                 });
 
             legend
@@ -363,7 +394,7 @@ var stackedbarchart = (function stack() {
                 .attr("x", width - 19)
                 .attr("width", 19)
                 .attr("height", 19)
-                .attr("fill", z);
+                .attr("fill", colorscale3);
 
             legend
                 .append("text")
@@ -375,6 +406,26 @@ var stackedbarchart = (function stack() {
                 .text(function (d) {
                     return d;
                 });
+
+
+            // y축 레이블
+            svg.append("g").append("text")
+                .style("font-size", "0.8rem")
+                .attr("transform", "translate(25" + " ," + 10 + ")")
+                .style("text-anchor", "middle")
+                .text(xlabel);
+
+
+            // x축 레이블
+            svg.append("text")    .style("font-size","0.8rem").style("font-family","Noto Sans KR")
+                .attr("transform", "translate("+(width+10) + ","+(height+margin.bottom+10)+")")
+                // .attr("y", 0 - margin2.left)
+                // .attr("x", 0 - (height2 / 2))
+                .attr("dy", "0.35em")
+                .style("text-anchor", "middle")
+                .text(ylabel);
+
+
 
         }
 
