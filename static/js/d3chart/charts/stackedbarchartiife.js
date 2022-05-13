@@ -126,8 +126,6 @@ var stackedbarchart = (function stack() {
                     ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
 
 
-
-
             colorscale3 = d3.scaleOrdinal()
                 .domain(["전체","자동이체","카카오톡이체","예약이체","지연이체","즉시이체"])
                 .range(
@@ -144,8 +142,6 @@ var stackedbarchart = (function stack() {
             margin = {top: 20, right: 100, bottom: 30, left: 50};
             width = +svg.attr("width") - margin.left - margin.right;
             height = +svg.attr("height") - margin.top - margin.bottom;
-
-
 
             x = d3.scaleBand()
                 .rangeRound([0, width])
@@ -178,9 +174,7 @@ var stackedbarchart = (function stack() {
 
                 d.TOTAL = 0;
                 keys.forEach(function (keys) {
-
                     d.TOTAL += parseInt(d[keys]);
-
                 });
 
                 return d;
@@ -204,16 +198,10 @@ var stackedbarchart = (function stack() {
             ]).nice();
             z.domain(keys);
 
-
-
-
-
             colorscale3 = d3.scaleOrdinal()
                 .domain(keys)
                 .range(
                     ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc"]);
-
-
 
             gridlines = d3
                 .axisLeft()
@@ -244,7 +232,6 @@ var stackedbarchart = (function stack() {
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
             g.append("g")
                 .selectAll("g")
                 .data(d3.stack().keys(keys)(data))
@@ -267,12 +254,10 @@ var stackedbarchart = (function stack() {
                 g.selectAll("rect").attr("opacity", ".2");
                 d3.select(this).style("fill", function () {
                     return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
-
                 }).attr("opacity", "1");
 
                 tooltip.style("opacity", "100");
             })
-
                 .on("mouseout", function () {
                     g.selectAll("rect").attr("opacity", "1");
                     d3.select(this).style("fill", function () {
@@ -281,7 +266,6 @@ var stackedbarchart = (function stack() {
                     });
                     tooltip.style("opacity", "0");
                 })
-
                 .on("mousemove", function (d, i, j) {
 
                     var subgroupName = d3.select(this.parentNode).datum().key;
@@ -316,6 +300,9 @@ var stackedbarchart = (function stack() {
                 })
                 .call(function (g) {
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey")
+                        .attr("font-size",function (d){
+                            return  (x.bandwidth()/5).toString() + "px";
+                        })
                 });
 
             g.append("g")
@@ -363,7 +350,9 @@ var stackedbarchart = (function stack() {
                 .attr("dy", function (d) {
                     return (y(d[0]) - y(d[1])) / 2;
                 })
-                .attr("font-size", "1rem")
+                .attr("font-size", function (d){
+                    return (x.bandwidth()/4).toString() + "px";
+                })
                 .attr("fill", function (d, i) {
                     return "white";
                 })
@@ -403,7 +392,6 @@ var stackedbarchart = (function stack() {
                     return d;
                 });
 
-
             // y축 레이블
             svg.append("g").append("text")
                 .style("font-size", "0.8rem")
@@ -411,36 +399,22 @@ var stackedbarchart = (function stack() {
                 .style("text-anchor", "middle")
                 .text(xlabel);
 
-
             // x축 레이블
             svg.append("text")    .style("font-size","0.8rem").style("font-family","Noto Sans KR")
                 .attr("transform", "translate("+(width+10) + ","+(height+margin.bottom+10)+")")
-                // .attr("y", 0 - margin2.left)
-                // .attr("x", 0 - (height2 / 2))
-
-
                 .attr("dy", "0.35em")
                 .style("text-anchor", "middle")
                 .text(ylabel);
 
-
-
         }
-
-
         function  update (newdata){
-
             d3.select("#"+divid).select("svg").remove().exit();
             draw(divid,newdata,xlabel);
-
         }
-
         return{
-
             draw:draw,
             update:update
         }
-
 
     }
 
