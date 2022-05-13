@@ -315,7 +315,7 @@ var tablechart = (function heatmap(){
                 .on("mousemove", function (d) {
                     tooltip.style("left", (d3.event.pageX + 10) + "px");
                     tooltip.style("top", (d3.event.pageY - 10) + "px");
-                    tooltip.html(d.retentionvalue.toString() +"<br>"+d.xIndex);
+                    tooltip.html(setComma(d.retentionvalue.toString()) +"<br>" + d.xIndex);
                 });
 
             svg6
@@ -354,126 +354,12 @@ var tablechart = (function heatmap(){
                 })
                 .attr("pointer-events","none");
         }
+
         function update(newData){
 
-            svg6.selectAll("g").remove().exit();
-            svg6.selectAll("rect").remove().exit();
+            d3.select("#"+divid).select("svg").remove();
+            draw(divid,newData);
 
-            yIndexval = newData.map(function (d) {
-                return d.yIndex;
-            });
-
-            xIndexval = newData.map(function (d, i) {
-                return d.xIndex;
-
-            });
-            // Build X scales and axis:
-            x5 = d3.scaleBand()
-                .range([0, width5])
-                .domain(xIndexval.sort(d3.ascending));
-
-            svg6
-                .append("g")
-                .attr("transform", "translate(0,"  + 0 + ")")
-                .call(d3.axisTop(x5).tickFormat(d3.timeFormat).tickSize(0))
-                .call(function (g) {
-                    g.selectAll(".domain, .tick line").remove()
-                })
-                .call(function (g) {
-                    g.selectAll("text")
-                        .attr("font-family", "Noto Sans KR")
-                        .attr("fill", "grey")
-                });
-            // Build Y scales and axis:
-
-            y5 = d3.scaleBand()
-                .range([height5, 0])
-                .domain(yIndexval.sort(d3.ascending));
-
-            // .padding(0.01);
-            svg6.append("g")
-                .call(d3.axisLeft(y5).tickSize(0))
-                .call(function (g) {
-                    g.selectAll(".domain, .tick line").remove()
-                })
-                .call(function (g) {
-                    g.selectAll("text")
-                        .attr("font-family", "Noto Sans KR")
-                        .attr("fill", "grey")
-                });
-
-            svg6
-                .selectAll().append("g")
-                .data(newData, function (d) {
-                    return d;
-                })
-                .enter()
-                .append("rect")
-
-                .attr("x", function (d) {
-
-                    return x5(d.yIndex);
-                })
-                .style("fill", function (d) {
-                    if (d.retentionvalue > 50) {
-                        return myColor(d.retentionvalue);
-                    } else {
-                        return myColorred(d.retentionvalue);
-                    }
-                })
-                .on("mouseover", onMouseOverRect())
-                .on("mouseout", onMouseOutRect())
-                .on("mousemove", onMouseMoveRect())
-                .transition().delay(function (d,i) {return  i*15;}).ease(d3.easeSin)
-
-                .attr("y", function (d) {
-                    return y5(d.xIndex);
-                })
-                .attr("rx", 10)
-                .attr("ry", 10)
-                .attr("width", function () {
-                    return x5.bandwidth();
-                })
-                .attr("height", function () {
-                    return y5.bandwidth();
-                });
-
-
-            svg6
-                .append("g")
-                .attr("font-family", "Noto Sans KR")
-                .attr("font-weight", "Light")
-                .attr("font-size", "0.3rem")
-                .append("g")
-                .selectAll("text")
-                .data(newData)
-                .enter()
-                .append("text")
-                .text(function (d) {
-                    return d.retentionvalue ;
-                })
-                .attr("x", function (d) {
-                    return x5(d.yIndex);
-                })
-                .attr("y", function (d) {
-                    return y5(d.xIndex);
-                })
-                .attr("dx", x5.bandwidth() / 2)
-                .attr("dy", y5.bandwidth() / 2)
-                .attr("dominant-baseline", "text-before-edge")
-                .attr("text-anchor", "middle")
-                .attr("alignment-baseline", "middle")
-                .attr("fill", function (d) {
-
-                    var textcolor;
-                    if (d.retentionvalue >= 30 && d.retentionvalue < 60) {
-                        textcolor = "grey";
-                    } else {
-                        textcolor = "grey";
-                    }
-                    return textcolor;
-                })
-                .attr("pointer-events","none");
         }
         //public area
         return {

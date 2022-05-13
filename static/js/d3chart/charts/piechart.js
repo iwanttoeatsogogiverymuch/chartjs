@@ -80,6 +80,22 @@ var piechart = (function extracted() {
             {label: "영업본부(개인)", color: "#ef9db5", value: "200"},
         ];
 
+        function setComma(num) {
+            var len, point, str;
+            num = num + "";
+            point = num.length % 3;
+            len = num.length;
+
+            str = num.substring(0, point);
+            while (point < len) {
+                if (str !== "") str += ",";
+                str += num.substring(point, point + 3);
+                point += 3;
+            }
+            return str;
+
+
+        }
 
         function getPercent(d) {
             return d.endAngle - d.startAngle > 0.1
@@ -252,7 +268,6 @@ var piechart = (function extracted() {
             svg5 = d3
                 .select("#"+id)
                 .append("svg")
-                .attr("id","piesvg")
                 .attr("width", width3)
                 .attr("height", height3)
                 .attr("viewBox", "0 0 500 400")
@@ -343,7 +358,8 @@ var piechart = (function extracted() {
                 .attr("y", 9.5)
                 .attr("dy", "0.35em")
                 .text(function (d) {
-                    return d.label + " [" + d.value + "]";
+                    return d.label + " [" + setComma(d.value.toString()) + "]";
+
                 });
 
             text = svg5
@@ -513,7 +529,7 @@ var piechart = (function extracted() {
                     .attr("y", 9.5)
                     .attr("dy", "0.35em")
                     .text(function (d) {
-                        return d.label + " [" + d.value + "]";
+                        return d.label + " [" + setComma(d.value.toString()) + "]";
                     });
 
 

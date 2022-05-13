@@ -242,6 +242,7 @@ var multilinechart3 = (function extracted() {
             svg9 = d3
                 .select("#"+divid)
                 .append("svg")
+                .attr("id",divid+"svg")
                 .attr("width", linechartwidth + margin.left + margin.right)
                 .attr("height", linechartheight + margin.top + margin.bottom)
                 .attr("viewBox", "0 0 500 500")

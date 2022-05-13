@@ -105,11 +105,6 @@ var stackedbarchart = (function stack() {
             xlabel=xl;
             ylabel=yl;
             divid = id;
-            if (svg !== undefined){
-
-                d3.selectAll("#stackedbar").select("svg").remove();
-
-            }
 
             var gridlines;
             tooltip = d3.select("body").append("div")
@@ -146,7 +141,7 @@ var stackedbarchart = (function stack() {
                 .attr("viewBox", "0 0 1200 500")
                 .attr("preserveAspectRatio", "true");
 
-            margin = {top: 20, right: 20, bottom: 30, left: 50};
+            margin = {top: 20, right: 100, bottom: 30, left: 50};
             width = +svg.attr("width") - margin.left - margin.right;
             height = +svg.attr("height") - margin.top - margin.bottom;
 
@@ -376,11 +371,12 @@ var stackedbarchart = (function stack() {
                     return setComma(d[1] - d[0]);
                 });
 
-            legend = g
+            legend = svg
                 .append("g")
                 .attr("font-family", "Sans serif")
                 .attr("font-size", "0.7rem")
                 .attr("text-anchor", "end")
+                .attr("transform","translate(150, 100)")
                 .selectAll("g")
                 .data(keys.slice().reverse())
                 .enter()
@@ -411,7 +407,7 @@ var stackedbarchart = (function stack() {
             // y축 레이블
             svg.append("g").append("text")
                 .style("font-size", "0.8rem")
-                .attr("transform", "translate(25" + " ," + 10 + ")")
+                .attr("transform", "translate(37" + " ," + 10 + ")")
                 .style("text-anchor", "middle")
                 .text(xlabel);
 
@@ -421,6 +417,8 @@ var stackedbarchart = (function stack() {
                 .attr("transform", "translate("+(width+10) + ","+(height+margin.bottom+10)+")")
                 // .attr("y", 0 - margin2.left)
                 // .attr("x", 0 - (height2 / 2))
+
+
                 .attr("dy", "0.35em")
                 .style("text-anchor", "middle")
                 .text(ylabel);
@@ -430,9 +428,17 @@ var stackedbarchart = (function stack() {
         }
 
 
+        function  update (newdata){
+
+            d3.select("#"+divid).select("svg").remove().exit();
+            draw(divid,newdata,xlabel);
+
+        }
+
         return{
 
-            draw:draw
+            draw:draw,
+            update:update
         }
 
 

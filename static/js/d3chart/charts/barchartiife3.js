@@ -6,7 +6,6 @@ var barchart2 = (function barchart(){
     function barchartiife(){
 
 
-
         var divwidth;
         var divheight;
 
