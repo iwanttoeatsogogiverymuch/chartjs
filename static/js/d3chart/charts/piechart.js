@@ -268,6 +268,7 @@ var piechart = (function extracted() {
             svg5 = d3
                 .select("#"+id)
                 .append("svg")
+                .attr("id","piechartsvg")
                 .attr("width", width3)
                 .attr("height", height3)
                 .attr("viewBox", "0 0 500 400")
