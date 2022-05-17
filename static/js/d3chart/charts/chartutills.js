@@ -18,25 +18,6 @@ window.addEventListener("load",function (){
 		}
 
 	);
-	//
-	// function changeDataFormatTo3dimemsion(rawData){
-	//
-	// 	if(rawData !== undefined)
-	// 	{
-	// 		var newArray
-	// 		var tempArray = rawData.map(function (d){
-	// 				var keyandvalue = Object.entries().map(function (d){
-	//
-	// 					var row;
-	// 					row.AREA =
-	// 					return newArray.push();
-	// 				});
-	// 		});
-	// 	}
-	// 	else{
-	// 		console.warn(rawData,"no data defined...");
-	// 	}
-	// }
 
 
 });

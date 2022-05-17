@@ -261,7 +261,12 @@ var heatmapchart = (function heatmap(){
     //public function
     function draw(id,jsondata) {
 
+
         divid = id;
+
+        if(svg6 !== undefined){
+            d3.select("#"+divid).select("svg").remove();
+        }
 
         initChart(jsondata);
 

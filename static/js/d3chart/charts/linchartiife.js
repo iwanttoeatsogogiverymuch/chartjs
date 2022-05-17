@@ -51,6 +51,12 @@ var linechart = (function () {
 
         divid = id;
 
+        if(svg9 !== undefined){
+
+            d3.select("#"+divid).select("svg").remove();
+
+        }
+
         data = JSON.parse(JSON.stringify(parsedData));
 
         tablechart2.draw(tableid,data);

@@ -147,6 +147,11 @@ var tablechart2 = (function heatmap(){
 
         divid = id;
 
+
+        if(svg6 !== undefined){
+            d3.select("#"+divid).select("svg").remove();
+        }
+
         initChart(jsondata);
 
         APP_LOGIN_DTs = data.map(function (d) {

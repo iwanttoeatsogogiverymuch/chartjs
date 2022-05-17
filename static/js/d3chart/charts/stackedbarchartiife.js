@@ -351,13 +351,7 @@ var stackedbarchart = (function stack() {
                     return (y(d[0]) - y(d[1])) / 2;
                 })
                 .attr("font-size", function (d){
-                    if(data.length < 7){
-                        return "1rem";
-                    }
-                    else{
-                        return (x.bandwidth()/4).toString() + "px";
-                    }
-
+                    return (x.bandwidth()/4).toString() + "px";
                 })
                 .attr("fill", function (d, i) {
                     return "white";
