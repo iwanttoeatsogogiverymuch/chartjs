@@ -2,13 +2,13 @@ window.addEventListener("load",function (){
 
 	$(".download_g").click(function (){
 
-			var imgTitle = "그래프 다운로드";
+			var imgTitle = "woori_won";
 			var imgscale = 3;
 			var $this = $(this);
 			var svglist = $(this).parent().parent().parent().find("svg");
 			var svg = svglist[0];
 
-			if(svglist.length <= 2){
+			if(svglist.length >= 2){
 
 				saveSvgAsPng(svglist[1],"test.png", {scale : imgscale});
 			}

@@ -215,7 +215,7 @@ var barchart2 = (function barchart(){
             y.domain([
                 0,
                 d3.max(parseddata, function (d) {
-                    return parseInt(d.value);
+                    return Number(d.value);
                 })
             ]);
 
@@ -275,12 +275,11 @@ var barchart2 = (function barchart(){
                 .transition()
                 .duration(1000)
                 .delay(function (d, i) {
-                    return i * 100;
+                    return i * 10;
                 }).ease(d3.easeSin)
                 .attr("height", function (d) {
 
                     console.log(y(d.value));
-
                     console.log(d.value);
                     return height2 - y(d.value);
                 })
@@ -322,17 +321,8 @@ var barchart2 = (function barchart(){
                         return y(parseInt(d.value)) - 18;
                     })
                     .text(function (d) {
-                        var text;
-                        if(d.CODE === "ALL"){
-                            text = "회원수";
-                        }
-                        else if(d.CODE === "DAU"){
-                            text = "DAU";
-                        }
-                        else{
-                            text = "MAU";
-                        }
-                        return text;
+                      
+                        return d.CODE;
 
                     });
 
@@ -352,7 +342,21 @@ var barchart2 = (function barchart(){
                     g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke", "#999999")
                 })
                 .call(function (g) {
-                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838")
+	 						g.selectAll("text")
+								.attr("fill", "#383838");
+					if(datas.length >= 700){
+						 g.selectAll("text").remove();
+					}
+					else if(datas.length < 30){
+						 g.selectAll("text").attr("font-size","10px");
+					}
+					else{
+						 g.selectAll("text")
+							.attr("font-size",function (d){
+								return (x1.bandwidth()/3).toString() + "px";
+							});
+					}
+                   
                 });
 
             g2.append("g")
@@ -366,21 +370,12 @@ var barchart2 = (function barchart(){
                 })
                 .call(function (g) {
                     g.selectAll("text").remove();
-                })
-                .append("text")
-                .attr("x", width2 / 2)
-                .attr("y", y(y.ticks().pop()) + 0.5)
-                .attr("dy", "0.32em")
-                .attr("fill", "#101010")
-                .attr("font-weight", "Regular")
-                .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
-                .attr("text-anchor", "middle");
+                });
+                
 
 
             legend2 = g2
                 .append("g")
-                .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.5rem")
                 .attr("text-anchor", "end")
                 .selectAll("g")
@@ -405,17 +400,8 @@ var barchart2 = (function barchart(){
                 .attr("dy", "0.32em")
                 .attr("y", 6)
                 .text(function (d) {
-                    var text;
-                    if(d === "ALL"){
-                        text = "회원수";
-                    }
-                    else if(d === "DAU"){
-                        text = "DAU";
-                    }
-                    else{
-                        text = "MAU";
-                    }
-                    return text;
+          
+                    return d;
 
                 });
 

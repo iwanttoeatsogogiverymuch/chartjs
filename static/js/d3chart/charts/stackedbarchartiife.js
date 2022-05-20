@@ -84,20 +84,7 @@ var stackedbarchart = (function stack() {
 
 
         function setComma(num) {
-            var len, point, str;
-
-            num = num + "";
-            point = num.length % 3;
-            len = num.length;
-
-            str = num.substring(0, point);
-            while (point < len) {
-                if (str != "") str += ",";
-                str += num.substring(point, point + 3);
-                point += 3;
-            }
-
-            return str;
+           return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
         };
         function draw(id,data,xl,yl) {
@@ -137,9 +124,9 @@ var stackedbarchart = (function stack() {
                 .attr("width", "1200")
                 .attr("height", "500")
                 .attr("viewBox", "0 0 1200 500")
-                .attr("preserveAspectRatio", "true");
+                .attr("preserveAspectRatio", "none");
 
-            margin = {top: 20, right: 100, bottom: 30, left: 50};
+            margin = {top: 20, right: 190, bottom: 30, left: 50};
             width = +svg.attr("width") - margin.left - margin.right;
             height = +svg.attr("height") - margin.top - margin.bottom;
 
@@ -269,7 +256,8 @@ var stackedbarchart = (function stack() {
                 .on("mousemove", function (d, i, j) {
 
                     var subgroupName = d3.select(this.parentNode).datum().key;
-                    var subgroupValue = d.data[subgroupName];
+                    var subgroupValue = d.data[subgroupName];       
+          
 
                     tooltip.style("left", (d3.event.pageX + 10) + "px");
                     tooltip.style("top", (d3.event.pageY - 10) + "px");
@@ -301,6 +289,10 @@ var stackedbarchart = (function stack() {
                 .call(function (g) {
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey")
                         .attr("font-size",function (d){
+                        
+                       if(data.length <= 10){
+                        	return "15px";
+                        }
                             return  (x.bandwidth()/5).toString() + "px";
                         })
                 });
@@ -333,6 +325,7 @@ var stackedbarchart = (function stack() {
                 .append("g").attr("transform", "translate(0," + 0 + ")")
                 .selectAll("text")
                 .data(function (d) {
+            
                     return d;
                 })
                 .enter()
@@ -351,13 +344,18 @@ var stackedbarchart = (function stack() {
                     return (y(d[0]) - y(d[1])) / 2;
                 })
                 .attr("font-size", function (d){
+                if(data.length <=10){
+                
+                	return "15px";
+                }
                     return (x.bandwidth()/4).toString() + "px";
                 })
                 .attr("fill", function (d, i) {
                     return "white";
                 })
                 .text(function (d) {
-                    return setComma(d[1] - d[0]);
+                var datasize = d[1] - d[0];               
+                    return setComma(datasize);
                 });
 
             legend = svg
@@ -365,7 +363,7 @@ var stackedbarchart = (function stack() {
                 .attr("font-family", "Sans serif")
                 .attr("font-size", "0.7rem")
                 .attr("text-anchor", "end")
-                .attr("transform","translate(150, 100)")
+                .attr("transform","translate(250, 100)")
                 .selectAll("g")
                 .data(keys.slice().reverse())
                 .enter()
@@ -401,7 +399,7 @@ var stackedbarchart = (function stack() {
 
             // x축 레이블
             svg.append("text")    .style("font-size","0.8rem").style("font-family","Noto Sans KR")
-                .attr("transform", "translate("+(width+10) + ","+(height+margin.bottom+10)+")")
+                .attr("transform", "translate("+(width+100) + ","+(height+margin.bottom+10)+")")
                 .attr("dy", "0.35em")
                 .style("text-anchor", "middle")
                 .text(ylabel);

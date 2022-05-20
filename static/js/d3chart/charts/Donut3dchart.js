@@ -3,7 +3,7 @@
   var  Donut3D = {};
   var svg;
   var height3 = 400;
-  var width3 = 500;
+  var width3 = 570;
   var piedcolor;
   var colorscale;
   var divid;
@@ -374,7 +374,7 @@
     legend = d3
         .select("#"+id).select("svg")
         .append("g")
-        .attr("transform","translate(50,20)")
+        .attr("transform","translate(-50,20)")
         .attr("class","legend")
         .attr("font-family", "Noto Sans KR")
         .attr("font-size", "0.8rem")
@@ -542,7 +542,7 @@
     legend = svg
         .append("g")
         .attr("class","legend")
-        .attr("transform","translate(50,20)")
+        .attr("transform","translate(-50,20)")
         .attr("font-family", "Noto Sans KR")
         .attr("font-size", "0.8rem")
         .attr("text-anchor", "start")
