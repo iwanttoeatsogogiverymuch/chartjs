@@ -3,6 +3,7 @@ var stackedbarchart = (function stack() {
 
     function stackedbarinner(){
 
+		var g;
         var xlabel;
         var ylabel;
 
@@ -354,8 +355,14 @@ var stackedbarchart = (function stack() {
                     return "white";
                 })
                 .text(function (d) {
-                var datasize = d[1] - d[0];               
-                    return setComma(datasize);
+                var datasize = Number(d[1] - d[0]);   
+					if(datasize === 0){
+						return "";
+					}
+					else{
+						 return setComma(datasize);
+					}            
+                   
                 });
 
             legend = svg

@@ -16,20 +16,12 @@
   };
   var easetype = d3.easeSin;
   var d3floatFormatter = d3.format("0.1f");
-  function setComma(num) {
 
-    var len, point, str;
-    num = num + "";
-    point = num.length % 3;
-    len = num.length;
-    str = num.substring(0, point);
-    while (point < len) {
-      if (str != "") str += ",";
-      str += num.substring(point, point + 3);
-      point += 3;
-    }
-    return str;
-  }
+     function setComma(num) {
+           return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        };
+
 
   function pieTop(d, rx, ry, ir) {
     if (d.endAngle - d.startAngle === 0) return "M 0 0";
@@ -307,7 +299,7 @@
         .transition()
         .duration(1000).text(function (d) {
             console.log(d.data.value);
-            return setComma(Math.round(d.data.value));
+            return  setComma(Number(d.data.value));
           })
         .attrTween("transform", function (d) {
           this.current = this.current || d;
@@ -618,7 +610,7 @@
         .append("text")
         .attr("dy", ".24em")
         .text(function (d) {
-          return setComma(Math.round(d.data.value));
+          return setComma(Number(d.data.value));
         });
 
       text
