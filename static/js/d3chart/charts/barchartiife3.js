@@ -119,6 +119,22 @@ var barchart2 = (function barchart(){
 
         };
 
+        function buildTooltip(){
+
+            var vtooltip = d3.select(".toolTip");
+
+            if(vtooltip !== undefined){
+                tooltip = vtooltip;
+                tooltip.style("display", "none").attr("font-size", "3rem").style("opacity","1");
+            }
+            else{
+                tooltip = d3.select("body").append("div")
+                    .attr("class", "toolTip")
+                    .style("display", "none").attr("font-size", "3rem");
+
+            }
+
+        }
 
 
         function draw(id,datas){
@@ -128,10 +144,7 @@ var barchart2 = (function barchart(){
             divid = id;
             parseddata = JSON.parse(JSON.stringify(datas));
 
-
-            tooltip = d3.select("body").append("div")
-                .attr("class", "toolTip")
-                .style("display", "none").attr("font-size", "3rem");
+            buildTooltip();
 
 
             if(svg2 !== undefined){
