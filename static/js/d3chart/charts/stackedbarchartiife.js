@@ -4,10 +4,13 @@ var stackedbarchart = (function stack() {
     function stackedbarinner(){
 
 		var g;
+
         var xlabel;
+
         var ylabel;
 
         var colorscale3;
+
         var divid;
 
         var legend;
@@ -244,7 +247,8 @@ var stackedbarchart = (function stack() {
                     return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
                 }).attr("opacity", "1");
 
-                tooltip.style("opacity", "100");
+                tooltip.style("opacity", "1");
+                tooltip.style("display", null);
             })
                 .on("mouseout", function () {
                     g.selectAll("rect").attr("opacity", "1");
@@ -253,6 +257,7 @@ var stackedbarchart = (function stack() {
 
                     });
                     tooltip.style("opacity", "0");
+                    tooltip.style("display", "none");
                 })
                 .on("mousemove", function (d, i, j) {
 
@@ -354,13 +359,15 @@ var stackedbarchart = (function stack() {
                 .attr("fill", function (d, i) {
                     return "white";
                 })
-                .text(function (d) {
-                var datasize = Number(d[1] - d[0]);   
+                .text(function (d,i) {
+                var datasize =d[1]- d[0];
 					if(datasize === 0){
 						return "";
 					}
 					else{
-						 return setComma(datasize);
+                        console.log(d);
+						 return d[1] - d[0];
+
 					}            
                    
                 });

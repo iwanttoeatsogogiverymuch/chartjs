@@ -7,6 +7,7 @@ var barchart2 = (function barchart(){
 
 
         var divwidth;
+
         var divheight;
 
         var config;
@@ -17,8 +18,10 @@ var barchart2 = (function barchart(){
 
         var keys;
 
+        //유저통계차트용 컬러매핑 함수
         var daucolor;
 
+        //유저통계차트용 컬러스키마
         var daucolorpallete;
 
         var z2;
@@ -43,63 +46,18 @@ var barchart2 = (function barchart(){
 
         var tooltip;
 
-        var parseddata2;
-
         var parseddata;
 
+        //샘플데이터
         var untactperfom = [
-            {"AREA":"강남금융센터", "CODE":"정기예금","value":"340000"},
-            {"AREA":"강남금융센터", "CODE":"정기적금","value":"34000"},
-            {"AREA":"강남금융센터", "CODE":"핵심예금(개인)","value":"230000"},
-            {"AREA":"강남금융센터", "CODE":"핵심예금(기업)","value":"11000"},
-            {"AREA":"강남금융센터", "CODE":"기타","value":"320000"},
-            {"AREA":"강남금융센터", "CODE":"전체","value":"430000"},
-            {"AREA":"수유지점", "CODE":"정기예금","value":"2000"},
-            {"AREA":"수유지점", "CODE":"정기적금","value":"30000"},
-            {"AREA":"수유지점", "CODE":"핵심예금(개인)","value":"150000"},
-            {"AREA":"수유지점", "CODE":"핵심예금(기업)","value":"20000"},
-            {"AREA":"수유지점", "CODE":"기타","value":"340000"},
-            {"AREA":"수유지점", "CODE":"전체","value":"340000"},
-
-        ];
-        var testdata = [
-            {"date": "2022-03-01" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-02" , "DAU":"14000", "MAU":"500000", "ALL":"400000"},
-            {"date": "2022-03-03" , "DAU":"24000", "MAU":"700000", "ALL":"400000"},
-            {"date": "2022-03-04" , "DAU":"44000", "MAU":"200000", "ALL":"400000"},
-            {"date": "2022-03-05" , "DAU":"25300", "MAU":"100000", "ALL":"400000"},
-            {"date": "2022-03-06" , "DAU":"38900", "MAU":"300000", "ALL":"400000"}
+            {"AREA":"2022/05/23", "CODE":"회원수","value":"340000"},
+            {"AREA":"2022/05/23", "CODE":"MAU","value":"34000"},
+            {"AREA":"2022/05/23", "CODE":"DAU","value":"230000"},
+            {"AREA":"2022/05/24", "CODE":"회원수","value":"340000"},
+            {"AREA":"2022/05/24", "CODE":"MAU","value":"34000"},
+            {"AREA":"2022/05/24", "CODE":"DAU","value":"230000"}
         ];
 
-        var testdata2 = [
-            {"date": "2022-03-01" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-02" , "DAU":"34000", "MAU":"200000", "ALL":"400000"},
-            {"date": "2022-03-03" , "DAU":"34000", "MAU":"300000", "ALL":"400000"},
-            {"date": "2022-03-04" , "DAU":"34000", "MAU":"100000", "ALL":"400000"},
-            {"date": "2022-03-05" , "DAU":"34000", "MAU":"250000", "ALL":"400000"},
-            {"date": "2022-03-06" , "DAU":"34000", "MAU":"23000", "ALL":"400000"},
-            {"date": "2022-03-07" , "DAU":"34000", "MAU":"10000", "ALL":"400000"},
-            {"date": "2022-03-08" , "DAU":"34000", "MAU":"200000", "ALL":"400000"},
-            {"date": "2022-03-09" , "DAU":"34000", "MAU":"356000", "ALL":"400000"},
-            {"date": "2022-03-10" , "DAU":"34000", "MAU":"240000", "ALL":"400000"},
-            {"date": "2022-03-11" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-12" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-13" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-14" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-15" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-16" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-17" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-18" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-19" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-21" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-22" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-23" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-24" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-25" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-26" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-27" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-
-        ];
 
 
         function setComma(num) {
@@ -121,17 +79,13 @@ var barchart2 = (function barchart(){
 
         function buildTooltip(){
 
-            var vtooltip = d3.select(".toolTip");
 
-            if(vtooltip !== undefined){
-                tooltip = vtooltip;
-                tooltip.style("display", "none").attr("font-size", "3rem").style("opacity","1");
-            }
-            else{
+            if(tooltip === undefined){
                 tooltip = d3.select("body").append("div")
                     .attr("class", "toolTip")
-                    .style("display", "none").attr("font-size", "3rem");
-
+                    .style("display", "none")
+                    .attr("font-size", "3rem")
+                    .style("opacity","0");
             }
 
         }
@@ -215,6 +169,7 @@ var barchart2 = (function barchart(){
             );
 
             //grouped bar 키값 설정
+
 
             x1.domain(
                 parseddata.map(function (d) {
@@ -366,7 +321,7 @@ var barchart2 = (function barchart(){
 					else{
 						 g.selectAll("text")
 							.attr("font-size",function (d){
-								return (x1.bandwidth()/3).toString() + "px";
+								return (x1.bandwidth()/2).toString() + "px";
 							});
 					}
                    
