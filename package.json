@@ -25,6 +25,8 @@
     "eonasdan-bootstrap-datetimepicker": "^4.7.14",
     "jquery": "^3.6.0",
     "moment": "^2.29.2",
-    "save-svg-as-png": "^1.4.17"
+    "prettier": "^2.6.2",
+    "save-svg-as-png": "^1.4.17",
+    "xlsx": "^0.18.5"
   }
 }
