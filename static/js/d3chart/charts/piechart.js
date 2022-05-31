@@ -1,14 +1,22 @@
 var piechart = (function extracted() {
 
+    /**
+     * @TODO 접수건 처리 필욘
+     */
+    
+    /**
+     * 비대면,대면실적 파이차트
+     * @returns {{
+     * update: update,
+     * draw: draw
+     * }}
+     */
 
     function innerfunction(){
 
 
         //차트에 쓰일 div 아이디
         var divid;
-
-        //전역변수노출시킬 변수
-        var piechart = {};
 
         //키
         var key;

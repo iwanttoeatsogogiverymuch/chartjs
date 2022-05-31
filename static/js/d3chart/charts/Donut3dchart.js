@@ -20,29 +20,44 @@
      function setComma(num) {
            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-        };
+        }
 
-
+  /**
+   * 표면 donut d 구하는 함수
+   * IE버전에서 한값이 100프로차지할경우 부동소수점 인지못해서 깨지는현상이발생
+   * @param d  {Object} : pie차트를그리기위한 angle정보를담은 객체
+   * @param rx {string} :
+   * @param ry {string} :
+   * @param ir  {string} :
+   * @returns {string}
+   */
   function pieTop(d, rx, ry, ir) {
     if (d.endAngle - d.startAngle === 0) return "M 0 0";
-    var sx = rx * Math.cos(d.startAngle),
-      sy = ry * Math.sin(d.startAngle),
-      ex = rx * Math.cos(d.endAngle),
-      ey = ry * Math.sin(d.endAngle);
+
+    var sx = rx * Math.cos(d.startAngle);
+    var  sy = ry * Math.sin(d.startAngle);
+    var  ex = rx * Math.cos(d.endAngle);
+    var  ey = ry * Math.sin(d.endAngle);
+
+    var sxFixed = sx.toString().slice(0,10);
+    var syFixed = sy.toString().slice(0,10);
+    var exFixed = ex.toString().slice(0,10);
+    var eyFixed = ey.toString().slice(0,10);
+
 
     var ret = [];
     ret.push(
       "M",
-      sx,
-      sy,
+        sx,
+        sy,
       "A",
       rx,
       ry,
       "0",
       d.endAngle - d.startAngle > Math.PI ? 1 : 0,
       "1",
-      ex,
-      ey,
+        ex,
+        ey,
       "L",
       ir * ex,
       ir * ey
@@ -247,21 +262,6 @@
       .attrTween("y", textTweenY)
       .text(getPercent);
 
-
-    // d3.select("#fullpie")
-    //   .selectAll(".donutlegend")
-    //   .data(_data)
-    //   .transition()
-    //   .duration(duration)
-    //   .text(function (d) {
-    //     return (
-    //       d.data.label +
-    //       "  [" +
-    //       setComma(Math.round(d.data.value)) +
-    //       "원" +
-    //       "  ]"
-    //     );
-    //   });
 
 
     d3.select("#"+id ).append("g")
@@ -486,10 +486,10 @@
       .append("path")
       .attr("class", "topSlice")
       .style("fill", function (d) {
-        return colorscale(d.data.label);
+        return d3.hsl(colorscale(d.data.label)).toString();
       })
       .style("stroke", function (d) {
-        return colorscale(d.data.label);
+        return d3.hsl(colorscale(d.data.label)).toString();
       })
       .attr("d", function (d) {
         return pieTop(d, rx, ry, ir);

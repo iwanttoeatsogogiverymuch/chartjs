@@ -1,6 +1,12 @@
 var stackedbarchart = (function stack() {
 
-
+    /** 수신이용현황 스택바
+     * module function으로 multiple instance 생성함수
+     * @returns {{
+     * update: update,
+     * draw: draw
+     * }}
+     */
     function stackedbarinner(){
 
 		var g;
@@ -27,6 +33,10 @@ var stackedbarchart = (function stack() {
 
         var width;
 
+        var svgwidth;
+
+        var svgheight;
+
         var margin;
 
         var svg;
@@ -43,7 +53,7 @@ var stackedbarchart = (function stack() {
 
         var gridx;
 
-        var gridline;
+        var gridlines;
 
         var gridline2;
 
@@ -56,66 +66,49 @@ var stackedbarchart = (function stack() {
             {"date": "2022-03-06", "DAU": "38900", "MAU": "300000", "ALL": "400000"}
         ];
 
-        var testdata2 = [
-            {"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-02", "DAU": "34000", "MAU": "200000", "ALL": "400000"},
-            {"date": "2022-03-03", "DAU": "34000", "MAU": "300000", "ALL": "400000"},
-            {"date": "2022-03-04", "DAU": "34000", "MAU": "100000", "ALL": "400000"},
-            {"date": "2022-03-05", "DAU": "34000", "MAU": "250000", "ALL": "400000"},
-            {"date": "2022-03-06", "DAU": "34000", "MAU": "23000", "ALL": "400000"},
-            {"date": "2022-03-07", "DAU": "34000", "MAU": "10000", "ALL": "400000"},
-            {"date": "2022-03-08", "DAU": "34000", "MAU": "200000", "ALL": "400000"},
-            {"date": "2022-03-09", "DAU": "34000", "MAU": "356000", "ALL": "400000"},
-            {"date": "2022-03-10", "DAU": "34000", "MAU": "240000", "ALL": "400000"},
-            {"date": "2022-03-11", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-12", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-13", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-14", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-15", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-16", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-17", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-18", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-19", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-21", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-22", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-23", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-24", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-25", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-26", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-27", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
 
-        ];
-
-
+        /**
+         *
+         * @param num {string}   : 3 자리 마다  ","를 추가할 숫자(string)
+         * @returns {string}
+         */
         function setComma(num) {
            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-        };
+        }
+
+        /**
+         *
+         * @param id {string}  :  차트 svg 요소를 담을 부모 div의 id
+         * @param data {json}  :  차트에 그릴 json 데이터 JSON.stringify(data) 로 넣어주는것이 안전( draw 함수 내부에서도 stringfy 적용)
+         * @param xl{string}           :  x축 라벨에 쓰일 이름
+         * @param yl {string}          :  y축 라벨에 쓰일 이름
+         */
         function draw(id,data,xl,yl) {
 
             xlabel=xl;
             ylabel=yl;
             divid = id;
 
-            var gridlines;
-            tooltip = d3.select("body").append("div")
-                .attr("class", "toolTip")
-                .style("opacity", "0");
+            svgwidth = 1200;
+            svgheight = 500;
+
+            mcgpalette0 = ["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D"];
             duration = 1300;
+            easetype = d3.easeSin;
             delayfunc = function (d, i) {
                 return i * 100;
             };
-            easetype = d3.easeSin;
+            tooltip = d3.select("body").append("div")
+                .attr("class", "toolTip")
+                .style("opacity", "0");
 
-            //bar colors
-            mcgpalette0 = ["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D"];
 
 
             colorscale2 = d3.scaleOrdinal()
                 .domain(["e-자유적립적금","e-정기적금","e-회원정기예금(복리)","e-회원정기예금(단리)","더마니드림 e-정기예금","e-정기예금(복리)","e-정기예금(단리)"])
                 .range(
                     ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
-
 
             colorscale3 = d3.scaleOrdinal()
                 .domain(["전체","자동이체","카카오톡이체","예약이체","지연이체","즉시이체"])
@@ -125,8 +118,8 @@ var stackedbarchart = (function stack() {
             svg = d3
                 .select("#"+divid)
                 .append("svg")
-                .attr("width", "1200")
-                .attr("height", "500")
+                .attr("width", svgwidth)
+                .attr("height", svgheight)
                 .attr("viewBox", "0 0 1200 500")
                 .attr("preserveAspectRatio", "none");
 
@@ -290,7 +283,9 @@ var stackedbarchart = (function stack() {
                     g.selectAll(".tick line").remove()
                 })
                 .call(function (g) {
-                    g.selectAll(".domain").attr("stroke-width", "1").attr("stroke-opacity", "0.3")
+                    g.selectAll(".domain")
+                        .attr("stroke-width", "1")
+                        .attr("stroke-opacity", "0.3")
                 })
                 .call(function (g) {
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey")
@@ -310,10 +305,14 @@ var stackedbarchart = (function stack() {
                     g.selectAll(".tick line").remove()
                 })
                 .call(function (g) {
-                    g.selectAll(".domain").attr("stroke-width", "1").attr("stroke-opacity", "0.3")
+                    g.selectAll(".domain")
+                        .attr("stroke-width", "1")
+                        .attr("stroke-opacity", "0.3")
                 })
                 .call(function (g) {
-                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "lightgrey")
+                    g.selectAll("text")
+                        .attr("font-family", "Noto Sans KR")
+                        .attr("fill", "lightgrey")
                 })
                 .append("text")
                 .attr("x", 2)
@@ -360,16 +359,17 @@ var stackedbarchart = (function stack() {
                     return "white";
                 })
                 .text(function (d,i) {
-                var datasize =d[1]- d[0];
-					if(datasize === 0){
-						return "";
-					}
-					else{
-                        console.log(d);
-						 return d[1] - d[0];
+                    var subgroupName = d3.select(this.parentNode).datum().key;
+                    var subgroupValue = d.data[subgroupName];
 
-					}            
-                   
+                    if (Number(subgroupValue) === 0 ){
+                        return "";
+                    }
+                    else{
+                        return setComma(subgroupValue.toString());
+                    }
+
+
                 });
 
             legend = svg
@@ -419,10 +419,17 @@ var stackedbarchart = (function stack() {
                 .text(ylabel);
 
         }
+
+        /**
+         * 기존 svg 를 삭제한 이후 다시 draw함수호출로 update함
+         * @param newdata {json} : 다시 변경할 차트 데이터
+         */
         function  update (newdata){
             d3.select("#"+divid).select("svg").remove().exit();
             draw(divid,newdata,xlabel);
         }
+
+
         return{
             draw:draw,
             update:update

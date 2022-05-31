@@ -1,5 +1,10 @@
 window.addEventListener("load",function (){
 
+	/**
+	 * svg그래프 다운로드 기능 버튼에 추가
+	 * @requires savesvgaspng
+	 * @requires jquery
+	 */
 	$(".download_g").click(function (){
 
 			var imgTitle = "woori_won";
@@ -10,12 +15,17 @@ window.addEventListener("load",function (){
 			if(svglist.length >= 2){
 				saveSvgAsPng(svglist[1],"test.png", {scale : imgscale});
 			}
-			console.log(svg);
 			saveSvgAsPng(svg,imgTitle, {scale : imgscale});
 		}
 	);
 
+	/**
+	 * svg파일을 pdf로 다운로드하는 기능
+	 * @requires jspdf
+	 * @param divid {string}
+	 */
 	function exportToPDF(divid) {
+
 		var svgElement = document.getElementById(divid);
 		console.log(svgElement);
 		var svg = svgElement.innerHTML;
@@ -33,5 +43,79 @@ window.addEventListener("load",function (){
 		doc.save("svg-png-chart.pdf");
 	}
 
+
+
+	/**
+	 * 브라우저체크
+	 * @returns {string}
+	 */
+	function getBrowserType() {
+
+		var agent = window.navigator.userAgent.toLowerCase();
+		var browserType ="";
+
+		if(agent.indexOf('trident')>-1){
+			browserType = "IE";
+		}else if(agent.indexOf('safari')>-1){
+			browserType = "safari";
+		}else if(agent.indexOf('chrome')>-1){
+			browserType = "chrome";
+		}else if(agent.indexOf('firefox')>-1){
+			browserType = "firefox";
+		}else if(agent.indexOf('opera')>-1){
+			browserType = "opera";
+		}
+
+		console.log(browserType);
+		return browserType;
+	}
+
+	/**
+	 * @TODO 그래프 다운로드 버튼 IE브라우저에서 삭제하는기능
+	 */
+		function deleteDownloadSvgButtonInIE() {
+
+		var svgDownloadButtonId = "download_g";
+		var browserType = getBrowserType();
+		var button = document.getElementsByClassName(svgDownloadButtonId);
+
+		if(browserType === "IE")
+		{
+			while(button.length > 0) button[0].parentNode.removeChild(button[0]);
+		}
+	}
+	deleteDownloadSvgButtonInIE();
+
+
+
+	/**
+	 * svg 요소 2개를 한개의 svg로 ( div ) 안에 합치는 기능
+	 * @param firstDivId {string}  : 첫번째 svg를 child로 가지고있는 div의 id값
+	 * @param secondDivId {string} : 두번째 svg를 child로 가지고있는 div의 id값
+	 */
+	function mergeTwoSvg(firstDivId, secondDivId) {
+
+		var svgNS = "http://www.w3.org/2000/svg";
+		var mergedDiv = document.createElement("div");
+		var mergedSvg = document.createElementNS(svgNS,"svg");
+
+		mergedDiv.setAttribute("id","mergedDiv");
+		mergedDiv.appendChild(mergedSvg);
+
+
+		var firstSvgContainer = document.getElementById(firstDivId);
+		var secondSvgContainer = document.getElementById(secondDivId);
+
+		var firstContent = Array.from(firstSvgContainer.getElementsByTagName("svg")[0].childNodes);
+		var secondContent = Array.from(secondSvgContainer.getElementsByTagName("svg")[0].childNodes);
+
+		for (let i = 0; i < chartContent.length; i++) {
+			mergedSvg.appendChild(firstContent[i]);
+		}
+		for (let i = 0; i < legendContent.length; i++) {
+			mergedSvg.appendChild(secondContent[i]);
+		}
+
+	}
 
 });
