@@ -180,19 +180,7 @@ var piechart = (function extracted() {
         function draw(id,piedata){
 
             divid = id;
-
-            salesData3 = [
-                {label: "강남금융센터", color: "#be653e", value: "300"},
-                {label: "삼성지점", color: "#78bb37", value: "400"},
-                {label: "수유지점", color: "#e0b63d", value: "200"},
-                {label: "영업본부(개인)", color: "#ef9db5", value: "200"},
-                {label: "영업부", color: "#d46b8e", value: "300"},
-                {label: "채권2팀", color: "#9a9adc", value: "30"},
-                {label: "투자금융팀", color: "#6cc4a0", value: "120"},
-            ];
-
             builTooltip();
-
 
             var piecolors = [
                 "#be653e",
@@ -373,7 +361,7 @@ var piechart = (function extracted() {
             text = svg5
                 .select(".labels")
                 .selectAll("text")
-                .data(pie2(salesData3),key).enter()
+                .data(pie2(piedata),key).enter()
                 .append("text")
                 .attr("font-size","0.6rem")
                 .attr("dy", "0.35em");
@@ -400,7 +388,7 @@ var piechart = (function extracted() {
             polyline = svg5
                 .select(".lines")
                 .selectAll("polyline")
-                .data(pie2(salesData3),key).enter().append("polyline")
+                .data(pie2(piedata),key).enter().append("polyline")
                 .attr("stroke", "black")
                 .attr("stroke-width","1")
                 .style("fill", "none")

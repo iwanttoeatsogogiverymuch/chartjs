@@ -1,6 +1,7 @@
 var stackedbarchart = (function stack() {
 
-    /** 수신이용현황 스택바
+    /** 수신이용현황 스택바 차트
+     *
      * module function으로 multiple instance 생성함수
      * @returns {{
      * update: update,
@@ -105,15 +106,23 @@ var stackedbarchart = (function stack() {
 
 
 
-            colorscale2 = d3.scaleOrdinal()
-                .domain(["e-자유적립적금","e-정기적금","e-회원정기예금(복리)","e-회원정기예금(단리)","더마니드림 e-정기예금","e-정기예금(복리)","e-정기예금(단리)"])
+          var  colorscale2 = d3.scaleOrdinal()
+                .domain(Object.keys(data[0]).slice(1))
                 .range(
-                    ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
+                    [   "#be653e", /* e-자유적립적금 */
+                        "#78bb37", /* e-정기적금 */
+                        "#e0b63d", /* e-회원정기예금(복리) */
+                        "#ef9db5", /* e-회원정기예금(단리) */
+                        "#d46b8e", /* "더마니드림 저축예금_비대면"*/
+                        "#9a9adc", /* e-정기예금(단리) */
+                        "#6cc4a0", /* e-정기예금(복리) */
+                        "#ea7f84", /* 첫번째저축예금_비대면 */
+                    ]);
 
             colorscale3 = d3.scaleOrdinal()
                 .domain(["전체","자동이체","카카오톡이체","예약이체","지연이체","즉시이체"])
                 .range(
-                    ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc"]);
+                    ["#be653e","#78BB37FF","#e0b63d","#ef9db5","#d46b8e","#9a9adc"]);
 
             svg = d3
                 .select("#"+divid)
@@ -182,10 +191,7 @@ var stackedbarchart = (function stack() {
             ]).nice();
             z.domain(keys);
 
-            colorscale3 = d3.scaleOrdinal()
-                .domain(keys)
-                .range(
-                    ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc"]);
+
 
             gridlines = d3
                 .axisLeft()
@@ -222,7 +228,8 @@ var stackedbarchart = (function stack() {
                 .enter()
                 .append("g")
                 .attr("fill", function (d) {
-                    return colorscale3(d.key);
+                    console.log("키는",d.key)
+                    return colorscale2(d.key);
                 })
                 .selectAll("rect")
                 .data(function (d) {
@@ -391,7 +398,7 @@ var stackedbarchart = (function stack() {
                 .attr("x", width - 19)
                 .attr("width", 19)
                 .attr("height", 19)
-                .attr("fill", colorscale3);
+                .attr("fill", colorscale2);
 
             legend
                 .append("text")

@@ -1,7 +1,7 @@
 var barchart4 = (function barchartd(){
 
 
-    //수신 영업일보용  바차트
+    //수신 이용현황 바차트
     function barchartiife2(){
 
 

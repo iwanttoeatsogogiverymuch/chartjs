@@ -1,4 +1,6 @@
 //우리WON저축은행앱 전용 테이블차트
+//테이블 차트 화면설계서 v1.0이후
+// 화면설계서상 제외됨
 var tablechart = (function heatmap(){
 
     function table(){

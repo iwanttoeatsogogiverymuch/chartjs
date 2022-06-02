@@ -1,46 +1,27 @@
-var barchart5 = (function barchartd(){
-
+var barchart5 = (function barchart(){
 
     //수신 영업일보용  바차트
     function barchartiife2(){
 
-
         var isxAxisRoate;
         var divwidth = 1200;
         var divheight =700;
-
         var divid;
-
         var legend2;
-
         var keys;
-
         var z2;
-
         var mcgpalette0;
-
         var y;
-
         var x1;
-
         var x0;
-
         var g2;
-
         var height2;
-
         var width2;
-
         var margin2;
-
         var svg2;
-
         var tooltip;
-
         var parseddata2;
-
         var parseddata;
-
         var untactperfom = [
             {"AREA":"강남금융센터", "CODE":"정기예금","value":"340000"},
             {"AREA":"강남금융센터", "CODE":"정기적금","value":"34000"},
@@ -56,17 +37,6 @@ var barchart5 = (function barchartd(){
             {"AREA":"수유지점", "CODE":"전체","value":"340000"},
 
         ];
-        var testdata = [
-            {"date": "2022-03-01" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-02" , "DAU":"14000", "MAU":"500000", "ALL":"400000"},
-            {"date": "2022-03-03" , "DAU":"24000", "MAU":"700000", "ALL":"400000"},
-            {"date": "2022-03-04" , "DAU":"44000", "MAU":"200000", "ALL":"400000"},
-            {"date": "2022-03-05" , "DAU":"25300", "MAU":"100000", "ALL":"400000"},
-            {"date": "2022-03-06" , "DAU":"38900", "MAU":"300000", "ALL":"400000"}
-        ];
-
-
-
 
         function setComma(num) {
             var len, point, str;
@@ -81,11 +51,14 @@ var barchart5 = (function barchartd(){
                 point += 3;
             }
             return str;
+        }
 
-
-        };
-
-
+        /**
+         * 수신일보 바차트 draw함수
+         * @param id {string} : svg를 담을 divid
+         * @param datas {Object | String} : Json 데이터 및 Jsonstring 
+         * @param xaxisR : x좌표값 로테이션 여부
+         */
         function draw(id,datas,xaxisR){
 
 
@@ -94,12 +67,9 @@ var barchart5 = (function barchartd(){
             divid = id;
             parseddata = JSON.parse(JSON.stringify(datas));
 
-
             tooltip = d3.select("body").append("div")
                 .attr("class", "toolTip")
                 .style("display", "none").attr("font-size", "3rem");
-
-
             svg2 = d3.select("#" + id)
                 .append("svg")
                 .attr("width", divwidth)
@@ -132,7 +102,6 @@ var barchart5 = (function barchartd(){
                 .scaleOrdinal()
                 .range(mcgpalette0);
 
-
             x0 = d3.scaleBand()
                 .rangeRound([0, width2 - 30]).paddingInner(0.08);
             x1 = d3.scaleBand()
@@ -154,12 +123,9 @@ var barchart5 = (function barchartd(){
             );
 
             //grouped bar 키값 설정
-
             x1.domain(
                 parseddata.map(function (d) {
-
                     var codekey = Object.keys(parseddata[0])[1];
-
                     return d[codekey];
                 }).reverse())
                 .rangeRound([0, x0.bandwidth()]);
@@ -171,11 +137,9 @@ var barchart5 = (function barchartd(){
                 })
             ]);
 
-
             //차트 그리드라인
             gridlines = d3.axisLeft()
                 .tickFormat("")
-                //
                 .tickSize(-width2+margin2.right).ticks(7)
                 .scale(y);
 
@@ -184,12 +148,10 @@ var barchart5 = (function barchartd(){
                 .attr("transform", "translate("+margin2.left+ " ," + margin2.top + ")")
                 .call(gridlines);
 
-
             //positioning the svg g
             g2 = svg2
                 .append("g")
                 .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
-
 
             g2.append("g")
                 .selectAll("g")
@@ -231,13 +193,10 @@ var barchart5 = (function barchartd(){
                     return i * 25;
                 }).ease(d3.easeSin)
                 .attr("height", function (d) {
-
                     console.log(y(d.value));
-
                     console.log(d.value);
                     return height2 - y(d.value);
                 })
-
                 .attr("y", function (d) {
                     return y(d.value);
                 })
@@ -245,9 +204,6 @@ var barchart5 = (function barchartd(){
                 .attr("fill", function (d) {
                     return z2(d.CODE);
                 });
-
-
-
 
             g2.append("g")
                 .attr("class", "axis")
@@ -261,15 +217,11 @@ var barchart5 = (function barchartd(){
                 })
                 .call(function (g) {
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838")
-
-
                     g.selectAll("text")
                             .style("text-anchor", "end")
                             .attr("dx", "-.8em")
                             .attr("dy", ".15em")
                             .attr("transform", "rotate(-90)" );
-
-
 
                 });
 
@@ -286,7 +238,6 @@ var barchart5 = (function barchartd(){
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838");
                 });
 
-
             legend2 = g2
                 .append("g")
                 .attr("font-family", "Noto Sans KR")
@@ -299,7 +250,6 @@ var barchart5 = (function barchartd(){
                 .attr("transform", function (d, i) {
                     return "translate(10," + i * 15 + ")";
                 });
-
 
             legend2
                 .append("rect")
@@ -317,15 +267,12 @@ var barchart5 = (function barchartd(){
                     return d;
                 });
 
-
-
             // y축 레이블
             svg2.append("g").append("text")
                 .attr("font-size", "0.8rem")
                 .attr("transform", "translate(20" + " ," + 30 + ")")
                 .style("text-anchor", "middle")
                 .text("건수");
-
 
             // x축 레이블
             svg2.append("text")    .style("font-size","0.8rem").style("font-family","Noto Sans KR")
@@ -335,23 +282,13 @@ var barchart5 = (function barchartd(){
                 .attr("dy", "0.35em")
                 .style("text-anchor", "middle")
                 .text("일자");
-
-
-
         }
 
         function  update(datas){
-
-
-
             parseddata = JSON.parse(JSON.stringify(datas));
-
-
             tooltip = d3.select("body").append("div")
                 .attr("class", "toolTip")
                 .style("display", "none").attr("font-size", "3rem");
-
-
             svg2.remove().exit();
             svg2 = d3.select("#" + id)
                 .append("svg")
@@ -359,7 +296,6 @@ var barchart5 = (function barchartd(){
                 .attr("height", divheight)
                 .attr("viewBox", "0 0 " + divwidth + " "+ divheight)
                 .attr("preserveAspectRatio", "none");
-
 
             margin2 = {
                 top: 30,
@@ -375,30 +311,21 @@ var barchart5 = (function barchartd(){
                 .append("g")
                 .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-            //스케일매핑함수 세팅
-
             //x좌표값 스케일
             x0 = d3.scaleBand()
                 .rangeRound([0, width2-30]).paddingInner(0.15);
-
             //x좌표값 (그룹바 x좌표)
             x1 = d3.scaleBand()
                 .padding(0.1);
-
             //y좌표값 스케일
             y = d3.scaleLinear()
                 .rangeRound([height2, 0]);
-
-
-
             z2 = d3
                 .scaleOrdinal()
                 .range(mcgpalette0);
 
-
             //json 키값(가장처음칼럼제외)
             keys = Object.keys(parseddata[0]);
-
             //x축 키값 설정
             x0.domain(
                 parseddata.map(function (d) {
@@ -410,7 +337,6 @@ var barchart5 = (function barchartd(){
             );
 
             //grouped bar 키값 설정
-
             x1.domain(
                 parseddata.map(function (d) {
                     //날짜
@@ -438,7 +364,6 @@ var barchart5 = (function barchartd(){
                 .attr("class", "grid")
                 .attr("transform", "translate("+margin2.left+ " ," + margin2.top + ")")
                 .call(gridlines);
-
 
             g2.append("g")
                 .selectAll("g")
@@ -489,8 +414,6 @@ var barchart5 = (function barchartd(){
                     return z2(d.CODE);
                 });
 
-
-
             //x좌표 차트 틱 바
             g2.append("g")
                 .attr("class", "axis")
@@ -532,8 +455,6 @@ var barchart5 = (function barchartd(){
                 .attr("font-size", "0.5rem")
                 .attr("text-anchor", "middle");
 
-
-
             //범례
             legend2 = g2
                 .append("g")
@@ -547,7 +468,6 @@ var barchart5 = (function barchartd(){
                 .attr("transform", function (d, i) {
                     return "translate(10," + i * 13 + ")";
                 });
-
 
             //범례 사각형
             legend2
@@ -566,15 +486,12 @@ var barchart5 = (function barchartd(){
                     return d;
                 });
 
-
-
             // y축 레이블
             svg2.append("g").append("text")
                 .attr("font-size", "2rem")
                 .attr("transform", "translate(20" + " ," + 30 + ")")
                 .style("text-anchor", "middle")
                 .text("건수");
-
 
             // x축 레이블
             svg2.append("text")    .style("font-size","0.5rem").style("font-family","Noto Sans KR")
@@ -584,21 +501,12 @@ var barchart5 = (function barchartd(){
                 .attr("dy", "0.35em")
                 .style("text-anchor", "middle")
                 .text("일자");
-
-
         }
-
         return {
-
             draw:draw,
             update:update
-
         }
-
     }
-
-
     return barchartiife2;
-
         })();
 

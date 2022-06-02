@@ -1,3 +1,4 @@
+//수신이용현황 실적 추이 그래프
 var multilinechart2 = (function extracted() {
 
 
@@ -58,10 +59,10 @@ var multilinechart2 = (function extracted() {
             tooltip.style("opacity", "1");
             tooltip.style("left", d3.event.pageX + 10 + "px");
             tooltip.style("top", d3.event.pageY + 10 + "px");
-           tooltip.html(d.key.toString());
+            tooltip.html(d.key.toString());
 
             console.log(d);
-            console.log("dddd")
+            console.log("dddd");
         }
 
         function onMouseOutTooltip(d) {
@@ -315,7 +316,7 @@ var multilinechart2 = (function extracted() {
                 .domain([
                     0,
                     d3.max(data, function (d) {
-                        return d.retentionvalue;
+                        return Number(d.retentionvalue);
                     }),
                 ])
                 .range([linechartheight, 0])
@@ -326,7 +327,7 @@ var multilinechart2 = (function extracted() {
                 .attr("transform", "translate(0," + 0 + ")")
                 .call(
                     d3.axisLeft(liney).tickFormat(function (d) {
-                        return d + "%";
+                        return d ;
                     }).tickSizeOuter(0)
                 )
                 .call(function (g) {
@@ -338,7 +339,7 @@ var multilinechart2 = (function extracted() {
                         .attr("stroke-opacity", "0.5");
                 })
                 .call(function (g) {
-                    g.selectAll("text").remove()
+                    g.selectAll("text")
                         .attr("font-family", "Noto Sans KR")
                         .attr("fill", "grey");
                 });
@@ -350,19 +351,10 @@ var multilinechart2 = (function extracted() {
                     return d.signdate;
                 })
                 .entries(data);
-
-
-            console.log(sumstat);
-
             signdatekey = sumstat.map(function (d) {
                 return d.key;
             });
             lineColors = d3.scaleOrdinal().domain(signdatekey).range(mcgpalette0);
-
-            //nest json data
-
-
-            //color scale
 
             // Add the line
             svg9
@@ -398,8 +390,14 @@ var multilinechart2 = (function extracted() {
                 .style("font-size", "1rem")
                 .attr("transform", "translate(15" + " ," + -15 + ")")
                 .style("text-anchor", "middle")
-                .text("백만원");
+                .text("금액(백만원)");
 
+            //x축 레이블
+            svg9.append("g").append("text")
+                .style("font-size", "1rem")
+                .attr("transform", "translate(" +linechartwidth + " ," + (linechartheight+25) + ")")
+                .style("text-anchor", "middle")
+                .text("기간(일)");
 
             lengendxScale = d3.scaleBand()
                 .domain(signdatekey)

@@ -6,11 +6,9 @@ var barchart2 = (function barchart(){
     function barchartiife(){
 
 
-        var divwidth;
+        var divwidth = 1200;
 
-        var divheight;
-
-        var config;
+        var divheight = 250;
 
         var divid;
 
@@ -48,6 +46,8 @@ var barchart2 = (function barchart(){
 
         var parseddata;
 
+        var gridlines;
+
         //샘플데이터
         var untactperfom = [
             {"AREA":"2022/05/23", "CODE":"회원수","value":"340000"},
@@ -75,7 +75,7 @@ var barchart2 = (function barchart(){
             return str;
 
 
-        };
+        }
 
         function buildTooltip(){
 
@@ -90,11 +90,16 @@ var barchart2 = (function barchart(){
 
         }
 
+        function handleZoom() {
+
+
+            svg2.attr("transform", d3.event.transform);
+        }
 
         function draw(id,datas){
 
 
-            var gridlines;
+
             divid = id;
             parseddata = JSON.parse(JSON.stringify(datas));
 
@@ -105,12 +110,22 @@ var barchart2 = (function barchart(){
                 d3.select("#"+id).select("svg").remove();
             }
 
+            if(parseddata.length > 700){
+                divwidth = 5000;
+                divheight = 250;
+            }
+            else{
+                divwidth = 1200;
+                divheight = 250;
+            }
+
             svg2 = d3.select("#" + id)
                 .append("svg")
-                .attr("width", 1200)
-                .attr("height", 250)
-                .attr("viewBox", "0 0 1200 250")
-                .attr("preserveAspectRatio", "none");
+                .attr("width", divwidth)
+                .attr("height", divheight)
+                .attr("viewBox", "0 0 " + divwidth.toString() + " " + divheight.toString())
+                .attr("preserveAspectRatio", "none")
+                .call(d3.zoom().scaleExtent([1,7]) .translateExtent([[-70, -10], [divwidth , divheight]]).on("zoom", handleZoom));
 
             margin2 = {
                 top: 30,
@@ -151,7 +166,7 @@ var barchart2 = (function barchart(){
             x0 = d3.scaleBand()
                 .rangeRound([0, width2 - 30]).paddingInner(0.15);
             x1 = d3.scaleBand()
-                .padding(0.1);
+                .padding(0.05);
             y = d3.scaleLinear()
                 .rangeRound([height2, 0]);
 
@@ -243,7 +258,7 @@ var barchart2 = (function barchart(){
                 .transition()
                 .duration(1000)
                 .delay(function (d, i) {
-                    return i * 10;
+                    return i * 2;
                 }).ease(d3.easeSin)
                 .attr("height", function (d) {
 

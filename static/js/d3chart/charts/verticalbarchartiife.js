@@ -244,7 +244,7 @@ function extracted(){
         .attr("dy", "0.35em")
         .attr("fill", "grey")
         .attr("font-family", "Noto Sans KR")
-        .attr("font-size", "1rem")
+        .attr("font-size", "0.7rem")
         .attr("alignment-baseline", "middle")
         .attr("text-anchor", "start")
         .attr("x", function (d) {
@@ -286,31 +286,31 @@ function extracted(){
 
 
 
-    legend2 = g2
+    legend2 = svg2
         .append("g")
         .attr("font-family", "Noto Sans KR")
-        .attr("font-size", "1em")
+        .attr("font-size", "0.7em")
         .attr("text-anchor", "end")
         .selectAll("g")
         .data(keys.slice().reverse())
         .enter()
         .append("g")
         .attr("transform", function (d, i) {
-          return "translate(0," + i * 20 + ")";
+          return "translate(90," + i * 15 + ")";
         });
 
 
     legend2
         .append("rect")
         .attr("x", width2 - 19)
-        .attr("width", 19)
-        .attr("height", 19)
+        .attr("width", 11)
+        .attr("height", 11)
         .attr("fill", z2);
 
     legend2
         .append("text")
         .attr("x", width2 - 24)
-        .attr("y", 13)
+        .attr("y", 10)
         .text(function (d) {
           return d;
         });

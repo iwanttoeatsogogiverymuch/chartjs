@@ -41,6 +41,7 @@ var heatmapchart = (function heatmap(){
     var usercounts;
 
 
+
     // 코호트 사용자 분석 테스트 데이터 (임의가공분)
     // 차트상 표시되는 x좌표인 period_num은 차트내부에서 계산됨
 
@@ -115,12 +116,26 @@ var heatmapchart = (function heatmap(){
 
     function buildTooltip() {
 
-        tooltip = d3.select("body").append("div")
-            .attr("class", "toolTip")
-            .style("opcaity", "0").attr("font-size", "3rem");
+            if(tooltip === undefined){
+                tooltip = d3.select("body").append("div")
+                    .attr("class", "toolTip")
+                    .style("display", "none")
+                    .attr("font-size", "3rem")
+                    .style("opacity","0");
+            }
+
     }
 
     function setSize() {
+
+
+        if(data.length > 700){
+            height = 1400;
+        }
+
+        else{
+            height = 250;
+        }
 
         margin5 = {top: 10, right: 30, bottom: 30, left: 80};
         width5 = width - margin5.left - margin5.right;
@@ -134,18 +149,16 @@ var heatmapchart = (function heatmap(){
 
     function buildSvg() {
 
-
-        // div를 선택하여 svg요소를 붙여넣는다
-        // view box, preserveAsepectRatio 를통해 반응형 차트로 제작
         svg6 = d3
             .select("#" + divid)
             .append("svg")
-            .attr("width", width5 + margin5.left + margin5.right)
-            .attr("height", height5 + margin5.top + margin5.bottom)
-            .attr("viewBox", "0 0 1200 250")
-            .attr("prserveAspectRatio", "none")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("viewBox", "0 0 " + width.toString() + " " + height.toString())
+            .attr("preserveAspectRatio", "none")
             .append("g")
             .attr("transform", "translate(" + margin5.left + "," + margin5.top + ")");
+
     }
 
     function initChart (jsondata){
@@ -173,7 +186,6 @@ var heatmapchart = (function heatmap(){
             return d.APP_LOGIN_DT;
         });
 
-
         preioddates = data.map(
 
             function (d) {
@@ -181,6 +193,11 @@ var heatmapchart = (function heatmap(){
                 return parseInt(d.PERIOD);
             }
         );
+
+        usercounts = data.filter(function (d) {
+            return d.PERIOD === "4";
+        });
+
         // Build X scales and axis:
         x5 = d3.scaleBand()
             .range([50, width5])
@@ -219,6 +236,18 @@ var heatmapchart = (function heatmap(){
                 g.selectAll("text").attr("x","-5")
                     .attr("font-family", "Noto Sans KR")
                     .attr("fill", "grey")
+                    .attr("font-size",function (d) {
+                    if(usercounts.length < 10){
+                        return "0.7rem";
+                    }
+                    else if (usercounts.length > 21){
+                        return "0.7rem";
+                    }
+                    else{
+                        return (y5.bandwidth()).toString()+"px";
+                    }
+
+                })
             });
 
         // Build color scale
@@ -232,15 +261,15 @@ var heatmapchart = (function heatmap(){
             .interpolator(d3.interpolate("white", "#ff5d5c"));
 
 
-        usercounts = data.filter(function (d) {
-            return d.PERIOD === "4";
-        });
 
+
+        //유저수 라벨 위치 매핑 함수
         var userXScale = d3.scaleBand()
             .range([height5, 0])
             .domain(usercounts.sort(d3.ascending))
             .padding(0.1);
 
+        //유저수 라벨
         svg6
             .selectAll()
             .append("g")
@@ -255,7 +284,18 @@ var heatmapchart = (function heatmap(){
             .attr("dy","0.32em")
             .attr("font-family", "Noto Sans KR")
             .attr("fill", "grey")
-            .attr("font-size","0.7rem")
+            .attr("font-size",function (d) {
+                if(usercounts.length < 10){
+                    return "0.7rem";
+                }
+                else if (usercounts.length > 21 && usercounts.length <= 50){
+                    return "0.7rem";
+                }
+                else{
+                    return (y5.bandwidth()).toString()+"px";
+                }
+
+            })
             .text(function (d){
                 return d.ALL;
             });
@@ -286,6 +326,7 @@ var heatmapchart = (function heatmap(){
             .attr("font-size","0.5rem")
             .text("가입일");
 
+        //cohort 차트
         svg6
             .selectAll()
             .append("g")
@@ -318,6 +359,7 @@ var heatmapchart = (function heatmap(){
             .on("mouseover", function (d) {
                 var mouseoverdata = d;
                 tooltip.style("opacity", "1");
+                tooltip.style("display", null);
                 svg6.selectAll("rect")
                     .filter(function (d) {return d.APP_LOGIN_DT === mouseoverdata.APP_LOGIN_DT})
                     .style("fill",function () {
@@ -328,17 +370,12 @@ var heatmapchart = (function heatmap(){
             .on("mouseout", function (d) {
                 var mouseoverdata = d;
                 tooltip.style("opacity", "0");
-
+                tooltip.style("display", "none");
                 svg6.selectAll("rect")
                     .filter(function (d) {return d.APP_LOGIN_DT === mouseoverdata.APP_LOGIN_DT})
                     .style("fill",function () {
                         return d3.hsl(d3.select(this).style("fill")).brighter(0.5).toString();
                     });
-                d3.select(this).attr("width",function () {
-                    return x5.bandwidth();
-                }).attr("height",function () {
-                    return y5.bandwidth();
-                });
 
             })
             .on("mousemove", function (d) {
@@ -353,8 +390,8 @@ var heatmapchart = (function heatmap(){
             .attr("font-family", "Noto Sans KR")
             .attr("font-weight", "Light")
             .attr("font-size", function (d){
-                if(data.length> 300){
-                    return (y5.bandwidth()/2).toString() + "px";
+                if(usercounts.length> 21){
+                    return (y5.bandwidth()/4).toString() + "px";
                 }
                else{
                    return "9px";
@@ -365,6 +402,7 @@ var heatmapchart = (function heatmap(){
             .data(data)
             .enter()
             .append("text")
+            .style("pointer-events","none")
             .text(function (d) {
                 return d3.format(",.1%")(d.RETENTION_RATE);
             })
@@ -393,7 +431,7 @@ var heatmapchart = (function heatmap(){
                 return textcolor;
 
             })
-            .attr("pointer-events","none");
+
 
 
     }
@@ -406,22 +444,6 @@ var heatmapchart = (function heatmap(){
         signdates = data.map(function (d) {
             return d.APP_LOGIN_DT;
         });
-
-        // preioddates = data.map(function (d, i) {
-        //     //  return moment - new Date(d.retentiondate.toString()) ;
-        //
-        //     if (d.APP_LOGIN_DT.toString() === "전체") {
-        //
-        //         return data[i].PERIOD = d.RETENTION_RATE;
-        //     }
-        //
-        //     var a = moment(d.retentiondate.toString());
-        //     var b = moment(d.signdate.toString());
-        //     data[i].PERIOD = a.diff(b, "days");
-        //     return a.diff(b, "days");
-        // });
-
-
 
 
         preioddates = data.map(
@@ -483,9 +505,6 @@ var heatmapchart = (function heatmap(){
             .domain([0.5, 0])
             .interpolator(d3.interpolate("white", "#ff5d5c"));
 
-
-
-
         usercounts = data.filter(function (d) {
             return d.PERIOD === "4";
         });
@@ -510,6 +529,7 @@ var heatmapchart = (function heatmap(){
                 return d.ALL;
             });
 
+
         //일자 라벨
         svg6
             .append("g")
@@ -522,6 +542,7 @@ var heatmapchart = (function heatmap(){
             .attr("fill", "grey")
             .attr("font-size","0.5rem")
             .text("유저수");
+
 
         //전체유저수 라벨
         svg6
@@ -547,9 +568,6 @@ var heatmapchart = (function heatmap(){
             })
             .enter()
             .append("rect")
-            //  .attr("transform", "translate(0," + 0 + ")")
-            // .style("stroke", "grey")
-            // .style("stroke-opacity", "0.2")
             .attr("x", function (d) {
 
                 return x5(d.PERIOD);
@@ -557,8 +575,6 @@ var heatmapchart = (function heatmap(){
             .attr("y", function (d) {
                 return y5(d.APP_LOGIN_DT);
             })
-            // .attr("rx", 10)
-            // .attr("ry", 10)
             .attr("width", function () {
                 return x5.bandwidth();
             })
@@ -580,7 +596,6 @@ var heatmapchart = (function heatmap(){
                     .style("fill",function () {
                         return d3.hsl(d3.select(this).style("fill")).darker(0.5).toString();
                     });
-
 
             })
             .on("mouseout", function (d) {
@@ -619,6 +634,7 @@ var heatmapchart = (function heatmap(){
             .data(data)
             .enter()
             .append("text")
+            .style("pointer-events","none")
             .text(function (d) {
                 return d3.format(",.1%")(d.RETENTION_RATE);
             })
@@ -647,8 +663,6 @@ var heatmapchart = (function heatmap(){
                 return textcolor;
 
             })
-            .attr("pointer-events","none");
-
 
 
     }
