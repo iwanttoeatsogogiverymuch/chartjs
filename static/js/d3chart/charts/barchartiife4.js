@@ -69,21 +69,9 @@ var barchart4 = (function barchartd(){
 
 
         function setComma(num) {
-            var len, point, str;
-            num = num + "";
-            point = num.length % 3;
-            len = num.length;
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-            str = num.substring(0, point);
-            while (point < len) {
-                if (str !== "") str += ",";
-                str += num.substring(point, point + 3);
-                point += 3;
-            }
-            return str;
-
-
-        };
+        }
 
 
         function draw(id,datas,xaxisR){
@@ -222,7 +210,7 @@ var barchart4 = (function barchartd(){
 
                     tooltip.style("left", (d3.event.pageX + 10) + "px");
                     tooltip.style("top", (d3.event.pageY - 10) + "px");
-                    tooltip.html(d.CODE.toString() + "<br>" + setComma(d.value));
+                    tooltip.html(d.CODE.toString() + "<br>" + Number(d.value).toLocaleString());
 
                 })
                 .transition()

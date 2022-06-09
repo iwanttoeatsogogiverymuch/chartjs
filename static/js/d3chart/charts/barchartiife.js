@@ -101,21 +101,10 @@ var barchart = (function barchart(){
 
 
         function setComma(num) {
-            var len, point, str;
-            num = num + "";
-            point = num.length % 3;
-            len = num.length;
-
-            str = num.substring(0, point);
-            while (point < len) {
-                if (str !== "") str += ",";
-                str += num.substring(point, point + 3);
-                point += 3;
-            }
-            return str;
-
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
         }
+
 
 
 
@@ -219,7 +208,7 @@ var barchart = (function barchart(){
             y.domain([
                 0,
                 d3.max(parseddata, function (d){
-                    return d.value;
+                    return Number(d.value);
                 }),
             ]).nice();
 
@@ -257,7 +246,7 @@ var barchart = (function barchart(){
                 .transition()
                 .duration(1000)
                 .delay(function (d, i) {
-                    return i * 100;
+                    return i * 10;
                 }).ease(d3.easeSin)
                 .attr("height", function (d) {
 
@@ -304,22 +293,10 @@ var barchart = (function barchart(){
                 })
                 .text(function (d) {
 
-                    if(config && config.value === true){
-                        return d.CODE;
-                    }
-
-                    else if (config && config.label === true){
-                        return d.CODE;
-                    }
-                    else{
-                        return d.value;
-
-                    }
-
-
-
+                if(d.CODE === "전체"){
+                    return setComma(d.value);
+                }
                 });
-
 
             g2.append("g")
                 .attr("class", "axis")

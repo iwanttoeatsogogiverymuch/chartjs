@@ -297,12 +297,21 @@ var stackedbarchart = (function stack() {
                 .call(function (g) {
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey")
                         .attr("font-size",function (d){
-                        
+
                        if(data.length <= 10){
-                        	return "15px";
+                        	return "10px";
                         }
-                            return  (x.bandwidth()/5).toString() + "px";
-                        })
+                       else{
+                           return  (x.bandwidth()/9).toString() + "px";
+                       }
+
+                        }).attr("dx",function (d){
+
+                        if(data.length <= 20){
+                            return "12px";
+                        }
+                        return  (x.bandwidth()/9).toString() + "px";
+                    });
                 });
 
             g.append("g")

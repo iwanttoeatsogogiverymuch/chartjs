@@ -39,18 +39,8 @@ var barchart5 = (function barchart(){
         ];
 
         function setComma(num) {
-            var len, point, str;
-            num = num + "";
-            point = num.length % 3;
-            len = num.length;
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-            str = num.substring(0, point);
-            while (point < len) {
-                if (str !== "") str += ",";
-                str += num.substring(point, point + 3);
-                point += 3;
-            }
-            return str;
         }
 
         /**
@@ -133,7 +123,7 @@ var barchart5 = (function barchart(){
             y.domain([
                 0,
                 d3.max(parseddata, function (d) {
-                    return parseInt(d.value);
+                    return Number(d.value);
                 })
             ]);
 

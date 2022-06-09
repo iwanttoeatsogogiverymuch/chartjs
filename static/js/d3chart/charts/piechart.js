@@ -129,7 +129,7 @@ var piechart = (function extracted() {
 
                 tooltip.style("left", d3.event.pageX + 10 + "px");
                 tooltip.style("top", d3.event.pageY - 10 + "px");
-                tooltip.html("접수:"+"<br>" + d.data.value.toString() +"건");
+                tooltip.html(Number(d.data.value).toLocaleString());
             };
         }
 
@@ -215,7 +215,7 @@ var piechart = (function extracted() {
                 return d.label;
             });
 
-            width3 = 500;
+            width3 = 570;
             height3 = 400;
             radius3 = Math.min(width3, height3) / 4;
 
@@ -266,7 +266,7 @@ var piechart = (function extracted() {
                 .append("svg")
                 .attr("width", width3)
                 .attr("height", height3)
-                .attr("viewBox", "0 0 500 400")
+                .attr("viewBox", "0 0 570 400")
                 .attr("preserveAspectRatio", "none")
                 .append("g")
                 .attr("transform", "translate(" + ((width3 / 3)+20) + "," + height3 / 2 + ")");
@@ -354,7 +354,7 @@ var piechart = (function extracted() {
                 .attr("y", 9.5)
                 .attr("dy", "0.35em")
                 .text(function (d) {
-                    return d.label + " [" + setComma(d.value.toString()) + "]";
+                    return d.label + " [" + Number(d.value).toLocaleString('en') + "]";
 
                 });
 
@@ -525,7 +525,7 @@ var piechart = (function extracted() {
                     .attr("y", 9.5)
                     .attr("dy", "0.35em")
                     .text(function (d) {
-                        return d.label + " [" + setComma(d.value.toString()) + "]";
+                        return d.label + " [" + Number(d.value).toLocaleString('en') + "]";
                     });
 
 

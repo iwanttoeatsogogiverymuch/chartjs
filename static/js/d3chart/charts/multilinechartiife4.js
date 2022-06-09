@@ -1,6 +1,10 @@
 var multilinechart4 = (function extracted() {
 
     //정기예금-재예치율/중도해지
+    /*
+    * @TODO hover tooltip 바꿔야됨 비율값으로
+    * */
+
     function dd() {
 
 
