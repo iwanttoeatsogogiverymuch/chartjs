@@ -53,7 +53,7 @@ var multilinechart3 = (function extracted() {
             tooltip.style("opacity", "1");
             tooltip.style("left", d3.event.pageX + 10 + "px");
             tooltip.style("top", d3.event.pageY + 10 + "px");
-            tooltip.html(d3.format(",.1%")(d.retentionvalue).toString());
+            tooltip.html(d.retentionvalue.toFixed("2")+"%");
         }
 
         function onMouseOutTooltip(d) {
@@ -277,18 +277,17 @@ var multilinechart3 = (function extracted() {
                 })
                 .call(function (g) {
                     g.selectAll("text")
-                        .attr("font-family", "Noto Sans KR")
                         .attr("fill", "grey");
                 });
 
             // Add Y axis
+
             liney = d3
                 .scaleLinear()
-                .domain([
-                    0,
-                    d3.max(data, function (d) {
-                        return d.retentionvalue;
-                    }),
+                .domain([0,
+                d3.max(data.map(function (d){
+                    return d.retentionvalue;
+                }))
                 ])
                 .range([linechartheight, 0])
                 .nice();
@@ -298,7 +297,8 @@ var multilinechart3 = (function extracted() {
                 .attr("transform", "translate(0," + 0 + ")")
                 .call(
                     d3.axisLeft(liney).tickSizeOuter(0).tickFormat(function (d) {
-                        return d3.format(",.1%")(d);
+                        return( Number(d).toFixed("2")+"%");
+                        // return d3.format(",.1%")(d);
                     })
                 )
                 .call(function (g) {
@@ -311,7 +311,6 @@ var multilinechart3 = (function extracted() {
                 })
                 .call(function (g) {
                     g.selectAll("text")
-                        .attr("font-family", "Noto Sans KR")
                         .attr("fill", "grey");
                 });
             sumstat = d3
@@ -429,12 +428,12 @@ var multilinechart3 = (function extracted() {
                 })
                 .attr("dy","0.32em")
                 .text(function (d) {
-                    return d3.format(",.1%")(d.retentionvalue);
+                    return( Number(d.retentionvalue).toFixed("2")+"%");
                 });
 
             lengendxScale = d3.scaleBand()
                 .domain(signdatekey)
-                .range([linechartwidth/4,linechartwidth/4*3]);
+                .range([0,linechartwidth]);
 
 
             legendColorScale = d3.scaleOrdinal()
@@ -544,7 +543,7 @@ var multilinechart3 = (function extracted() {
                 .domain([
                     0,
                     d3.max(data, function (d) {
-                        return d.retentionvalue;
+                        return Number(d.retentionvalue);
                     }),
                 ])
                 .range([linechartheight, 0])
@@ -689,7 +688,7 @@ var multilinechart3 = (function extracted() {
 
             lengendxScale = d3.scaleBand()
                 .domain(signdatekey)
-                .range([linechartwidth/4,linechartwidth/4*3]);
+                .range([0,linechartwidth]);
 
 
             legendColorScale = d3.scaleOrdinal()

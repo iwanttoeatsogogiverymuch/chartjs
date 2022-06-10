@@ -4,7 +4,7 @@ var barchart = (function barchart(){
 
 
 
-        var svgwidth = 550;
+        var svgwidth = 570;
         var svgheight = 500;
 
         var config;
@@ -335,7 +335,7 @@ var barchart = (function barchart(){
                 .attr("text-anchor", "middle");
 
 
-            legend2 = g2
+            legend2 = svg2
                 .append("g")
                 .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.5rem")
@@ -345,7 +345,7 @@ var barchart = (function barchart(){
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
-                    return "translate(10," + i * 13 + ")";
+                    return "translate(30," + i * 13 + ")";
                 });
 
 

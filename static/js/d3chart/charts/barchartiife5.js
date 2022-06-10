@@ -228,13 +228,13 @@ var barchart5 = (function barchart(){
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838");
                 });
 
-            legend2 = g2
+            legend2 = svg2
                 .append("g")
                 .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.8rem")
                 .attr("text-anchor", "end")
                 .selectAll("g")
-                .data(x1.domain())
+                .data(x1.domain().reverse())
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {

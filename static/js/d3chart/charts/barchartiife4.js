@@ -6,7 +6,7 @@ var barchart4 = (function barchartd(){
 
 
         var isxAxisRoate;
-        var divwidth = 550;
+        var divwidth = 570;
         var divheight = 500;
 
         var divid;
@@ -97,7 +97,7 @@ var barchart4 = (function barchartd(){
 
             margin2 = {
                 top: 30,
-                right: 30,
+                right: 10,
                 bottom: 30,
                 left: 60
             };
@@ -122,7 +122,7 @@ var barchart4 = (function barchartd(){
 
 
             x0 = d3.scaleBand()
-                .rangeRound([0, width2 - 30]).paddingInner(0.15);
+                .rangeRound([0, width2 - 30]).paddingInner(0.15).paddingOuter(0.5);
             x1 = d3.scaleBand()
                 .padding(0.3);
             y = d3.scaleLinear()
@@ -308,17 +308,17 @@ var barchart4 = (function barchartd(){
                 });
 
 
-            legend2 = g2
+            legend2 = svg2
                 .append("g")
                 .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.8rem")
                 .attr("text-anchor", "end")
                 .selectAll("g")
-                .data(x1.domain())
+                .data(x1.domain().reverse())
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
-                    return "translate(10," + i * 15 + ")";
+                    return "translate(70," + i * 15 + ")";
                 });
 
 
