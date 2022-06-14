@@ -1,6 +1,7 @@
 var barchart5 = (function barchart(){
 
     //수신 영업일보용  바차트
+    //정기예금ㆍ해지/신규/재예치 현황 수정전
     function barchartiife2(){
 
         var isxAxisRoate;

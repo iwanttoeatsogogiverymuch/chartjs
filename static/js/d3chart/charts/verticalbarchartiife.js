@@ -203,7 +203,7 @@ function extracted(){
 
           tooltip.style("left", (d3.event.pageX + 10) + "px");
           tooltip.style("top", (d3.event.pageY - 10) + "px");
-          tooltip.html(d.key.toString() + "<br>" + setComma(d.value));
+          tooltip.html(d.key.toString() + "<br>" +Number(d.value).toLocaleString("en"));
 
         })
         .transition()
@@ -254,7 +254,7 @@ function extracted(){
           return verticaly1(d.key) + 3;
         })
         .text(function (d) {
-          return setComma(d.value);
+          return Number(d.value).toLocaleString("en");
         });
 
 
@@ -269,7 +269,7 @@ function extracted(){
           g.selectAll(".domain").attr("stroke-width", "2.5").attr("stroke-opacity", "0.9").style("stroke", "grey")
         })
         .call(function (g) {
-          g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey").attr("font-size","0.7rem")
+          g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey").attr("font-size","0.5rem")
         });
 
     g2.append("g")

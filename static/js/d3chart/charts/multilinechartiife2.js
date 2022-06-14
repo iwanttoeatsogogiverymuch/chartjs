@@ -251,9 +251,9 @@ var multilinechart2 = (function extracted() {
             ];
 
             // set the dimensions and margins of the graph
-            margin = {top: 50, right: 30, bottom: 50, left: 40};
+            margin = {top: 50, right: 30, bottom: 90, left: 40};
             linechartwidth = 1150 - margin.left - margin.right;
-            linechartheight = 370 - margin.top - margin.bottom;
+            linechartheight = 470 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             svg9 = d3
@@ -261,7 +261,7 @@ var multilinechart2 = (function extracted() {
                 .append("svg")
                 .attr("width", linechartwidth + margin.left + margin.right)
                 .attr("height", linechartheight + margin.top + margin.bottom)
-                .attr("viewBox", "0 0 1150 370")
+                .attr("viewBox", "0 0 1150 470")
                 .attr("preserveAspectRatio", "none")
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -306,8 +306,12 @@ var multilinechart2 = (function extracted() {
                 })
                 .call(function (g) {
                     g.selectAll("text")
-                        .attr("font-family", "Noto Sans KR")
-                        .attr("fill", "grey");
+                        .attr("x","-10px")
+                        .attr("y","-5px")
+                        .style("text-anchor", "end")
+                        .attr("fill", "grey")
+                        .attr("transform","rotate(-90)");
+
                 });
 
             // Add Y axis

@@ -56,7 +56,7 @@ var multilinechart4 = (function extracted() {
             tooltip.style("opacity", "1");
             tooltip.style("left", d3.event.pageX + 10 + "px");
             tooltip.style("top", d3.event.pageY + 10 + "px");
-            tooltip.html(d.retentionvalue.toString());
+            tooltip.html(d.retentionvalue.toString()+ "%");
         }
 
         function onMouseOutTooltip(d) {
@@ -177,7 +177,7 @@ var multilinechart4 = (function extracted() {
 
             svg9.selectAll("circle")
                 .filter(function (d) {
-                    return d.signdate == hoverdata.key;
+                    return d.signdate === hoverdata.key;
                 })
                 .style("fill", function (d) {
                     return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
@@ -186,7 +186,7 @@ var multilinechart4 = (function extracted() {
 
             svg9.selectAll("circle")
                 .filter(function (d) {
-                    return d.signdate != hoverdata.key;
+                    return d.signdate !== hoverdata.key;
                 })
                 .style("fill", function (d) {
                     return d3.hsl(d3.select(this).style("fill")).brighter(1).toString();

@@ -354,7 +354,7 @@ var piechart = (function extracted() {
                 .attr("y", 9.5)
                 .attr("dy", "0.35em")
                 .text(function (d) {
-                    return d.label + " [" + Number(d.value).toLocaleString('en') + "]";
+                    return d.label + " [" + Math.round(Number(d.value)).toLocaleString('en') + "]";
 
                 });
 

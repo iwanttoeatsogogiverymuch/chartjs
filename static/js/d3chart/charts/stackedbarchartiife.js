@@ -91,14 +91,27 @@ var stackedbarchart = (function stack() {
             ylabel=yl;
             divid = id;
 
-            svgwidth = 1200;
-            svgheight = 500;
+            data = JSON.parse(JSON.stringify(data));
+
+            if( data.length >= 150){
+                svgwidth = 12200;
+                svgheight = 500;
+            }
+            else if(data.length >= 90) {
+                svgwidth = 3600;
+                svgheight = 500;
+            }
+            else{
+                svgwidth = 1200;
+                svgheight = 500;
+            }
+
 
             mcgpalette0 = ["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D"];
             duration = 1300;
             easetype = d3.easeSin;
             delayfunc = function (d, i) {
-                return i * 100;
+                return i * 10;
             };
             tooltip = d3.select("body").append("div")
                 .attr("class", "toolTip")
@@ -129,12 +142,12 @@ var stackedbarchart = (function stack() {
                 .append("svg")
                 .attr("width", svgwidth)
                 .attr("height", svgheight)
-                .attr("viewBox", "0 0 1200 500")
+                .attr("viewBox", "0 0 "+svgwidth + " " + svgheight)
                 .attr("preserveAspectRatio", "none");
 
-            margin = {top: 20, right: 190, bottom: 30, left: 50};
-            width = +svg.attr("width") - margin.left - margin.right;
-            height = +svg.attr("height") - margin.top - margin.bottom;
+            margin = {top: 20, right: 190, bottom: 70, left: 50};
+            width = svg.attr("width") - margin.left - margin.right;
+            height = svg.attr("height") - margin.top - margin.bottom;
 
             x = d3.scaleBand()
                 .rangeRound([0, width])
@@ -203,7 +216,7 @@ var stackedbarchart = (function stack() {
             svg
                 .append("g")
                 .attr("class", "grid")
-                .attr("transform","translate(" + margin.left + "," + (margin.bottom-9) +")")
+                .attr("transform","translate(" + margin.left + "," + (margin.bottom-50) +")")
                 .call(gridlines);
 
             gridlines2 = d3
@@ -215,7 +228,7 @@ var stackedbarchart = (function stack() {
             svg
                 .append("g")
                 .attr("class", "grid")
-                .attr("transform","translate(" + margin.left + "," + (margin.bottom-9) +")")
+                .attr("transform","translate(" + margin.left + "," + (margin.bottom-50) +")")
                 .call(gridlines2);
 
             g = svg
@@ -228,7 +241,7 @@ var stackedbarchart = (function stack() {
                 .enter()
                 .append("g")
                 .attr("fill", function (d) {
-                    console.log("키는",d.key)
+                    console.log("키:",d.key)
                     return colorscale2(d.key);
                 })
                 .selectAll("rect")
@@ -267,7 +280,7 @@ var stackedbarchart = (function stack() {
 
                     tooltip.style("left", (d3.event.pageX + 10) + "px");
                     tooltip.style("top", (d3.event.pageY - 10) + "px");
-                    tooltip.html(subgroupName.toString() + "<br>" + setComma(subgroupValue));
+                    tooltip.html(subgroupName.toString() + "<br>" +  Math.round(Number(subgroupValue)).toLocaleString("en"));
 
                 })
                 .transition()
@@ -302,7 +315,7 @@ var stackedbarchart = (function stack() {
                         	return "10px";
                         }
                        else{
-                           return  (x.bandwidth()/9).toString() + "px";
+                           return  (x.bandwidth()/5).toString() + "px";
                        }
 
                         }).attr("dx",function (d){
@@ -312,6 +325,13 @@ var stackedbarchart = (function stack() {
                         }
                         return  (x.bandwidth()/9).toString() + "px";
                     });
+
+                    if(data.length >= 15){
+                        g.selectAll("text").attr("transform","rotate(-90)")
+                            .attr("text-anchor","end")
+                            .attr("dx", "-.8em")
+                            .attr("dy", "-0.7em");
+                    }
                 });
 
             g.append("g")
@@ -382,7 +402,7 @@ var stackedbarchart = (function stack() {
                         return "";
                     }
                     else{
-                        return setComma(subgroupValue.toString());
+                        return Math.round(Number(subgroupValue)).toLocaleString("en");
                     }
 
 

@@ -262,13 +262,8 @@ var barchart4 = (function barchartd(){
                     return y(parseInt(d.value)) - 18;
                 })
                 .text(function (d) {
-
-                    return  setComma(d.value).toString();
-
+                    return Number(d.value).toLocaleString();
                     });
-
-
-
 
             g2.append("g")
                 .attr("class", "axis")
@@ -282,18 +277,14 @@ var barchart4 = (function barchartd(){
                 })
                 .call(function (g) {
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838")
-
                     if(isxAxisRoate === true){
                     g.selectAll("text")
                             .style("text-anchor", "end")
                             .attr("dx", "-.8em")
                             .attr("dy", ".15em")
                             .attr("transform", "rotate(-65)" );
-
                     }
-
                 });
-
             g2.append("g")
                 .attr("class", "axis")
                 .call(d3.axisLeft(y).tickSizeOuter(0))
@@ -349,7 +340,7 @@ var barchart4 = (function barchartd(){
 
 
             // x축 레이블
-            svg2.append("text")    .style("font-size","0.8rem").style("font-family","Noto Sans KR")
+            svg2.append("text").style("font-size","0.8rem").style("font-family","Noto Sans KR")
                 .attr("transform", "translate("+(width2+10) + ","+(height2+margin2.bottom+10)+")")
                 // .attr("y", 0 - margin2.left)
                 // .attr("x", 0 - (height2 / 2))
