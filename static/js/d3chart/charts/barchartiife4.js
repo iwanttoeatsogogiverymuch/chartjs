@@ -56,14 +56,6 @@ var barchart4 = (function barchartd(){
             {"AREA":"수유지점", "CODE":"전체","value":"340000"},
 
         ];
-        var testdata = [
-            {"date": "2022-03-01" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-02" , "DAU":"14000", "MAU":"500000", "ALL":"400000"},
-            {"date": "2022-03-03" , "DAU":"24000", "MAU":"700000", "ALL":"400000"},
-            {"date": "2022-03-04" , "DAU":"44000", "MAU":"200000", "ALL":"400000"},
-            {"date": "2022-03-05" , "DAU":"25300", "MAU":"100000", "ALL":"400000"},
-            {"date": "2022-03-06" , "DAU":"38900", "MAU":"300000", "ALL":"400000"}
-        ];
 
 
 
@@ -142,7 +134,6 @@ var barchart4 = (function barchartd(){
             );
 
             //grouped bar 키값 설정
-
             x1.domain(
                 parseddata.map(function (d) {
 
@@ -152,6 +143,7 @@ var barchart4 = (function barchartd(){
                 }).reverse())
                 .rangeRound([0, x0.bandwidth()]);
 
+            //y축
             y.domain([
                 0,
                 d3.max(parseddata, function (d) {
@@ -210,7 +202,7 @@ var barchart4 = (function barchartd(){
 
                     tooltip.style("left", (d3.event.pageX + 10) + "px");
                     tooltip.style("top", (d3.event.pageY - 10) + "px");
-                    tooltip.html(d.CODE.toString() + "<br>" + Number(d.value).toLocaleString());
+                    tooltip.html(d.CODE.toString() + "<br>" +  Math.round(Number(d.value)).toLocaleString());
 
                 })
                 .transition()
@@ -262,7 +254,7 @@ var barchart4 = (function barchartd(){
                     return y(parseInt(d.value)) - 18;
                 })
                 .text(function (d) {
-                    return Number(d.value).toLocaleString();
+                    return Math.round(Number(d.value)).toLocaleString();
                     });
 
             g2.append("g")

@@ -133,7 +133,7 @@ var barchart = (function barchart(){
             margin2 = {
                 top: 30,
                 right: 30,
-                bottom: 30,
+                bottom: 60,
                 left: 40
             };
             width2 = +svg2.attr("width") - margin2.left - margin2.right;
@@ -240,7 +240,7 @@ var barchart = (function barchart(){
 
                     tooltip.style("left", (d3.event.pageX + 10) + "px");
                     tooltip.style("top", (d3.event.pageY - 10) + "px");
-                    tooltip.html(d.CODE.toString() + "<br>" + setComma(d.value));
+                    tooltip.html(d.CODE.toString() + "<br>" + Math.round(Number(d.value)).toLocaleString("en"));
 
                 })
                 .transition()
@@ -279,7 +279,7 @@ var barchart = (function barchart(){
                 .attr("fill", "#3a3a3a")
                 .attr("font-weight", "Regular")
                 .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
+                .attr("font-size", "0.7rem")
                 .attr("text-anchor", "start")
                 .attr("x", function (d) {
                     return x1(d.CODE);
@@ -294,7 +294,7 @@ var barchart = (function barchart(){
                 .text(function (d) {
 
                 if(d.CODE === "전체"){
-                    return setComma(d.value);
+                    return Math.round(Number(d.value)).toLocaleString("en");
                 }
                 });
 
@@ -303,13 +303,23 @@ var barchart = (function barchart(){
                 .attr("transform", "translate(0," + height2 + ")")
                 .call(d3.axisBottom(x0).tickSizeOuter(0))
                 .call(function (g) {
-                    g.selectAll(".tick line").remove()
+                    g.selectAll(".tick line").remove();
                 })
                 .call(function (g) {
-                    g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke","#999999")
+                    g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke","#999999");
                 })
                 .call(function (g) {
-                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838")
+                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838");
+                    if(datas.length >= 30){
+
+
+                        g.selectAll("text")
+                            .attr("transform","rotate(-45)")
+                            .attr("text-anchor","end")
+                            .attr("dx","-0.8em")
+                            .attr("dy","-0.35em");
+
+                    }
                 });
 
             g2.append("g")
@@ -338,20 +348,20 @@ var barchart = (function barchart(){
             legend2 = svg2
                 .append("g")
                 .attr("font-family", "Noto Sans KR")
-                .attr("font-size", "0.5rem")
+                .attr("font-size", "0.7rem")
                 .attr("text-anchor", "end")
                 .selectAll("g")
                 .data(x1.domain())
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
-                    return "translate(30," + i * 13 + ")";
+                    return "translate(80," + i * 16 + ")";
                 });
 
 
             legend2
                 .append("rect")
-                .attr("x", width2 - 19)
+                .attr("x", width2 - 18)
                 .attr("width", 10)
                 .attr("height", 10)
                 .attr("fill", z2);

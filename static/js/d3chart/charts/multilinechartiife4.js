@@ -1,9 +1,7 @@
 var multilinechart4 = (function extracted() {
 
     //정기예금-재예치율/중도해지
-    /*
-    * @TODO hover tooltip 바꿔야됨 비율값으로
-    * */
+
 
     function dd() {
 
@@ -237,7 +235,7 @@ var multilinechart4 = (function extracted() {
                 "#6079D6",
             ];
             // set the dimensions and margins of the graph
-            margin = {top: 10, right: 90, bottom: 80, left: 60};
+            margin = {top: 10, right: 130, bottom: 80, left: 60};
             linechartwidth = 1200 - margin.left - margin.right;
             linechartheight = 700 - margin.top - margin.bottom;
 
@@ -463,7 +461,7 @@ var multilinechart4 = (function extracted() {
                 .append("rect")
                 .attr("transform",function (d,i){
                     console.log(lengendxScale(d))
-                    return "translate("+(linechartwidth+10) + "," + (linechartheight/2+(i*15)) + ")";
+                    return "translate("+(linechartwidth+10) + "," + (linechartheight/2+(i*17)) + ")";
                 })
                 // .attr("transform","translate(300,"+(linechartheight+margin.bottom - 23) + ")")
                 .attr("width","13")
@@ -479,12 +477,12 @@ var multilinechart4 = (function extracted() {
                 .append("text")
                 .attr("transform",function (d,i){
                     console.log(lengendxScale(d))
-                    return  "translate("+(linechartwidth+10) + "," + (linechartheight/2+(i*15)) + ")";
+                    return  "translate("+(linechartwidth+10) + "," + (linechartheight/2+(i*17)) + ")";
                 })
                 // .attr("transform","translate(300,"+(linechartheight+margin.bottom - 23) + ")")
                 .attr("width","22")
                 .attr("height","22")
-                .attr("x","13")
+                .attr("x","15")
                 .attr("y","5")
                 .attr("font-size","0.7rem")
                 .attr("dy","0.32em")

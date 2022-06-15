@@ -52,10 +52,13 @@ window.addEventListener("load",function (){
 	function getBrowserType() {
 
 		var agent = window.navigator.userAgent.toLowerCase();
+		var appName = window.navigator.appName;
+
 		var browserType ="";
 
-		if(agent.indexOf('trident')>-1){
+		if(agent.indexOf('trident')> 0 || agent.indexOf('msie')> 0){
 			browserType = "IE";
+			//alert("ioeieieie");
 		}else if(agent.indexOf('safari')>-1){
 			browserType = "safari";
 		}else if(agent.indexOf('chrome')>-1){
@@ -93,29 +96,29 @@ window.addEventListener("load",function (){
 	 * @param firstDivId {string}  : 첫번째 svg를 child로 가지고있는 div의 id값
 	 * @param secondDivId {string} : 두번째 svg를 child로 가지고있는 div의 id값
 	 */
-	function mergeTwoSvg(firstDivId, secondDivId) {
+	// function mergeTwoSvg(firstDivId, secondDivId) {
+	//
+	// 	var svgNS = "http://www.w3.org/2000/svg";
+	// 	var mergedDiv = document.createElement("div");
+	// 	var mergedSvg = document.createElementNS(svgNS,"svg");
+	//
+	// 	mergedDiv.setAttribute("id","mergedDiv");
+	// 	mergedDiv.appendChild(mergedSvg);
+	//
+	//
+	// 	var firstSvgContainer = document.getElementById(firstDivId);
+	// 	var secondSvgContainer = document.getElementById(secondDivId);
+	//
+	// 	var firstContent = Array.from(firstSvgContainer.getElementsByTagName("svg")[0].childNodes);
+	// 	var secondContent = Array.from(secondSvgContainer.getElementsByTagName("svg")[0].childNodes);
+	//
+	// 	for (let i = 0; i < chartContent.length; i++) {
+	// 		mergedSvg.appendChild(firstContent[i]);
+	// 	}
+	// 	for (let i = 0; i < legendContent.length; i++) {
+	// 		mergedSvg.appendChild(secondContent[i]);
+	// 	}
 
-		var svgNS = "http://www.w3.org/2000/svg";
-		var mergedDiv = document.createElement("div");
-		var mergedSvg = document.createElementNS(svgNS,"svg");
-
-		mergedDiv.setAttribute("id","mergedDiv");
-		mergedDiv.appendChild(mergedSvg);
-
-
-		var firstSvgContainer = document.getElementById(firstDivId);
-		var secondSvgContainer = document.getElementById(secondDivId);
-
-		var firstContent = Array.from(firstSvgContainer.getElementsByTagName("svg")[0].childNodes);
-		var secondContent = Array.from(secondSvgContainer.getElementsByTagName("svg")[0].childNodes);
-
-		for (let i = 0; i < chartContent.length; i++) {
-			mergedSvg.appendChild(firstContent[i]);
-		}
-		for (let i = 0; i < legendContent.length; i++) {
-			mergedSvg.appendChild(secondContent[i]);
-		}
-
-	}
+	// }
 
 });

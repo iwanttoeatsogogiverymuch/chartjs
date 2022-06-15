@@ -203,7 +203,7 @@ function extracted(){
 
           tooltip.style("left", (d3.event.pageX + 10) + "px");
           tooltip.style("top", (d3.event.pageY - 10) + "px");
-          tooltip.html(d.key.toString() + "<br>" +Number(d.value).toLocaleString("en"));
+          tooltip.html(d.key.toString() + "<br>" + Math.round(Number(d.value)).toLocaleString("en"));
 
         })
         .transition()
@@ -254,7 +254,7 @@ function extracted(){
           return verticaly1(d.key) + 3;
         })
         .text(function (d) {
-          return Number(d.value).toLocaleString("en");
+          return Math.round(Number(d.value)).toLocaleString("en");
         });
 
 

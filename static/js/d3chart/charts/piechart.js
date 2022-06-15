@@ -129,7 +129,7 @@ var piechart = (function extracted() {
 
                 tooltip.style("left", d3.event.pageX + 10 + "px");
                 tooltip.style("top", d3.event.pageY - 10 + "px");
-                tooltip.html(Number(d.data.value).toLocaleString());
+                tooltip.html(Math.round(Number(d.data.value)).toLocaleString("en"));
             };
         }
 
@@ -332,7 +332,7 @@ var piechart = (function extracted() {
                     var legendmargin = 15 * i;
                     var legendtrans = initY + legendmargin;
 
-                    return "translate(-95," + legendtrans + ")";
+                    return "translate(-125," + legendtrans + ")";
                 });
 
             legend
