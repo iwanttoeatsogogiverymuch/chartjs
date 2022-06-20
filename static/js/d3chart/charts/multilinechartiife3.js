@@ -51,6 +51,8 @@ var multilinechart3 = (function extracted() {
         function onMouseOverTooltip(d) {
 
             tooltip.style("opacity", "1");
+            tooltip.style("display",null);
+
             tooltip.style("left", d3.event.pageX + 10 + "px");
             tooltip.style("top", d3.event.pageY + 10 + "px");
             tooltip.html(d.retentionvalue.toFixed("2")+"%");
@@ -58,6 +60,7 @@ var multilinechart3 = (function extracted() {
 
         function onMouseOutTooltip(d) {
             tooltip.style("opacity", "0");
+            tooltip.style("display","none");
         }
 
         function onMouseOver(d) {

@@ -116,6 +116,7 @@ var piechart = (function extracted() {
         function onMouseOut() {
             return function (d) {
                 tooltip.style("opacity", "0");
+                tooltip.style("display", "none");
                 d3.select(this).style("fill", function (d) {
                     return d3.hsl(d3.select(this).style("fill")).brighter(0.5).toString();
                 });
@@ -136,7 +137,7 @@ var piechart = (function extracted() {
         function onMouseOver() {
             return function (d) {
                 tooltip.style("opacity", "1");
-
+                tooltip.style("display", null);
                 d3.select(this).style("fill", function (d) {
                     return d3.hsl(d3.select(this).style("fill")).darker(0.5).toString();
                 });

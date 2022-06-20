@@ -181,6 +181,7 @@ var linechart = (function () {
                 }).attr("opacity", "1");
 
                 tooltip.style("opacity", "100");
+                tooltip.style("display",null);
             })
             .on("mouseout", function () {
                 svg9.selectAll("circle").attr("opacity", "1");
@@ -188,6 +189,7 @@ var linechart = (function () {
                     return d3.hsl(d3.select(this).style("fill")).brighter(1).toString();
                 });
                 tooltip.style("opacity", "0");
+                tooltip.style("display","none");
             })
             .on("mousemove", function (d, i, j) {
 
@@ -226,7 +228,7 @@ var linechart = (function () {
             .attr("font-size","0.7rem")
             .attr("dy", "0.32em")
             .style("text-anchor", "middle")
-            .text("y축");
+            .text("비율");
 
 
 
@@ -395,7 +397,7 @@ var linechart = (function () {
             .attr("transform", "translate(" + (linechartwidth / 2) + " ," + (linechartheight+27) + ")")
             .style("text-anchor", "middle")
             .attr("font-size","0.5rem")
-            .text("Date");
+            .text("일자");
 
 
         // y축 레이블

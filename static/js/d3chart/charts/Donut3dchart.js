@@ -329,20 +329,6 @@
           };
         });
 
-  /* ------- SLICE TO TEXT POLYLINES -------*/
-
-
-      //draw polyline
-      // if(config.polyline === true){
-      //
-      //
-      // }
-      //
-      // if(config.polylinetext === true){
-      //
-      //
-      // }
-      //
 
       var polyline = d3.select("#" + id)
         .select(".lines")
@@ -407,9 +393,6 @@
         });
 
 
-
-
-
   };
 
   Donut3D.draw = function (
@@ -431,15 +414,6 @@
         .attr("height", height3)
         .attr("viewBox", "0 0 " + width3.toString() + " "  + height3.toString() );
 
-
-    // 강남금융센터 #be653e
-    // 삼성지점 #78bb37
-    // 수유지점 #e0b63d
-    // 영업본부(개인) #ef9db5
-    // 영업부 #d46b8e
-    // 채권2팀 #9a9adc
-    // 투자금융팀 #6cc4a0
-
     var labels = data.map(function (d) {
       return d.label;
     });
@@ -448,7 +422,6 @@
         .domain(labels)
         .range(
             ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
-
 
 
     var _data = d3
@@ -535,7 +508,6 @@
         .append("g")
         .attr("class","legend")
         .attr("transform","translate(-50,20)")
-        .attr("font-family", "Noto Sans KR")
         .attr("font-size", "0.8rem")
         .attr("text-anchor", "start")
         .selectAll("g")
@@ -547,7 +519,6 @@
           var initY = 137;
           var legendmargin = 15 * i;
           var legendtrans = initY + legendmargin;
-
           return "translate(-150," + legendtrans + ")";
         });
 
@@ -558,7 +529,6 @@
         .attr("width", 12)
         .attr("height", 12)
         .attr("fill",function (d) {
-
           return colorscale(d.data.label);
         }
         );
@@ -573,8 +543,6 @@
         .text(function (d) {
           return d.data.label + " [" + d.data.value + "]";
         });
-
-
 
     slices.append("g").attr("class", "labels");
     slices.append("g").attr("class", "lines");
@@ -592,7 +560,6 @@
 
     change(data);
     change(data);
-
 
     function change(newData) {
       var text = slices
@@ -641,15 +608,12 @@
               : "end";
           };
         });
-
       text.exit().remove();
       /* ------- SLICE TO TEXT POLYLINES -------*/
-
       var polyline = slices
         .select(".lines")
         .selectAll("path")
         .data(pie(newData), key);
-
       polyline.enter().append("path");
 
       polyline
@@ -660,12 +624,8 @@
             return labelPath(d, rx + -0.5, ry + -0.5, h);
           };
         });
-
       polyline.exit().remove();
     }
-
   };
-
-
   this.Donut3D = Donut3D;
 })();

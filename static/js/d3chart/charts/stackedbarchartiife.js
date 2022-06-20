@@ -145,7 +145,7 @@ var stackedbarchart = (function stack() {
                 .attr("viewBox", "0 0 "+svgwidth + " " + svgheight)
                 .attr("preserveAspectRatio", "none");
 
-            margin = {top: 20, right: 190, bottom: 70, left: 50};
+            margin = {top: 20, right: 190, bottom: 140, left: 50};
             width = svg.attr("width") - margin.left - margin.right;
             height = svg.attr("height") - margin.top - margin.bottom;
 
@@ -216,7 +216,7 @@ var stackedbarchart = (function stack() {
             svg
                 .append("g")
                 .attr("class", "grid")
-                .attr("transform","translate(" + margin.left + "," + (margin.bottom-50) +")")
+                .attr("transform","translate(" + margin.left + "," + (margin.bottom-120) +")")
                 .call(gridlines);
 
             gridlines2 = d3
@@ -228,7 +228,7 @@ var stackedbarchart = (function stack() {
             svg
                 .append("g")
                 .attr("class", "grid")
-                .attr("transform","translate(" + margin.left + "," + (margin.bottom-50) +")")
+                .attr("transform","translate(" + margin.left + "," + (margin.bottom-120) +")")
                 .call(gridlines2);
 
             g = svg
@@ -315,7 +315,7 @@ var stackedbarchart = (function stack() {
                         	return "10px";
                         }
                        else{
-                           return  (x.bandwidth()/5).toString() + "px";
+                           return  (x.bandwidth()/4).toString() + "px";
                        }
 
                         }).attr("dx",function (d){
@@ -329,7 +329,7 @@ var stackedbarchart = (function stack() {
                     if(data.length >= 15){
                         g.selectAll("text").attr("transform","rotate(-90)")
                             .attr("text-anchor","end")
-                            .attr("dx", "-.8em")
+                            .attr("dx", "-0.8em")
                             .attr("dy", "-0.7em");
                     }
                 });
