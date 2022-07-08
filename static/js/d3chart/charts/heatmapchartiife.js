@@ -1,4 +1,7 @@
 
+// 이용자현황
+// 코호트차트
+// 우리WON 저축은행 앱
 
 var heatmapchart = (function heatmap(){
 
@@ -7,12 +10,11 @@ var heatmapchart = (function heatmap(){
     var divid;
 
     //svg 가로값
-    var width =1200;
+    var width =1800;
     //svg 세로값
     var height = 250;
     //컬러스케일값 빨간색 부분 지정
     var myColorred;
-
     //컬러스케일값 파란색 부분 지정
     var myColor;
 
@@ -39,81 +41,9 @@ var heatmapchart = (function heatmap(){
     var x5, y5;
 
     var usercounts;
+    
 
-
-
-    // 코호트 사용자 분석 테스트 데이터 (임의가공분)
-    // 차트상 표시되는 x좌표인 period_num은 차트내부에서 계산됨
-
-    var cohortdata2 = [
-        {"APP_LOGIN_DT": "전체", "PERIOD": "1", "RETENTION_RATE": "0.97", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "2", "RETENTION_RATE": "0.96", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "3", "RETENTION_RATE": "0.95", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "4", "RETENTION_RATE": "0.93", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "5", "RETENTION_RATE": "0.92", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "6", "RETENTION_RATE": "0.88", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "7", "RETENTION_RATE": "0.79", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "8", "RETENTION_RATE": "0.77", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "9", "RETENTION_RATE": "0.65", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "10", "RETENTION_RATE": "0.50", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "11", "RETENTION_RATE": "0.42", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "12", "RETENTION_RATE": "0.33", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "13", "RETENTION_RATE": "0.32", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "14", "RETENTION_RATE": "0.30", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "15", "RETENTION_RATE": "0.29", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "16", "RETENTION_RATE": "0.28", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "17", "RETENTION_RATE": "0.25", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "18", "RETENTION_RATE": "0.20", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "19", "RETENTION_RATE": "0.18", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "20", "RETENTION_RATE": "0.15", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "21", "RETENTION_RATE": "0.13", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "22", "RETENTION_RATE": "0.12", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "23", "RETENTION_RATE": "0.11", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "24", "RETENTION_RATE": "0.10", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "25", "RETENTION_RATE": "0.9", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "26", "RETENTION_RATE": "0.8", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "1", "RETENTION_RATE": "0.99", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "2", "RETENTION_RATE": "0.98", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "3", "RETENTION_RATE": "0.96", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "4", "RETENTION_RATE": "0.95", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "5", "RETENTION_RATE": "0.94", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "6", "RETENTION_RATE": "0.93", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "7", "RETENTION_RATE": "0.88", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "8", "RETENTION_RATE": "0.83", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-01", "PERIOD": "9", "RETENTION_RATE": "0.45", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "1", "RETENTION_RATE": "0.97", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "2", "RETENTION_RATE": "0.96", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "3", "RETENTION_RATE": "0.95", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "4", "RETENTION_RATE": "0.93", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "5", "RETENTION_RATE": "0.92", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "6", "RETENTION_RATE": "0.88", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "7", "RETENTION_RATE": "0.79", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "8", "RETENTION_RATE": "0.77", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "9", "RETENTION_RATE": "0.65", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "10", "RETENTION_RATE": "0.50", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "11", "RETENTION_RATE": "0.42", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "12", "RETENTION_RATE": "0.33", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "13", "RETENTION_RATE": "0.32", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "14", "RETENTION_RATE": "0.30", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "15", "RETENTION_RATE": "0.29", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "16", "RETENTION_RATE": "0.28", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "17", "RETENTION_RATE": "0.25", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "18", "RETENTION_RATE": "0.20", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "19", "RETENTION_RATE": "0.18", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "20", "RETENTION_RATE": "0.15", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "21", "RETENTION_RATE": "0.13", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "22", "RETENTION_RATE": "0.12", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "23", "RETENTION_RATE": "0.11", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "24", "RETENTION_RATE": "0.10", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "25", "RETENTION_RATE": "0.9", "ALL":"4500"},
-        {"APP_LOGIN_DT": "2022-04-02", "PERIOD": "26", "RETENTION_RATE": "0.8", "ALL":"4500"}
-    ];
-
-
-
-
-
-
+    //툴팁생성
     function buildTooltip() {
 
             if(tooltip === undefined){
@@ -126,18 +56,19 @@ var heatmapchart = (function heatmap(){
 
     }
 
+    //사이즈조절 및 마진설정
     function setSize() {
 
 
         if(data.length > 700){
-            height = 1400;
+            height = 1200;
         }
 
         else{
             height = 250;
         }
 
-        margin5 = {top: 10, right: 30, bottom: 30, left: 80};
+        margin5 = {top: 20, right: 30, bottom: 30, left: 80};
         width5 = width - margin5.left - margin5.right;
         height5 = height - margin5.top - margin5.bottom;
     }
@@ -147,6 +78,7 @@ var heatmapchart = (function heatmap(){
         return JSON.parse(JSON.stringify(jsondata));
     }
 
+    //svg생성
     function buildSvg() {
 
         svg6 = d3
@@ -170,12 +102,15 @@ var heatmapchart = (function heatmap(){
 
     }
 
-    //public function
+    /*
+    @param {string} - div 의 id
+    @param {Object || string} - jsondata
+     */
     function draw(id,jsondata) {
-
 
         divid = id;
 
+        //다시그릴때
         if(svg6 !== undefined){
             d3.select("#"+divid).select("svg").remove();
         }
@@ -189,7 +124,6 @@ var heatmapchart = (function heatmap(){
         preioddates = data.map(
 
             function (d) {
-
                 return parseInt(d.PERIOD);
             }
         );
@@ -214,8 +148,8 @@ var heatmapchart = (function heatmap(){
             })
             .call(function (g) {
                 g.selectAll("text")
-                    .attr("font-family", "Noto Sans KR")
                     .attr("fill", "grey")
+                    .attr("font-size","0.7rem");
             });
 
 
@@ -240,11 +174,8 @@ var heatmapchart = (function heatmap(){
                     if(usercounts.length < 10){
                         return "0.7rem";
                     }
-                    else if (usercounts.length > 21){
-                        return "0.7rem";
-                    }
                     else{
-                        return (y5.bandwidth()).toString()+"px";
+                        return (y5.bandwidth()/3).toString()+"px";
                     }
 
                 })
@@ -259,8 +190,6 @@ var heatmapchart = (function heatmap(){
         myColorred = d3.scaleSequential()
             .domain([0.5, 0])
             .interpolator(d3.interpolate("white", "#ff5d5c"));
-
-
 
 
         //유저수 라벨 위치 매핑 함수
@@ -282,17 +211,19 @@ var heatmapchart = (function heatmap(){
             })
             .attr("height",y5.bandwidth()/2)
             .attr("dy","0.32em")
-            .attr("font-family", "Noto Sans KR")
             .attr("fill", "grey")
             .attr("font-size",function (d) {
                 if(usercounts.length < 10){
                     return "0.7rem";
                 }
-                else if (usercounts.length > 21 && usercounts.length <= 50){
+                else if(usercounts.length >=11 && usercounts.length <=14){
+                    return "0.5rem";
+                }
+                else if (usercounts.length > 15 && usercounts.length <= 50){
                     return "0.7rem";
                 }
                 else{
-                    return (y5.bandwidth()).toString()+"px";
+                    return (y5.bandwidth()/2).toString()+"px";
                 }
 
             })
@@ -311,14 +242,14 @@ var heatmapchart = (function heatmap(){
             .attr("font-family", "Noto Sans KR")
             .attr("fill", "grey")
             .attr("font-size","0.5rem")
-            .text("유저수");
+            .text("신규가입자수");
 
         //전체유저수 라벨
         svg6
             .append("g")
             .attr("transform", "translate(0," + 0 + ")")
             .append("text")
-            .attr("x","0")
+            .attr("x","8")
             .attr("y","-5")
             .attr("dy","0.35em")
             .attr("font-family", "Noto Sans KR")
@@ -349,6 +280,8 @@ var heatmapchart = (function heatmap(){
             .attr("height", function () {
                 return y5.bandwidth();
             })
+            .attr("rx", "3")
+            .attr("ry", "2")
             .style("fill", function (d) {
                 if (d.RETENTION_RATE > 0.5) {
                     return myColor(d.RETENTION_RATE);
@@ -423,7 +356,7 @@ var heatmapchart = (function heatmap(){
             .attr("fill", function (d) {
 
                 var textcolor;
-                if (d.RETENTION_RATE >= 0.3 && d.RETENTION_RATE < 0.6) {
+                if (d.RETENTION_RATE >= 0.27 && d.RETENTION_RATE < 0.6) {
                     textcolor = "grey";
                 } else {
                     textcolor = "white";
@@ -431,8 +364,6 @@ var heatmapchart = (function heatmap(){
                 return textcolor;
 
             })
-
-
 
     }
 
@@ -445,11 +376,9 @@ var heatmapchart = (function heatmap(){
             return d.APP_LOGIN_DT;
         });
 
-
         preioddates = data.map(
 
             function (d) {
-
                 return parseInt(d.PERIOD);
             }
         );
@@ -522,7 +451,6 @@ var heatmapchart = (function heatmap(){
             })
             .attr("height",y5.bandwidth()/2)
             .attr("dy","0.32em")
-            .attr("font-family", "Noto Sans KR")
             .attr("fill", "grey")
             .attr("font-size","0.7rem")
             .text(function (d){
@@ -538,10 +466,9 @@ var heatmapchart = (function heatmap(){
             .attr("x","0")
             .attr("y","-5")
             .attr("dy","0.35em")
-            .attr("font-family", "Noto Sans KR")
             .attr("fill", "grey")
             .attr("font-size","0.5rem")
-            .text("유저수");
+            .text("신규가입자수");
 
 
         //전체유저수 라벨
@@ -552,12 +479,9 @@ var heatmapchart = (function heatmap(){
             .attr("x","0")
             .attr("y","-5")
             .attr("dy","0.35em")
-            .attr("font-family", "Noto Sans KR")
             .attr("fill", "grey")
             .attr("font-size","0.5rem")
             .text("가입일");
-
-
 
         svg6
             .selectAll()
@@ -615,9 +539,6 @@ var heatmapchart = (function heatmap(){
 
             })
             .on("mousemove", function (d) {
-
-                // var subgroupName = d3.select(this.parentNode).datum().key;
-                //  var subgroupValue = d.data.signdate;
 
                 tooltip.style("left", (d3.event.pageX + 10) + "px");
                 tooltip.style("top", (d3.event.pageY - 10) + "px");

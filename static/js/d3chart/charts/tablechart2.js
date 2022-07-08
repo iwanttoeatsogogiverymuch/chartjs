@@ -5,24 +5,19 @@ var tablechart2 = (function heatmap(){
     //차트를 그릴 div id
     var divid;
     //svg 가로값
-    var width = 1200;
+    var width = 1800;
     //svg 세로값
-    var height = 50;
+    var height = 350;
     //컬러스케일값 빨간색 부분 지정
     var myColorred;
-
     //컬러스케일값 파란색 부분 지정
     var myColor;
-
     //툴팁
     var tooltip;
-
     //데이터
     var data;
-
     //차트 마진(빈공간)
     var margin5;
-
     //차트의 가로값,세로값 (svg값이랑 다름)
     var width5, height5;
 
@@ -64,10 +59,6 @@ var tablechart2 = (function heatmap(){
     function onMouseMoveRect() {
         return function (d) {
 
-            // var subgroupName = d3.select(this.parentNode).datum().key;
-            //  var subgroupValue = d.data.APP_LOGIN_DT;
-
-
             tooltip.style("left", (d3.event.pageX + 10) + "px");
             tooltip.style("top", (d3.event.pageY - 10) + "px");
             tooltip.html(d3.format(",.1%")(d.RETENTION_RATE)+ "<br>" + d.APP_LOGIN_DT);
@@ -101,12 +92,12 @@ var tablechart2 = (function heatmap(){
 
         tooltip = d3.select("body").append("div")
             .attr("class", "toolTip")
-            .style("opcaity", "0").attr("font-size", "3rem");
+            .style("opacity", "0").attr("font-size", "3rem");
     }
 
     function setSize() {
 
-        margin5 = {top: 20, right: 20, bottom: 5, left: 30};
+        margin5 = {top: 260, right:25, bottom: 50, left: 0};
         width5 = width - margin5.left - margin5.right;
         height5 = height - margin5.top - margin5.bottom;
     }
@@ -116,43 +107,30 @@ var tablechart2 = (function heatmap(){
         return JSON.parse(JSON.stringify(jsondata));
     }
 
-    function buildSvg() {
+    function buildSvg(parentSvg) {
 
 
-        // div를 선택하여 svg요소를 붙여넣는다
-        // view box, preserveAsepectRatio 를통해 반응형 차트로 제작
-
-        svg6 = d3
-            .select("#" + divid)
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .attr("viewBox", "0 0 1200 50")
-            .attr("prserveAspectRatio", "none")
+        svg6 =
+             parentSvg
             .append("g")
-            .attr("transform", "translate(" + margin5.left + "," + margin5.top + ")");
+            .attr("transform", "translate(-20," + (30+ margin5.top )+ ")");
     }
 
-    function initChart (jsondata){
+    function initChart (jsondata,parentSvg){
 
         buildTooltip();
         data = getData(jsondata);
         setSize();
-        buildSvg();
+        buildSvg(parentSvg);
 
     }
 
     //public function
-    function draw(id,jsondata) {
+    function draw(id,jsondata,parentSvg) {
 
         divid = id;
 
-
-        if(svg6 !== undefined){
-            d3.select("#"+divid).select("svg").remove();
-        }
-
-        initChart(jsondata);
+        initChart(jsondata,parentSvg);
 
         APP_LOGIN_DTs = data.map(function (d) {
             return d.APP_LOGIN_DT;
@@ -165,7 +143,7 @@ var tablechart2 = (function heatmap(){
 
         // Build X scales and axis:
         x5 = d3.scaleBand()
-            .range([margin5.left, width5])
+            .range([0, width5-margin5.right])
             .domain(preioddates.sort(d3.ascending)).padding(0.02);
 
 
@@ -188,24 +166,20 @@ var tablechart2 = (function heatmap(){
             .domain(APP_LOGIN_DTs.sort(d3.ascending)).padding(0.02);
 
 
-
         svg6.append("g")
-            .attr("transform", "translate(" +margin5.left+","+ 0 + ")")
+            .attr("transform", "translate("+ 0 +","+ 0 + ")")
             .call(d3.axisLeft(y5).tickSize(0))
             .call(function (g) {
                 g.selectAll(".domain, .tick line")
                     .remove()
             })
             .call(function (g) {
-                //g.append("rect").attr("fill","white").attr("storke","grey").attr("stroke-width","1");
                 g.selectAll("text")
                     .attr("font-family", "Noto Sans KR")
                     .attr("dy","0.32em")
                     .attr("text-anchor","end")
                     .attr("fill", "grey")
             });
-
-
 
         svg6
             .selectAll()
@@ -266,9 +240,6 @@ var tablechart2 = (function heatmap(){
             })
             .on("mousemove", function (d) {
 
-                // var subgroupName = d3.select(this.parentNode).datum().key;
-                //  var subgroupValue = d.data.APP_LOGIN_DT;
-
                 tooltip.style("left", (d3.event.pageX + 10) + "px");
                 tooltip.style("top", (d3.event.pageY - 10) + "px");
                 tooltip.html(d3.format(",.1%")(d.RETENTION_RATE) +"<br>"+d.APP_LOGIN_DT);
@@ -288,13 +259,10 @@ var tablechart2 = (function heatmap(){
                 return d3.format(",.1%")(d.RETENTION_RATE);
             })
             .attr("x", function (d) {
-                // return (i * 20) + 40;
-
                 return x5(d.PERIOD);
             })
             .attr("y", function (d) {
                 return y5(d.APP_LOGIN_DT);
-                //return (local.get(this) * 20) + 40;
             })
             .attr("dx", x5.bandwidth() / 2)
             .attr("dy", y5.bandwidth() / 2)
@@ -303,8 +271,6 @@ var tablechart2 = (function heatmap(){
             .attr("alignment-baseline", "middle")
             .attr("fill", "grey")
             .attr("pointer-events","none");
-
-
 
     }
     function update(newData){
@@ -317,9 +283,6 @@ var tablechart2 = (function heatmap(){
         });
 
         preioddates = newData.map(function (d, i) {
-            //  return moment - new Date(d.retentiondate.toString()) ;
-
-
            return parseInt(d.PERIOD);
         });
 
@@ -343,29 +306,11 @@ var tablechart2 = (function heatmap(){
                     .attr("fill", "grey")
             });
 
-        // svg6
-        //     .append("g")
-        //     .attr("transform", "translate(0," + 0 + ")")
-        //     .call(d3.axisTop(x5).tickFormat(d3.timeFormat).tickSize(0))
-        //     .call(function (g) {
-        //         g.selectAll(".domain, .tick line").remove()
-        //     })
-        //     .call(function (g) {
-        //         g.selectAll("text")
-        //             .attr("font-family", "Noto Sans KR")
-        //             .attr("fill", "grey")
-        //     });
-
-
-
 
         // Build Y scales and axis:
         y5 = d3.scaleBand()
             .range([height5, 0])
             .domain(APP_LOGIN_DTs.sort(d3.ascending));
-
-
-
 
         // .padding(0.01);
         svg6.append("g")
@@ -380,8 +325,6 @@ var tablechart2 = (function heatmap(){
                     .attr("font-family", "Noto Sans KR")
                     .attr("fill", "grey")
             });
-
-
 
         svg6
             .selectAll().append("g")
@@ -415,7 +358,6 @@ var tablechart2 = (function heatmap(){
 
         svg6
             .append("g")
-            .attr("font-family", "Noto Sans KR")
             .attr("font-weight", "Light")
             .attr("font-size", "0.6rem")
             .append("g")

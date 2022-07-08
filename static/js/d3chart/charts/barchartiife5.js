@@ -5,7 +5,7 @@ var barchart5 = (function barchart(){
     function barchartiife2(){
 
         var isxAxisRoate;
-        var divwidth = 1200;
+        var divwidth = 1800;
         var divheight =700;
         var divid;
         var legend2;
@@ -150,7 +150,7 @@ var barchart5 = (function barchart(){
                 .enter()
                 .append("g")
                 .attr("transform", function (d) {
-                    console.log(x0(d.AREA));
+
                     return "translate(" + x0(d.AREA) + ",0)";
                 })
                 .append("rect")
@@ -184,8 +184,7 @@ var barchart5 = (function barchart(){
                     return i * 25;
                 }).ease(d3.easeSin)
                 .attr("height", function (d) {
-                    console.log(y(d.value));
-                    console.log(d.value);
+
                     return height2 - y(d.value);
                 })
                 .attr("y", function (d) {
@@ -266,7 +265,7 @@ var barchart5 = (function barchart(){
                 .text("건수");
 
             // x축 레이블
-            svg2.append("text")    .style("font-size","0.8rem").style("font-family","Noto Sans KR")
+            svg2.append("text")    .style("font-size","0.8rem").style("font-family","Noto Sans KR Regular")
                 .attr("transform", "translate("+(width2+10) + ","+(height2+margin2.bottom+10)+")")
                 // .attr("y", 0 - margin2.left)
                 // .attr("x", 0 - (height2 / 2))

@@ -1,13 +1,12 @@
 var barchart = (function barchart(){
 
+    //
     function barchartiife(){
 
 
 
-        var svgwidth = 570;
+        var svgwidth = 870;
         var svgheight = 500;
-
-        var config;
 
         var divid;
 
@@ -41,100 +40,53 @@ var barchart = (function barchart(){
 
         var tooltip;
 
-        var parseddata2;
 
         var parseddata;
 
-        var untactperfom = [
-            {"AREA":"강남금융센터", "CODE":"정기예금","value":"340000"},
-            {"AREA":"강남금융센터", "CODE":"정기적금","value":"34000"},
-            {"AREA":"강남금융센터", "CODE":"핵심예금(개인)","value":"230000"},
-            {"AREA":"강남금융센터", "CODE":"핵심예금(기업)","value":"11000"},
-            {"AREA":"강남금융센터", "CODE":"기타","value":"320000"},
-            {"AREA":"강남금융센터", "CODE":"전체","value":"430000"},
-            {"AREA":"수유지점", "CODE":"정기예금","value":"2000"},
-            {"AREA":"수유지점", "CODE":"정기적금","value":"30000"},
-            {"AREA":"수유지점", "CODE":"핵심예금(개인)","value":"150000"},
-            {"AREA":"수유지점", "CODE":"핵심예금(기업)","value":"20000"},
-            {"AREA":"수유지점", "CODE":"기타","value":"340000"},
-            {"AREA":"수유지점", "CODE":"전체","value":"340000"},
 
-        ];
-        var testdata = [
-            {"date": "2022-03-01" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-02" , "DAU":"14000", "MAU":"500000", "ALL":"400000"},
-            {"date": "2022-03-03" , "DAU":"24000", "MAU":"700000", "ALL":"400000"},
-            {"date": "2022-03-04" , "DAU":"44000", "MAU":"200000", "ALL":"400000"},
-            {"date": "2022-03-05" , "DAU":"25300", "MAU":"100000", "ALL":"400000"},
-            {"date": "2022-03-06" , "DAU":"38900", "MAU":"300000", "ALL":"400000"}
-        ];
-
-        var testdata2 = [
-            {"date": "2022-03-01" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-02" , "DAU":"34000", "MAU":"200000", "ALL":"400000"},
-            {"date": "2022-03-03" , "DAU":"34000", "MAU":"300000", "ALL":"400000"},
-            {"date": "2022-03-04" , "DAU":"34000", "MAU":"100000", "ALL":"400000"},
-            {"date": "2022-03-05" , "DAU":"34000", "MAU":"250000", "ALL":"400000"},
-            {"date": "2022-03-06" , "DAU":"34000", "MAU":"23000", "ALL":"400000"},
-            {"date": "2022-03-07" , "DAU":"34000", "MAU":"10000", "ALL":"400000"},
-            {"date": "2022-03-08" , "DAU":"34000", "MAU":"200000", "ALL":"400000"},
-            {"date": "2022-03-09" , "DAU":"34000", "MAU":"356000", "ALL":"400000"},
-            {"date": "2022-03-10" , "DAU":"34000", "MAU":"240000", "ALL":"400000"},
-            {"date": "2022-03-11" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-12" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-13" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-14" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-15" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-16" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-17" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-18" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-19" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-21" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-22" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-23" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-24" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-25" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-26" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-            {"date": "2022-03-27" , "DAU":"34000", "MAU":"400000", "ALL":"400000"},
-
-        ];
-
+        /**
+         *  - 3자리수 (숫자, 문자열) 컴마찍는 함수
+         * @param num {string || Number} - 3자리수로 ,를 추가할 숫자
+         * @returns {string} - 3자리수 단위로 , 를 추가한 string 반환
+         */
 
         function setComma(num) {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
         }
 
+        /**
+         *  - 차트 그리는 함수
+         * @param id {string} -
+         * @param datas {string || Object} -
+         */
+        function draw(id,datas) {
 
-
-
-        function draw(id,datas){
-
-
-
+            //div id
             divid = id;
+
+            //json 파싱
             parseddata = JSON.parse(JSON.stringify(datas));
 
-
+            //툴팁생성
             tooltip = d3.select("body").append("div")
                 .attr("class", "toolTip")
                 .style("display", "none").attr("font-size", "3rem");
 
-
-
-
+            //svg 생성
             svg2 = d3.select("#"+id)
                 .append("svg")
                 .attr("width", svgwidth)
                 .attr("height", svgheight)
-                .attr("viewBox", "0 0 "+ svgwidth + " " + svgheight)
+                .attr("viewBox", "0 0 " + svgwidth + " " + svgheight)
                 .attr("preserveAspectRatio", "none");
 
+            //마진설정
+            //차트를 svg 사이즈에서 조금 여백을 줘야함
             margin2 = {
                 top: 30,
-                right: 30,
+                right: 60,
                 bottom: 60,
-                left: 40
+                left: 60
             };
             width2 = +svg2.attr("width") - margin2.left - margin2.right;
             height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
@@ -144,6 +96,7 @@ var barchart = (function barchart(){
                 .append("g")
                 .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
+            //도메인 매핑함수 초기화
             x0 = d3.scaleBand()
                 .rangeRound([0, width2-30]).paddingInner(0.15);
             x1 = d3.scaleBand()
@@ -195,7 +148,6 @@ var barchart = (function barchart(){
             );
 
             //grouped bar 키값 설정
-
             x1.domain(
                 parseddata.map(function (d) {
                 //날짜
@@ -205,6 +157,7 @@ var barchart = (function barchart(){
             }))
                 .rangeRound([0, x0.bandwidth()]);
 
+            //y축 도메인 설정
             y.domain([
                 0,
                 d3.max(parseddata, function (d){
@@ -212,13 +165,13 @@ var barchart = (function barchart(){
                 }),
             ]).nice();
 
+            //바차트 사각형 그리는 부분
             g2.append("g")
                 .selectAll("g")
                 .data(parseddata)
                 .enter()
                 .append("g")
                 .attr("transform", function (d) {
-                    console.log(x0(d.AREA));
                     return "translate(" + x0(d.AREA) + ",0)";
                 })
                 .append("rect")
@@ -250,9 +203,6 @@ var barchart = (function barchart(){
                 }).ease(d3.easeSin)
                 .attr("height", function (d) {
 
-                    console.log(y(d.value));
-
-                    console.log(d.value);
                     return height2 - y(d.value);
                 })
 
@@ -289,15 +239,24 @@ var barchart = (function barchart(){
                     return height2 - y(parseInt(d.value));
                 })
                 .attr("y", function (d) {
-                    return y(parseInt(d.value)) - 18;
+                    if( !isNaN((Number(d.value))) ){
+                        return y(Number(d.value)) - 18;
+                    }
+                    else{
+                        return 0;
+                    }
+
                 })
                 .text(function (d) {
 
-                if(d.CODE === "전체"){
+                    //전체인경우 데이터라벨추가
+                    // 0 인경우 보여지지 않음
+                if(d.CODE === "전체" && Math.round(Number(d.value)) !== 0){
                     return Math.round(Number(d.value)).toLocaleString("en");
                 }
                 });
 
+            //x축 범위표시
             g2.append("g")
                 .attr("class", "axis")
                 .attr("transform", "translate(0," + height2 + ")")
@@ -309,9 +268,12 @@ var barchart = (function barchart(){
                     g.selectAll(".domain").attr("stroke-width", "2").attr("stroke-opacity", "1").style("stroke","#999999");
                 })
                 .call(function (g) {
-                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838");
-                    if(datas.length >= 30){
 
+                    //텍스트 컬러설정
+                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838");
+
+                    //30개이상일때 45도 회전시키기
+                    if(datas.length >= 30){
 
                         g.selectAll("text")
                             .attr("transform","rotate(-45)")
@@ -321,7 +283,7 @@ var barchart = (function barchart(){
 
                     }
                 });
-
+            //y축 범위표시
             g2.append("g")
                 .attr("class", "axis")
                 .call(d3.axisLeft(y).ticks(null, "s").tickSizeOuter(0))
@@ -340,14 +302,13 @@ var barchart = (function barchart(){
                 .attr("dy", "0.32em")
                 .attr("fill", "#101010")
                 .attr("font-weight", "Regular")
-                .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.5rem")
                 .attr("text-anchor", "middle");
 
 
+            //범례
             legend2 = svg2
                 .append("g")
-                .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.7rem")
                 .attr("text-anchor", "end")
                 .selectAll("g")
@@ -355,10 +316,11 @@ var barchart = (function barchart(){
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
-                    return "translate(80," + i * 16 + ")";
+                    return "translate(90," + (40 + (i * 16)) + ")";
                 });
 
 
+            //범례 사각형
             legend2
                 .append("rect")
                 .attr("x", width2 - 18)
@@ -366,6 +328,7 @@ var barchart = (function barchart(){
                 .attr("height", 10)
                 .attr("fill", z2);
 
+            //범례 텍스트
             legend2
                 .append("text")
                 .attr("x", width2 - 20)
@@ -379,10 +342,13 @@ var barchart = (function barchart(){
 
         }
 
+        /**
+         *  - draw 로 초기화한 이후 데이터 갱신시에 쓸 함수
+         * @param newdata 새롭게 갱신할 데이터
+         */
     function update(newdata){
 
             d3.select("#"+divid).select("svg").remove();
-
             draw(divid,newdata);
 
     }
@@ -397,6 +363,8 @@ var barchart = (function barchart(){
 
     }
 
+
+    // 외부로 함수반환
 
     return barchartiife;
 

@@ -1,7 +1,7 @@
 var piechart = (function extracted() {
 
     /**
-     * @TODO 접수건 처리 필욘
+     * @TODO 접수건 처리 필요
      */
     
     /**
@@ -17,44 +17,29 @@ var piechart = (function extracted() {
 
         //차트에 쓰일 div 아이디
         var divid;
-
         //키
         var key;
-
         //툴팁
         var tooltip;
-
         //데이터라벨
         var labels;
-
         //컬러스케일
         var colors;
-
         //데이터만 추출
         var pieData;
-
         //레전드(범례) 참조변수
         var legend;
-
         //svg에 달린 g 참조변수
         var g4;
-
         //svg
         var svg5;
-
         //
         var pie;
-
         var transitionArc;
-
         var tooltipArc;
-
         var outerArc;
-
         var arc;
-
         var piecolor;
-
         var pie2 = d3
             .pie()
             .sort(null)
@@ -71,22 +56,6 @@ var piechart = (function extracted() {
         var salesData4;
 
 
-        salesData3 = [
-            {label: "강남금융센터", color: "#be653e", value: "300"},
-            {label: "삼성지점", color: "#78bb37", value: "400"},
-            {label: "수유지점", color: "#e0b63d", value: "200"},
-            {label: "영업본부(개인)", color: "#ef9db5", value: "200"},
-            {label: "영업부", color: "#d46b8e", value: "300"},
-            {label: "채권2팀", color: "#9a9adc", value: "30"},
-            {label: "투자금융팀", color: "#6cc4a0", value: "120"},
-        ];
-
-        salesData4 = [
-            {label: "강남금융센터", color: "#be653e", value: "300"},
-            {label: "삼성지점", color: "#78bb37", value: "400"},
-            {label: "수유지점", color: "#e0b63d", value: "200"},
-            {label: "영업본부(개인)", color: "#ef9db5", value: "200"},
-        ];
 
         function setComma(num) {
             var len, point, str;
@@ -112,6 +81,13 @@ var piechart = (function extracted() {
                 "%"
                 : "";
         }
+        function getPercentNumber(d) {
+            return d.endAngle - d.startAngle > 0.1
+                ? Math.round((1000 * (d.endAngle - d.startAngle)) / (Math.PI * 2)) /
+                10
+                : 0;
+        }
+
 
         function onMouseOut() {
             return function (d) {
@@ -216,7 +192,7 @@ var piechart = (function extracted() {
                 return d.label;
             });
 
-            width3 = 570;
+            width3 = 770;
             height3 = 400;
             radius3 = Math.min(width3, height3) / 4;
 
@@ -267,10 +243,10 @@ var piechart = (function extracted() {
                 .append("svg")
                 .attr("width", width3)
                 .attr("height", height3)
-                .attr("viewBox", "0 0 570 400")
+                .attr("viewBox", "0 0 "+width3 + " " +height3 )
                 .attr("preserveAspectRatio", "none")
                 .append("g")
-                .attr("transform", "translate(" + ((width3 / 3)+20) + "," + height3 / 2 + ")");
+                .attr("transform", "translate(" + ((width3 / 2)-40) + "," + height3 / 2 + ")");
 
 
             svg5.append("g").attr("class", "slices");
@@ -303,7 +279,6 @@ var piechart = (function extracted() {
                 .attr("transform", function (d) {
                     return "translate(" + arc.centroid(d) + ")";
                 })
-                .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.7rem")
                 .attr("font-weight", "Regular")
                 .attr("fill", "white")
@@ -320,7 +295,6 @@ var piechart = (function extracted() {
                 .select("#"+id)
                 .select("svg")
                 .append("g")
-                .attr("font-family", "Noto Sans KR")
                 .attr("font-size", "0.7rem")
                 .attr("text-anchor", "start")
                 .selectAll("g")
@@ -333,7 +307,7 @@ var piechart = (function extracted() {
                     var legendmargin = 15 * i;
                     var legendtrans = initY + legendmargin;
 
-                    return "translate(-125," + legendtrans + ")";
+                    return "translate(-200," + legendtrans + ")";
                 });
 
             legend
@@ -349,7 +323,6 @@ var piechart = (function extracted() {
 
             legend
                 .append("text")
-                .attr("font-family", "Noto Sans KR")
                 .attr("font-weight", "Light")
                 .attr("x", width3 - 28)
                 .attr("y", 9.5)
@@ -369,7 +342,10 @@ var piechart = (function extracted() {
 
             text
                 .text(function(d) {
-                    return d.data.label.toString();
+                    if(Number(getPercentNumber(d) >=1)){
+                        return d.data.label.toString();
+                    }
+
                 })
                 .attr('transform', function(d) {
                     var pos = outerArc.centroid(d);
@@ -395,29 +371,17 @@ var piechart = (function extracted() {
                 .style("fill", "none")
                 // .attr("stroke-width", 2)
                 .attr("points", function(d) {
-                    var posA = arc.centroid(d); // line insertion in the slice
-                    var posB = outerArc.centroid(d); // line break: we use the other arc generator that has been built only for that
-                    var posC = outerArc.centroid(d); // Label position = almost the same as posB
-                    var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
-                    posC[0] = radius3 * 0.9 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
-                    // posC[0] = d.startAngle;
-                    return [posA.toString(),posB.toString(),posC.toString()];
-                    //return ("12,20 14,20 40,50");
+                    if(Number(getPercentNumber(d)) >= 1){
+                        var posA = arc.centroid(d); // line insertion in the slice
+                        var posB = outerArc.centroid(d); // line break: we use the other arc generator that has been built only for that
+                        var posC = outerArc.centroid(d); // Label position = almost the same as posB
+                        var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
+                        posC[0] = radius3 * 0.9 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+
+                        return [posA.toString(),posB.toString(),posC.toString()];
+                    }
+
                 });
-            // .attr("points", function (d) {
-            //     this._current = this._current || d;
-            //     var interpolate = d3.interpolate(this._current, d);
-            //     this._current = interpolate(0);
-            //     return function (t) {
-            //         var d2 = interpolate(t);
-            //         var pos = outerArc.centroid(d2);
-            //         pos[0] = radius3 * 1.2 * (midAngle(d2) < Math.PI ? 1 : -1);
-            //         return [tooltipArc.centroid(d2), outerArc.centroid(d2), pos];
-            //     };
-            // });
-
-            //polyline.exit().remove();
-
 
         }
 
@@ -426,22 +390,6 @@ var piechart = (function extracted() {
         function update (data) {
 
             initPie2Calc();
-
-
-
-            /* ------- PIE SLICES -------*/
-
-
-            // svg5.selectAll(".arc")
-            //   .data(pie(values)).enter().append("g").attr("class","arc")
-            //   .append("path")
-            //   .transition()
-            //   .duration(500)
-            //   .style("fill", function (d, i) {
-            //     return piecolor(data[i].label);
-            //   })
-            //   .attr("d", arc);
-
 
             //기존차트 비우기
             if(g4 != null){
@@ -529,11 +477,7 @@ var piechart = (function extracted() {
                         return d.label + " [" + Number(d.value).toLocaleString('en') + "]";
                     });
 
-
-
-
                 //slice.exit().remove();
-
                 /* ------- TEXT LABELS -------*/
 
                 var text2 = svg5
@@ -611,16 +555,6 @@ var piechart = (function extracted() {
 
             }
         }
-
-        //update(salesData3);
-        //update(salesData3);
-
-        // setTimeout(function () {
-        //   update(salesData3);
-        // }, 2000);
-        //
-
-        // update(salesData3);
 
 
 //전역에 노출시킬 퍼블릭 함수

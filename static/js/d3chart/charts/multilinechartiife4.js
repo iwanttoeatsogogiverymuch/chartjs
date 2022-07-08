@@ -2,42 +2,27 @@ var multilinechart4 = (function extracted() {
 
     //정기예금-재예치율/중도해지
 
-
     function dd() {
-
 
         var divid;
         var tooltip;
-
         var legend;
-
         var legendColorScale;
-
         var lengendxScale;
-
         var chartPoint;
-
         var gridlines;
-
         var lineColors;
-
         var signdatekey;
-
         var sumstat;
-
         var liney;
-
         var linex;
-
         var pnum;
-
         var svg9;
-
         var margin, linechartwidth, linechartheight;
-
+        var svgwidth;
+        var svgheight;
         var mcgpalette0;
 
-        var XMLNS_SVG_2000 = "xmlns=http://www.w3.org/2000/svg";
 
         function buildTooltip(){
 
@@ -54,7 +39,7 @@ var multilinechart4 = (function extracted() {
             tooltip.style("opacity", "1");
             tooltip.style("left", d3.event.pageX + 10 + "px");
             tooltip.style("top", d3.event.pageY + 10 + "px");
-            tooltip.html(d.retentionvalue.toString()+ "%");
+            tooltip.html(Number(d.retentionvalue).toFixed(2)+ "%");
         }
 
         function onMouseOutTooltip(d) {
@@ -77,9 +62,7 @@ var multilinechart4 = (function extracted() {
 
             svg9.selectAll("path")
                 .filter(function (pathd) {
-                    //console.log(pathd)
                     if (pathd != null) {
-
                         return pathd.key == hoverdata.signdate;
                     }
 
@@ -90,12 +73,9 @@ var multilinechart4 = (function extracted() {
 
             svg9.selectAll("path")
                 .filter(function (pathd) {
-                    //  console.log(pathd)
                     if (pathd != null) {
-
                         return pathd.key != hoverdata.signdate;
                     }
-
 
                 })
                 .style("stroke", function () {
@@ -107,41 +87,28 @@ var multilinechart4 = (function extracted() {
 
             var hoverdata = d;
             onMouseOutTooltip(d);
-
             svg9.selectAll("circle").style("opacity", "1");
 
             d3.select(this)
                 .style("fill", function (d) {
-
                     return d3.rgb(lineColors(d.signdate));
                 })
                 .attr("r", "3.5").lower();
 
-
-            // .style("fill", function (d) {
-            //         return d3.hsl(d3.select(this).style("fill")).brighter(1).toString();
-            //     }).lower();
-            //
-
             svg9.selectAll("path")
                 .filter(function (pathd) {
-
                     if (pathd != null) {
-
                         return pathd.key == hoverdata.signdate;
                     }
-
-
                 })
                 .style("stroke", function () {
 
-                    //ie9 버전에서는 attr로 색상변경시 hsl 코드 변환이 제대로 이루어지지 않음
-                    //style 값으로 처리해야 제대로 색상변경이가능함
-
-                    console.log(d3.select(this).style("stroke"))
-                    console.log(d3.select(this).attr("stroke"))
-                    console.log(d3.hsl(d3.select(this).attr("stroke").toString()).brighter(1).toString())
-                    console.log(d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString())
+                    // ie9 버전에서는 attr로 색상변경시 hsl 코드 변환이 제대로 이루어지지 않음
+                    // style 값으로 처리해야 제대로 색상변경이가능함
+                    // console.log(d3.select(this).style("stroke"))
+                    // console.log(d3.select(this).attr("stroke"))
+                    // console.log(d3.hsl(d3.select(this).attr("stroke").toString()).brighter(1).toString())
+                    // console.log(d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString())
                     return d3.hsl(d3.select(this).style("stroke").toString()).brighter(1).toString();
                 });
 
@@ -149,11 +116,8 @@ var multilinechart4 = (function extracted() {
                 .filter(function (pathd) {
                     console.log(pathd)
                     if (pathd != null) {
-
                         return pathd.key != hoverdata.signdate;
                     }
-
-
                 })
                 .style("stroke", function () {
                     return d3.hsl(d3.select(this).style("stroke").toString()).darker(1).toString();
@@ -162,17 +126,13 @@ var multilinechart4 = (function extracted() {
 
         function onMouseOverPath(d) {
             var hoverdata = d;
-
             svg9.selectAll("path").style("opacity", ".3");
             d3.select(this)
                 .style("stroke", function () {
-
                     return d3.hsl(d3.select(this).attr("stroke")).darker(1).toString();
                 })
                 .style("opacity", "1")
                 .attr("r", 5);
-
-
             svg9.selectAll("circle")
                 .filter(function (d) {
                     return d.signdate === hoverdata.key;
@@ -180,7 +140,6 @@ var multilinechart4 = (function extracted() {
                 .style("fill", function (d) {
                     return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
                 }).raise();
-
 
             svg9.selectAll("circle")
                 .filter(function (d) {
@@ -217,9 +176,7 @@ var multilinechart4 = (function extracted() {
                     return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
                 }).raise();
 
-
         }
-
         function draw (id,data){
 
             divid = id;
@@ -236,21 +193,21 @@ var multilinechart4 = (function extracted() {
             ];
             // set the dimensions and margins of the graph
             margin = {top: 10, right: 130, bottom: 80, left: 60};
-            linechartwidth = 1200 - margin.left - margin.right;
-            linechartheight = 700 - margin.top - margin.bottom;
+            svgwidth = 1800;
+            svgheight = 700;
+            linechartwidth = svgwidth - margin.left - margin.right;
+            linechartheight = svgheight - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             svg9 = d3
                 .select("#"+divid)
                 .append("svg")
-                .attr("width", linechartwidth + margin.left + margin.right)
-                .attr("height", linechartheight + margin.top + margin.bottom)
-                .attr("viewBox", "0 0 1200 700")
+                .attr("width", svgwidth)
+                .attr("height", svgheight)
+                .attr("viewBox", "0 0" + " "+svgwidth + " " +svgheight)
                 .attr("preserveAspectRatio", "none")
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
             pnum = data.map(function (d, i) {
 
                 return d.retentiondate;
@@ -278,19 +235,14 @@ var multilinechart4 = (function extracted() {
                 .call(function (g) {
                     g.selectAll("text")
                         .attr("font-family", "Noto Sans KR")
+                        .attr("font-size","0.7rem")
                         .attr("fill", "grey");
-
                     g.selectAll("text")
                         .style("text-anchor", "end")
                         .attr("dx", "-.8em")
                         .attr("dy", ".15em")
                         .attr("transform", "rotate(-90)" );
-
-
-
-
                 });
-
             // Add Y axis
             liney = d3
                 .scaleLinear()
@@ -324,10 +276,6 @@ var multilinechart4 = (function extracted() {
                         .attr("font-family", "Noto Sans KR")
                         .attr("fill", "grey");
 
-
-
-
-
                 });
             sumstat = d3
                 .nest()
@@ -339,11 +287,6 @@ var multilinechart4 = (function extracted() {
                 return d.key;
             });
             lineColors = d3.scaleOrdinal().domain(signdatekey).range(mcgpalette0);
-
-            //nest json data
-
-
-            //color scale
 
             // Add the line
            var path = svg9
@@ -370,23 +313,6 @@ var multilinechart4 = (function extracted() {
                 })
                 .on("mouseover", onMouseOverPath)
                 .on("mouseout", onMouseOutPath);
-
-
-
-           //애니메이션
-            // var pathLength = path.node().getTotalLength();
-            //
-            //
-            // var transitionPath = d3
-            //     .transition()
-            //     .ease(d3.easeSin)
-            //     .duration(2500);
-            //
-            // path
-            //     .attr("stroke-dashoffset", pathLength)
-            //     .attr("stroke-dasharray", pathLength)
-            //     .transition(transitionPath)
-            //     .attr("stroke-dashoffset", 0);
 
             gridlines = d3
                 .axisLeft()
@@ -490,34 +416,23 @@ var multilinechart4 = (function extracted() {
                     return d;
                 })
 
-
         }
-
 
         function update (data){
 
             if(tooltip === undefined){
                 buildTooltip();
             }
-
             d3.select("#"+divid).select("svg").remove();
             draw(divid,data);
 
         }
-
-
         return {
-
             draw: draw,
             update:update
         }
-
-
-
     }
-
     return dd;
-
 
 })();
 

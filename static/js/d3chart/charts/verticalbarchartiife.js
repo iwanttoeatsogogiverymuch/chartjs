@@ -1,6 +1,8 @@
 var verticalbarchart = (function vertical(){
 function extracted(){
 
+  var svgWidth;
+  var svgHeight;
   var divid;
   var legend2;
   var keys;
@@ -18,44 +20,6 @@ function extracted(){
   var tooltip;
   var gridline;
 
-  var testdata = [
-    {"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-02", "DAU": "14000", "MAU": "500000", "ALL": "400000"},
-    {"date": "2022-03-03", "DAU": "24000", "MAU": "700000", "ALL": "400000"},
-    {"date": "2022-03-04", "DAU": "44000", "MAU": "200000", "ALL": "400000"},
-    {"date": "2022-03-05", "DAU": "25300", "MAU": "100000", "ALL": "400000"},
-    {"date": "2022-03-06", "DAU": "38900", "MAU": "300000", "ALL": "400000"}
-  ];
-
-  var testdata2 = [
-    {"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-02", "DAU": "34000", "MAU": "200000", "ALL": "400000"},
-    {"date": "2022-03-03", "DAU": "34000", "MAU": "300000", "ALL": "400000"},
-    {"date": "2022-03-04", "DAU": "34000", "MAU": "100000", "ALL": "400000"},
-    {"date": "2022-03-05", "DAU": "34000", "MAU": "250000", "ALL": "400000"},
-    {"date": "2022-03-06", "DAU": "34000", "MAU": "23000", "ALL": "400000"},
-    {"date": "2022-03-07", "DAU": "34000", "MAU": "10000", "ALL": "400000"},
-    {"date": "2022-03-08", "DAU": "34000", "MAU": "200000", "ALL": "400000"},
-    {"date": "2022-03-09", "DAU": "34000", "MAU": "356000", "ALL": "400000"},
-    {"date": "2022-03-10", "DAU": "34000", "MAU": "240000", "ALL": "400000"},
-    {"date": "2022-03-11", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-12", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-13", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-14", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-15", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-16", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-17", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-18", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-19", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-21", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-22", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-23", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-24", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-25", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-26", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-    {"date": "2022-03-27", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-
-  ];
 
   function setComma(num) {
     var len, point, str;
@@ -83,15 +47,17 @@ function extracted(){
         .attr("class", "toolTip")
         .style("display", "none").attr("font-size", "3rem");
 
+    svgWidth = 870;
+    svgHeight = 500;
 
     svg2 = d3.select("#"+divid)
         .append("svg")
-        .attr("width", 550)
-        .attr("height", 500)
-        .attr("viewBox", "0 0 550 500")
+        .attr("width", svgWidth)
+        .attr("height", svgHeight)
+        .attr("viewBox", "0 0 "+svgWidth + " " +svgHeight)
         .attr("preserveAspectRatio", "none");
 
-    margin2 = {top: 30, right: 30, bottom: 30, left: 60};
+    margin2 = {top: 30, right: 80, bottom: 30, left: 60};
     width2 = +svg2.attr("width") - margin2.left - margin2.right;
     height2 = +svg2.attr("height") - margin2.top - margin2.bottom;
 
@@ -101,7 +67,7 @@ function extracted(){
         .rangeRound([0, height2]).paddingOuter(0.2);
     verticaly1 = d3.scaleBand()
         .padding(0.1);
-    verticalx = d3.scaleLinear().domain([0, 30000000])
+    verticalx = d3.scaleLinear()
         .rangeRound([0, width2 - 50]);
 
 
@@ -149,12 +115,12 @@ function extracted(){
     gridlines = d3.axisTop()
         .tickFormat("")
         //
-        .tickSize(-width2+margin2.right).ticks(7)
+        .tickSize(-height2).ticks(7)
         .scale(verticalx);
 
     svg2.append("g")
         .attr("class", "grid")
-        .attr("transform", "translate("+margin2.left+ " ," + margin2.top + ")")
+        .attr("transform", "translate("+margin2.left+ "," + (margin2.bottom) + ")")
         .call(gridlines);
 
 
@@ -163,10 +129,7 @@ function extracted(){
     //positioning the svg g
     g2 = svg2
         .append("g")
-        .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
-
-
-
+        .attr("transform", "translate(" + margin2.left + "," + (margin2.top) + ")");
 
     g2.append("g")
         .selectAll("g")
@@ -224,7 +187,7 @@ function extracted(){
         });
 
 
-    //  tooltip text top
+    //  tooltip text right
     g2.append("g")
         .selectAll("g")
         .data(data)
@@ -254,7 +217,10 @@ function extracted(){
           return verticaly1(d.key) + 3;
         })
         .text(function (d) {
-          return Math.round(Number(d.value)).toLocaleString("en");
+            if( Math.round(Number(d.value)) !== 0){
+                return Math.round(Number(d.value)).toLocaleString("en");
+            }
+
         });
 
 
@@ -296,7 +262,7 @@ function extracted(){
         .enter()
         .append("g")
         .attr("transform", function (d, i) {
-          return "translate(90," + i * 15 + ")";
+          return "translate(130," +( 20 + ( i * 15 ) ) + ")";
         });
 
 
@@ -315,14 +281,17 @@ function extracted(){
           return d;
         });
 
+    // x축 레이블
+    svg2.append("g").append("text").style("font-size","0.8rem").style("font-family","Noto Sans KR Regular")
+        .attr("transform", "translate("+(width2+50) + ","+ (height2+40) +")")
+        .attr("dy", "0.35em")
+        .style("text-anchor", "middle")
+        .text("백만원");
 
   }
   function update(data){
-
     d3.select("#"+divid).select("svg").remove();
-
     draw(divid,data);
-
 
   }
 
@@ -330,7 +299,6 @@ function extracted(){
     draw:draw,
     update:update
   }
-
 
 }
   return extracted;

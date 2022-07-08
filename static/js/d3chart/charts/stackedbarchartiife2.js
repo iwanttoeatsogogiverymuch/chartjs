@@ -1,80 +1,23 @@
 var stackedbarchart2 = (function stack() {
 
     var divid;
-
     var legend;
-
     var keys;
-
     var z;
-
     var y;
-
     var x;
-
     var height;
-
     var width;
-
     var margin;
-
     var svg;
-
     var mcgpalette0;
-
     var easetype;
-
     var delayfunc;
-
     var duration;
-
     var tooltip;
-
     var gridx;
-
     var gridline;
-
     var gridline2;
-
-    var testdata = [
-        {"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-02", "DAU": "14000", "MAU": "500000", "ALL": "400000"},
-        {"date": "2022-03-03", "DAU": "24000", "MAU": "700000", "ALL": "400000"},
-        {"date": "2022-03-04", "DAU": "44000", "MAU": "200000", "ALL": "400000"},
-        {"date": "2022-03-05", "DAU": "25300", "MAU": "100000", "ALL": "400000"},
-        {"date": "2022-03-06", "DAU": "38900", "MAU": "300000", "ALL": "400000"}
-    ];
-
-    var testdata2 = [
-        {"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-02", "DAU": "34000", "MAU": "200000", "ALL": "400000"},
-        {"date": "2022-03-03", "DAU": "34000", "MAU": "300000", "ALL": "400000"},
-        {"date": "2022-03-04", "DAU": "34000", "MAU": "100000", "ALL": "400000"},
-        {"date": "2022-03-05", "DAU": "34000", "MAU": "250000", "ALL": "400000"},
-        {"date": "2022-03-06", "DAU": "34000", "MAU": "23000", "ALL": "400000"},
-        {"date": "2022-03-07", "DAU": "34000", "MAU": "10000", "ALL": "400000"},
-        {"date": "2022-03-08", "DAU": "34000", "MAU": "200000", "ALL": "400000"},
-        {"date": "2022-03-09", "DAU": "34000", "MAU": "356000", "ALL": "400000"},
-        {"date": "2022-03-10", "DAU": "34000", "MAU": "240000", "ALL": "400000"},
-        {"date": "2022-03-11", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-12", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-13", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-14", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-15", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-16", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-17", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-18", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-19", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-21", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-22", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-23", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-24", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-25", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-26", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-        {"date": "2022-03-27", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-
-    ];
-
 
     function setComma(num) {
         var len, point, str;
@@ -215,16 +158,9 @@ function draw(id,data) {
         .attr("transform","translate(" + margin.left + "," + (margin.bottom-9) +")")
         .call(gridlines2);
 
-
-
-
     g = svg
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-
-
 
     g.append("g")
         .selectAll("g")
@@ -326,10 +262,6 @@ function draw(id,data) {
         .text("");
 
 
-
-
-
-
     g.append("g")
         .selectAll("g")
         .data(d3.stack().keys(keys)(data))
@@ -341,10 +273,6 @@ function draw(id,data) {
         })
         .enter()
         .append("text")
-        // .attr("x", function (d,i) {
-        //   return x(d.data.State) + x.bandwidth()/2;
-        // })
-        // .attr("y", function(d) { return y((d[1] +d[0])/2) ; })
         .attr("y", function (d) {
             return y(d[1]);
         })
@@ -399,10 +327,7 @@ function draw(id,data) {
             return d;
         });
 
-
-
 }
-
 
   return{
 

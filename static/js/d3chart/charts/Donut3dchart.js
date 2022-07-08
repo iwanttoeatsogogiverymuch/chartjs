@@ -3,7 +3,7 @@
   var  Donut3D = {};
   var svg;
   var height3 = 400;
-  var width3 = 570;
+  var width3 = 870;
   var piedcolor;
   var colorscale;
   var divid;
@@ -150,6 +150,11 @@
           "%"
       : "";
   }
+    function getPercentNumber(d) {
+        return d.endAngle - d.startAngle > 0.1
+            ? Math.round((1000 * (d.endAngle - d.startAngle)) / (Math.PI * 2)) / 10
+            : 0;
+    }
   function midAngle(d) {
     return d.oldEndAngle
       ? d.oldSartAngle + (d.oldEndAngle - d.oldSartAngle) / 2
@@ -157,21 +162,31 @@
   }
 
   function labelPath(d, rx, ry, h) {
-    var x1 = rx * Math.cos(midAngle(d));
-    var y1 = ry * Math.sin(midAngle(d));
-    var labelPathLength = 1 + h / rx / 2;
-    var path = [];
 
-    path.push("M", x1, y1, "L", x1 * labelPathLength, y1 * labelPathLength);
-    path.push(
-      "L",
-      (rx + 14) *
-        (midAngle(d) > (3 / 2) * Math.PI || midAngle(d) < Math.PI / 2 ? 1 : -1),
-      y1 * labelPathLength
-    );
-    path.push("L", x1 * labelPathLength, y1 * labelPathLength, "z");
 
-    return path.join(" ");
+      if(Number(getPercentNumber(d)) > 1  ){
+          var x1 = rx * Math.cos(midAngle(d));
+          var y1 = ry * Math.sin(midAngle(d));
+          var labelPathLength = 1 + h / rx / 2;
+          var path = [];
+
+          path.push("M", x1, y1, "L", x1 * labelPathLength, y1 * labelPathLength);
+          path.push(
+              "L",
+              (rx + 14) *
+              (midAngle(d) > (3 / 2) * Math.PI || midAngle(d) < Math.PI / 2 ? 1 : -1),
+              y1 * labelPathLength
+          );
+          path.push("L", x1 * labelPathLength, y1 * labelPathLength, "z");
+
+          return path.join(" ");
+      }
+      else{
+          var path = [];
+          return path.join(" ");
+      }
+
+
   }
 
   Donut3D.transition = function (id, data, rx, ry, h, ir) {
@@ -216,15 +231,12 @@
       };
     }
 
-
-
     var _data = d3
       .pie()
       .sort(null)
       .value(function (d) {
         return d.value;
       })(data);
-
 
     d3.select("#" + id).selectAll("g")
       .selectAll(".innerSlice")
@@ -234,7 +246,6 @@
       .ease(easetype)
       .attrTween("d", arcTweenInner);
 
-
     d3.select("#" + id).select("g")
       .selectAll(".topSlice")
       .data(_data)
@@ -242,7 +253,6 @@
       .duration(duration)
       .ease(easetype)
       .attrTween("d", arcTweenTop);
-
 
     d3.select("#" + id).select("g")
       .selectAll(".outerSlice")
@@ -252,7 +262,6 @@
       .ease(easetype)
       .attrTween("d", arcTweenOuter);
 
-
     d3.select("#" + id)
       .selectAll(".percent")
       .data(_data)
@@ -261,8 +270,6 @@
       .attrTween("x", textTweenX)
       .attrTween("y", textTweenY)
       .text(getPercent);
-
-
 
     d3.select("#"+id ).append("g")
         .attr("class", "labels");
@@ -276,11 +283,8 @@
           return d.value;
         });
 
-
     var key = function(d){ return d.data.label; };
-
       newFunction();
-
     function newFunction() {
 
       var text = d3.select("#"+id)
@@ -288,7 +292,6 @@
         .selectAll("text")
         .data(_data, key);
 
-      console.log(text);
 
       text
         .enter()
@@ -298,8 +301,11 @@
       text
         .transition()
         .duration(1000).text(function (d) {
-            console.log(d.data.value);
-            return  setComma(Number(d.data.value));
+           // console.log(d.data.value);
+          if(Number(getPercentNumber(d)) > 1){
+              return  setComma(Number(d.data.value).toFixed(2));
+          }
+
           })
         .attrTween("transform", function (d) {
           this.current = this.current || d;
@@ -329,7 +335,6 @@
           };
         });
 
-
       var polyline = d3.select("#" + id)
         .select(".lines")
         .selectAll("path")
@@ -341,11 +346,13 @@
         .duration(1000)
         .attrTween("d", function (d) {
           return function () {
-            return labelPath(d, rx + -0.5, ry + -0.5, h);
+              if(Number(getPercentNumber(d)) > 1){
+                  return labelPath(d, rx + -0.5, ry + -0.5, h);
+              }
+
           };
         });
     }
-    //  polyline.remove().exit();
 
     d3.select("#"+id).selectAll(".legend").remove();
 
@@ -354,7 +361,6 @@
         .append("g")
         .attr("transform","translate(-50,20)")
         .attr("class","legend")
-        .attr("font-family", "Noto Sans KR")
         .attr("font-size", "0.8rem")
         .attr("text-anchor", "start")
         .selectAll("g")
@@ -383,7 +389,6 @@
 
     legend
         .append("text")
-        .attr("font-family", "Noto Sans KR")
         .attr("font-weight", "Light")
         .attr("x", width3 - 28)
         .attr("y", 9.5)
@@ -421,7 +426,18 @@
     colorscale = d3.scaleOrdinal()
         .domain(labels)
         .range(
-            ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
+            ["#be653e",
+              "#78bb37",
+              "#e0b63d",
+              "#ef9db5",
+              "#d46b8e",
+              "#9a9adc",
+              "#6cc4a0",
+              "#E9DAC1",
+              "#18978F",
+              "#84A59D"
+            ]
+        );
 
 
     var _data = d3
@@ -507,7 +523,7 @@
     legend = svg
         .append("g")
         .attr("class","legend")
-        .attr("transform","translate(-50,20)")
+        .attr("transform","translate(-170,40)")
         .attr("font-size", "0.8rem")
         .attr("text-anchor", "start")
         .selectAll("g")
@@ -516,7 +532,7 @@
         .append("g")
         .attr("transform", function (d, i) {
 
-          var initY = 137;
+          var initY = 95;
           var legendmargin = 15 * i;
           var legendtrans = initY + legendmargin;
           return "translate(-150," + legendtrans + ")";
@@ -541,7 +557,7 @@
         .attr("y", 9.5)
         .attr("dy", "0.35em")
         .text(function (d) {
-          return d.data.label + " [" + d.data.value + "]";
+          return d.data.label + " [" + Math.round(Number(d.data.value)) + "]";
         });
 
     slices.append("g").attr("class", "labels");
@@ -577,14 +593,17 @@
         .append("text")
         .attr("dy", ".24em")
         .text(function (d) {
-          return setComma(Number(d.data.value));
+            if(Number(getPercentNumber(d)) > 1){
+                return Math.round(Number(d.data.value));
+            }
+
         });
 
       text
         .transition()
         .duration(1000)
         .attrTween("transform", function (d) {
-          var i = d3.interpolate(this.current, d);
+          var i = d3.interpolate( this.current,d);
           return function (t) {
             i(t).endAngle = d.startAngle + (d.endAngle - d.startAngle) * t;
             var labelPathLength = 1 + h / rx / 2;
@@ -621,7 +640,11 @@
         .duration(1000)
         .attrTween("d", function (d) {
           return function () {
-            return labelPath(d, rx + -0.5, ry + -0.5, h);
+
+                  return labelPath(d, rx + -0.5, ry + -0.5, h);
+
+
+
           };
         });
       polyline.exit().remove();

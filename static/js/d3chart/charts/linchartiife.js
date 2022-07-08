@@ -13,8 +13,8 @@ var linechart = (function () {
     var margin, linechartwidth, linechartheight;
     var data2;
     var data;
-    var svgwidth = 1200;
-    var svgheight = 200;
+    var svgwidth = 1800;
+    var svgheight = 350;
 
     var cohortdata2 = [
 
@@ -47,7 +47,7 @@ var linechart = (function () {
     ];
 
 
-    function draw(id,parsedData,tableid) {
+    function draw(id,parsedData) {
 
         divid = id;
 
@@ -59,13 +59,9 @@ var linechart = (function () {
 
         data = JSON.parse(JSON.stringify(parsedData));
 
-        tablechart2.draw(tableid,data);
-        //test data
-        //not used
-        data2 = JSON.parse(JSON.stringify(cohortdata2));
 
         // 차트 마진설정
-        margin = { top: 10, right: 30, bottom: 30, left: 70 };
+        margin = { top: 10, right: 30, bottom: 90, left: 70 };
         linechartwidth = svgwidth - margin.left - margin.right;
         linechartheight = svgheight - margin.top - margin.bottom;
 
@@ -104,7 +100,6 @@ var linechart = (function () {
         linex = d3.scalePoint()
             .domain(pnum.sort(d3.ascending))
             .range([0, linechartwidth]);
-
 
         //x축 (기본설정에서 tick domain line 제거)
         svg9.append("g")
@@ -210,8 +205,6 @@ var linechart = (function () {
             .attr("class", "grid")
             .call(gridlines.ticks(5));
 
-
-
         // x축 레이블
         svg9.append("text")
             .attr("transform", "translate(" + (linechartwidth / 2) + " ," + (linechartheight+27) + ")")
@@ -230,9 +223,7 @@ var linechart = (function () {
             .style("text-anchor", "middle")
             .text("비율");
 
-
-
-
+        tablechart2.draw(divid,data,svg9);
 
     }
 

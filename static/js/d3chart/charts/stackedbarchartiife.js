@@ -11,62 +11,32 @@ var stackedbarchart = (function stack() {
     function stackedbarinner(){
 
 		var g;
-
         var xlabel;
-
         var ylabel;
-
         var colorscale3;
-
         var divid;
-
         var legend;
-
         var keys;
-
         var z;
-
         var y;
-
         var x;
 
         var height;
-
         var width;
-
         var svgwidth;
-
         var svgheight;
 
         var margin;
-
         var svg;
-
         var mcgpalette0;
-
         var easetype;
-
         var delayfunc;
-
         var duration;
 
         var tooltip;
-
         var gridx;
-
         var gridlines;
-
         var gridline2;
-
-        var testdata = [
-            {"date": "2022-03-01", "DAU": "34000", "MAU": "400000", "ALL": "400000"},
-            {"date": "2022-03-02", "DAU": "14000", "MAU": "500000", "ALL": "400000"},
-            {"date": "2022-03-03", "DAU": "24000", "MAU": "700000", "ALL": "400000"},
-            {"date": "2022-03-04", "DAU": "44000", "MAU": "200000", "ALL": "400000"},
-            {"date": "2022-03-05", "DAU": "25300", "MAU": "100000", "ALL": "400000"},
-            {"date": "2022-03-06", "DAU": "38900", "MAU": "300000", "ALL": "400000"}
-        ];
-
 
         /**
          *
@@ -78,6 +48,17 @@ var stackedbarchart = (function stack() {
 
         }
 
+        function getPercentNumber (sum,values){
+
+            if(values){
+                values = Number(values);
+                sum = Number(sum);
+                return (values / sum) * 100;
+            }
+
+        }
+
+
         /**
          *
          * @param id {string}  :  차트 svg 요소를 담을 부모 div의 id
@@ -85,27 +66,23 @@ var stackedbarchart = (function stack() {
          * @param xl{string}           :  x축 라벨에 쓰일 이름
          * @param yl {string}          :  y축 라벨에 쓰일 이름
          */
+
+
         function draw(id,data,xl,yl) {
 
+            // x축 라벨 문자열
             xlabel=xl;
+            //y 축 라벨 문자열
             ylabel=yl;
+            //div id 문자열
             divid = id;
 
             data = JSON.parse(JSON.stringify(data));
 
-            if( data.length >= 150){
-                svgwidth = 12200;
+                svgwidth = 1800;
                 svgheight = 500;
-            }
-            else if(data.length >= 90) {
-                svgwidth = 3600;
-                svgheight = 500;
-            }
-            else{
-                svgwidth = 1200;
-                svgheight = 500;
-            }
 
+                console.log(data);
 
             mcgpalette0 = ["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D"];
             duration = 1300;
@@ -117,19 +94,20 @@ var stackedbarchart = (function stack() {
                 .attr("class", "toolTip")
                 .style("opacity", "0");
 
-
-
           var  colorscale2 = d3.scaleOrdinal()
                 .domain(Object.keys(data[0]).slice(1))
                 .range(
-                    [   "#be653e", /* e-자유적립적금 */
-                        "#78bb37", /* e-정기적금 */
-                        "#e0b63d", /* e-회원정기예금(복리) */
-                        "#ef9db5", /* e-회원정기예금(단리) */
-                        "#d46b8e", /* "더마니드림 저축예금_비대면"*/
-                        "#9a9adc", /* e-정기예금(단리) */
-                        "#6cc4a0", /* e-정기예금(복리) */
-                        "#ea7f84", /* 첫번째저축예금_비대면 */
+                    [   "#be653e",
+                        "#78bb37",
+                        "#e0b63d",
+                        "#ef9db5",
+                        "#d46b8e",
+                        "#9a9adc",
+                        "#6cc4a0",
+                        "#ea7f84",
+                        "#E9DAC1",
+                        "#18978F",
+                        "#84A59D"
                     ]);
 
             colorscale3 = d3.scaleOrdinal()
@@ -142,10 +120,10 @@ var stackedbarchart = (function stack() {
                 .append("svg")
                 .attr("width", svgwidth)
                 .attr("height", svgheight)
-                .attr("viewBox", "0 0 "+svgwidth + " " + svgheight)
+                .attr("viewBox", "0 0" +" "+svgwidth + " " + svgheight)
                 .attr("preserveAspectRatio", "none");
 
-            margin = {top: 20, right: 190, bottom: 140, left: 50};
+            margin = {top: 60, right: 180, bottom: 120, left: 70};
             width = svg.attr("width") - margin.left - margin.right;
             height = svg.attr("height") - margin.top - margin.bottom;
 
@@ -162,27 +140,22 @@ var stackedbarchart = (function stack() {
                     return d.date;
                 })
             );
-
             //y axis scale
             y = d3.scaleLinear().rangeRound([height, 0]);
-
             //bar
-
             z = d3.scaleOrdinal().range(mcgpalette0);
-
             //read data from csv file,then get the data and index -> callback
-
-            keys = Object.keys(data[0]).slice(1);
+            keys = Object.keys(data[0]).slice(1)
 
             //data preprocessing
-
             data = data.map(function (d) {
 
                 d.TOTAL = 0;
-                keys.forEach(function (keys) {
-                    d.TOTAL += parseInt(d[keys]);
-                });
 
+                keys.forEach(function (keys) {
+                    d.TOTAL += Math.round(Number(d[keys]));
+                    d[keys] = Math.round(Number(d[keys]));
+                });
                 return d;
             });
 
@@ -194,17 +167,14 @@ var stackedbarchart = (function stack() {
             x.domain(
                 data.map(function (d) {
                     return d.date;
-                }).sort(d3.ascending)
-            );
+                }).sort(d3.ascending));
             y.domain([
                 0,
                 d3.max(data, function (d) {
-                    return d.TOTAL;
+                    return Math.round(Number(d.TOTAL));
                 }),
             ]).nice();
             z.domain(keys);
-
-
 
             gridlines = d3
                 .axisLeft()
@@ -212,23 +182,20 @@ var stackedbarchart = (function stack() {
                 .tickSize(-width)
                 .ticks(5)
                 .scale(y);
-
             svg
                 .append("g")
                 .attr("class", "grid")
-                .attr("transform","translate(" + margin.left + "," + (margin.bottom-120) +")")
+                .attr("transform","translate(" + margin.left + "," + (margin.bottom-60) +")")
                 .call(gridlines);
-
             gridlines2 = d3
                 .axisTop()
                 .tickFormat("")
                 .tickSize(-height)
                 .scale(gridx);
-
             svg
                 .append("g")
                 .attr("class", "grid")
-                .attr("transform","translate(" + margin.left + "," + (margin.bottom-120) +")")
+                .attr("transform","translate(" + margin.left + "," + (margin.bottom-60) +")")
                 .call(gridlines2);
 
             g = svg
@@ -241,7 +208,7 @@ var stackedbarchart = (function stack() {
                 .enter()
                 .append("g")
                 .attr("fill", function (d) {
-                    console.log("키:",d.key)
+                  //  console.log("키:",d.key)
                     return colorscale2(d.key);
                 })
                 .selectAll("rect")
@@ -273,10 +240,8 @@ var stackedbarchart = (function stack() {
                     tooltip.style("display", "none");
                 })
                 .on("mousemove", function (d, i, j) {
-
                     var subgroupName = d3.select(this.parentNode).datum().key;
                     var subgroupValue = d.data[subgroupName];       
-          
 
                     tooltip.style("left", (d3.event.pageX + 10) + "px");
                     tooltip.style("top", (d3.event.pageY - 10) + "px");
@@ -290,6 +255,7 @@ var stackedbarchart = (function stack() {
                 .attr("y", function (d) {
                     return y(d[1]);
                 })
+
                 .attr("height", function (d) {
                     return y(d[0]) - y(d[1]);
                 })
@@ -308,32 +274,26 @@ var stackedbarchart = (function stack() {
                         .attr("stroke-opacity", "0.3")
                 })
                 .call(function (g) {
-                    g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "grey")
-                        .attr("font-size",function (d){
-
-                       if(data.length <= 10){
-                        	return "10px";
+                    g.selectAll("text").attr("fill", "grey")
+                        .attr("font-size", function (d) {
+                            if (data.length <= 15) {
+                                return "8px";
+                            } else {
+                                return (x.bandwidth() / 8).toString() + "px";
+                            }
+                        }).attr("dx", function (d) {
+                        if ( data.length >= 16) {
+                            return "7px";
                         }
-                       else{
-                           return  (x.bandwidth()/4).toString() + "px";
-                       }
-
-                        }).attr("dx",function (d){
-
-                        if(data.length <= 20){
-                            return "12px";
-                        }
-                        return  (x.bandwidth()/9).toString() + "px";
+                        return (x.bandwidth() / 9).toString() + "px";
                     });
 
-                    if(data.length >= 15){
-                        g.selectAll("text").attr("transform","rotate(-90)")
-                            .attr("text-anchor","end")
-                            .attr("dx", "-0.8em")
-                            .attr("dy", "-0.7em");
+                    if (data.length >= 5) {
+                        g.selectAll("text").attr("transform", "rotate(-45)")
+                            .attr("text-anchor", "end")
+                            .attr("dx", "-0.4em");
                     }
                 });
-
             g.append("g")
                 .attr("class", "axis")
                 .call(d3.axisLeft(y).ticks(5).tickSizeOuter(0))
@@ -348,13 +308,13 @@ var stackedbarchart = (function stack() {
                 .call(function (g) {
                     g.selectAll("text")
                         .attr("font-family", "Noto Sans KR")
-                        .attr("fill", "lightgrey")
+                        .attr("fill", "grey")
                 })
                 .append("text")
                 .attr("x", 2)
                 .attr("y", y(y.ticks().pop()) + 0.5)
                 .attr("dy", "2em")
-                .attr("fill", "#000")
+                .attr("fill", "grey")
                 .attr("font-weight", "bold")
                 .attr("text-anchor", "start")
                 .text("");
@@ -366,7 +326,6 @@ var stackedbarchart = (function stack() {
                 .append("g").attr("transform", "translate(0," + 0 + ")")
                 .selectAll("text")
                 .data(function (d) {
-            
                     return d;
                 })
                 .enter()
@@ -382,11 +341,10 @@ var stackedbarchart = (function stack() {
                     return x(d.data.date) + x.bandwidth() / 2;
                 })
                 .attr("dy", function (d) {
-                    return (y(d[0]) - y(d[1])) / 2;
+                    return ( y(d[0])- y(d[1]) ) / 2;
                 })
                 .attr("font-size", function (d){
-                if(data.length <=10){
-                
+                if(data.length <=20){
                 	return "15px";
                 }
                     return (x.bandwidth()/4).toString() + "px";
@@ -398,13 +356,12 @@ var stackedbarchart = (function stack() {
                     var subgroupName = d3.select(this.parentNode).datum().key;
                     var subgroupValue = d.data[subgroupName];
 
-                    if (Number(subgroupValue) === 0 ){
+                    if (Math.round(Number(subgroupValue)) === 0 ){
                         return "";
                     }
                     else{
                         return Math.round(Number(subgroupValue)).toLocaleString("en");
                     }
-
 
                 });
 
@@ -419,7 +376,7 @@ var stackedbarchart = (function stack() {
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
-                    return "translate(-10," + i * 20 + ")";
+                    return "translate(-20," + ( 20+( i * 23) ) + ")";
                 });
 
             legend
@@ -443,19 +400,18 @@ var stackedbarchart = (function stack() {
             // y축 레이블
             svg.append("g").append("text")
                 .style("font-size", "0.8rem")
-                .attr("transform", "translate(37" + " ," + 10 + ")")
+                .attr("transform", "translate(57" + " ," + 40 + ")")
                 .style("text-anchor", "middle")
                 .text(xlabel);
 
             // x축 레이블
-            svg.append("text")    .style("font-size","0.8rem").style("font-family","Noto Sans KR")
-                .attr("transform", "translate("+(width+100) + ","+(height+margin.bottom+10)+")")
+            svg.append("text")    .style("font-size","0.8rem").style("font-family","Noto Sans KR Regular")
+                .attr("transform", "translate("+(width+100) + ","+(height+margin.bottom-30)+")")
                 .attr("dy", "0.35em")
                 .style("text-anchor", "middle")
                 .text(ylabel);
 
         }
-
         /**
          * 기존 svg 를 삭제한 이후 다시 draw함수호출로 update함
          * @param newdata {json} : 다시 변경할 차트 데이터
@@ -465,14 +421,10 @@ var stackedbarchart = (function stack() {
             draw(divid,newdata,xlabel);
         }
 
-
         return{
             draw:draw,
             update:update
         }
-
     }
-
     return stackedbarinner;
-
 })();

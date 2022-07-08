@@ -8,51 +8,35 @@ var tablechart = (function heatmap(){
 
         //컬러값매핑함수
         var colorscale , colorscale2 , colorscale3;
-
-        var config;
-
         //차트를 그릴 div id
         var divid;
-
         //svg 가로값
         var width = 1200;
-
         //svg 세로값
         var height = 200;
-
         //컬러스케일값 빨간색 부분 지정
         var myColorred;
-
         //컬러스케일값 파란색 부분 지정
         var myColor;
-
         //툴팁
         var tooltip;
-
         //데이터
         var data;
-
         //차트 마진(빈공간)
         var margin5;
-
         //차트의 가로값,세로값 (svg값이랑 다름)
         var width5, height5;
-
         //svg와 그안의 g값을 참조 ( 경우에따라 다를 수 있음, svg값만 참조하는것이아님)
         var svg6;
-
         var yIndexval, xIndexval;
-
         //x축 y축 스케일 매핑 (단순값x)
         var x5, y5;
-
 
         function setComma(num) {
             var len, point, str;
             num = num + "";
             point = num.length % 3;
             len = num.length;
-
             str = num.substring(0, point);
             while (point < len) {
                 if (str !== "") str += ",";
@@ -61,10 +45,7 @@ var tablechart = (function heatmap(){
             }
             return str;
 
-
         }
-
-
 
         function onMouseOutRect() {
             return function (d) {
@@ -177,38 +158,21 @@ var tablechart = (function heatmap(){
 
 
             colorscale = d3.scaleOrdinal()
-                .domain(["강남금융센터","삼성지점","수유지점","영업본부(개인)","영업부","채권2팀","투자금융팀"])
+                .domain(["강남금융센터","을지로입구역지점","수유지점","영업본부(개인)","영업부","채권2팀","투자금융팀"])
                 .range(
                     ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
 
-            // e-자유적립적금
-            // e-정기적금
-            // e-회원정기예금(복리)
-            // e-회원정기예금(단리)
-            // 더마니드림 e-정기예금
-            // e-정기예금(복리)
-            // e-정기예금(단리)
 
             colorscale2 = d3.scaleOrdinal()
                 .domain(["e-자유적립적금","e-정기적금","e-회원정기예금(복리)","e-회원정기예금(단리)","더마니드림 e-정기예금","e-정기예금(복리)","e-정기예금(단리)"])
                 .range(
                     ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc","#6cc4a0"]);
 
-            //
-            // 전체
-            // 자동이체
-            // 카카오톡이체
-            // 예약이체
-            // 지연이체
-            // 즉시이체
 
             colorscale3 = d3.scaleOrdinal()
                 .domain(yIndexval)
                 .range(
                     ["#be653e","#78bb37","#e0b63d","#ef9db5","#d46b8e","#9a9adc"]);
-
-
-
 
 
             svg6

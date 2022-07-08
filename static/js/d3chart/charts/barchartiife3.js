@@ -6,7 +6,7 @@ var barchart2 = (function barchart(){
     function barchartiife(){
 
 
-        var divwidth = 1200;
+        var divwidth = 1800;
 
         var divheight = 250;
 
@@ -103,7 +103,7 @@ var barchart2 = (function barchart(){
                 divheight = 250;
             }
             else{
-                divwidth = 1200;
+                divwidth = 1800;
                 divheight = 250;
             }
 
@@ -112,8 +112,8 @@ var barchart2 = (function barchart(){
                 .attr("width", divwidth)
                 .attr("height", divheight)
                 .attr("viewBox", "0 0 " + divwidth.toString() + " " + divheight.toString())
-                .attr("preserveAspectRatio", "none")
-                .call(d3.zoom().scaleExtent([1,7]) .translateExtent([[-70, -10], [divwidth , divheight]]).on("zoom", handleZoom));
+                .attr("preserveAspectRatio", "none");
+           //     .call(d3.zoom().scaleExtent([1,7]) .translateExtent([[-70, -10], [divwidth , divheight]]).on("zoom", handleZoom));
 
             margin2 = {
                 top: 30,
@@ -210,13 +210,13 @@ var barchart2 = (function barchart(){
                 .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
 
+            //바차트 그리는부분
             g2.append("g")
                 .selectAll("g")
                 .data(parseddata)
                 .enter()
                 .append("g")
                 .attr("transform", function (d) {
-                    console.log(x0(d.AREA));
                     return "translate(" + x0(d.AREA) + ",0)";
                 })
                 .append("rect")
@@ -225,11 +225,14 @@ var barchart2 = (function barchart(){
                 })
                 .attr("width", x1.bandwidth())
                 .attr("y", y(0))
+                //마우스 이벤트 바인딩
                 .on("mouseover", function () {
+                    //툴팁
                     tooltip.style("display", null);
                     tooltip.style("opacity","1");
                 })
                 .on("mouseout", function () {
+                    //툴팁
                     tooltip.style("display", "none");
                     tooltip.style("opacity","0");
                 })
@@ -250,8 +253,6 @@ var barchart2 = (function barchart(){
                 }).ease(d3.easeSin)
                 .attr("height", function (d) {
 
-                    console.log(y(d.value));
-                    console.log(d.value);
                     return height2 - y(d.value);
                 })
 
@@ -302,6 +303,7 @@ var barchart2 = (function barchart(){
 
 
 
+            //x축 범위표시
             g2.append("g")
                 .attr("class", "axis")
                 .attr("transform", "translate(0," + height2 + ")")
@@ -330,6 +332,8 @@ var barchart2 = (function barchart(){
                    
                 });
 
+
+            //y축 범위표시
             g2.append("g")
                 .attr("class", "axis")
                 .call(d3.axisLeft(y).tickSizeOuter(0))
@@ -342,9 +346,8 @@ var barchart2 = (function barchart(){
                 .call(function (g) {
                     g.selectAll("text").remove();
                 });
-                
 
-
+            //범례
             legend2 = g2
                 .append("g")
                 .attr("font-size", "0.5rem")
@@ -354,10 +357,11 @@ var barchart2 = (function barchart(){
                 .enter()
                 .append("g")
                 .attr("transform", function (d, i) {
-                    return "translate(10," + i * 13 + ")";
+                    return "translate(30," + i * 13 + ")";
                 });
 
 
+            //범례 사각형
             legend2
                 .append("rect")
                 .attr("x", width2 - 19)
@@ -365,6 +369,7 @@ var barchart2 = (function barchart(){
                 .attr("height", 10)
                 .attr("fill", daucolor);
 
+            //범례 텍스트
             legend2
                 .append("text")
                 .attr("x", width2 - 24)
@@ -381,15 +386,15 @@ var barchart2 = (function barchart(){
 
             // y축 레이블
             svg2.append("g").append("text")
-                .style("font-size", "0.5rem")
+                .style("font-size", "0.7rem")
                 .attr("transform", "translate(20" + " ," + 30 + ")")
                 .style("text-anchor", "middle")
                 .text("회원수");
 
 
             // x축 레이블
-            svg2.append("text")    .style("font-size","0.5rem").style("font-family","Noto Sans KR")
-                .attr("transform", "translate("+(width2+10) + ","+(height2+margin2.bottom+10)+")")
+            svg2.append("text")    .style("font-size","0.7rem").style("font-family","Noto Sans KR Regular")
+                .attr("transform", "translate("+(width2+25) + ","+(height2+margin2.bottom+10)+")")
                 // .attr("y", 0 - margin2.left)
                 // .attr("x", 0 - (height2 / 2))
                 .attr("dy", "0.35em")

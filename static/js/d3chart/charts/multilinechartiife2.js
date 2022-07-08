@@ -5,65 +5,43 @@ var multilinechart2 = (function extracted() {
     function  multiline2 (){
 
         var strokewidth = 5;
-
-        var divid;
-
+        var divid
         var tooltip;
-
         var legend;
-
         var legendColorScale;
-
         var lengendxScale;
-
         var chartPoint;
-
         var gridlines;
-
         var lineColors;
-
         var signdatekey;
-
         var sumstat;
-
         var liney;
-
         var linex;
-
         var pnum;
-
         var svg9;
-
         var margin, linechartwidth, linechartheight;
-
+        var svgWidth;
+        var svgHeight;
         var mcgpalette0;
-
         var XMLNS_SVG_2000 = "xmlns=http://www.w3.org/2000/svg";
 
 
         //툴팁설정
-        function buildTooltip(){
-
+        function buildTooltip() {
             tooltip = d3
                 .select("body")
                 .append("div")
                 .attr("class", "toolTip")
                 .style("opacity", "0");
-
         }
-
 
         //마우스 클릭시 페스와 서클에대한 이벤트 설정 및 툴팁 설정
         function onMouseOverTooltip(d) {
-
             tooltip.style("opacity", "1");
             tooltip.style("display", null);
             tooltip.style("left", d3.event.pageX + 10 + "px");
             tooltip.style("top", d3.event.pageY + 10 + "px");
             tooltip.html(d.key.toString());
-
-            console.log(d);
-            console.log("dddd");
         }
 
         function onMouseOutTooltip(d) {
@@ -72,12 +50,9 @@ var multilinechart2 = (function extracted() {
         }
 
         function onMouseOver(d) {
-
             var hoverdata = d;
             onMouseOverTooltip(d);
-
             svg9.selectAll("circle").style("opacity", ".3");
-
             var mouseovercircle = d3.select(this)
                 .style("fill", function () {
                     return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
@@ -89,8 +64,7 @@ var multilinechart2 = (function extracted() {
                 .filter(function (pathd) {
                     //console.log(pathd)
                     if (pathd != null) {
-
-                        return pathd.key == hoverdata.signdate;
+                        return pathd.key == hoverdata.signdate
                     }
 
                 })
@@ -102,11 +76,7 @@ var multilinechart2 = (function extracted() {
                 .filter(function (pathd) {
                     //  console.log(pathd)
                     if (pathd != null) {
-
-                        return pathd.key != hoverdata.signdate;
-                    }
-
-
+                        return pathd.key != hoverdata.signdate;}
                 })
                 .style("stroke", function () {
                     return d3.hsl(d3.select(this).attr("stroke").toString()).brighter(1).toString();
@@ -117,9 +87,7 @@ var multilinechart2 = (function extracted() {
 
             var hoverdata = d;
             onMouseOutTooltip(d);
-
             svg9.selectAll("circle").style("opacity", "1");
-
             d3.select(this)
                 .style("fill", function (d) {
 
@@ -127,17 +95,11 @@ var multilinechart2 = (function extracted() {
                 })
                 .attr("r", "3.5").lower();
 
-
-
             svg9.selectAll("path")
                 .filter(function (pathd) {
-
                     if (pathd != null) {
-
                         return pathd.key == hoverdata.signdate;
                     }
-
-
                 })
                 .style("stroke", function () {
 
@@ -155,10 +117,8 @@ var multilinechart2 = (function extracted() {
                 .filter(function (pathd) {
                     console.log(pathd)
                     if (pathd != null) {
-
                         return pathd.key != hoverdata.signdate;
                     }
-
 
                 })
                 .style("stroke", function () {
@@ -179,8 +139,6 @@ var multilinechart2 = (function extracted() {
                 })
                 .style("opacity", "1")
                 .attr("r", 5);
-
-
             svg9.selectAll("circle")
                 .filter(function (d) {
                     return d.signdate == hoverdata.key;
@@ -188,7 +146,6 @@ var multilinechart2 = (function extracted() {
                 .style("fill", function (d) {
                     return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
                 }).raise();
-
 
             svg9.selectAll("circle")
                 .filter(function (d) {
@@ -199,7 +156,6 @@ var multilinechart2 = (function extracted() {
                 }).lower();
 
             onMouseOverTooltip(d);
-
 
         }
 
@@ -222,7 +178,6 @@ var multilinechart2 = (function extracted() {
                     return d3.hsl(d3.select(this).style("fill")).brighter(1).toString();
                 }).lower();
 
-
             svg9.selectAll("circle")
                 .filter(function (d) {
                     return d.signdate != hoverdata.key;
@@ -230,19 +185,12 @@ var multilinechart2 = (function extracted() {
                 .style("fill", function (d) {
                     return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
                 }).raise();
-
-
         }
 
         function draw (id, data){
-
             buildTooltip();
-
             divid =id;
-
             data =JSON.parse(JSON.stringify(data));
-
-
             mcgpalette0 = [
                 "#8664cb",
                 "#0075CC",
@@ -253,17 +201,19 @@ var multilinechart2 = (function extracted() {
             ];
 
             // set the dimensions and margins of the graph
-            margin = {top: 50, right: 30, bottom: 90, left: 40};
-            linechartwidth = 1150 - margin.left - margin.right;
-            linechartheight = 470 - margin.top - margin.bottom;
+            margin = {top: 50, right: 40, bottom: 120, left: 60};
+            svgWidth = 1800;
+            svgHeight = 470;
+            linechartwidth = svgWidth - margin.left - margin.right;
+            linechartheight = svgHeight - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             svg9 = d3
                 .select("#"+divid)
                 .append("svg")
-                .attr("width", linechartwidth + margin.left + margin.right)
-                .attr("height", linechartheight + margin.top + margin.bottom)
-                .attr("viewBox", "0 0 1150 470")
+                .attr("width",svgWidth)
+                .attr("height",svgHeight)
+                .attr("viewBox", "0 0"+ " " +svgWidth + " " + svgHeight )
                 .attr("preserveAspectRatio", "none")
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -304,7 +254,7 @@ var multilinechart2 = (function extracted() {
                 .call(function (g) {
                     g.selectAll(".domain")
                         .attr("stroke-width", "3")
-                        .attr("stroke-opacity", "0.5");
+                        .attr("stroke-opacity", "0.3");
                 })
                 .call(function (g) {
                     g.selectAll("text")
@@ -342,7 +292,7 @@ var multilinechart2 = (function extracted() {
                 .call(function (g) {
                     g.selectAll(".domain")
                         .attr("stroke-width", "3")
-                        .attr("stroke-opacity", "0.5");
+                        .attr("stroke-opacity", "0.3");
                 })
                 .call(function (g) {
                     g.selectAll("text")
@@ -421,8 +371,8 @@ var multilinechart2 = (function extracted() {
                 .enter()
                 .append("rect")
                 .attr("transform",function (d,i){
-                    console.log(lengendxScale(d))
-                    return "translate("+lengendxScale(d) + "," + (linechartheight+margin.bottom - 23) + ")";
+
+                    return "translate("+lengendxScale(d) + "," + (linechartheight+margin.bottom - 40) + ")";
                 })
                 .attr("width","22")
                 .attr("height","22")
@@ -436,8 +386,8 @@ var multilinechart2 = (function extracted() {
                 .enter()
                 .append("text")
                 .attr("transform",function (d,i){
-                    console.log(lengendxScale(d))
-                    return "translate("+lengendxScale(d) + "," + (linechartheight+margin.bottom - 23) + ")";
+
+                    return "translate("+lengendxScale(d) + "," + (linechartheight+margin.bottom - 40) + ")";
                 })
                 .attr("width","22")
                 .attr("height","22")
