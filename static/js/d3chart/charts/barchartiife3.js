@@ -48,16 +48,6 @@ var barchart2 = (function barchart(){
 
         var gridlines;
 
-        //샘플데이터
-        var untactperfom = [
-            {"AREA":"2022/05/23", "CODE":"회원수","value":"340000"},
-            {"AREA":"2022/05/23", "CODE":"MAU","value":"34000"},
-            {"AREA":"2022/05/23", "CODE":"DAU","value":"230000"},
-            {"AREA":"2022/05/24", "CODE":"회원수","value":"340000"},
-            {"AREA":"2022/05/24", "CODE":"MAU","value":"34000"},
-            {"AREA":"2022/05/24", "CODE":"DAU","value":"230000"}
-        ];
-
 
 
         function setComma(num) {
@@ -84,7 +74,12 @@ var barchart2 = (function barchart(){
             svg2.attr("transform", d3.event.transform);
         }
 
-        function draw(id,datas){
+        /**
+         * - 차트 그리는 함수
+         * @param id {string}  :  차트 svg 요소를 담을 부모 div의 id
+         * @param datas {json}  :  차트에 그릴 json 데이터 JSON.stringify(data) 로 넣어주는것이 안전( draw 함수 내부에서도 JSON.parse(JSON.stringify(dats)) 적용)
+         */
+        function draw(id, datas){
 
 
 

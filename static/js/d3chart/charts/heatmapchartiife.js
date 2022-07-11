@@ -57,6 +57,7 @@ var heatmapchart = (function heatmap(){
     }
 
     //사이즈조절 및 마진설정
+
     function setSize() {
 
 
@@ -73,7 +74,11 @@ var heatmapchart = (function heatmap(){
         height5 = height - margin5.top - margin5.bottom;
     }
 
-
+    /**
+     *
+     * @param jsondata {string || Object}- json 데이터 (obejct or 문자열
+     * @returns {Object} - json object로 변환한 데이터
+     */
     function getData(jsondata) {
         return JSON.parse(JSON.stringify(jsondata));
     }
@@ -93,6 +98,10 @@ var heatmapchart = (function heatmap(){
 
     }
 
+    /**
+     *
+     * @param jsondata
+     */
     function initChart (jsondata){
 
         buildTooltip();
@@ -101,10 +110,10 @@ var heatmapchart = (function heatmap(){
         buildSvg();
 
     }
-
-    /*
-    @param {string} - div 의 id
-    @param {Object || string} - jsondata
+    /**
+     * - 차트 그리는 함수
+     * @param id {string}  :  차트 svg 요소를 담을 부모 div의 id
+     * @param jsondata {json}  :  차트에 그릴 json 데이터 JSON.stringify(data) 로 넣어주는것이 안전
      */
     function draw(id,jsondata) {
 

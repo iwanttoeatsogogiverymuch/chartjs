@@ -21,23 +21,7 @@ var barchart5 = (function barchart(){
         var margin2;
         var svg2;
         var tooltip;
-        var parseddata2;
         var parseddata;
-        var untactperfom = [
-            {"AREA":"강남금융센터", "CODE":"정기예금","value":"340000"},
-            {"AREA":"강남금융센터", "CODE":"정기적금","value":"34000"},
-            {"AREA":"강남금융센터", "CODE":"핵심예금(개인)","value":"230000"},
-            {"AREA":"강남금융센터", "CODE":"핵심예금(기업)","value":"11000"},
-            {"AREA":"강남금융센터", "CODE":"기타","value":"320000"},
-            {"AREA":"강남금융센터", "CODE":"전체","value":"430000"},
-            {"AREA":"수유지점", "CODE":"정기예금","value":"2000"},
-            {"AREA":"수유지점", "CODE":"정기적금","value":"30000"},
-            {"AREA":"수유지점", "CODE":"핵심예금(개인)","value":"150000"},
-            {"AREA":"수유지점", "CODE":"핵심예금(기업)","value":"20000"},
-            {"AREA":"수유지점", "CODE":"기타","value":"340000"},
-            {"AREA":"수유지점", "CODE":"전체","value":"340000"},
-
-        ];
 
         function setComma(num) {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

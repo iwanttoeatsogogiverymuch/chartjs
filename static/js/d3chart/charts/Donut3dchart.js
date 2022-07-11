@@ -628,6 +628,7 @@
           };
         });
       text.exit().remove();
+
       /* ------- SLICE TO TEXT POLYLINES -------*/
       var polyline = slices
         .select(".lines")

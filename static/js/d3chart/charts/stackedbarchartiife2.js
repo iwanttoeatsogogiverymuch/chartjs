@@ -1,3 +1,8 @@
+//수신일보
+/**
+ *  - 사용안하는 차트
+ * @type {{draw: draw}}
+ */
 var stackedbarchart2 = (function stack() {
 
     var divid;
@@ -35,7 +40,12 @@ var stackedbarchart2 = (function stack() {
 
         return str;
 
-    };
+    }
+/**
+* - 차트 그리는 함수
+* @param id {string}  :  차트 svg 요소를 담을 부모 div의 id
+ * @param data {json}  :  차트에 그릴 json 데이터 JSON.stringify(data) 로 넣어주는것이 안전( draw 함수 내부에서도 stringfy 적용)
+*/
 function draw(id,data) {
 
     divid = id;

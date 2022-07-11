@@ -19,31 +19,7 @@ var linechart = (function () {
     var cohortdata2 = [
 
         {"APP_LOGIN_DT": "전체", "PERIOD": "1", "RETENTION_RATE": "0.97", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "2", "RETENTION_RATE": "0.96", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "3", "RETENTION_RATE": "0.95", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "4", "RETENTION_RATE": "0.93", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "5", "RETENTION_RATE": "0.92", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "6", "RETENTION_RATE": "0.88", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "7", "RETENTION_RATE": "0.79", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "8", "RETENTION_RATE": "0.77", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "9", "RETENTION_RATE": "0.65", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "10", "RETENTION_RATE": "0.50", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "11", "RETENTION_RATE": "0.42", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "12", "RETENTION_RATE": "0.33", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "13", "RETENTION_RATE": "0.32", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "14", "RETENTION_RATE": "0.30", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "15", "RETENTION_RATE": "0.29", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "16", "RETENTION_RATE": "0.28", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "17", "RETENTION_RATE": "0.25", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "18", "RETENTION_RATE": "0.20", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "19", "RETENTION_RATE": "0.18", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "20", "RETENTION_RATE": "0.15", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "21", "RETENTION_RATE": "0.13", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "22", "RETENTION_RATE": "0.12", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "23", "RETENTION_RATE": "0.11", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "24", "RETENTION_RATE": "0.10", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "25", "RETENTION_RATE": "0.9", "ALL":"4500"},
-        {"APP_LOGIN_DT": "전체", "PERIOD": "26", "RETENTION_RATE": "0.8", "ALL":"4500"}
+
     ];
 
 
@@ -71,7 +47,7 @@ var linechart = (function () {
             .style("opacity", "0").attr("font-size", "3rem");
 
 
-        // div태그에 svg요소 생성 및 위치시킴
+        // div 태그에 svg 요소 생성 및 위치시킴
 
         svg9 = d3.select("#"+divid)
             .append("svg")

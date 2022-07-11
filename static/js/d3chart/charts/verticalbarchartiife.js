@@ -37,8 +37,13 @@ function extracted(){
 
     return str;
 
-  };
+  }
 
+    /**
+     * - 차트 그리는 함수
+     * @param id {string}  :  차트 svg 요소를 담을 부모 div의 id
+     * @param data {json}  :  차트에 그릴 json 데이터 JSON.stringify(data) 로 넣어주는것이 안전
+     */
   function draw(id,data) {
 
     divid = id;

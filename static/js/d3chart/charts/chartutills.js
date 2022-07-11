@@ -1,3 +1,7 @@
+/**
+ * @requires jsPdf , jquery , savesvgaspng, d3v4
+ */
+
 window.addEventListener("load",function (){
 
 	/**
@@ -100,6 +104,7 @@ window.addEventListener("load",function (){
 	 * svg 요소 2개를 한개의 svg로 ( div ) 안에 합치는 기능
 	 * @param firstDivId   : 첫번째 svg를 child로 가지고있는 svg
 	 * @param secondDivId :  두번째 svg를 child로 가지고있는 svg
+	 * @requires jquery
 	 */
 	function mergeTwoSvg(firstDivId, secondDivId) {
 

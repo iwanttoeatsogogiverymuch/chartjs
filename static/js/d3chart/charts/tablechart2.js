@@ -126,6 +126,12 @@ var tablechart2 = (function heatmap(){
     }
 
     //public function
+    /**
+     * - linchartiife.js 내부에 svg가 아닌 g를 추가하여 차트 그리는 함수
+     * @param id {string}       :  차트 svg 요소를 담을 부모 div의 id
+     * @param jsondata {json}   :  차트에 그릴 json 데이터 JSON.stringify(data) 로 넣어주는것이 안전( draw 함수 내부에서도 JSON.parse(JSON.stringify(dats)) 적용)
+     * @param parentSvg {string} : linchartiife.js에서 넘겨받을 부모 svg의 id 문자열값
+     */
     function draw(id,jsondata,parentSvg) {
 
         divid = id;

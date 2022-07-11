@@ -471,7 +471,6 @@ var multilinechart3 = (function extracted() {
                 .enter()
                 .append("text")
                 .attr("transform",function (d,i){
-                    console.log(lengendxScale(d))
                     return "translate("+lengendxScale(d) + "," + (linechartheight+margin.bottom - 23) + ")";
                 })
                 // .attr("transform","translate(300,"+(linechartheight+margin.bottom - 23) + ")")
@@ -704,7 +703,6 @@ var multilinechart3 = (function extracted() {
                 .enter()
                 .append("rect")
                 .attr("transform",function (d,i){
-                    console.log(lengendxScale(d))
                     return "translate("+lengendxScale(d) + "," + (linechartheight+margin.bottom - 23) + ")";
                 })
                 // .attr("transform","translate(300,"+(linechartheight+margin.bottom - 23) + ")")

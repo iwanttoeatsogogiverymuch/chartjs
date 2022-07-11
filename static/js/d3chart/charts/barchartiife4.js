@@ -4,7 +4,7 @@ var barchart4 = (function barchartd(){
     //수신 이용현황 바차트
     function barchartiife2(){
 
-        var isxAxisRoate;
+        var isxAxisRotate;
         var divwidth = 870;
         var divheight = 500;
         var divid;
@@ -29,10 +29,15 @@ var barchart4 = (function barchartd(){
         }
 
 
+        /**
+         * - 차트 그리는 함수
+         * @param id { string }  :  차트 svg 요소를 담을 부모 div의 id
+         * @param datas { json }  :  차트에 그릴 json 데이터 JSON.stringify(data) 로 넣어주는것이 안전
+         * @param xaxisR  { boolean } : 차트 x축 범위글자 rotation 적용여부
+         */
+        function draw(id, datas, xaxisR){
 
-        function draw(id,datas,xaxisR){
-
-            isxAxisRoate = xaxisR;
+            isxAxisRotate = xaxisR;
             var gridlines;
             divid = id;
             parseddata = JSON.parse(JSON.stringify(datas));
@@ -47,6 +52,7 @@ var barchart4 = (function barchartd(){
                 .attr("height", divheight)
                 .attr("viewBox", "0 0 " + divwidth + " "+ divheight)
                 .attr("preserveAspectRatio", "none");
+
             margin2 = {
                 top: 30,
                 right: 80,
@@ -86,7 +92,6 @@ var barchart4 = (function barchartd(){
                 parseddata.map(function (d) {
                     //날짜
                     var datekey = Object.keys(parseddata[0])[0];
-                    //   console.log(datekey);
                     return d[datekey];
                 })
             );
@@ -133,7 +138,7 @@ var barchart4 = (function barchartd(){
                 .enter()
                 .append("g")
                 .attr("transform", function (d) {
-                    console.log(x0(d.AREA));
+
                     return "translate(" + x0(d.AREA) + ",0)";
                 })
                 .append("rect")
@@ -163,8 +168,6 @@ var barchart4 = (function barchartd(){
                     return i * 100;
                 }).ease(d3.easeSin)
                 .attr("height", function (d) {
-                    console.log(y(d.value));
-                    console.log(d.value);
                     return height2 - y(Number(d.value));
                 })
 
@@ -219,7 +222,7 @@ var barchart4 = (function barchartd(){
                 })
                 .call(function (g) {
                     g.selectAll("text").attr("font-family", "Noto Sans KR").attr("fill", "#383838")
-                    if(isxAxisRoate === true){
+                    if(isxAxisRotate === true){
                     g.selectAll("text")
                             .style("text-anchor", "end")
                             .attr("dx", "-.8em")
@@ -369,7 +372,7 @@ var barchart4 = (function barchartd(){
                 parseddata.map(function (d) {
                     //날짜
                     var codekey = Object.keys(parseddata[0])[1];
-                    //   console.log(datekey);
+
                     return d[codekey];
                 }).reverse())
                 .rangeRound([0, x0.bandwidth()]);
@@ -400,7 +403,7 @@ var barchart4 = (function barchartd(){
                 .enter()
                 .append("g")
                 .attr("transform", function (d) {
-                    console.log(x0(d.AREA));
+
                     return "translate(" + x0(d.AREA) + ",0)";
                 })
                 .append("rect")

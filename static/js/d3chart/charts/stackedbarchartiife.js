@@ -36,7 +36,9 @@ var stackedbarchart = (function stack() {
         var tooltip;
         var gridx;
         var gridlines;
-        var gridline2;
+        var gridlines2;
+
+        var center;
 
         /**
          *
@@ -82,7 +84,6 @@ var stackedbarchart = (function stack() {
                 svgwidth = 1800;
                 svgheight = 500;
 
-                console.log(data);
 
             mcgpalette0 = ["#0075CC", "#48A0CE", "#44C4BE", "#36C35D", "#6079D6", "#E0B63D"];
             duration = 1300;
@@ -141,11 +142,13 @@ var stackedbarchart = (function stack() {
                 })
             );
             //y axis scale
-            y = d3.scaleLinear().rangeRound([height, 0]);
+            y = d3.scaleLinear().range([height,0]);
             //bar
             z = d3.scaleOrdinal().range(mcgpalette0);
             //read data from csv file,then get the data and index -> callback
             keys = Object.keys(data[0]).slice(1)
+
+
 
             //data preprocessing
             data = data.map(function (d) {
@@ -168,13 +171,35 @@ var stackedbarchart = (function stack() {
                 data.map(function (d) {
                     return d.date;
                 }).sort(d3.ascending));
-            y.domain([
-                0,
-                d3.max(data, function (d) {
-                    return Math.round(Number(d.TOTAL));
-                }),
-            ]).nice();
+
+            var yMinValue = d3.min(data, function (d) {
+                return Math.round(Number(d.TOTAL));
+            });
+            if(yMinValue < 0 ){
+                y.domain([
+                    d3.min(data, function (d) {
+                        return Math.round(Number(d.TOTAL));
+                    }),
+                    d3.max(data, function (d) {
+                        return Math.round(Number(d.TOTAL));
+                    }),
+                ]);
+            }
+            else{
+                y.domain([
+                 0,
+                    d3.max(data, function (d) {
+                        return Math.round(Number(d.TOTAL));
+                    }),
+                ]);
+            }
+
             z.domain(keys);
+
+           center = d3.scaleLinear()
+                .range([0, width]);
+
+           // var centerLine = d3.axisTop(center).ticks(0);
 
             gridlines = d3
                 .axisLeft()
@@ -187,6 +212,7 @@ var stackedbarchart = (function stack() {
                 .attr("class", "grid")
                 .attr("transform","translate(" + margin.left + "," + (margin.bottom-60) +")")
                 .call(gridlines);
+
             gridlines2 = d3
                 .axisTop()
                 .tickFormat("")
@@ -253,11 +279,19 @@ var stackedbarchart = (function stack() {
                 .delay(delayfunc)
                 .ease(easetype)
                 .attr("y", function (d) {
-                    return y(d[1]);
-                })
+                    var heightvalue = (y(d[0]) - y(d[1]));
+                    if(Math.round(Number(heightvalue)) < 0){
+                        return y(d[0]);
+                    }
+                    else{
+                        return y(d[1]);
+                    }
 
+                })
                 .attr("height", function (d) {
-                    return y(d[0]) - y(d[1]);
+                    var heightvalue = (y(d[0]) - y(d[1]));
+                        return Math.abs(heightvalue);
+
                 })
                 .attr("width", x.bandwidth());
 
@@ -294,9 +328,10 @@ var stackedbarchart = (function stack() {
                             .attr("dx", "-0.4em");
                     }
                 });
+
             g.append("g")
                 .attr("class", "axis")
-                .call(d3.axisLeft(y).ticks(5).tickSizeOuter(0))
+                .call(d3.axisLeft(y).ticks(6).tickSizeOuter(0))
                 .call(function (g) {
                     g.selectAll(".tick line").remove()
                 })

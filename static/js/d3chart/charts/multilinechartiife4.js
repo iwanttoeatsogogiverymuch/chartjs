@@ -24,6 +24,9 @@ var multilinechart4 = (function extracted() {
         var mcgpalette0;
 
 
+        /**
+         *
+         */
         function buildTooltip(){
 
             tooltip = d3
@@ -34,6 +37,10 @@ var multilinechart4 = (function extracted() {
 
         }
 
+        /**
+         *
+         * @param d
+         */
         function onMouseOverTooltip(d) {
 
             tooltip.style("opacity", "1");
@@ -42,10 +49,18 @@ var multilinechart4 = (function extracted() {
             tooltip.html(Number(d.retentionvalue).toFixed(2)+ "%");
         }
 
+        /**
+         *
+         * @param d
+         */
         function onMouseOutTooltip(d) {
             tooltip.style("opacity", "0");
         }
 
+        /**
+         *
+         * @param d
+         */
         function onMouseOver(d) {
 
             var hoverdata = d;
@@ -63,7 +78,7 @@ var multilinechart4 = (function extracted() {
             svg9.selectAll("path")
                 .filter(function (pathd) {
                     if (pathd != null) {
-                        return pathd.key == hoverdata.signdate;
+                        return pathd.key === hoverdata.signdate;
                     }
 
                 })
@@ -74,7 +89,7 @@ var multilinechart4 = (function extracted() {
             svg9.selectAll("path")
                 .filter(function (pathd) {
                     if (pathd != null) {
-                        return pathd.key != hoverdata.signdate;
+                        return pathd.key !== hoverdata.signdate;
                     }
 
                 })
@@ -83,6 +98,10 @@ var multilinechart4 = (function extracted() {
                 });
         }
 
+        /**
+         *
+         * @param d
+         */
         function onMouseOut(d) {
 
             var hoverdata = d;
@@ -98,7 +117,7 @@ var multilinechart4 = (function extracted() {
             svg9.selectAll("path")
                 .filter(function (pathd) {
                     if (pathd != null) {
-                        return pathd.key == hoverdata.signdate;
+                        return pathd.key === hoverdata.signdate;
                     }
                 })
                 .style("stroke", function () {
@@ -114,9 +133,8 @@ var multilinechart4 = (function extracted() {
 
             svg9.selectAll("path")
                 .filter(function (pathd) {
-                    console.log(pathd)
                     if (pathd != null) {
-                        return pathd.key != hoverdata.signdate;
+                        return pathd.key !== hoverdata.signdate;
                     }
                 })
                 .style("stroke", function () {
@@ -124,6 +142,10 @@ var multilinechart4 = (function extracted() {
                 });
         }
 
+        /**
+         *
+         * @param d
+         */
         function onMouseOverPath(d) {
             var hoverdata = d;
             svg9.selectAll("path").style("opacity", ".3");
@@ -150,6 +172,10 @@ var multilinechart4 = (function extracted() {
                 }).lower();
         }
 
+        /**
+         *
+         * @param d
+         */
         function onMouseOutPath(d) {
             var hoverdata = d;
             svg9.selectAll("path").style("opacity", "1");
@@ -161,7 +187,7 @@ var multilinechart4 = (function extracted() {
 
             svg9.selectAll("circle")
                 .filter(function (d) {
-                    return d.signdate == hoverdata.key;
+                    return d.signdate === hoverdata.key;
                 })
                 .style("fill", function (d) {
                     return d3.hsl(d3.select(this).style("fill")).brighter(1).toString();
@@ -170,13 +196,19 @@ var multilinechart4 = (function extracted() {
 
             svg9.selectAll("circle")
                 .filter(function (d) {
-                    return d.signdate != hoverdata.key;
+                    return d.signdate !== hoverdata.key;
                 })
                 .style("fill", function (d) {
                     return d3.hsl(d3.select(this).style("fill")).darker(1).toString();
                 }).raise();
 
         }
+
+        /**
+         * - 차트 그리는 함수
+         * @param id {string}  :  차트 svg 요소를 담을 부모 div의 id
+         * @param data {json}  :  차트에 그릴 json 데이터 JSON.stringify(data) 로 넣어주는것이 안전( draw 함수 내부에서도 stringfy 적용)
+         */
         function draw (id,data){
 
             divid = id;
@@ -193,8 +225,10 @@ var multilinechart4 = (function extracted() {
             ];
             // set the dimensions and margins of the graph
             margin = {top: 10, right: 130, bottom: 80, left: 60};
+
             svgwidth = 1800;
             svgheight = 700;
+
             linechartwidth = svgwidth - margin.left - margin.right;
             linechartheight = svgheight - margin.top - margin.bottom;
 
@@ -208,6 +242,7 @@ var multilinechart4 = (function extracted() {
                 .attr("preserveAspectRatio", "none")
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
             pnum = data.map(function (d, i) {
 
                 return d.retentiondate;
@@ -386,10 +421,9 @@ var multilinechart4 = (function extracted() {
                 .enter()
                 .append("rect")
                 .attr("transform",function (d,i){
-                    console.log(lengendxScale(d))
+
                     return "translate("+(linechartwidth+10) + "," + (linechartheight/2+(i*17)) + ")";
                 })
-                // .attr("transform","translate(300,"+(linechartheight+margin.bottom - 23) + ")")
                 .attr("width","13")
                 .attr("height","13")
                 .attr("fill",function (d){
@@ -402,10 +436,8 @@ var multilinechart4 = (function extracted() {
                 .enter()
                 .append("text")
                 .attr("transform",function (d,i){
-                    console.log(lengendxScale(d))
                     return  "translate("+(linechartwidth+10) + "," + (linechartheight/2+(i*17)) + ")";
                 })
-                // .attr("transform","translate(300,"+(linechartheight+margin.bottom - 23) + ")")
                 .attr("width","22")
                 .attr("height","22")
                 .attr("x","15")
@@ -418,6 +450,10 @@ var multilinechart4 = (function extracted() {
 
         }
 
+        /**
+         *  - draw 초기화 이후 데이터변경시 호출하는 함수
+         * @param data 새롭게 바꿀 차트 데이터
+         */
         function update (data){
 
             if(tooltip === undefined){

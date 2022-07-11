@@ -1,8 +1,9 @@
 var barchart = (function barchart(){
 
-    //
-    function barchartiife(){
 
+    //비대면 실적
+    //대면 실적
+    function barchartiife(){
 
 
         var svgwidth = 870;
@@ -56,8 +57,13 @@ var barchart = (function barchart(){
 
         /**
          *  - 차트 그리는 함수
-         * @param id {string} -
-         * @param datas {string || Object} -
+         * @param id {string} - svg 차트를 그릴 div의 id값
+         * @param datas {string || Object} - json data 형식
+         * {
+         * AREA     :   x축 카테고리,
+         * CODE     :   그룹 카테고리,
+         * value    :    값
+         * }
          */
         function draw(id,datas) {
 

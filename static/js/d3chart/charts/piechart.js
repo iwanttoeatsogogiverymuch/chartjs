@@ -154,7 +154,13 @@ var piechart = (function extracted() {
 
         }
 
-        function draw(id,piedata){
+
+        /**
+         * - 차트 그리는 함수
+         * @param id {string}  :  차트 svg 요소를 담을 부모 div의 id
+         * @param piedata {json}  :  차트에 그릴 json 데이터 JSON.stringify(data) 로 넣어주는것이 안전( draw 함수 내부에서도 stringfy 적용)
+         */
+        function draw(id, piedata){
 
             divid = id;
             builTooltip();
@@ -166,8 +172,7 @@ var piechart = (function extracted() {
                 "#ef9db5",
                 "#d46b8e",
                 "#9a9adc",
-                "#6cc4a0"
-
+                "#6cc4a0",
             ];
 
 
